@@ -55,11 +55,11 @@ jobs:
       - name: ✅  Run tests
         run: npm run test -- --coverage
 
-      - name: 🔮 Report test coverage
-        if: github.event_name == 'pull_request'
-        uses: artiomtr/jest-coverage-report-action@v2.0-rc.5
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          skip-step: all
-          # threshold: 60 # optional parameter
-          test-script: npm run test -- --ci --json --coverage --testLocationInResults --outputFile=report.json
+      # - name: 🔮 Report test coverage
+      #   if: github.event_name == 'pull_request'
+      #   uses: artiomtr/jest-coverage-report-action@v2.0-rc.5
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     skip-step: all
+      #     # threshold: 60 # optional parameter
+      #     test-script: npm run test -- --ci --json --coverage --testLocationInResults --outputFile=report.json
