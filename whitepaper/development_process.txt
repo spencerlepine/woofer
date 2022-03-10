@@ -1,0 +1,31 @@
+- [x] Brainstorm Project Idea
+- [x] Choose Stack/Technologies
+- [x] Write user stories and reach features
+- [x] Create Database Schema
+- [x] Create API Endpoint Schema
+- [ ] Design UI Wireframe
+- [ ] Create Whitepaper for the project
+- [ ] Build Ticket system (Trello board) for User stories
+- [x] Create GitHub Repository Setup
+- [x] Install packages, linter, and code style
+- [x] Configure linter, parser, and testing library locally
+- [ ] Rough front-end project file/folder setup
+- [ ] Simple front-end tests
+- [ ] Rough back-end project file/folder setup
+- [ ] Simple back-end tests
+- [ ] Make sure environment/secrets are set up
+- [ ] Set up Docker compose
+- [ ] Continuous Integration Setup
+- [ ] Verify Continuous Integration + Containers are pushing/running on GitHub
+- [ ] Deployment setup to Netlify
+- [ ] Basic Project Documentation with Tech Stack and README badges
+- [ ] Write User Story tests for front-end
+- [ ] Write API endpoint tests for Backend
+- [ ] Create Mongo Atlas database + connection
+- [ ] Create MOCK database in testing environment
+- [ ] Enter mock data for database
+- [ ] Connect front-end to back-end
+- [ ] TDD + branch development
+- [ ]  End to End tests
+- [ ]  Work on front-end styling/Polishing
+- [ ]  Project Documentation, README, screenshots, demo

@@ -1,0 +1,115 @@
+Project Name
+Woofer
+
+[TODO] Project Logo
+
+Project Contributors
+Spencer Lepine
+
+Project Description + Technical description (FUll stack) + Goal
+The dating app for dogs. Meet new furry friends in your area.
+[TODO]
+
+Project User Stories
+Accounts:
+- User can create an account
+- User can login with email/password
+- User can login with Google/Facebook
+- User cannot access website without being logged in
+
+Profile Page:
+- User can visit their profile page
+- User can view/update display name with text input, alphabet characters with 15 char limit
+- User can view/update bio with text input,  alphabet characters with 255 char limit
+- User can view/update zodiac sign from dropdown selection
+- User can view/update gender from dropdown
+- User can view/update preference from dropdown
+- User can view/update breed
+- OPTIONAL: User can view/update breed preferences
+- User can view/update list of chosen zip codes, add/remove a zip code to the list
+
+Profile Page Picture Carousel:
+- User can view a photo carousel
+- Carousel will have up to 9 photos
+- User can rearrange the order of the photos
+- User can remove photo from the carousel
+- User can upload new photo to the carousel (add button is displayed in LAST open carousel slot when less than 9 exist)
+
+Swipe Page:
+- User can see dog profile photo, "boi, zodiac sign, age, breed", and YES and NO buttons
+- User can scroll through photo carousel, which shows one photo at a time
+- User can view dog details, "bio, zodiac, breed, age",  below photo, and collapse it
+- User can click YES/NO buttons to swipe on the currently displayed dog
+- Match! Modal should pop up if a match was made
+
+Swipe Page Potential Dog/Swipe Generator:
+- Loading Swipe page should render loading circle until Dog is retrieved
+- Should call API to look for next dog
+- API call should pass along DOG ID
+- API endpoint should reference "match queue" database for this User FIRST, then look for dogs in "zip codes pool" database of this User.
+- API calls should reference previous matches to make sure there was no swipe already. Possible match should verify dogA never matched dogB previously, or dogB rejected dogA.
+- API endpoint should verify preferences for DogA profile (age, breed, zodiac...)
+- API endpoint should return potential match dogId, name, bio, and photos
+
+Swipe YES Button Action:
+- Users can click YES on a dog profile
+- Clicking button should call database with DogA and DogB ids
+- API endpoint should test if it is a FIRST time swipe, or mutually YES
+     > For a first time YES, API endpoint will update database and add thisDog to thatDog's match queue records as a "MATCH/True". Nothing will happen in Dog thisDog client, just load the next profile.
+     > For a mutually YES, see "Match Example"
+
+Match Example:
+-  "DogA Client"generates random dog (DogB) from zip code Pool
+-  "DogA Client" swiped YES on DogB
+- "DogA Client" adds DogA to <"match queue database" under DogBId "document/array">
+-  "DogB Client" opens swipe page, also swipes YES on DogA
+- "DogB Client" removes DogA from <"match queue database" under DogBId "document + array">
+- "DogB Client" adds DogA to <"match records database" under DogBId "document + object">
+- "DogB Client" add DogB to <"match queue database" under DogAId "document + object">
+- "DogB Client" creates a chat with default message "Woof! DogB just matched with you - say hi :P"
+- "DogB Client" renders Match Popup with link to OPEN chat
+- If EVERYTHING worked, Remove DogA from "DogB Match Queue"
+
+Swipe NO Button Action:
+- Users can click NO on a dog profile
+- Clicking button should call database with DogA and DogB ids
+- API endpoint should test if it is a FIRST no, or a rejection:
+     > If thatDog is from the MatchQueue, it is a rejection:
+     > Otherwise, if this is a first time NO, API endpoint will add thisDog to thatDog's match queue records as a "REJECTION/False".
+
+Match! Modal:
+- User can see modal popup that darkens the rest of the page behind it
+- User can see MAIN photo and name of the matched Dog
+- User can see the message "You matched!"
+- User can click OPEN CHAT button, which redirects to chat page
+
+Matches/Chat Page:
+- User can see list of available chats
+     > Unread messages in list should be BOLDED
+- User can click a chat with user to open it
+- User can see main chat box with history
+     > Should show read receipts
+- User can type/send new chats
+- User can see chat details on right sidebar, with OTHER user display name, match date, and View Profile button
+- User can extend User details in sidebar when clicking View Profile button
+- User can see User details after loading, Profile photo, bio, zodiac, age, breed, name
+
+Navbar:
+- Should render App Logo (link to Swipe/Home Page)
+- Should render login button when NOT logged in
+- Should render logout button when logged in
+- Should render link/icon to open chat/messages page
+- Should highlight chat link/icon when UNREAD messages exist
+- Should render link/icon to Profile page
+- Should highlight profile page when details are missing
+
+Project Wireframe
+[TODO]
+
+API Endpoints
+[TODO]
+
+Database:
+[TODO]
+Budget: MongoDB Atlas
+TODO

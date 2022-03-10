@@ -1,0 +1,5 @@
+- Use Firebase to store user accounts/emails.
+- Use AuthContext to store User in Frontend
+- MOCK Firebase auth in Jest for front end: GitHub - mrbenhowl/mocking-firebase-initializeApp-and-firebase-auth-using-jest: Mocking firebase initializeApp and firebase.auth() for unit testing app using firebase: https://github.com/mrbenhowl/mocking-firebase-initializeApp-and-firebase-auth-using-jest
+- Pass tokens from Frontend when making API calls
+- Verify TOKENS in backend: Verify ID Tokens  |  Firebase Documentation (google.com): https://firebase.google.com/docs/auth/admin/verify-id-tokens#web

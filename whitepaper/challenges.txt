@@ -1,0 +1,26 @@
+Organizing Authentication:
+ > In frontend with Firebase Auth, working around the context and mocking a user during testing (with Jest)
+ > This complicated app state during testing, conditional rendering
+ > Firebase stored users, handled all accounts
+> BACKEND also needed to verify firebase credentials during API requests
+
+Database Schema:
+  > Creating the system to determine RANDOM dog to swipe on:
+        - One Zip code per user?
+        - How to implement mileage/range
+        - Keep track of existing matches to not duplicate
+        - Save zip codes under DOG profile, or ZipCode Table/Database?
+        - Use SQL, or NoSQL?
+        - Seperate database for chats?
+       SOLUTION:
+       - Saving multiple zip codes for one dog profile
+       - Storing dogs under zip code POOL for easy selection
+       - Adding modular function to filter out dog profiles before selecting
+       - Use NoSQL for document IDs, since no search is needed (already sorted in zip code pools upon addition/deletion)
+       - PRO: Using Mongo, no need for ORM, easy to build in the chat feature alongside
+       - CON: Potentially MORE space taken up with Mongo
+       - PRO: No predetermined table schema, docs are easy to create/delete and update fields
+
+  > End to End system for User to User interaction making matches
+        - Making records to Keep track of when UserA swipes YES/NO on UserB
+        - Verifying matches to see when UserA is rejecting/accepting UserB match
