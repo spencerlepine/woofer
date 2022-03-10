@@ -23,6 +23,7 @@
     "react/prop-types": "off"
   },
   "plugins": [
-    "react"
+    "react",
+    "prettier"
   ]
 }
