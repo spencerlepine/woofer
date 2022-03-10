@@ -1,0 +1,94 @@
+{
+  "name": "woofer",
+  "version": "1.0.0",
+  "description": "Dating app for dogs, a full stack MERN project",
+  "author": "Spencer Lepine",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/spencerlepine/woofer"
+  },
+  "keywords": [
+    "react",
+    "express"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "dev": "webpack serve --config ./webpack.dev.config.js",
+    "start": "node server/index.js",
+    "build": "webpack --config ./webpack.prod.config.js",
+    "test": "jest --detectOpenHandles --runInBand --forceExit",
+    "test:watch": "jest --onlyChanged --watch",
+    "test:branch": "jest --coverage --changedSince=main --watch --coverageThreshold='{\"global\":{\"statements\":\"60\",\"branches\":\"60\",\"functions\":\"60\",\"lines\":\"60\"}}'",
+    "lint:staged": "eslint client/src --ext .js",
+    "lint:fix": "prettier --write \"**/**/*.{js,jsx,json,md}\" \"!**/build/*\"",
+    "pre-commit": "lint-staged",
+    "husky:remove": "rm -f .husky/pre-commit && rm -f .husky/pre-push",
+    "create-hook": "npm run husky:remove && husky add .husky/pre-commit 'npm run pre-commit' && husky add .husky/pre-push 'npm test'",
+    "prepare": "husky install && npm run create-hook"
+  },
+  "hooks": {
+    "pre-commit": "lint-staged && npm run test",
+    "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+  },
+  "lint-staged": {
+    "*.{js,json,md}": [
+      "prettier --write"
+    ],
+    "*.js": "eslint --cache --fix",
+    "*.{js,md}": "prettier --write"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "axios": "^0.21.4",
+    "babel-loader": "^8.2.2",
+    "compression-webpack-plugin": "^9.0.0",
+    "coveralls": "^3.1.1",
+    "express": "^4.17.1",
+    "husky": "^7.0.4",
+    "lint-staged": "^11.2.3",
+    "nodemon": "^2.0.13",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.15.7",
+    "@babel/plugin-transform-runtime": "^7.15.0",
+    "@babel/preset-env": "^7.15.6",
+    "@babel/preset-react": "^7.14.5",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "css-loader": "^6.3.0",
+    "dotenv": "^10.0.0",
+    "dotenv-webpack": "^7.0.3",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-jest": "^24.4.2",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.26.0",
+    "eslint-plugin-testing-library": "^3.10.2",
+    "html-loader": "^2.1.2",
+    "html-webpack-plugin": "^5.3.2",
+    "jest": "^26.6.3",
+    "jest-watch-typeahead": "^0.6.4",
+    "joi": "^17.4.2",
+    "prettier": "^2.4.1",
+    "style-loader": "^3.3.0",
+    "web-vitals": "^1.1.2",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.3.0"
+  }
+}
