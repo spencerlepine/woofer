@@ -23,12 +23,5 @@ module.exports = {
       },
       transformIgnorePatterns: ["node_modules/(?!.*?/es/.*\\.js)"],
     },
-    {
-      displayName: "node",
-      testEnvironment: "node",
-      testMatch: ["<rootDir>/server/**/*.test.js?(x)"],
-      setupFilesAfterEnv: ["<rootDir>/server/utils/test-utils.js"],
-      transformIgnorePatterns: ["node_modules/(?!.*?/es/.*\\.js)"],
-    },
   ],
 }
