@@ -62,4 +62,4 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           skip-step: all
           # threshold: 60 # optional parameter
-          # test-script: npm run test:custom
+          test-script: npm run test:branch
