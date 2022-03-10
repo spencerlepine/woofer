@@ -1,0 +1,4 @@
+https://excalidraw.com/?ref=uxcollectivebrasil
+
+MERN Repo Setup:
+https://gegia.me/mern-monorepo-boilerplate/

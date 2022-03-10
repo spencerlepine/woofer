@@ -1,27 +1,29 @@
 {
-  "env": {
-    "browser": true
-  },
   "extends": [
     "react-app",
-    "react-app/jest",
     "eslint:recommended",
-    "plugin:prettier/recommended",
     "plugin:react/recommended"
   ],
+  "env": {
+    "es6": true,
+    "browser": true
+  },
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
     },
     "ecmaVersion": 12,
+    "requireConfigFile": false,
     "sourceType": "module"
   },
-  "plugins": [
-    "react"
-  ],
   "rules": {
     "no-console": "off",
     "no-unused-vars": "off",
     "react/prop-types": "off"
-  }
+  },
+  "plugins": [
+    "react",
+    "prettier"
+  ]
 }
