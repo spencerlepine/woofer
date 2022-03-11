@@ -1,7 +1,0 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
-cd client && npx lint-staged --config .lintstagedrc && npm test
-cd client && npx lint-staged --config .lintstagedrc && npm test
-cd client && npx lint-staged --config .lintstagedrc && npm test
-cd client && npx lint-staged --config .lintstagedrc && npm test
