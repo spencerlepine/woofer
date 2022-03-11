@@ -14,28 +14,15 @@
   "license": "MIT",
   "scripts": {
     "dev": "webpack serve --config ./webpack.dev.config.js",
-    "start": "node server/index.js",
+    "start": "webpack serve --config ./webpack.prod.config.js",
     "build": "webpack --config ./webpack.prod.config.js",
     "test": "jest --detectOpenHandles --runInBand --forceExit --outputFile=report.json",
     "test:watch": "jest --onlyChanged --watch",
     "test:branch": "jest --coverage --changedSince=main --watch --coverageThreshold='{\"global\":{\"statements\":\"60\",\"branches\":\"60\",\"functions\":\"60\",\"lines\":\"60\"}}' --outputFile=report.json",
-    "lint:staged": "eslint client/src --ext .js && eslint server --ext .js",
+    "lint:staged": "eslint src --ext .js",
     "lint:fix": "prettier --write \"**/**/*.{js,jsx,json,md}\" \"!**/build/*\"",
-    "pre-commit": "lint-staged",
-    "husky:remove": "rm -f .husky/pre-commit && rm -f .husky/pre-push",
-    "create-hook": "npm run husky:remove && husky add .husky/pre-commit 'npm run pre-commit' && husky add .husky/pre-push 'npm test'",
-    "prepare": "husky install && npm run create-hook"
-  },
-  "hooks": {
-    "pre-commit": "lint-staged && npm run test",
-    "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-  },
-  "lint-staged": {
-    "*.{js,json,md}": [
-      "prettier --write"
-    ],
-    "*.js": "eslint --cache --fix",
-    "*.{js,md}": "prettier --write"
+    "create:prepush": "npx husky add .husky/pre-push \"cd client && npx lint-staged --config .lintstagedrc && npm test\"",
+    "prepare": "cd ../ && husky install client/.husky && cd ./client && npm run create:prepush"
   },
   "browserslist": {
     "production": [
@@ -50,25 +37,14 @@
     ]
   },
   "dependencies": {
-    "axios": "^0.21.4",
     "babel-loader": "^8.2.2",
     "compression-webpack-plugin": "^9.0.0",
-    "cors": "^2.8.5",
     "coveralls": "^3.1.1",
     "express": "^4.17.1",
-    "express-mongo-sanitize": "^2.2.0",
-    "express-rate-limit": "^6.3.0",
-    "helmet": "^5.0.2",
-    "http-status": "^1.5.0",
     "husky": "^7.0.4",
     "lint-staged": "^11.2.3",
-    "mongoose": "^6.2.5",
-    "morgan": "^1.10.0",
-    "nodemon": "^2.0.13",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "winston": "^3.6.0",
-    "xss-clean": "^0.1.1"
+    "react-dom": "^17.0.2"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.17.0",
