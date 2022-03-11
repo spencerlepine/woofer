@@ -20,15 +20,8 @@
     "test:branch": "jest --coverage --changedSince=main --watch --coverageThreshold='{\"global\":{\"statements\":\"60\",\"branches\":\"60\",\"functions\":\"60\",\"lines\":\"60\"}}' --outputFile=report.json",
     "lint:staged": "eslint src --ext .js",
     "lint:fix": "prettier --write \"**/**/*.{js,jsx,json,md}\" \"!**/build/*\"",
-    "create:hook": "npx husky add .husky/pre-commit \"lint-staged && npm run test\" && git add .husky/pre-commit",
+    "create:hook": "npx husky add .husky/pre-commit \"npx lint-staged --config ./lintstagedrc && npm run test\" && git add .husky/pre-commit",
     "prepare": "cd ../ && husky install server/.husky && cd ./server && npm run create:hook"
-  },
-  "lint-staged": {
-    "*.{js,json,md}": [
-      "prettier --write"
-    ],
-    "*.js": "eslint --cache --fix",
-    "*.{js,md}": "prettier --write"
   },
   "browserslist": {
     "production": [
