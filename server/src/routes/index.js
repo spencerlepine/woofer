@@ -1,15 +1,15 @@
 const express = require("express")
-const listRoutes = require("./listRoutes")
-const productsRoutes = require("./productsRoutes")
-const recipeRoutes = require("./recipeRoutes")
-const exampleRoutes = require("./exampleRoutes")
+const signupRoutes = require("./signupRoutes")
+const zipcodesRoutes = require("./zipcodesRoutes")
+const profileRoutes = require("./profileRoutes")
+const matchesRoutes = require("./matchesRoutes")
 const config = require("../../config/config")
 
 const router = express.Router()
 
-router.use("/list", listRoutes)
-router.use("/products", productsRoutes)
-router.use("/recipes", recipeRoutes)
-router.use("/example", exampleRoutes)
+router.use("/signup", signupRoutes)
+router.use("/zipcodes", zipcodesRoutes)
+router.use("/profile", profileRoutes)
+router.use("/matches", matchesRoutes)
 
 module.exports = router

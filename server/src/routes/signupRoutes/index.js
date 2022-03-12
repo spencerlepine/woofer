@@ -1,10 +1,10 @@
 const express = require("express")
 const {
-  exampleController
-} = require("../../controllers/example")
+  signupUser,
+} = require("../../controllers/signup")
 
 const router = express.Router()
 
-router.get("/abc", exampleController)
+router.post("/", signupUser)
 
 module.exports = router

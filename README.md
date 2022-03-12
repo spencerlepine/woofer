@@ -8,11 +8,11 @@ Dating app for dogs, a full stack MERN project.
 
 - [Description](#description)
 - [Features](#features)
-- [Setup](#⚙️-setup)
+- [⚙️ Setup](#setup)
 - [API Schema](#api-schema)
 - [Application Architecture](#application-architectures)
-- [Technologies](#📦-technologies)
-- [Ticket System](#🎯-ticket-system)
+- [📦 Technologies](#technologies)
+- [🎯 Ticket System](#ticket-system)
 - [Contributors](#contributors)
 
 ## Description
@@ -58,7 +58,7 @@ TODO
 ![Login Page](./resources/images/login_page.gif)
 -->
 
-## ⚙️ Setup:
+## Setup:
 
 Create a Firebase project and MongoDB Atlas database.
 
@@ -84,7 +84,7 @@ See [Endpoint Schema](./whitepaper/resources/WOOFER_API.md).
 
 ![Deployment Architecture](./whitepaper/resources/images/Project_Deployment.png)
 
-## 📦 Technologies:
+## Technologies:
 
 Development:
 - [GitHub](https://github.com/)
@@ -112,7 +112,7 @@ Modules:
 - [Joi](https://github.com/sideway/joi) Input verification
 - [Socket.io](https://socket.io/) API for chat
 
-# 🎯 Ticket System
+# Ticket System
 - Project Steps: [Trello Board](https://trello.com/b/tYtdHAT5/woofer-project)
 - Development Process: [Trello Board](https://trello.com/b/kf2DJ80r/woofer-development)
 

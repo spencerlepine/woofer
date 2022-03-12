@@ -7,8 +7,9 @@ module.exports = {
       displayName: "node",
       testEnvironment: "node",
       testMatch: ["<rootDir>/**/*.test.js?(x)"],
-      setupFilesAfterEnv: ["<rootDir>/tests/utils/setupTestDB.js"],
+      setupFilesAfterEnv: ["<rootDir>/tests/utils/setupTestDB.js", "<rootDir>/config/jest.setup.js"],
       transformIgnorePatterns: ["node_modules/(?!.*?/es/.*\\.js)"],
     },
   ],
+  preset: "@shelf/jest-mongodb",
 }

@@ -17,6 +17,7 @@ const envVarsSchema = Joi.object()
       .default("production"),
     PORT: Joi.string().required().description("Entry port the express server"),
     MONGODB_URL: Joi.string().required().description("Mongo DB url"),
+    LOCAL_MONGODB_URL: Joi.string().required().description("Mongo DB url"),
   })
   .unknown()
 
@@ -31,10 +32,11 @@ if (error) {
 module.exports = {
   ...envVars,
   MONGOOSE: {
-    url: envVars.MONGODB_URL + (envVars.NODE_ENV === "test" ? "-test" : ""),
+    testUrl: envVars.LOCAL_MONGODB_URL,
+    url: envVars.MONGODB_URL,
     options: {
       useNewUrlParser: true,
-      useUnifiedTopology: true,
+      useUnifiedTopology: true
     },
   },
 }

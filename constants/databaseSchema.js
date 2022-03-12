@@ -8,7 +8,7 @@ const schema = (Joi) => {
   const outputObj = {
     [DATA_KEYS["USER_ID"]]: (
       Joi.string()
-        .alphanum()
+        .pattern(new RegExp(/[a-z0-9]/))
         .min(3)
         .max(30)
     ),
@@ -38,16 +38,8 @@ const schema = (Joi) => {
     [DATA_KEYS["USER_GENDER"]]: (
       Joi.string()
         .valid(...[
-          'male',
-          'female'
-        ])
-    ),
-    [DATA_KEYS["USER_PREFERENCE"]]: (
-      Joi.string()
-        .valid(...[
-          'male',
-          'female',
-          'any'
+          'Male',
+          'Female'
         ])
     ),
     [DATA_KEYS["USER_GROUP"]]: (
@@ -84,9 +76,9 @@ const schema = (Joi) => {
     [DATA_KEYS["USER_PREFERENCE"]]: (
       Joi.string()
         .valid(...[
-          'male',
-          'female',
-          'any'
+          'Male',
+          'Female',
+          'Any'
         ])
     ),
     [DATA_KEYS["ZIPCODE"]]: (
@@ -136,7 +128,7 @@ const schema = (Joi) => {
     [DATA_KEYS["USER_BREED"]]: (outputObj[DATA_KEYS["USER_BREED"]]).required(),
     [DATA_KEYS["USER_BIO"]]: (outputObj[DATA_KEYS["USER_BIO"]]).required(),
     [DATA_KEYS["USER_BIRTHYEAR"]]: (outputObj[DATA_KEYS["USER_BIRTHYEAR"]]).required(),
-    [DATA_KEYS["USER_PREFERENCE"]]: outputObj[DATA_KEYS["USER_PREFERNCE"]],
+    [DATA_KEYS["USER_PREFERENCE"]]: outputObj[DATA_KEYS["USER_PREFERENCE"]],
     [DATA_KEYS["USER_ZIPCODES"]]: outputObj[DATA_KEYS["USER_ZIPCODES"]],
     [DATA_KEYS["USER_PICTURES"]]: outputObj[DATA_KEYS["USER_PICTURES"]],
     [DATA_KEYS["USER_CHATS"]]: outputObj[DATA_KEYS["USER_CHATS"]]
