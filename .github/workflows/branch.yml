@@ -43,6 +43,7 @@ jobs:
       REACT_APP_FIREBASE_MEASUREMENT_ID: asdf
       API_URL: asdf
       working-directory: ./client
+      working-directory: ./client
     strategy:
       fail-fast: false
       matrix:

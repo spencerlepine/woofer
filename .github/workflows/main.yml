@@ -2,7 +2,11 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 env:
   CI: true
@@ -37,6 +41,7 @@ jobs:
       REACT_APP_FIREBASE_APP_ID: asdf
       REACT_APP_FIREBASE_MEASUREMENT_ID: asdf
       API_URL: asdf
+      working-directory: ./client
       working-directory: ./client
     strategy:
       fail-fast: false
