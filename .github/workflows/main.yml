@@ -80,26 +80,29 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ['12', '14', '16']
+        node: ['14', '16']
         os: [ubuntu-latest]
 
-    services:
-      mongodb:
-          image: mongo
-          env:
-            MONGO_INITDB_ROOT_USERNAME: test
-            MONGO_INITDB_ROOT_PASSWORD: password
-            MONGO_INITDB_DATABASE: test
-          options: >-
-            --health-cmd mongo
-            --health-interval 10s
-            --health-timeout 5s
-            --health-retries 5
-          ports:
-            - 27017:27017
+    # services:
+    #   mongodb:
+    #       image: mongo
+    #       env:
+    #         MONGO_INITDB_ROOT_USERNAME: test
+    #         MONGO_INITDB_ROOT_PASSWORD: password
+    #         MONGO_INITDB_DATABASE: test
+    #       options: >-
+    #         --health-cmd mongo
+    #         --health-interval 10s
+    #         --health-timeout 5s
+    #         --health-retries 5
+    #       ports:
+    #         - 27017:27017
 
     name: (Server) Node ${{ matrix.node }} on ${{ matrix.os }}
     steps:
+      - name: Create mongoDB Docker container
+        run: sudo docker run -d -p 27017:27017 mongo:latest
+
       - name: ♻️ Check out Git Repository
         uses: actions/checkout@v2
         with:
