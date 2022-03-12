@@ -2,7 +2,65 @@
 
 Dating app for dogs, a full stack MERN project.
 
+[![Demo GIF](./whitepaper/resources/images/demo.gif)](https://gallant-torvalds-547222.netlify.app/)
+
+## Table of Contents
+
+- [Description](#description)
+- [Features](#features)
+- [Setup](#⚙️-setup)
+- [API Schema](#api-schema)
+- [Application Architecture](#application-architectures)
+- [Technologies](#📦-technologies)
+- [Ticket System](#🎯-ticket-system)
+- [Contributors](#contributors)
+
+## Description
+
+The solo project was completed in [TIMEFRAME] to help practice full stack development.
+
+> (EXPLAIN what users can do and the IP of this project)
+
+## Features
+TODO
+<!--
+### Landing Page
+
+#### Welcome Banner
+
+![Home Page](./resources/images/home_page.png)
+
+#### Product Catalog Page
+
+- Browse all available products
+
+![Product Page](./resources/images/product_page.png)
+
+#### Product Detail Page
+
+- View nutrition facts
+- Save the product to cart
+- Rate the product
+
+![Product Detail Page](./resources/images/product_detail_page.gif)
+
+### User Authentication
+
+#### Account Type Selection
+
+#### Login / Sign up
+
+- Choose a Customer, Farmer, or Nutritionist account
+- Browse the app and product catalog without being logged in
+- Create an account or login Email/Password, Google, or Facebook
+- Access live chat with a nutritionist
+
+![Login Page](./resources/images/login_page.gif)
+-->
+
 ## ⚙️ Setup:
+
+Create a Firebase project and MongoDB Atlas database.
 
 ```sh
     cd client
@@ -17,6 +75,14 @@ Dating app for dogs, a full stack MERN project.
     npm install
     npm start
 ```
+
+## API Schema
+
+See [Endpoint Schema](./whitepaper/resources/WOOFER_API.md).
+
+## Application Architecture
+
+![Deployment Architecture](./whitepaper/resources/images/Project_Deployment.png)
 
 ## 📦 Technologies:
 
@@ -46,9 +112,13 @@ Modules:
 - [Joi](https://github.com/sideway/joi) Input verification
 - [Socket.io](https://socket.io/) API for chat
 
-# Ticket System
-- Development Process: [Trello Board](https://trello.com/b/tYtdHAT5/woofer-work)
-- Tickets: [Trello Board](https://trello.com/b/kf2DJ80r/woofer-tdd)
+# 🎯 Ticket System
+- Project Steps: [Trello Board](https://trello.com/b/tYtdHAT5/woofer-project)
+- Development Process: [Trello Board](https://trello.com/b/kf2DJ80r/woofer-development)
+
+## Contributors
+
+- [Spencer Lepine](https://github.com/spencerlepine)
 
 ---
 
