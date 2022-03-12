@@ -14,7 +14,7 @@ env:
   NODE_ENV: development
   PORT: 3000
   MONGODB_URL: mongodb://127.0.0.1:27017/test
-  LOCAL_MONGODB_URL: mongodb://127.0.0.1:27017/test
+  LOCAL_MONGODB_URL: mongodb://test:password@127.0.0.1:27017/test?retryWrites=true&w=majority
 
 jobs:
 
