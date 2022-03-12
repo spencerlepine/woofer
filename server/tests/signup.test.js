@@ -9,26 +9,28 @@ const {
 } = require('./utils/test-helpers');
 
 describe("SIGNUP endpoint", () => {
-  expect(true).toBe(true); // TODO
-  /*
   describe("Sign up a user", () => {
     const method = 'POST';
     const endpointPaths = ['SIGNUP'];
     const url = endpointURLStr(endpointPaths, method);
 
+    const reqData = {
+      id: 'a11234',
+    }
+
     test(`${method} ${url}`, (done) => {
       request(app)
         .post(url)
+        .send({
+          id: '123412a',
+          email: 'johndoe@gmail.com'
+        })
         .expect("Content-Type", /json/)
         .expect(201)
-        .expect((res) => {
-          expect(verifyEndpointResponse(res.body, endpointPaths, method)).toBe(true)
-        })
         .end((err, res) => {
           if (err) return done(err);
           return done();
         });
     });
   });
-  */
 });

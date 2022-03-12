@@ -9,7 +9,10 @@ const {
 } = require('./utils/test-helpers');
 
 describe("MATCHES endpoint", () => {
-  expect(true).toBe(true); // TODO
+  test(`TODO`, () => {
+    expect(true).toBe(true);
+  });
+
   /*
   describe("Generate a match", () => {
     const method = 'GET';

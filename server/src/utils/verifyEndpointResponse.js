@@ -14,7 +14,7 @@ const verifyEndpointReponse = (responseBody, endpointPathKeys, method) => {
   } = expectedRequest(endpointPathKeys, method);
 
   if (expectedResponseKeys === undefined) {
-    return 'ERROR: Endpoint does not expect a reponse'
+    return 'ERROR: Endpoint does not expect a response'
   }
 
   for (let i = 0; i < expectedResponseKeys.length; i += 1) {
@@ -24,7 +24,7 @@ const verifyEndpointReponse = (responseBody, endpointPathKeys, method) => {
       return `ERROR: response body missing key => ${expectedKey}`
     }
 
-    if (verifyKeyDataType(responseBody[expectedKey]) === false) {
+    if (verifyKeyDataType(expectedKey, responseBody[expectedKey]) === false) {
       return `ERROR: invalid data type for key => ${expectedKey}`
     }
   }

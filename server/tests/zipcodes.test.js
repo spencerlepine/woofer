@@ -9,7 +9,10 @@ const {
 } = require('./utils/test-helpers');
 
 describe("ZIPCODES endpoint", () => {
-  expect(true).toBe(true); // TODO
+  test(`TODO`, () => {
+    expect(true).toBe(true);
+  });
+
   /*
   describe("Add a zipcode to user record", () => {
     const method = 'POST';

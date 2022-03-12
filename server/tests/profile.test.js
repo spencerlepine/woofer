@@ -9,7 +9,10 @@ const {
 } = require('./utils/test-helpers');
 
 describe("PROFILE endpoint", () => {
-  expect(true).toBe(true); // TODO
+  test(`TODO`, () => {
+    expect(true).toBe(true);
+  });
+
   /*
   describe("Fetch a single user profile", () => {
     const method = 'GET';
