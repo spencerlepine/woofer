@@ -77,7 +77,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: ⬇️  Install packages
-        run: npm ci
+        run: npm install
 
       - name: 🧽 Lint all files
         run: npm run lint:staged
@@ -139,7 +139,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: ⬇️  Install packages
-        run: npm ci
+        run: npm install
 
       - name: 🧽 Lint all files
         run: npm run lint:staged
