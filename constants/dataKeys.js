@@ -16,6 +16,7 @@ const DATA_KEYS = {
   USER_CHATS: "chats",
   ZIPCODE: "zipcode",
   USER_PROFILE: "user_profile",
+  PICTURE: "picture",
   THIS_USER_ID: "this_user_id",
   THAT_USER_ID: "that_user_id",
   CHAT_ID: "chat_id",
