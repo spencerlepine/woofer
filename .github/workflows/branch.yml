@@ -50,7 +50,7 @@ jobs:
           ports:
             - 27017:27017
 
-    name: Node ${{ matrix.node }} on ${{ matrix.os }}
+    name: [Client] Node ${{ matrix.node }} on ${{ matrix.os }}
     steps:
       - name: ♻️ Check out Git Repository
         uses: actions/checkout@v2
@@ -115,7 +115,7 @@ jobs:
           ports:
             - 27017:27017
 
-    name: Node ${{ matrix.node }} on ${{ matrix.os }}
+    name: [Server] Node ${{ matrix.node }} on ${{ matrix.os }}
     steps:
       - name: ♻️ Check out Git Repository
         uses: actions/checkout@v2
