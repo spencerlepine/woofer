@@ -12,7 +12,7 @@ const setupTestDB = () => {
     await (
       Promise.all(
         Object.values(mongoose.connection.collections)
-          .map(async (collection) => await collection.deleteMany()),
+          .map(async (collection) => await collection.deleteMany({})),
       )
     );
   });
