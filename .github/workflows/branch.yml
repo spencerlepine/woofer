@@ -16,6 +16,20 @@ env:
   MONGODB_URL: mongodb://127.0.0.1:27017/test
 
 jobs:
+  services:
+    mongodb:
+        image: mongo
+        env:
+          MONGO_INITDB_ROOT_USERNAME: test
+          MONGO_INITDB_ROOT_PASSWORD: password
+          MONGO_INITDB_DATABASE: test
+        options: >-
+          --health-cmd mongo
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 27017:27017
 
   client-tests:
     runs-on: ${{ matrix.os }}
@@ -34,21 +48,6 @@ jobs:
       matrix:
         node: ['16']
         os: [ubuntu-latest]
-
-    services:
-          mongodb:
-              image: mongo
-              env:
-                MONGO_INITDB_ROOT_USERNAME: test
-                MONGO_INITDB_ROOT_PASSWORD: password
-                MONGO_INITDB_DATABASE: test
-              options: >-
-                --health-cmd mongo
-                --health-interval 10s
-                --health-timeout 5s
-                --health-retries 5
-              ports:
-                - 27017:27017
 
     name: Node ${{ matrix.node }} on ${{ matrix.os }}
     steps:
