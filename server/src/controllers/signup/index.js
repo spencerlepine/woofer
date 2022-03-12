@@ -23,10 +23,17 @@ module.exports = {
     const validRequestCheck = verifyEndpointRequest(req, ['SIGNUP'], 'POST');
 
     if (validRequestCheck === true) {
+      const query = {
+        [id]: req.body[id]
+      };
+      const update = {
+        $set: req.body
+      };
+      const options = { upsert: true, multi: true };
+
       DogUser.updateOne(query, update, options)
         .then(
           (result) => {
-            console.log(result.upsertedId)
             if (result.upsertedId) {
               res.status(201).json('Successfully created user account')
             } else {
