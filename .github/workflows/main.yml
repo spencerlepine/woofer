@@ -62,7 +62,6 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - run: git config --global url."https://github.com/".insteadOf ssh://git@github.com/
-      - run: cd ./client
 
       - name: Cache node modules
         uses: actions/cache@v2
@@ -78,7 +77,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Enter service folder
-        - run: cd ./client
+        run: cd ./client
 
       - name: ⬇️  Install packages
         run: npm install
@@ -143,7 +142,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Enter service folder
-        - run: cd ./server
+        run: cd ./server
 
       - name: ⬇️  Install packages
         run: npm install
