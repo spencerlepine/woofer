@@ -88,6 +88,7 @@ const ENDPOINT_ROUTES = {
           [DATA_KEYS["USER_BIRTHYEAR"]],
           [DATA_KEYS["USER_ZIPCODES"]]
         ],
+        [RESPONSE_KEYS]: [DATA_KEYS["USER_PROFILE"]],
       },
       DELETE: {
         [BODY_KEYS]: [DATA_KEYS["USER_ID"]],
