@@ -27,7 +27,6 @@ jobs:
       REACT_APP_FIREBASE_APP_ID: asdf
       REACT_APP_FIREBASE_MEASUREMENT_ID: asdf
       API_URL: asdf
-      working-directory: ./client
     strategy:
       fail-fast: false
       matrix:
@@ -92,7 +91,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       FRONTEND_URL: http://localhost:3000
-      working-directory: ./server
     strategy:
       fail-fast: false
       matrix:
