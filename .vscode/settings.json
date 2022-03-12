@@ -1,0 +1,40 @@
+{
+  "editor.lightbulb.enabled": false,
+  "editor.parameterHints.enabled": false,
+  "editor.renderWhitespace": "all",
+  "editor.snippetSuggestions": "none",
+  "editor.tabSize": 2,
+  "editor.wordWrap": "off",
+  "emmet.showExpandedAbbreviation": "never",
+  "files.trimTrailingWhitespace": true,
+  "javascript.suggest.enabled": false,
+  "javascript.updateImportsOnFileMove.enabled": "never",
+  "javascript.validate.enable": false,
+  "eslint.alwaysShowStatus": true,
+  // "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\wsl.exe"
+  "explorer.confirmDelete": false,
+  "[jsx]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "css.validate": false,
+  "editor.hover.sticky": false,
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "vscode.json-language-features",
+  "security.workspace.trust.untrustedFiles": "open",
+  "liveshare.allowGuestTaskControl": true,
+  "liveshare.allowGuestDebugControl": true,
+  "liveshare.anonymousGuestApproval": "accept",
+  "editor.largeFileOptimizations": false,
+  "files.associations": {
+    "*.jsx": "javascript"
+  },
+  "window.zoomLevel": 2,
+  // "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\wsl.exe"
+}

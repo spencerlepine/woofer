@@ -1,9 +1,9 @@
-import DATA_KEYS from "./dataKeys"
+const DATA_KEYS = require('./dataKeys');
 
-export const BODY_KEYS = "expectedBodyKeys"
-export const OPT_KEYS = "optionalBodyKeys"
-export const PARAM_KEYS = "expectedParamKeys"
-export const RESPONSE_KEYS = "responseExpectedKeys"
+const BODY_KEYS = "expectedBodyKeys"
+const OPT_KEYS = "optionalBodyKeys"
+const PARAM_KEYS = "expectedParamKeys"
+const RESPONSE_KEYS = "responseExpectedKeys"
 
 const ENDPOINT_ROUTES = {
   // "EXAMPLE": {
@@ -22,9 +22,7 @@ const ENDPOINT_ROUTES = {
   SIGNUP: {
     URL: "signup",
     POST: {
-      [BODY_KEYS]: [DATA_KEYS["USER_ID"], DATA_KEYS["USER_EMAILS"]],
-      [OPT_KEYS]: [],
-      [PARAM_KEYS]: [],
+      [BODY_KEYS]: [DATA_KEYS["USER_ID"], DATA_KEYS["USER_EMAIL"]],
     },
   },
   ZIPCODES: {
@@ -59,7 +57,7 @@ const ENDPOINT_ROUTES = {
           DATA_KEYS["THAT_USER_ID"],
           DATA_KEYS["MATCH_STATUS"],
         ],
-        [RESPONSE_KEYS]: [[DATA_KEYS["CHAT_ID"]], [DATA_KEYS["USER_PROFILE"]]],
+        [RESPONSE_KEYS]: [DATA_KEYS["CHAT_ID"], DATA_KEYS["USER_PROFILE"]],
       },
     },
   },
@@ -67,16 +65,16 @@ const ENDPOINT_ROUTES = {
     URL: "profile",
     GET: {
       [PARAM_KEYS]: [DATA_KEYS["USER_ID"]],
-      [RESPONSE_KEYS]: [[DATA_KEYS["USER_PROFILE"]]],
+      [RESPONSE_KEYS]: [DATA_KEYS["USER_PROFILE"]],
     },
     DETAILS: {
       URL: "details",
       GET: {
         [PARAM_KEYS]: [DATA_KEYS["USER_ID"]],
-        [RESPONSE_KEYS]: [[DATA_KEYS["USER_PROFILE"]]],
+        [RESPONSE_KEYS]: [DATA_KEYS["USER_PROFILE"]],
       },
       POST: {
-        [BODY_KEYS]: [[DATA_KEYS["USER_ID"]]],
+        [BODY_KEYS]: [DATA_KEYS["USER_ID"]],
         [OPT_KEYS]: [
           [DATA_KEYS["USER_NAME"]],
           [DATA_KEYS["USER_GENDER"]],
@@ -86,15 +84,17 @@ const ENDPOINT_ROUTES = {
           [DATA_KEYS["USER_BIO"]],
           [DATA_KEYS["USER_EMAIL"]],
           [DATA_KEYS["USER_PICTURES"]],
-          [DATA_KEYS["USER_BIRTHDAY"]],
+          [DATA_KEYS["USER_BIRTHYEAR"]],
+          [DATA_KEYS["USER_ZIPCODES"]]
         ],
       },
       DELETE: {
-        [BODY_KEYS]: [[DATA_KEYS["USER_ID"]]],
+        [BODY_KEYS]: [DATA_KEYS["USER_ID"]],
       },
     },
   },
 }
+
 
 // Chat endpoints?
 /*
@@ -105,9 +105,7 @@ READ /chats/messages/:chatId => GET Last messages in the chat
 DELETE /chats/delete/:chatId => Delete access to chat "Block User", just remove chat Ids from chat lists under profiles. Still "in" database
 */
 
-export default ENDPOINT_ROUTES
-
-export const endpointURLStr = (urlRoutes, reqMethod) => {
+const endpointURLStr = (urlRoutes, reqMethod) => {
   try {
     let lastObject = ENDPOINT_ROUTES
     let urls = []
@@ -117,11 +115,11 @@ export const endpointURLStr = (urlRoutes, reqMethod) => {
     })
     return urls.join("/")
   } catch (err) {
-    throw new Error("Endpoint URL does not exist")
+    throw new Error(`Endpoint URL does not exist =>, ${urlRoutes}, ${reqMethod}`)
   }
 }
 
-export const expectedRequest = (urlRoutes, reqMethod) => {
+const expectedRequest = (urlRoutes, reqMethod) => {
   let lastObject = ENDPOINT_ROUTES
   try {
     urlRoutes.forEach((str) => {
@@ -132,6 +130,15 @@ export const expectedRequest = (urlRoutes, reqMethod) => {
     }
     throw new Error()
   } catch (err) {
-    throw new Error("Endpoint URL or method does not exist")
+    throw new Error("Endpoint URL or method does not exist =>", urlRoutes, reqMethod)
   }
 }
+
+
+module.exports.default = ENDPOINT_ROUTES;
+module.exports.BODY_KEYS = "expectedBodyKeys"
+module.exports.OPT_KEYS = "optionalBodyKeys"
+module.exports.PARAM_KEYS = "expectedParamKeys"
+module.exports.RESPONSE_KEYS = "responseExpectedKeys"
+module.exports.expectedRequest = expectedRequest
+module.exports.endpointURLStr = endpointURLStr
