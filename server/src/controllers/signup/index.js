@@ -20,14 +20,18 @@ module.exports = {
   signupUser: (req, res) => {
     const id = DATA_KEYS["USER_ID"];
 
-    const validRequestCheck = verifyEndpointRequest(req, ['SIGNUP'], 'POST');
+    const polyfillUserRequest = {
+      ...mockUser,
+      ...req.body
+    }
+    const validRequestCheck = verifyEndpointRequest({ body: polyfillUserRequest }, ['SIGNUP'], 'POST');
 
     if (validRequestCheck === true) {
       const query = {
         [id]: req.body[id]
       };
       const update = {
-        $set: req.body
+        $set: polyfillUserRequest
       };
       const options = { upsert: true, multi: true };
 
@@ -43,7 +47,6 @@ module.exports = {
           err => console.error(`Something went wrong: ${err}`),
         );
     } else {
-      console.error(validRequestCheck)
       res.status(400).json(validRequestCheck)
     }
   },
