@@ -8,4 +8,5 @@ module.exports = {
   RESPONSE_KEYS: require('./endpointRoutes').RESPONSE_KEYS,
   expectedRequest: require('./endpointRoutes').expectedRequest,
   endpointURLStr: require('./endpointRoutes').endpointURLStr,
+  baseURL: require('./endpointRoutes').baseURL,
 }

@@ -4,6 +4,7 @@ const BODY_KEYS = "expectedBodyKeys"
 const OPT_KEYS = "optionalBodyKeys"
 const PARAM_KEYS = "expectedParamKeys"
 const RESPONSE_KEYS = "responseExpectedKeys"
+const baseURL = '/api'
 
 const ENDPOINT_ROUTES = {
   // "EXAMPLE": {
@@ -108,7 +109,7 @@ DELETE /chats/delete/:chatId => Delete access to chat "Block User", just remove 
 const endpointURLStr = (urlRoutes, reqMethod) => {
   try {
     let lastObject = ENDPOINT_ROUTES
-    let urls = []
+    let urls = [baseURL]
     urlRoutes.forEach((str) => {
       urls.push(lastObject[str]["URL"])
       lastObject = lastObject[str]
@@ -142,3 +143,4 @@ module.exports.PARAM_KEYS = "expectedParamKeys"
 module.exports.RESPONSE_KEYS = "responseExpectedKeys"
 module.exports.expectedRequest = expectedRequest
 module.exports.endpointURLStr = endpointURLStr
+module.exports.baseURL = baseURL;
