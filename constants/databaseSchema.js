@@ -8,7 +8,7 @@ const schema = (Joi) => {
   const outputObj = {
     [DATA_KEYS["USER_ID"]]: (
       Joi.string()
-        .alphanum()
+        .pattern(new RegExp(/[a-z0-9]/))
         .min(3)
         .max(30)
     ),

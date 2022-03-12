@@ -1,9 +1,11 @@
 const mongoose = require("mongoose")
 const config = require("../../config/config")
 
+const MONGO_CONFIG = config.MONGOOSE
+
 const setupTestDB = () => {
   beforeAll(async () => {
-    await mongoose.connect(config.mongoose.url, config.mongoose.options)
+    await mongoose.connect(MONGO_CONFIG.url, MONGO_CONFIG.options)
   })
 
   beforeEach(async () => {
@@ -18,5 +20,7 @@ const setupTestDB = () => {
     await mongoose.disconnect()
   })
 }
+
+setupTestDB()
 
 module.exports = setupTestDB

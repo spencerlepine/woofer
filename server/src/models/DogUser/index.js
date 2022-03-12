@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 
-const userListSchema = new mongoose.Schema({
-  userId: {
+const dogUserSchema = new mongoose.Schema({
+  id: {
     type: String,
     required: true,
   },
@@ -9,14 +9,10 @@ const userListSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  list: {
+  email: {
     type: String,
     required: true,
   },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
 })
 
-module.exports = mongoose.model("UserList", userListSchema)
+module.exports = mongoose.model("DogUser", dogUserSchema)

@@ -31,10 +31,10 @@ if (error) {
 module.exports = {
   ...envVars,
   MONGOOSE: {
-    url: envVars.MONGODB_URL + (envVars.NODE_ENV === "test" ? "-test" : ""),
+    url: envVars.MONGODB_URL,
     options: {
       useNewUrlParser: true,
-      useUnifiedTopology: true,
+      useUnifiedTopology: true
     },
   },
 }
