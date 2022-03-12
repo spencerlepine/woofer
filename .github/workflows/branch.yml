@@ -16,20 +16,6 @@ env:
   MONGODB_URL: mongodb://127.0.0.1:27017/test
 
 jobs:
-  services:
-    mongodb:
-        image: mongo
-        env:
-          MONGO_INITDB_ROOT_USERNAME: test
-          MONGO_INITDB_ROOT_PASSWORD: password
-          MONGO_INITDB_DATABASE: test
-        options: >-
-          --health-cmd mongo
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 27017:27017
 
   client-tests:
     runs-on: ${{ matrix.os }}
@@ -49,15 +35,34 @@ jobs:
         node: ['16']
         os: [ubuntu-latest]
 
-    name: Node ${{ matrix.node }} on ${{ matrix.os }}
+    services:
+      mongodb:
+          image: mongo
+          env:
+            MONGO_INITDB_ROOT_USERNAME: test
+            MONGO_INITDB_ROOT_PASSWORD: password
+            MONGO_INITDB_DATABASE: test
+          options: >-
+            --health-cmd mongo
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+          ports:
+            - 27017:27017
+
+    name: (Client) Node ${{ matrix.node }} on ${{ matrix.os }}
     steps:
       - name: ♻️ Check out Git Repository
         uses: actions/checkout@v2
+        with:
+          persist-credentials: false
 
       - name: 🔖  Set up Node
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
+
+      - run: git config --global url."https://github.com/".insteadOf ssh://git@github.com/
 
       - name: Cache node modules
         uses: actions/cache@v2
@@ -72,13 +77,16 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: ⬇️  Install npm dependencies
+      - name: ⬇️  Install packages
+        working-directory: ${{env.working-directory}}
         run: npm install
 
       - name: 🧽 Lint all files
+        working-directory: ${{env.working-directory}}
         run: npm run lint:staged
 
       - name: ✅  Run tests
+        working-directory: ${{env.working-directory}}
         run: npm run test -- --coverage
 
   server-tests:
@@ -92,15 +100,34 @@ jobs:
         node: ['12', '14', '16']
         os: [ubuntu-latest]
 
-    name: Node ${{ matrix.node }} on ${{ matrix.os }}
+    services:
+      mongodb:
+          image: mongo
+          env:
+            MONGO_INITDB_ROOT_USERNAME: test
+            MONGO_INITDB_ROOT_PASSWORD: password
+            MONGO_INITDB_DATABASE: test
+          options: >-
+            --health-cmd mongo
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+          ports:
+            - 27017:27017
+
+    name: (Server) Node ${{ matrix.node }} on ${{ matrix.os }}
     steps:
       - name: ♻️ Check out Git Repository
         uses: actions/checkout@v2
+        with:
+          persist-credentials: false
 
       - name: 🔖  Set up Node
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
+
+      - run: git config --global url."https://github.com/".insteadOf ssh://git@github.com/
 
       - name: Cache node modules
         uses: actions/cache@v2
@@ -115,11 +142,14 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: ⬇️  Install npm dependencies
+      - name: ⬇️  Install packages
+        working-directory: ${{env.working-directory}}
         run: npm install
 
       - name: 🧽 Lint all files
+        working-directory: ${{env.working-directory}}
         run: npm run lint:staged
 
       - name: ✅  Run tests
+        working-directory: ${{env.working-directory}}
         run: npm run test -- --coverage
