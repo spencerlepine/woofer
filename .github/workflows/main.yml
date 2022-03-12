@@ -53,6 +53,8 @@ jobs:
     steps:
       - name: ♻️ Check out Git Repository
         uses: actions/checkout@v2
+        with:
+          persist-credentials: false
 
       - name: 🔖  Set up Node
         uses: actions/setup-node@v1
@@ -111,6 +113,8 @@ jobs:
     steps:
       - name: ♻️ Check out Git Repository
         uses: actions/checkout@v2
+        with:
+          persist-credentials: false
 
       - name: 🔖  Set up Node
         uses: actions/setup-node@v1
