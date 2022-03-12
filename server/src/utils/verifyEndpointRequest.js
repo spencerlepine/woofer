@@ -28,7 +28,7 @@ const verifyEndpointRequest = (request, endpointPathKeys, method) => {
       allKeysRequired: false,
     },
     {
-      requestObj: request['params'],
+      requestObj: request['query'],
       key: PARAM_KEYS,
       expectedReqKeys: expectedParamKeys,
       allKeysRequired: true,
@@ -48,7 +48,8 @@ const verifyEndpointRequest = (request, endpointPathKeys, method) => {
         const expectedKey = expectedReqKeys[i];
 
         if (requestObj[expectedKey] === undefined && allKeysRequired) {
-          return `ERROR: request body missing key => ${expectedKey}`
+          return `ERROR: request ${key
+            } missing key => ${expectedKey}`
         }
 
         if (verifyKeyDataType(expectedKey, requestObj[expectedKey]) === false) {

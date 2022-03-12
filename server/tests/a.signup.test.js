@@ -5,7 +5,8 @@ const {
   constants: {
     endpointURLStr,
   },
-  verifyEndpointResponse
+  verifyEndpointResponse,
+  mockUser,
 } = require('./utils/test-helpers');
 
 describe("SIGNUP endpoint", () => {
@@ -13,25 +14,11 @@ describe("SIGNUP endpoint", () => {
   const endpointPaths = ['SIGNUP'];
   const url = endpointURLStr(endpointPaths, method);
 
-  const reqData = {
-    id: 'john124412',
-    email: 'johndoe@gmail.com'
-  }
-
   describe("Sign up a user", () => {
-    const method = 'POST';
-    const endpointPaths = ['SIGNUP'];
-    const url = endpointURLStr(endpointPaths, method);
-
-    const reqData = {
-      id: 'john124412',
-      email: 'johndoe@gmail.com'
-    }
-
     test(`${method} ${url}`, (done) => {
       request(app)
         .post(url)
-        .send(reqData)
+        .send(mockUser)
         .expect("Content-Type", /json/)
         .expect(201)
         .end((err, res) => {
@@ -42,11 +29,10 @@ describe("SIGNUP endpoint", () => {
   });
 
   describe("Should not create a duplicate user", () => {
-
     test(`${method} ${url}`, (done) => {
       request(app)
         .post(url)
-        .send(reqData)
+        .send(mockUser)
         .expect("Content-Type", /json/)
         .expect(201)
         .end((err, res) => {
@@ -56,7 +42,7 @@ describe("SIGNUP endpoint", () => {
 
       request(app)
         .post(url)
-        .send(reqData)
+        .send(mockUser)
         .expect("Content-Type", /json/)
         .expect(409)
         .end((err, res) => {
