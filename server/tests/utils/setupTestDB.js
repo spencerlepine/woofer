@@ -5,7 +5,7 @@ const MONGO_CONFIG = config.MONGOOSE
 
 const setupTestDB = () => {
   beforeAll(async () => {
-    await mongoose.connect(MONGO_CONFIG.url, MONGO_CONFIG.options)
+    await mongoose.connect(MONGO_CONFIG.testUrl, MONGO_CONFIG.options)
   })
 
   beforeEach(async () => {

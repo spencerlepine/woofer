@@ -20,64 +20,24 @@ module.exports = {
   signupUser: (req, res) => {
     const id = DATA_KEYS["USER_ID"];
 
-    DogUser.find({ '_id': '622ce2faaeded052d6ee84c2' })
-      .then(items => {
-        console.log(`Successfully found ${items.length} documents.`)
-        items.forEach(logger.info)
-        res.status(201).json("WORKING");
-        return items
-      })
-      .catch(err => {
-        console.error(`Failed to find documents: ${err}`);
-        return res.status(500)
-      })
+    const validRequestCheck = verifyEndpointRequest(req, ['SIGNUP'], 'POST');
 
-    // const validRequestCheck = verifyEndpointRequest(req, ['SIGNUP'], 'POST');
-
-    // if (validRequestCheck === true) {
-    //   // const query = {
-    //   //   [id]: req.body[id]
-    //   // };
-    //   // const update = {
-    //   //   $set: req.body
-    //   // };
-    //   // const options = { upsert: true, multi: true };
-
-    //   const newUser = new DogUser({
-    //     ...mockUser,
-    //     ...req.body
-    //   });
-    //   const savePromise = new Promise((resolve, reject) => {
-    //     // Save model
-    //     newUser.save((err) => {
-    //       if (err) {
-    //         logger.error(`${err}`)
-    //         return reject(new Error(`Error attempting to save... ${err}`));
-    //       }
-    //       // Return saved model
-    //       return resolve(newUser);
-    //     });
-    //   });
-
-    //   savePromise
-    //     .then((resultData) => {
-    //       res.status(201).json(resultData);
-    //     })
-    //     .catch((err) => {
-    //       res.status(500).send(err);
-    //     });
-
-    //   // DogUser.updateOne(query, update, options)
-    //   //   .then(
-    //   //     res => {
-    //   //       console.log(res);
-    //   //       res.status(201).json('Successfully created user account')
-    //   //     },
-    //   //     err => console.error(`Something went wrong: ${err}`),
-    //   //   );
-    // } else {
-    //   console.error(validRequestCheck)
-    //   res.status(400).json(validRequestCheck)
-    // }
+    if (validRequestCheck === true) {
+      DogUser.updateOne(query, update, options)
+        .then(
+          (result) => {
+            console.log(result.upsertedId)
+            if (result.upsertedId) {
+              res.status(201).json('Successfully created user account')
+            } else {
+              res.status(409).json('User account already exists!')
+            }
+          },
+          err => console.error(`Something went wrong: ${err}`),
+        );
+    } else {
+      console.error(validRequestCheck)
+      res.status(400).json(validRequestCheck)
+    }
   },
 }
