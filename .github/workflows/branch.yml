@@ -57,15 +57,12 @@ jobs:
         with:
           persist-credentials: false
 
-        - name: Reconfigure git to use HTTP authentication
-          run: >
-            git config --global url."https://github.com/".insteadOf
-            ssh://git@github.com/
-
       - name: 🔖  Set up Node
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
+
+      - run: git config --global url."https://github.com/".insteadOf ssh://git@github.com/
 
       - name: Cache node modules
         uses: actions/cache@v2
@@ -80,8 +77,8 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: ⬇️  Install npm dependencies
-        run: npm install
+      - name: ⬇️  Install packages
+        run: npm ci
 
       - name: 🧽 Lint all files
         run: npm run lint:staged
@@ -122,15 +119,12 @@ jobs:
         with:
           persist-credentials: false
 
-        - name: Reconfigure git to use HTTP authentication
-          run: >
-            git config --global url."https://github.com/".insteadOf
-            ssh://git@github.com/
-
       - name: 🔖  Set up Node
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
+
+      - run: git config --global url."https://github.com/".insteadOf ssh://git@github.com/
 
       - name: Cache node modules
         uses: actions/cache@v2
@@ -145,8 +139,8 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: ⬇️  Install npm dependencies
-        run: npm install
+      - name: ⬇️  Install packages
+        run: npm ci
 
       - name: 🧽 Lint all files
         run: npm run lint:staged
