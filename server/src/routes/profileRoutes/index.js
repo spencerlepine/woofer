@@ -11,8 +11,8 @@ const PATH_CONSTANT = ENDPOINT_ROUTES["PROFILE"]
 const router = express.Router()
 
 router.get("", getUserProfile)
-router.get(`/${PATH_CONSTANT["DETAILS"]}`, getFullUserProfile)
-router.post(`/${PATH_CONSTANT["ALL"]}`, updateUserProfile)
-router.delete(`/${PATH_CONSTANT["ALL"]}`, deleteUserProfile)
+router.get(`/${PATH_CONSTANT["DETAILS"]["URL"]}`, getFullUserProfile)
+router.post(`/${PATH_CONSTANT["DETAILS"]["URL"]}`, updateUserProfile)
+router.delete(`/${PATH_CONSTANT["DETAILS"]["URL"]}`, deleteUserProfile)
 
 module.exports = router

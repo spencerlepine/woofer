@@ -8,7 +8,7 @@ const PATH_CONSTANT = ENDPOINT_ROUTES["MATCHES"]
 
 const router = express.Router()
 
-router.get(`/${PATH_CONSTANT["GENERATE"]}`, fetchPossibleMatch)
-router.post(`/${PATH_CONSTANT["SWIPE"]}`, saveUserSwipeChoice)
+router.get(`/${PATH_CONSTANT["GENERATE"]["URL"]}`, fetchPossibleMatch)
+router.post(`/${PATH_CONSTANT["SWIPE"]["URL"]}`, saveUserSwipeChoice)
 
 module.exports = router

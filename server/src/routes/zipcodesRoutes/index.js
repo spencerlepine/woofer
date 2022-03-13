@@ -9,8 +9,8 @@ const PATH_CONSTANT = ENDPOINT_ROUTES["ZIPCODES"]
 
 const router = express.Router()
 
-router.post("/add", addUserZipCode)
-router.delete("/remove", removeUserZipCode)
-router.get(`/${PATH_CONSTANT["ALL"]}`, fetchZipCodePool)
+router.get(`/${PATH_CONSTANT["ALL"]["URL"]}`, fetchZipCodePool)
+router.post(`/${PATH_CONSTANT["ADD"]["URL"]}`, addUserZipCode)
+router.delete(`/${PATH_CONSTANT["REMOVE"]["URL"]}`, removeUserZipCode)
 
 module.exports = router

@@ -44,7 +44,7 @@ const ENDPOINT_ROUTES = {
     },
     ALL: {
       URL: "all",
-      DELETE: {
+      GET: {
         [BODY_KEYS]: [DATA_KEYS["ZIPCODE"]],
         [RESPONSE_KEYS]: [DATA_KEYS["USER_ZIPCODES"]],
       },

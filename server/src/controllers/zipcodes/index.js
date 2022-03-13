@@ -80,10 +80,9 @@ module.exports = {
           (result) => {
             if (result) {
               res.status(201).json({
-                result,
+                // ...result,
                 [DATA_KEYS["USER_ZIPCODES"]]: result
               })
-
             } else {
               res.status(409).json('Unable to update zipcode record!')
             }

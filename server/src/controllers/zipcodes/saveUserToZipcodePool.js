@@ -16,14 +16,13 @@ module.exports = (ZipcodePool, DATA_KEYS, zipcodeID, userID, res, FINAL_RESPONSE
             [DATA_KEYS["POOL_USERS"]]: poolUsersObj
           }
         };
-        const options = {};
+        const options = { upsert: true, multi: true };
 
         ZipcodePool.updateOne(query, update, options)
           .then(
             (result) => {
               if (result) {
                 res.status(201).json(FINAL_RESPONSE)
-
               } else {
                 res.status(409).json('Unable to update zipcode record!')
               }
