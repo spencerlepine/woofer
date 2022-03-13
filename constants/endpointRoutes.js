@@ -32,12 +32,21 @@ const ENDPOINT_ROUTES = {
       URL: "add",
       POST: {
         [BODY_KEYS]: [DATA_KEYS["USER_ID"], DATA_KEYS["ZIPCODE"]],
+        [RESPONSE_KEYS]: [DATA_KEYS["USER_ZIPCODES"]],
       },
     },
     REMOVE: {
       URL: "remove",
       DELETE: {
         [BODY_KEYS]: [DATA_KEYS["USER_ID"], DATA_KEYS["ZIPCODE"]],
+        [RESPONSE_KEYS]: [DATA_KEYS["USER_ZIPCODES"]],
+      },
+    },
+    ALL: {
+      URL: "all",
+      DELETE: {
+        [BODY_KEYS]: [DATA_KEYS["ZIPCODE"]],
+        [RESPONSE_KEYS]: [DATA_KEYS["USER_ZIPCODES"]],
       },
     },
   },
