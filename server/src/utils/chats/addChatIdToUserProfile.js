@@ -1,5 +1,9 @@
+const { DATA_KEYS } = require('../../../config/constants');
+
+const fetchUserDocument = require('../chats/fetchUserDocument');
+
 const addChatIdToUserProfile = (res, thisUserID, chatId, idKey) => {
-  return fetchUserDocument(res, { [idKey]: req.query[idKey] })
+  return fetchUserDocument(res, { [idKey]: thisUserID })
     .then((userProfile) => {
       // Pull the current list of chats from the user profile
       const {
@@ -20,7 +24,7 @@ const addChatIdToUserProfile = (res, thisUserID, chatId, idKey) => {
       const options = {};
 
       return updateUserDocument(res, query, update, options)
-    }) 
+    })
 }
 
 module.exports = addChatIdToUserProfile

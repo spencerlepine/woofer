@@ -9,7 +9,7 @@ const fetchUserMatchQueue = require('../../../utils/matches/fetchUserMatchQueue'
 const verifyEndpointResponse = require('../../../utils/verifyEndpointResponse')
 const fetchMatchRecord = require('../../../utils/matches/fetchMatchRecord')
 
-const documentUserSwipeReject = (res, thisUserID, thatUserID) => {
+const documentUserSwipeReject = (res, endpointObj, thisUserID, thatUserID) => {
   const userIdQuery = { [DATA_KEYS["USER_ID"]]: thisUserID }
   return fetchMatchRecord(res, userIdQuery)
     .then((matchRecord) => {

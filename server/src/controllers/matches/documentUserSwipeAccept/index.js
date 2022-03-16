@@ -3,6 +3,8 @@ const MatchQueue = require('../../../models/MatchQueue');
 const { DATA_KEYS } = require('../../../../config/constants')
 
 const fetchMatchRecord = require('../../../utils/matches/fetchMatchRecord')
+const updateUserMatchRecord = require('../../../utils/matches/updateUserMatchRecord')
+const fetchUserMatchQueue = require('../../../utils/matches/fetchUserMatchQueue')
 const verifyEndpointResponse = require('../../../utils/verifyEndpointResponse')
 
 const handleMutualAccept = require('./handleMutualAccept')
