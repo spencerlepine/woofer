@@ -25,7 +25,8 @@ module.exports = {
       ...req.body
     }
 
-    const query = { [idKey]: req.query[idKey] };
+    const query = { [idKey]: req.body[idKey] };
+
     const update = {
       $set: polyfillUserRequest
     };

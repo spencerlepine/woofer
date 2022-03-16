@@ -141,7 +141,7 @@ const expectedRequest = (urlRoutes, reqMethod) => {
     }
     throw new Error()
   } catch (err) {
-    throw new Error("Endpoint URL or method does not exist =>", urlRoutes, reqMethod)
+    throw new Error(`Endpoint URL or method does not exist => ${reqMethod}, ${urlRoutes}`)
   }
 }
 

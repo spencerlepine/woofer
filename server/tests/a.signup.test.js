@@ -37,17 +37,16 @@ describe("SIGNUP endpoint", () => {
         .expect(201)
         .end((err, res) => {
           if (err) return done(err);
-          return done();
-        });
 
-      request(app)
-        .post(url)
-        .send(mockUser)
-        .expect("Content-Type", /json/)
-        .expect(409)
-        .end((err, res) => {
-          if (err) return done(err);
-          return done();
+          request(app)
+            .post(url)
+            .send(mockUser)
+            .expect("Content-Type", /json/)
+            .expect(409)
+            .end((err, res) => {
+              if (err) return done(err);
+              return done();
+            });
         });
     });
   });
