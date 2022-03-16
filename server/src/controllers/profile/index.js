@@ -1,9 +1,9 @@
 const { DATA_KEYS } = require('../../../config/constants')
 const verifyEndpointRequest = require('../../utils/verifyEndpointRequest')
 const verifyEndpointResponse = require('../../utils/verifyEndpointResponse')
-const fetchUserDocument = require('../../utils/fetchUserDocument')
-const updateUserDocument = require('../../utils/updateUserDocument')
-const deleteUserDocument = require('../../utils/deleteUserDocument')
+const fetchUserDocument = require('../../utils/user/fetchUserDocument')
+const updateUserDocument = require('../../utils/user/updateUserDocument')
+const deleteUserDocument = require('../../utils/user/deleteUserDocument')
 
 const getUserProfile = require('./getUserProfile')
 const updateUserProfile = require('./getUserProfile')
