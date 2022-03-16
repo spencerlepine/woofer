@@ -32,14 +32,14 @@ const ENDPOINT_ROUTES = {
       URL: "add",
       POST: {
         [BODY_KEYS]: [DATA_KEYS["USER_ID"], DATA_KEYS["ZIPCODE"]],
-        [RESPONSE_KEYS]: [DATA_KEYS["USER_ZIPCODES"]],
+        [RESPONSE_KEYS]: [DATA_KEYS["USER_PROFILE"]],
       },
     },
     REMOVE: {
       URL: "remove",
       DELETE: {
         [BODY_KEYS]: [DATA_KEYS["USER_ID"], DATA_KEYS["ZIPCODE"]],
-        [RESPONSE_KEYS]: [DATA_KEYS["USER_ZIPCODES"]],
+        [RESPONSE_KEYS]: [DATA_KEYS["USER_PROFILE"]],
       },
     },
     ALL: {
@@ -141,7 +141,8 @@ const expectedRequest = (urlRoutes, reqMethod) => {
     }
     throw new Error()
   } catch (err) {
-    throw new Error(`Endpoint URL or method does not exist => ${reqMethod}, ${urlRoutes}`)
+
+    throw new Error(`Endpoint URL or method does not exist => ${reqMethod}, ${urlRoutes} => ${err}`)
   }
 }
 
