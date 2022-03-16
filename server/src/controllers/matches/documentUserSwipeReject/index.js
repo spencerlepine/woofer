@@ -1,13 +1,13 @@
-const MatchRecords = require('../../../models/MatchRecords');
-const MatchesQueue = require('../../../models/MatchQueue');
-const { DATA_KEYS } = require('../../../../config/constants')
+const MatchRecords = require("../../../models/MatchRecords")
+const MatchesQueue = require("../../../models/MatchQueue")
+const { DATA_KEYS } = require("../../../../config/constants")
 
-const removeUserFromMatchQueue = require('../../../utils/matches/removeUserFromMatchQueue')
-const updateUserMatchRecord = require('../../../utils/matches/updateUserMatchRecord')
-const fetchUserDocument = require('../../../utils/user/fetchUserDocument')
-const fetchUserMatchQueue = require('../../../utils/matches/fetchUserMatchQueue')
-const verifyEndpointResponse = require('../../../utils/verifyEndpointResponse')
-const fetchMatchRecord = require('../../../utils/matches/fetchMatchRecord')
+const removeUserFromMatchQueue = require("../../../utils/matches/removeUserFromMatchQueue")
+const updateUserMatchRecord = require("../../../utils/matches/updateUserMatchRecord")
+const fetchUserDocument = require("../../../utils/user/fetchUserDocument")
+const fetchUserMatchQueue = require("../../../utils/matches/fetchUserMatchQueue")
+const verifyEndpointResponse = require("../../../utils/verifyEndpointResponse")
+const fetchMatchRecord = require("../../../utils/matches/fetchMatchRecord")
 
 const documentUserSwipeReject = (res, endpointObj, thisUserID, thatUserID) => {
   const userIdQuery = { [DATA_KEYS["USER_ID"]]: thisUserID }
@@ -21,11 +21,11 @@ const documentUserSwipeReject = (res, endpointObj, thisUserID, thatUserID) => {
     .then((updatedRecord) => {
       // Update the match record
       const update = {
-        '$set': {
-          [DATA_KEYS["USER_MATCHES"]]: updatedRecord
-        }
+        $set: {
+          [DATA_KEYS["USER_MATCHES"]]: updatedRecord,
+        },
       }
-      const options = { upsert: true, multi: true };
+      const options = { upsert: true, multi: true }
       return updateUserMatchRecord(res, userIdQuery, update, options)
     })
     .then(() => {
@@ -35,26 +35,22 @@ const documentUserSwipeReject = (res, endpointObj, thisUserID, thatUserID) => {
     .then((matchQueue) => {
       if (matchQueue.includes(thatUserID)) {
         // Means thatUserID already swiped YES
-        return removeUserFromMatchQueue(res, thisUserID, thatUserID)
-          .then(() => {
-            return fetchUserDocument(res, userIdQuery)
-              .then((userProfile) => {
-                return ["", userProfile]
-              })
-          })
-      }
-      else {
-        // Means it is a first time swipe for either user
-        return fetchUserDocument(res, userIdQuery)
-          .then((userProfile) => {
+        return removeUserFromMatchQueue(res, thisUserID, thatUserID).then(() => {
+          return fetchUserDocument(res, userIdQuery).then((userProfile) => {
             return ["", userProfile]
           })
+        })
+      } else {
+        // Means it is a first time swipe for either user
+        return fetchUserDocument(res, userIdQuery).then((userProfile) => {
+          return ["", userProfile]
+        })
       }
     })
     .then(([chatId, userProfile]) => {
       const responseObj = {
         [DATA_KEYS["CHAT_ID"]]: "",
-        [DATA_KEYS["USER_PROFILE"]]: userProfile
+        [DATA_KEYS["USER_PROFILE"]]: userProfile,
       }
 
       verifyEndpointResponse(responseObj, res, endpointObj, () => {
@@ -63,4 +59,4 @@ const documentUserSwipeReject = (res, endpointObj, thisUserID, thatUserID) => {
     })
 }
 
-module.exports = documentUserSwipeReject;
+module.exports = documentUserSwipeReject

@@ -1,8 +1,8 @@
-const ZipcodePool = require('../../../models/ZipcodePool');
-const { DATA_KEYS } = require('../../../../config/constants')
-const fetchUserDocument = require('../../../utils/user/fetchUserDocument')
+const ZipcodePool = require("../../../models/ZipcodePool")
+const { DATA_KEYS } = require("../../../../config/constants")
+const fetchUserDocument = require("../../../utils/user/fetchUserDocument")
 
-const verifyUserMatchStatuses = require('./verifyUserMatchStatuses')
+const verifyUserMatchStatuses = require("./verifyUserMatchStatuses")
 
 const randomUserFromZipPool = (res, userId, userZipcodes, genderPreference) => {
   const userQuery = { [DATA_KEYS["USER_ID"]]: userId }
@@ -11,19 +11,17 @@ const randomUserFromZipPool = (res, userId, userZipcodes, genderPreference) => {
     .then((result) => {
       // Get the zipcode pool from this user
       if (result) {
-        const {
-          [DATA_KEYS["POOL_USERS"]]: poolUsers
-        } = result
+        const { [DATA_KEYS["POOL_USERS"]]: poolUsers } = result
 
         return result
       } else {
-        res.status(409).json('Profile not found')
+        res.status(409).json("Profile not found")
       }
     })
     .then((poolUsers) => {
       // Pick a random userId from the ZipcodePool
       const userIdKeys = Object.keys(poolUsers)
-      let validUserId = null;
+      let validUserId = null
       while (!validUserId) {
         const tempId = userIdKeys[Math.floor(Math.random() * userIdKeys.length)]
         if (tempId !== userId) {
@@ -35,9 +33,7 @@ const randomUserFromZipPool = (res, userId, userZipcodes, genderPreference) => {
     })
     .then((possibleUser) => {
       // Verify this is the preferrred gender
-      const {
-        [DATA_KEYS["USER_GENDER"]]: theirGender
-      } = possibleUser
+      const { [DATA_KEYS["USER_GENDER"]]: theirGender } = possibleUser
       const thatUserId = possibleUser[DATA_KEYS["USER_ID"]]
 
       const validGender = theirGender !== genderPreference
@@ -48,10 +44,7 @@ const randomUserFromZipPool = (res, userId, userZipcodes, genderPreference) => {
     })
     .then((matchVerification) => {
       // Verify there hasn't been a match between these users previously
-      const {
-        possibleUser,
-        matchIsValid
-      } = matchVerification
+      const { possibleUser, matchIsValid } = matchVerification
 
       if (matchIsValid) {
         return possibleUser
@@ -60,4 +53,4 @@ const randomUserFromZipPool = (res, userId, userZipcodes, genderPreference) => {
     })
 }
 
-module.exports = fetchUserDocument;
+module.exports = fetchUserDocument

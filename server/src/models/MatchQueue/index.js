@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const { DATA_KEYS } = require('../../../config/constants')
+const { DATA_KEYS } = require("../../../config/constants")
 
 const matchQueueSchema = new mongoose.Schema({
   [DATA_KEYS["USER_ID"]]: {
@@ -9,7 +9,7 @@ const matchQueueSchema = new mongoose.Schema({
   [DATA_KEYS["USER_QUEUE"]]: {
     type: Object,
     required: true,
-  }
+  },
 })
 
 module.exports = mongoose.model("MatchQueue", matchQueueSchema)

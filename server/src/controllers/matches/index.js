@@ -1,20 +1,20 @@
-const { DATA_KEYS } = require('../../../config/constants')
-const verifyEndpointRequest = require('../../utils/verifyEndpointRequest')
-const verifyEndpointResponse = require('../../utils/verifyEndpointResponse')
-const fetchUserDocument = require('../../utils/user/fetchUserDocument')
+const { DATA_KEYS } = require("../../../config/constants")
+const verifyEndpointRequest = require("../../utils/verifyEndpointRequest")
+const verifyEndpointResponse = require("../../utils/verifyEndpointResponse")
+const fetchUserDocument = require("../../utils/user/fetchUserDocument")
 
-const randomUserFromZipPool = require('./randomUserFromZipPool')
+const randomUserFromZipPool = require("./randomUserFromZipPool")
 
-const documentUserSwipeAccept = require('./documentUserSwipeAccept')
-const documentUserSwipeReject = require('./documentUserSwipeReject')
+const documentUserSwipeAccept = require("./documentUserSwipeAccept")
+const documentUserSwipeReject = require("./documentUserSwipeReject")
 
-const idKey = DATA_KEYS["USER_ID"];
+const idKey = DATA_KEYS["USER_ID"]
 
 module.exports = {
   fetchPossibleMatch: (req, res) => {
     const endpointObj = {
-      'endpointPathKeys': ['MATCHES', 'GENERATE'],
-      'method': 'GET'
+      endpointPathKeys: ["MATCHES", "GENERATE"],
+      method: "GET",
     }
 
     verifyEndpointRequest(req, res, endpointObj, () => {
@@ -33,22 +33,22 @@ module.exports = {
         .then((possibleMatch) => {
           if (possibleMatch) {
             const responseObj = {
-              [DATA_KEYS["USER_PROFILE"]]: possibleMatch
+              [DATA_KEYS["USER_PROFILE"]]: possibleMatch,
             }
 
             verifyEndpointResponse(responseObj, res, endpointObj, () => {
               res.status(200).json(responseObj)
             })
           } else {
-            res.status(422).json('Unable to find a user in this zipcode')
+            res.status(422).json("Unable to find a user in this zipcode")
           }
         })
     })
   },
   saveUserSwipeChoice: (req, res) => {
     const endpointObj = {
-      'endpointPathKeys': ['MATCHES', 'SWIPE'],
-      'method': 'POST'
+      endpointPathKeys: ["MATCHES", "SWIPE"],
+      method: "POST",
     }
 
     verifyEndpointRequest(req, res, endpointObj, () => {

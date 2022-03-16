@@ -1,20 +1,17 @@
-const request = require("supertest");
+const request = require("supertest")
 
 const {
   app,
-  constants: {
-    endpointURLStr,
-    DATA_KEYS
-  },
+  constants: { endpointURLStr, DATA_KEYS },
   mockUser,
   signupMockUser,
-  verifyEndpointResponse
-} = require('./utils/test-helpers');
+  verifyEndpointResponse,
+} = require("./utils/test-helpers")
 
 describe("PROFILE endpoint", () => {
-  test(`TODO`, () => {
-    expect(true).toBe(true);
-  });
+  test("TODO", () => {
+    expect(true).toBe(true)
+  })
 
   // describe("Fetch a single user profile", () => {
   //   const method = 'GET';
@@ -111,6 +108,4 @@ describe("PROFILE endpoint", () => {
   //       });
   //   });
   // });
-
-});
-
+})

@@ -1,17 +1,15 @@
-const request = require("supertest");
+const request = require("supertest")
 
 const {
   app,
-  constants: {
-    endpointURLStr,
-  },
-  verifyEndpointResponse
-} = require('./utils/test-helpers');
+  constants: { endpointURLStr },
+  verifyEndpointResponse,
+} = require("./utils/test-helpers")
 
 describe("ZIPCODES endpoint", () => {
   test(`TODO`, () => {
-    expect(true).toBe(true);
-  });
+    expect(true).toBe(true)
+  })
 
   /*
   describe("Add a zipcode to user record", () => {
@@ -51,4 +49,4 @@ describe("ZIPCODES endpoint", () => {
     });
   });
   */
-});
+})

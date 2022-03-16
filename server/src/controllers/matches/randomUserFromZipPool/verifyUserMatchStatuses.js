@@ -1,31 +1,47 @@
-const MatchRecords = require('../../../models/MatchRecords');
-const { DATA_KEYS } = require('../../../../config/constants')
+const MatchRecords = require("../../../models/MatchRecords")
+const { DATA_KEYS } = require("../../../../config/constants")
 
-const fetchUserDocument = require('../../../utils/user/fetchUserDocument')
-const handleErrorResponse = require('../../../utils/handleErrorResponse')
+const fetchUserDocument = require("../../../utils/user/fetchUserDocument")
+const handleErrorResponse = require("../../../utils/handleErrorResponse")
 
 const verifyUserMatchStatuses = (res, thisUserId, thatUserId) => {
   const fetchRecordsA = MatchRecords.findOne({ [DATA_KEYS["USER_ID"]]: thisUserId })
   const fetchRecordsB = MatchRecords.findOne({ [DATA_KEYS["USER_ID"]]: thatUserId })
 
   fetchRecordsA
-    .then((matchRecordDoc) => {
-      if (matchRecordDoc) {
-        // If this key already existed, there was a swipe
-        if (matchRecordDoc[thatUserId] !== undefined) {
-          res.status(422).json('User has previously matched with this user')
+    .then(
+      (matchRecordDoc) => {
+        if (matchRecordDoc) {
+          // If this key already existed, there was a swipe
+          if (matchRecordDoc[thatUserId] !== undefined) {
+            res.status(422).json("User has previously matched with this user")
+          }
         }
-      }
-    }, (err) => handleErrorResponse(res, `Error searching match records for user => ${err}`, 500))
+      },
+      (err) =>
+        handleErrorResponse(
+          res,
+          `Error searching match records for user => ${err}`,
+          500
+        )
+    )
     .then(() => fetchRecordsB)
-    .then((matchRecordDoc) => {
-      if (matchRecordDoc) {
-        // If this key already existed, there was a swipe
-        if (matchRecordDoc[thisUserId] !== undefined) {
-          res.status(422).json('User has previously matched with this user')
+    .then(
+      (matchRecordDoc) => {
+        if (matchRecordDoc) {
+          // If this key already existed, there was a swipe
+          if (matchRecordDoc[thisUserId] !== undefined) {
+            res.status(422).json("User has previously matched with this user")
+          }
         }
-      }
-    }, (err) => handleErrorResponse(res, `Error searching match records for user => ${err}`, 500))
+      },
+      (err) =>
+        handleErrorResponse(
+          res,
+          `Error searching match records for user => ${err}`,
+          500
+        )
+    )
     .then(() => {
       return fetchUserDocument(res, { [DATA_KEYS["USER_ID"]]: thatUserId })
     })
@@ -34,4 +50,4 @@ const verifyUserMatchStatuses = (res, thisUserId, thatUserId) => {
     })
 }
 
-module.exports = fetchUserDocument;
+module.exports = fetchUserDocument

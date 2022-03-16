@@ -1,7 +1,7 @@
-const MatchQueue = require('../../../models/MatchQueue');
-const fetchUserDocument = require('../../../utils/user/fetchUserDocument')
+const MatchQueue = require("../../../models/MatchQueue")
+const fetchUserDocument = require("../../../utils/user/fetchUserDocument")
 // const updateUserDocument = require('../../../utils/user/updateUserDocument')
-const { DATA_KEYS } = require('../../../../config/constants')
+const { DATA_KEYS } = require("../../../../config/constants")
 
 const addUserToMatchQueue = (res, thisUserID, thatUserID) => {
   const userIdQuery = { [DATA_KEYS["USER_ID"]]: thatUserID }
@@ -22,10 +22,10 @@ const addUserToMatchQueue = (res, thisUserID, thatUserID) => {
       const update = {
         $set: {
           [DATA_KEYS["USER_ID"]]: thatUserID,
-          [DATA_KEYS["USER_QUEUE"]]: newQueue
-        }
-      };
-      const options = { upsert: true, multi: true };
+          [DATA_KEYS["USER_QUEUE"]]: newQueue,
+        },
+      }
+      const options = { upsert: true, multi: true }
 
       return MatchQueue.updateOne(userIdQuery, update, options)
     })

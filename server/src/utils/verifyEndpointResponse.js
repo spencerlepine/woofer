@@ -4,24 +4,30 @@ const {
   OPT_KEYS,
   PARAM_KEYS,
   RESPONSE_KEYS,
-} = require('../../config/constants')
+} = require("../../config/constants")
 
-const verifyKeyDataType = require('./verifyKeyDataType')
+const verifyKeyDataType = require("./verifyKeyDataType")
 
-const errorCallback = require('./handleErrorResponse')
+const errorCallback = require("./handleErrorResponse")
 
-const verifyEndpointReponse = (responseBody, res, { endpointPathKeys, method }, successCallback) => {
-  const {
-    [RESPONSE_KEYS]: expectedResponseKeys
-  } = expectedRequest(endpointPathKeys, method);
+const verifyEndpointReponse = (
+  responseBody,
+  res,
+  { endpointPathKeys, method },
+  successCallback
+) => {
+  const { [RESPONSE_KEYS]: expectedResponseKeys } = expectedRequest(
+    endpointPathKeys,
+    method
+  )
 
   if (expectedResponseKeys === undefined) {
-    errorCallback(res, 'ERROR: Endpoint does not expect a response', 500)
+    errorCallback(res, "ERROR: Endpoint does not expect a response", 500)
     return
   }
 
   for (let i = 0; i < expectedResponseKeys.length; i += 1) {
-    const expectedKey = expectedResponseKeys[i];
+    const expectedKey = expectedResponseKeys[i]
 
     if (responseBody[expectedKey] === undefined) {
       errorCallback(res, `ERROR: response body missing key => ${expectedKey}`, 500)
@@ -37,4 +43,4 @@ const verifyEndpointReponse = (responseBody, res, { endpointPathKeys, method }, 
   successCallback()
 }
 
-module.exports = verifyEndpointReponse;
+module.exports = verifyEndpointReponse

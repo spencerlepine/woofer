@@ -5,17 +5,18 @@ const MONGO_CONFIG = config.MONGOOSE
 
 const setupTestDB = () => {
   beforeAll(async () => {
-    await mongoose.connect(`${MONGO_CONFIG.testUrl}`, MONGO_CONFIG.options);
-  });
+    await mongoose.connect(`${MONGO_CONFIG.testUrl}`, MONGO_CONFIG.options)
+  })
 
   afterEach(async () => {
     await Promise.all(
-      Object.values(mongoose.connection.collections)
-        .map((collection) => collection.deleteMany({})),
+      Object.values(mongoose.connection.collections).map((collection) =>
+        collection.deleteMany({})
+      )
     )
-  });
+  })
 
-  afterAll(() => mongoose.disconnect());
+  afterAll(() => mongoose.disconnect())
   // afterAll(async () => {
   //   await new Promise(resolve => setTimeout(() => resolve(), 10000)); // avoid jest open handle error
   // });

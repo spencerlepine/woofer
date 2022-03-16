@@ -1,14 +1,14 @@
-const MatchRecords = require('../../../models/MatchRecords');
-const MatchQueue = require('../../../models/MatchQueue');
-const { DATA_KEYS } = require('../../../../config/constants')
+const MatchRecords = require("../../../models/MatchRecords")
+const MatchQueue = require("../../../models/MatchQueue")
+const { DATA_KEYS } = require("../../../../config/constants")
 
-const fetchMatchRecord = require('../../../utils/matches/fetchMatchRecord')
-const updateUserMatchRecord = require('../../../utils/matches/updateUserMatchRecord')
-const fetchUserMatchQueue = require('../../../utils/matches/fetchUserMatchQueue')
-const verifyEndpointResponse = require('../../../utils/verifyEndpointResponse')
+const fetchMatchRecord = require("../../../utils/matches/fetchMatchRecord")
+const updateUserMatchRecord = require("../../../utils/matches/updateUserMatchRecord")
+const fetchUserMatchQueue = require("../../../utils/matches/fetchUserMatchQueue")
+const verifyEndpointResponse = require("../../../utils/verifyEndpointResponse")
 
-const handleMutualAccept = require('./handleMutualAccept')
-const handleFirstTimeAccept = require('./handleFirstTimeAccept')
+const handleMutualAccept = require("./handleMutualAccept")
+const handleFirstTimeAccept = require("./handleFirstTimeAccept")
 
 const documentUserSwipeAccept = (res, endpointObj, thisUserID, thatUserID) => {
   const userIdQuery = { [DATA_KEYS["USER_ID"]]: thisUserID }
@@ -23,11 +23,11 @@ const documentUserSwipeAccept = (res, endpointObj, thisUserID, thatUserID) => {
     .then((updatedRecord) => {
       // Update the match record
       const update = {
-        '$set': {
-          [DATA_KEYS["USER_MATCHES"]]: updatedRecord
-        }
+        $set: {
+          [DATA_KEYS["USER_MATCHES"]]: updatedRecord,
+        },
       }
-      const options = { upsert: true, multi: true };
+      const options = { upsert: true, multi: true }
       return updateUserMatchRecord(res, userIdQuery, update, options)
     })
     .then(() => {
@@ -40,8 +40,7 @@ const documentUserSwipeAccept = (res, endpointObj, thisUserID, thatUserID) => {
 
         // Generate the chat and update user profiles
         return handleMutualAccept(res, thisUserID, thatUserID)
-      }
-      else {
+      } else {
         // Means it is a first time swipe for either user
         return handleFirstTimeAccept(res, thisUserID, thatUserID, userIdQuery)
       }
@@ -49,7 +48,7 @@ const documentUserSwipeAccept = (res, endpointObj, thisUserID, thatUserID) => {
     .then(([chatId, userProfile]) => {
       const responseObj = {
         [DATA_KEYS["CHAT_ID"]]: "",
-        [DATA_KEYS["USER_PROFILE"]]: userProfile
+        [DATA_KEYS["USER_PROFILE"]]: userProfile,
       }
 
       verifyEndpointResponse(responseObj, res, endpointObj, () => {
@@ -58,4 +57,4 @@ const documentUserSwipeAccept = (res, endpointObj, thisUserID, thatUserID) => {
     })
 }
 
-module.exports = documentUserSwipeAccept;
+module.exports = documentUserSwipeAccept

@@ -4,7 +4,7 @@ const zipcodesRoutes = require("./zipcodesRoutes")
 const profileRoutes = require("./profileRoutes")
 const matchesRoutes = require("./matchesRoutes")
 const config = require("../../config/config")
-const { ENDPOINT_ROUTES } = require('../../config/constants')
+const { ENDPOINT_ROUTES } = require("../../config/constants")
 
 const router = express.Router()
 
