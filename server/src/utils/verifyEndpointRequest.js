@@ -9,7 +9,7 @@ const verifyKeyDataType = require('./verifyKeyDataType')
 
 const errorCallback = require('./handleErrorResponse')
 
-const verifyEndpointRequest = (request, { endpointPathKeys, method }, successCallback) => {
+const verifyEndpointRequest = (request, res, { endpointPathKeys, method }, successCallback) => {
   const {
     [BODY_KEYS]: expectedBodyKeys,
     [OPT_KEYS]: expectedOptionalKeys,
@@ -51,10 +51,12 @@ const verifyEndpointRequest = (request, { endpointPathKeys, method }, successCal
 
         if (requestObj[expectedKey] === undefined && allKeysRequired) {
           errorCallback(res, `ERROR: request ${key} missing key => ${expectedKey}`, 400)
+          return
         }
 
         if (verifyKeyDataType(expectedKey, requestObj[expectedKey]) === false) {
           errorCallback(res, `ERROR: invalid data type for key => ${expectedKey}`, 400)
+          return
         }
       }
     }

@@ -1,8 +1,9 @@
-const MatchRecord = require('../../models/MatchRecord');
+const { DATA_KEYS } = require('../../../config/constants')
+const MatchRecords = require('../../models/MatchRecords');
 const handleErrorResponse = require('../handleErrorResponse')
 
-const findMatchRecord = (res, query) => {
-  return MatchRecord.findOne(query)
+const findMatchRecords = (res, query) => {
+  return MatchRecords.findOne(query)
     .then(
       (result) => {
         if (result) {
@@ -14,4 +15,4 @@ const findMatchRecord = (res, query) => {
     );
 }
 
-module.exports = findMatchRecord;
+module.exports = findMatchRecords;

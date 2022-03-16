@@ -1,13 +1,13 @@
-const MatchesQueue = require('../../models/MatchesQueue');
+const MatchQueue = require('../../models/MatchQueue');
 const { DATA_KEYS } = require('../../../config/constants')
 
-const removeUserFromMatchQueue = (res, thisUserID, thatUserID) => {
-  const userIdQuery = { [DATA_KEYS["USER_ID"]]: thisUserID }
-  
+const removeUserFromMatchQueue = (res, thisUserId, thatUserId) => {
+  const userIdQuery = { [DATA_KEYS["USER_ID"]]: thisUserId }
+
   return MatchQueue.findOne(userIdQuery)
-    .then(() => {
+    .then((result) => {
       if (result) {
-        return result[DATA_KEYS["USER_QUEUE"]
+        return result[DATA_KEYS["USER_QUEUE"]]
       }
       return []
     })
@@ -20,12 +20,12 @@ const removeUserFromMatchQueue = (res, thisUserID, thatUserID) => {
       // update matchqueue document
       const update = {
         $set: {
-          [DATA_KEYS["USER_ID"]]: thisUserID,
+          [DATA_KEYS["USER_ID"]]: thisUserId,
           [DATA_KEYS["USER_QUEUE"]]: newQueue
         }
       };
       const options = { upsert: true, multi: true };
-      
+
       return MatchQueue.updateOne(userIdQuery, update, options)
     })
 }

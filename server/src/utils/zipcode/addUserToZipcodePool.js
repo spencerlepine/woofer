@@ -1,5 +1,5 @@
 const { DATA_KEYS } = require('../../../config/constants')
-const ZipcodePool = require('../.../models/ZipcodePool')
+const ZipcodePool = require('../../models/ZipcodePool')
 const handleErrorResponse = require('../handleErrorResponse')
 
 const addUserToZipcodePool = (res, userID, zipcodeID) => {
