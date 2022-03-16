@@ -1,6 +1,6 @@
 const { DATA_KEYS } = require('../../../config/constants');
 
-const fetchUserDocument = require('../chats/fetchUserDocument');
+const fetchUserDocument = require('../user/fetchUserDocument');
 
 const addChatIdToUserProfile = (res, thisUserID, chatId, idKey) => {
   return fetchUserDocument(res, { [idKey]: thisUserID })
