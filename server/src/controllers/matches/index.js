@@ -8,6 +8,8 @@ const randomUserFromZipPool = require('./randomUserFromZipPool')
 const documentUserSwipeAccept = require('./documentUserSwipeAccept')
 const documentUserSwipeReject = require('./documentUserSwipeReject')
 
+const idKey = DATA_KEYS["USER_ID"];
+
 module.exports = {
   fetchPossibleMatch: (req, res) => {
     const endpointObj = {

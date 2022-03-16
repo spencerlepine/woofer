@@ -1,15 +1,16 @@
-const MatchRecords = require('../../models/MatchRecords');
-const MatchesQueue = require('../../models/MatchesQueue');
-const { DATA_KEYS } = require('../../../config/constants')
+const MatchRecords = require('../../../models/MatchRecords');
+const MatchQueue = require('../../../models/MatchQueue');
+const { DATA_KEYS } = require('../../../../config/constants')
 
 const fetchMatchRecord = require('../../../utils/matches/fetchMatchRecord')
+const verifyEndpointResponse = require('../../../utils/verifyEndpointResponse')
 
-const handleMutalAccept = require('./handleMutualAccept')
+const handleMutualAccept = require('./handleMutualAccept')
 const handleFirstTimeAccept = require('./handleFirstTimeAccept')
 
 const documentUserSwipeAccept = (res, endpointObj, thisUserID, thatUserID) => {
   const userIdQuery = { [DATA_KEYS["USER_ID"]]: thisUserID }
-  
+
   return fetchMatchRecord(res, userIdQuery)
     .then((matchRecord) => {
       // Get the match record
@@ -32,23 +33,23 @@ const documentUserSwipeAccept = (res, endpointObj, thisUserID, thatUserID) => {
       return fetchUserMatchQueue(res, thisUserID, thatUserID)
     })
     .then((matchQueue) => {
-     if (matchQueue.includes(thatUserID)) {
-       // Means thatUserID already swiped YES
+      if (matchQueue.includes(thatUserID)) {
+        // Means thatUserID already swiped YES
 
-       // Generate the chat and update user profiles
-       return handleMutualAccept(res, thisUserID, thatUserID)
-     }
-     else {
-       // Means it is a first time swipe for either user
-       return handleFirstTimeAccept(res, thisUserID, thatUserID, userIdQuery)
-     }
+        // Generate the chat and update user profiles
+        return handleMutualAccept(res, thisUserID, thatUserID)
+      }
+      else {
+        // Means it is a first time swipe for either user
+        return handleFirstTimeAccept(res, thisUserID, thatUserID, userIdQuery)
+      }
     })
     .then(([chatId, userProfile]) => {
       const responseObj = {
-        [DATA_KEYS["CHAT_ID"]]: ""
+        [DATA_KEYS["CHAT_ID"]]: "",
         [DATA_KEYS["USER_PROFILE"]]: userProfile
       }
-     
+
       verifyEndpointResponse(responseObj, res, endpointObj, () => {
         res.send(201).json(responseObj)
       })

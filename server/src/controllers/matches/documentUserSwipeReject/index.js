@@ -1,8 +1,11 @@
-const MatchRecords = require('../../models/MatchRecords');
-const MatchesQueue = require('../../models/MatchesQueue');
-const { DATA_KEYS } = require('../../../config/constants')
+const MatchRecords = require('../../../models/MatchRecords');
+const MatchesQueue = require('../../../models/MatchQueue');
+const { DATA_KEYS } = require('../../../../config/constants')
 
-const removeUserFromMatchQueue = require('../removeUserFromMatchQueue')
+const removeUserFromMatchQueue = require('../../../utils/matches/removeUserFromMatchQueue')
+const updateUserMatchRecord = require('../../../utils/matches/updateUserMatchRecord')
+const fetchUserDocument = require('../../../utils/user/fetchUserDocument')
+const fetchUserMatchQueue = require('../../../utils/matches/fetchUserMatchQueue')
 const verifyEndpointResponse = require('../../../utils/verifyEndpointResponse')
 const fetchMatchRecord = require('../../../utils/matches/fetchMatchRecord')
 

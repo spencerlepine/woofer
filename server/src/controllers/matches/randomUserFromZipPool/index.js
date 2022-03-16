@@ -1,5 +1,5 @@
-const ZipcodePool = require('../../models/ZipcodePool');
-const { DATA_KEYS } = require('../../../config/constants')
+const ZipcodePool = require('../../../models/ZipcodePool');
+const { DATA_KEYS } = require('../../../../config/constants')
 const fetchUserDocument = require('../../../utils/user/fetchUserDocument')
 
 const verifyUserMatchStatuses = require('./verifyUserMatchStatuses')
