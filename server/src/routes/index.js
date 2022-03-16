@@ -4,12 +4,13 @@ const zipcodesRoutes = require("./zipcodesRoutes")
 const profileRoutes = require("./profileRoutes")
 const matchesRoutes = require("./matchesRoutes")
 const config = require("../../config/config")
+const { ENDPOINT_ROUTES } = require('../../config/constants')
 
 const router = express.Router()
 
-router.use("/signup", signupRoutes)
-router.use("/zipcodes", zipcodesRoutes)
-router.use("/profile", profileRoutes)
-router.use("/matches", matchesRoutes)
+router.use(`/${ENDPOINT_ROUTES["SIGNUP"]["URL"]}`, signupRoutes)
+router.use(`/${ENDPOINT_ROUTES["ZIPCODES"]["URL"]}`, zipcodesRoutes)
+router.use(`/${ENDPOINT_ROUTES["PROFILE"]["URL"]}`, profileRoutes)
+router.use(`/${ENDPOINT_ROUTES["MATCHES"]["URL"]}`, matchesRoutes)
 
 module.exports = router

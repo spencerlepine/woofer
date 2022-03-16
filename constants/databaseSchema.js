@@ -82,10 +82,10 @@ const schema = (Joi) => {
         ])
     ),
     [DATA_KEYS["ZIPCODE"]]: (
-      Joi.number()
-        .integer()
-        .min(0)
-        .max(99999)
+      Joi.string()
+        .min(3)
+        .max(10)
+        .pattern(new RegExp(/[0-9\-]/))
     ),
     [DATA_KEYS["CHAT_ID"]]: Joi.string().alphanum(),
     [DATA_KEYS["CHAT_STARTDATE"]]: Joi.string().pattern(dateRegex),

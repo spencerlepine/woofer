@@ -24,6 +24,8 @@ const DATA_KEYS = {
   CHAT_USERS: "chat_users",
   CHAT_STARTDATE: "creation_date",
   MATCH_STATUS: "status",
+  POOL_USERS: "pool_users",
+  ZIPCODE_ID: "zipcode_id"
 }
 
 module.exports = DATA_KEYS
