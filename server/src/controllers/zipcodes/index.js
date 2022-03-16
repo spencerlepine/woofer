@@ -73,13 +73,13 @@ module.exports = {
   },
   removeUserZipCode: (req, res) => {
     const endpointObj = {
-      endpointPathKeys: ["ZIPCODE", "REMOVE"],
+      endpointPathKeys: ["ZIPCODES", "REMOVE"],
       method: "DELETE",
     }
     const filterZips = (userZipcodes, zipToRemove) => {
-      const oldZipCodes = [...userZipcodes]
+      const oldZipCodes = new Set([...userZipcodes])
       oldZipCodes.delete(zipToRemove)
-      return Array.from(new Set(oldZipCodes))
+      return Array.from(oldZipCodes)
     }
 
     handleZipcodePoolUpdate(req, res)(
