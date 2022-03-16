@@ -1,7 +1,7 @@
 const DogUser = require('../../models/DogUser');
 const { DATA_KEYS } = require('../../../config/constants')
 const verifyEndpointRequest = require('../../utils/verifyEndpointRequest');
-const logger = require('../../../config/logger')
+const createUserDocument = require('../../utils/user/createUserDocument');
 
 const mockUser = {
   [DATA_KEYS["USER_NAME"]]: 'john1234',
@@ -16,38 +16,30 @@ const mockUser = {
   [DATA_KEYS["USER_CHATS"]]: [],
 };
 
+const idKey = DATA_KEYS["USER_ID"];
+
 module.exports = {
   signupUser: (req, res) => {
-    const id = DATA_KEYS["USER_ID"];
-
     const polyfillUserRequest = {
       ...mockUser,
       ...req.body
     }
-    const validRequestCheck = verifyEndpointRequest({ body: polyfillUserRequest }, ['SIGNUP'], 'POST');
 
-    if (validRequestCheck === true) {
-      const query = {
-        [id]: req.body[id]
-      };
-      const update = {
-        $set: polyfillUserRequest
-      };
-      const options = { upsert: true, multi: true };
+    const query = { [idKey]: req.query[idKey] };
+    const update = {
+      $set: polyfillUserRequest
+    };
+    const options = { upsert: true, multi: true };
 
-      DogUser.updateOne(query, update, options)
-        .then(
-          (result) => {
-            if (result.upsertedId) {
-              res.status(201).json('Successfully created user account')
-            } else {
-              res.status(409).json('User account already exists!')
-            }
-          },
-          err => console.error(`Something went wrong: ${err}`),
-        );
-    } else {
-      res.status(400).json(validRequestCheck)
+    const endpointObj = {
+      'endpointPathKeys': ['SIGNUP'],
+      'method': 'POST'
     }
+
+    verifyEndpointRequest(req, res, endpointObj, () => {
+      createUserDocument(res, query, update, options, () => {
+        res.status(201).json('Successfully created user account')
+      })
+    })
   },
 }
