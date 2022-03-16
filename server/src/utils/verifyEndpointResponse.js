@@ -8,28 +8,30 @@ const {
 
 const verifyKeyDataType = require('./verifyKeyDataType')
 
-const verifyEndpointReponse = (responseBody, endpointPathKeys, method) => {
+const errorCallback = require('./handleErrorResponse')
+
+const verifyEndpointReponse = (responseBody, res, { endpointPathKeys, method }, successCallback) => {
   const {
     [RESPONSE_KEYS]: expectedResponseKeys
   } = expectedRequest(endpointPathKeys, method);
 
   if (expectedResponseKeys === undefined) {
-    return 'ERROR: Endpoint does not expect a response'
+    errorCallback(res, 'ERROR: Endpoint does not expect a response', 500)
   }
 
   for (let i = 0; i < expectedResponseKeys.length; i += 1) {
     const expectedKey = expectedResponseKeys[i];
 
     if (responseBody[expectedKey] === undefined) {
-      return `ERROR: response body missing key => ${expectedKey}`
+      errorCallback(res, `ERROR: response body missing key => ${expectedKey}`, 500)
     }
 
     if (verifyKeyDataType(expectedKey, responseBody[expectedKey]) === false) {
-      return `ERROR: invalid data type for key => ${expectedKey}`
+      errorCallback(res, `ERROR: invalid data type for key => ${expectedKey}`, 500)
     }
   }
 
-  return true
+  successCallback()
 }
 
 module.exports = verifyEndpointReponse;
