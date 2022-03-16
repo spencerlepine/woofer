@@ -4,7 +4,7 @@ const {
   removeUserZipCode,
   fetchZipCodePool,
 } = require("../../controllers/zipcodes")
-const { ENDPOINT_ROUTES } = require('../../../config/constants')
+const { ENDPOINT_ROUTES } = require("../../../config/constants")
 const PATH_CONSTANT = ENDPOINT_ROUTES["ZIPCODES"]
 
 const router = express.Router()

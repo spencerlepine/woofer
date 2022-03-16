@@ -5,7 +5,7 @@ const {
   updateUserProfile,
   deleteUserProfile,
 } = require("../../controllers/profile")
-const { DATA_KEYS, ENDPOINT_ROUTES } = require('../../../config/constants')
+const { DATA_KEYS, ENDPOINT_ROUTES } = require("../../../config/constants")
 const PATH_CONSTANT = ENDPOINT_ROUTES["PROFILE"]
 
 const router = express.Router()

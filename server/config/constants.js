@@ -1,4 +1,4 @@
-const Joi = require('joi');
+const Joi = require("joi")
 
 const {
   DATABASE_SCHEMA,
@@ -11,9 +11,9 @@ const {
   expectedRequest,
   endpointURLStr,
   baseURL,
-} = require('../../constants');
+} = require("../../constants")
 
-const dbSchema = DATABASE_SCHEMA(Joi);
+const dbSchema = DATABASE_SCHEMA(Joi)
 
 module.exports = {
   DATABASE_SCHEMA: dbSchema,

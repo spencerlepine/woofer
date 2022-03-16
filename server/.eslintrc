@@ -19,7 +19,14 @@
   "rules": {
     "no-console": "off",
     "no-unused-vars": "off",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "quotes": [
+      2,
+      "double",
+      {
+        "avoidEscape": true
+      }
+    ]
   },
   "plugins": [
     "prettier"

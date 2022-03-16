@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const { DATA_KEYS } = require('../../../config/constants')
+const { DATA_KEYS } = require("../../../config/constants")
 
 const dogUserSchema = new mongoose.Schema({
   [DATA_KEYS["USER_ID"]]: {

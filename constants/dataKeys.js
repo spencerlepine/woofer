@@ -24,6 +24,10 @@ const DATA_KEYS = {
   CHAT_USERS: "chat_users",
   CHAT_STARTDATE: "creation_date",
   MATCH_STATUS: "status",
+  USER_MATCHES: "match_records",
+  MATCH_ACCEPT: "accept",
+  MATCH_REJECT: "reject",
+  USER_QUEUE: "user_queue",
   POOL_USERS: "pool_users",
   ZIPCODE_ID: "zipcode_id"
 }

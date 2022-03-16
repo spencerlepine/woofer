@@ -1,97 +1,109 @@
-const ZipcodePool = require('../../models/ZipcodePool');
-const DogUser = require('../../models/DogUser');
-const { DATA_KEYS } = require('../../../config/constants')
-const verifyEndpointRequest = require('../../utils/verifyEndpointRequest')
-const verifyEndpointResponse = require('../../utils/verifyEndpointResponse')
+const ZipcodePool = require("../../models/ZipcodePool")
+const { DATA_KEYS } = require("../../../config/constants")
+const verifyEndpointRequest = require("../../utils/verifyEndpointRequest")
+const verifyEndpointResponse = require("../../utils/verifyEndpointResponse")
+const updateUserDocument = require("../../utils/user/updateUserDocument")
+const fetchUserDocument = require("../../utils/user/fetchUserDocument")
+const addUserToZipcodePool = require("../../utils/zipcode/addUserToZipcodePool")
+const removeUserFromZipcodePool = require("../../utils/zipcode/removeUserFromZipcodePool")
+const handleErrorResponse = require("../../utils/handleErrorResponse")
 
-const logger = require('../../../config/logger')
+const idKey = DATA_KEYS["USER_ID"]
 
-const saveUserToZipcodePool = require('./saveUserToZipcodePool')
+const handleZipcodePoolUpdate =
+  (req, res) => (endpointObj, filterZipcodes, addOrRemoveFunc) => {
+    verifyEndpointRequest(req, res, endpointObj, () => {
+      const userId = req.body[idKey]
+      const thisZipcode = req.body[DATA_KEYS["ZIPCODE"]]
 
-const id = DATA_KEYS["USER_ID"];
-const zipcode = DATA_KEYS["ZIPCODE"];
+      // Add this zipcode to thisUser document under USER_ZIPCODES array
+      addUserToZipcodePool(res, userId, thisZipcode)
+        .then(() => {
+          return fetchUserDocument(res, { [idKey]: req.query[idKey] })
+        })
+        .then((userProfile) => {
+          const { [DATA_KEYS["USER_ZIPCODES"]]: userZipcodes } = userProfile
+
+          const updatedZips = filterZipcodes(userZipcodes, thisZipcode)
+
+          const query = {
+            [idKey]: userId,
+          }
+          const update = {
+            $set: {
+              [DATA_KEYS["USER_ZIPCODES"]]: updatedZips,
+            },
+          }
+          const options = {}
+
+          return updateUserDocument(res, query, update, options)
+        })
+        .then((updatedProfile) => {
+          return addOrRemoveFunc(res, userId, thisZipcode).then(() => updatedProfile)
+        })
+        .then((updatedProfile) => {
+          const responseObj = {
+            [DATA_KEYS["USER_PROFILE"]]: updatedProfile,
+          }
+          verifyEndpointResponse(responseObj, res, endpointObj, () => {
+            res.status(200).json(responseObj)
+          })
+        })
+    })
+  }
 
 module.exports = {
   addUserZipCode: (req, res) => {
-
-    // find zipcode_id DOC
-    // add KEY for this userId: 1 if UNDEFINED
-
-    const validRequestCheck = verifyEndpointRequest(req, ['ZIPCODES', 'ADD'], 'POST');
-
-    if (validRequestCheck === true) {
-      const userID = req.body[id];
-      const zipcodeID = req.body[zipcode]
-
-      DogUser.findOne({ [id]: userID })
-        .then(
-          (result) => {
-            if (result) {
-              const userZipcodes = [...result[DATA_KEYS["USER_ZIPCODES"]], zipcodeID]
-              const extendedZips = Array.from(new Set(userZipcodes))
-
-              const query = {
-                [id]: userID
-              };
-              const update = {
-                $set: {
-                  [DATA_KEYS["USER_ZIPCODES"]]: extendedZips
-                }
-              };
-              const options = {};
-
-              DogUser.updateOne(query, update, options)
-                .then(
-                  (result) => {
-                    if (result) {
-                      const FINAL_RESPONSE = {
-                        [DATA_KEYS["USER_ZIPCODES"]]: extendedZips
-                      }
-                      saveUserToZipcodePool(ZipcodePool, DATA_KEYS, zipcodeID, userID, res, FINAL_RESPONSE, logger)
-                    } else {
-                      res.status(409).json('Unable to update user zipcodes!')
-                    }
-                  },
-                  err => logger.error(`Something went wrong: ${err}`),
-                );
-            } else {
-              res.status(409).json('Unable to find user record!')
-            }
-          },
-          err => logger.error(`Something went wrong: ${err}`),
-        );
-    } else {
-      logger.error(validRequestCheck)
-      res.status(400).json(validRequestCheck)
+    const endpointObj = {
+      endpointPathKeys: ["ZIPCODE", "ADD"],
+      method: "GET",
     }
+    const filterZips = (userZipcodes, newZipcode) => {
+      const extendedZipCodes = [...userZipcodes, newZipcode]
+      return Array.from(new Set(extendedZipCodes))
+    }
+
+    handleZipcodePoolUpdate(res, req)(endpointObj, filterZips, addUserToZipcodePool)
   },
   removeUserZipCode: (req, res) => {
-    // TODO
-    res.status(200).json('The API endpoint worked!')
+    const endpointObj = {
+      endpointPathKeys: ["ZIPCODE", "REMOVE"],
+      method: "DELETE",
+    }
+    const filterZips = (userZipcodes, zipToRemove) => {
+      const oldZipCodes = [...userZipcodes]
+      oldZipCodes.delete(zipToRemove)
+      return Array.from(new Set(oldZipCodes))
+    }
+
+    handleZipcodePoolUpdate(res, req)(
+      endpointObj,
+      filterZips,
+      removeUserFromZipcodePool
+    )
   },
   fetchZipCodePool: (req, res) => {
-    const validRequestCheck = verifyEndpointRequest(req, ['ZIPCODES', 'ALL'], 'GET');
-
-    if (validRequestCheck === true) {
-      const zipcodeID = req.body[zipcode]
-
-      ZipcodePool.findOne({ [DATA_KEYS["ZIPCODE_ID"]]: zipcodeID })
-        .then(
-          (result) => {
-            if (result) {
-              res.status(201).json({
-                // ...result,
-                [DATA_KEYS["USER_ZIPCODES"]]: result
-              })
-            } else {
-              res.status(409).json('Unable to update zipcode record!')
-            }
-          },
-          err => logger.error(`Something went wrong: ${err}`),
-        );
-    } else {
-      logger.error(validRequestCheck)
-      res.status(400).json(validRequestCheck)
+    const endpointObj = {
+      endpointPathKeys: ["ZIPCODES", "ALL"],
+      method: "GET",
     }
+
+    verifyEndpointRequest(req, res, endpointObj, () => {
+      const zipcodeID = req.body[DATA_KEYS["ZIPCODE_ID"]]
+
+      ZipcodePool.findOne({ [DATA_KEYS["ZIPCODE_ID"]]: zipcodeID }).then(
+        (result) => {
+          if (result) {
+            res.status(201).json({
+              // ...result,
+              [DATA_KEYS["USER_ZIPCODES"]]: result,
+            })
+          } else {
+            res.status(409).json("Unable to update zipcode record!")
+          }
+        },
+        (err) => handleErrorResponse(res, `Something went wrong: ${err}`, 500)
+      )
+    })
   },
 }
