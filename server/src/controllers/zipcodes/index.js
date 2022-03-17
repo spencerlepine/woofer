@@ -49,8 +49,9 @@ const handleZipcodePoolUpdate =
           const responseObj = {
             [DATA_KEYS["USER_PROFILE"]]: updatedProfile,
           }
+
           verifyEndpointResponse(responseObj, res, endpointObj, () => {
-            res.status(200).json(responseObj)
+            res.status(201).json(responseObj)
           })
         })
         .catch((err) => handleErrorResponse(res, `Error adding user to zipcode => ${err}`, 500))
