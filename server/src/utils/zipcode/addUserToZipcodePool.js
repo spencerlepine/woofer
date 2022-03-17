@@ -3,8 +3,8 @@ const ZipcodePool = require("../../models/ZipcodePool")
 const handleErrorResponse = require("../handleErrorResponse")
 
 const addUserToZipcodePool = (res, userID, zipcodeID) => {
-  return ZipcodePool.findOne({ [DATA_KEYS["ZIPCODE_ID"]]: zipcodeID }).then(
-    (result) => {
+  return ZipcodePool.findOne({ [DATA_KEYS["ZIPCODE_ID"]]: zipcodeID })
+    .then((result) => {
       let poolUsersObj = {}
 
       if (result) {
@@ -20,12 +20,12 @@ const addUserToZipcodePool = (res, userID, zipcodeID) => {
         },
       }
       const options = { upsert: true, multi: true }
-
-      return ZipcodePool.updateOne(query, update, options)
-    },
-    (err) =>
-      handleErrorResponse(res, `Unable to update user to zipcode: ${err}`, 409)
-  )
+      return [query, update, options]
+    })
+    // .then(([query, update, options]) => {
+    //   return ZipcodePool.updateOne(query, update, options)
+    // })
+    .catch((err) => handleErrorResponse(res, `Unable to update user to zipcode: ${err}`, 409))
 }
 
 module.exports = addUserToZipcodePool

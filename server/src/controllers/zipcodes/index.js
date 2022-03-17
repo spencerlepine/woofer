@@ -19,24 +19,28 @@ const handleZipcodePoolUpdate =
       // Add this zipcode to thisUser document under USER_ZIPCODES array
       addUserToZipcodePool(res, userId, thisZipcode)
         .then(() => {
-          return fetchUserDocument(res, { [idKey]: req.query[idKey] })
+          return fetchUserDocument(res, { [idKey]: userId })
         })
         .then((userProfile) => {
-          const { [DATA_KEYS["USER_ZIPCODES"]]: userZipcodes } = userProfile
+          if (userProfile) {
+            const { [DATA_KEYS["USER_ZIPCODES"]]: userZipcodes } = userProfile
 
-          const updatedZips = filterZipcodes(userZipcodes, thisZipcode)
+            const updatedZips = filterZipcodes(userZipcodes, thisZipcode)
 
-          const query = {
-            [idKey]: userId,
+            const query = {
+              [idKey]: userId,
+            }
+            const update = {
+              $set: {
+                [DATA_KEYS["USER_ZIPCODES"]]: updatedZips,
+              },
+            }
+            const options = {}
+
+            return updateUserDocument(res, query, update, options)
+          } else {
+            handleErrorResponse(res, "Unable to find user profile", 409)
           }
-          const update = {
-            $set: {
-              [DATA_KEYS["USER_ZIPCODES"]]: updatedZips,
-            },
-          }
-          const options = {}
-
-          return updateUserDocument(res, query, update, options)
         })
         .then((updatedProfile) => {
           return addOrRemoveFunc(res, userId, thisZipcode).then(() => updatedProfile)
@@ -45,38 +49,41 @@ const handleZipcodePoolUpdate =
           const responseObj = {
             [DATA_KEYS["USER_PROFILE"]]: updatedProfile,
           }
+
           verifyEndpointResponse(responseObj, res, endpointObj, () => {
-            res.status(200).json(responseObj)
+            res.status(201).json(responseObj)
           })
         })
+        .catch((err) => handleErrorResponse(res, `Error adding user to zipcode => ${err}`, 500))
     })
   }
 
 module.exports = {
   addUserZipCode: (req, res) => {
     const endpointObj = {
-      endpointPathKeys: ["ZIPCODE", "ADD"],
-      method: "GET",
+      endpointPathKeys: ["ZIPCODES", "ADD"],
+      method: "POST",
     }
+
     const filterZips = (userZipcodes, newZipcode) => {
       const extendedZipCodes = [...userZipcodes, newZipcode]
       return Array.from(new Set(extendedZipCodes))
     }
 
-    handleZipcodePoolUpdate(res, req)(endpointObj, filterZips, addUserToZipcodePool)
+    handleZipcodePoolUpdate(req, res)(endpointObj, filterZips, addUserToZipcodePool)
   },
   removeUserZipCode: (req, res) => {
     const endpointObj = {
-      endpointPathKeys: ["ZIPCODE", "REMOVE"],
+      endpointPathKeys: ["ZIPCODES", "REMOVE"],
       method: "DELETE",
     }
     const filterZips = (userZipcodes, zipToRemove) => {
-      const oldZipCodes = [...userZipcodes]
+      const oldZipCodes = new Set([...userZipcodes])
       oldZipCodes.delete(zipToRemove)
-      return Array.from(new Set(oldZipCodes))
+      return Array.from(oldZipCodes)
     }
 
-    handleZipcodePoolUpdate(res, req)(
+    handleZipcodePoolUpdate(req, res)(
       endpointObj,
       filterZips,
       removeUserFromZipcodePool
@@ -101,9 +108,8 @@ module.exports = {
           } else {
             res.status(409).json("Unable to update zipcode record!")
           }
-        },
-        (err) => handleErrorResponse(res, `Something went wrong: ${err}`, 500)
-      )
+        })
+        .catch((err) => handleErrorResponse(res, "Error adding user to zipcode", 500))
     })
   },
 }

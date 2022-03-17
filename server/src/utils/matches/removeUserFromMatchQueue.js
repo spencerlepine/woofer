@@ -13,7 +13,7 @@ const removeUserFromMatchQueue = (res, thisUserId, thatUserId) => {
     })
     .then((thisUserQueue) => {
       const queueSet = new Set(thisUserQueue)
-      Set.delete(thatUserId)
+      queueSet.delete(thatUserId)
       return Array.from(queueSet)
     })
     .then((newQueue) => {
