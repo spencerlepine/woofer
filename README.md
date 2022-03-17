@@ -2,7 +2,7 @@
 
 Dating app for dogs, a full stack MERN project.
 
-[![Demo GIF](./whitepaper/resources/images/demo.gif)](https://gallant-torvalds-547222.netlify.app/)
+[![Demo GIF](./resources/images/demo.gif)](https://demo-link/TODO)
 
 ## Table of Contents
 
@@ -11,56 +11,25 @@ Dating app for dogs, a full stack MERN project.
 - [⚙️ Setup](#setup)
 - [API Schema](#api-schema)
 - [Application Architecture](#application-architectures)
+- [Database Design](#database-design)
 - [📦 Technologies](#technologies)
 - [🎯 Ticket System](#ticket-system)
 - [Contributors](#contributors)
 
-## Description
+# Description
 
-The solo project was completed in [TIMEFRAME] to help practice full stack development.
+Woofer is a straight-foward dating app for our furry friends. Users can customize a dating profile, update preferences, match with nearby users, and chat with mutual matches.
 
-> (EXPLAIN what users can do and the IP of this project)
+A solo full-stack MERN project completed to practice test-driven development with modular code. This was created in several weeks following the ticket system with feature branches.
 
-## Features
-TODO
-<!--
-### Landing Page
+# Features
 
-#### Welcome Banner
+See the [Whitepaper](./WHITEPAPER.md).
+# Setup:
 
-![Home Page](./resources/images/home_page.png)
-
-#### Product Catalog Page
-
-- Browse all available products
-
-![Product Page](./resources/images/product_page.png)
-
-#### Product Detail Page
-
-- View nutrition facts
-- Save the product to cart
-- Rate the product
-
-![Product Detail Page](./resources/images/product_detail_page.gif)
-
-### User Authentication
-
-#### Account Type Selection
-
-#### Login / Sign up
-
-- Choose a Customer, Farmer, or Nutritionist account
-- Browse the app and product catalog without being logged in
-- Create an account or login Email/Password, Google, or Facebook
-- Access live chat with a nutritionist
-
-![Login Page](./resources/images/login_page.gif)
--->
-
-## Setup:
-
-Create a Firebase project and MongoDB Atlas database.
+- Create a Firebase project
+- Create a MongoDB Atlas Database
+- Complete the `.env` file, referencing `.env.sample`
 
 ```sh
     cd client
@@ -76,27 +45,30 @@ Create a Firebase project and MongoDB Atlas database.
     npm start
 ```
 
-## API Schema
+# API Schema
 
-See [Endpoint Schema](./whitepaper/resources/WOOFER_API.md).
+See [Endpoint Schema](./resources/WOOFER_API.md).
 
-## Application Architecture
+# Application Architecture
 
-![Deployment Architecture](./whitepaper/resources/images/Project_Deployment.png)
+![Deployment Architecture](./resources/images/Project_Deployment.png)
 
-## Technologies:
+# Database Design
+
+![Database Design](./resources/images/Database_Design.png)
+
+# Technologies:
 
 Development:
 - [GitHub](https://github.com/)
-- [Netlify](https://www.netlify.com/)
-- [Webapp.io](https://webapp.io/onboarding/github)
+- [Heroku](https://www.heroku.com/)
 - [Coveralls.io](https://coveralls.io/)
-- [docker-compose](https://docs.docker.com/compose/)
+<!-- - [docker-compose](https://docs.docker.com/compose/) -->
 
 Front-end:
 - [React](https://github.com/facebook/react/)
 - [Burma](https://github.com/jgthms/bulma) CSS Framework
-- [Firebase](https://firebase.google.com/) Authentication GitHub - mrbenhowl/mocking-firebase-initializeApp-and-firebase-auth-using-jest: Mocking firebase initializeApp and firebase.auth() for unit testing app using firebase
+- [Firebase](https://firebase.google.com/) Authentication
 
 Backend:
 - [Node](https://nodejs.org/)
@@ -105,7 +77,7 @@ Backend:
 
 Testing:
 - [Jest](https://jestjs.io/) Jest Mock for Unit Testing MERN Back-end | by Yasaminkamali | JavaScript in Plain English
-- [Crypress](https://www.cypress.io/) End-to-end testing
+<!-- - [Crypress](https://www.cypress.io/) End-to-end testing -->
 - [supertest](https://github.com/visionmedia/supertest) Express /endpoint testing
 
 Modules:
@@ -116,7 +88,7 @@ Modules:
 - Project Steps: [Trello Board](https://trello.com/b/tYtdHAT5/woofer-project)
 - Development Process: [Trello Board](https://trello.com/b/kf2DJ80r/woofer-development)
 
-## Contributors
+# Contributors
 
 - [Spencer Lepine](https://github.com/spencerlepine)
 
