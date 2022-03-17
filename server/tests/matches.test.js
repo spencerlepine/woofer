@@ -7,7 +7,7 @@ const {
 } = require("./utils/test-helpers")
 
 describe("MATCHES endpoint", () => {
-  test(`TODO`, () => {
+  test("TODO", () => {
     expect(true).toBe(true)
   })
 
@@ -43,7 +43,7 @@ describe("MATCHES endpoint", () => {
         .expect("Content-Type", /json/)
         .expect(201)
         .expect((res) => {
-          expect(verifyEndpointResponse(res.body, endpointPaths, method)).toBe(true)
+          expect(verifyEndpointResponse(res.body, res, { endpointPathKeys: endpointPaths, method })).toBe(true)
         })
         .end((err, res) => {
           if (err) return done(err);

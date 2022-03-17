@@ -8,7 +8,7 @@ module.exports = {
       testEnvironment: "node",
       testMatch: ["<rootDir>/**/*.test.js?(x)"],
       setupFilesAfterEnv: [
-        "<rootDir>/tests/utils/setupTestDB.js",
+        "<rootDir>/tests/utils/test-setup.js",
         "<rootDir>/config/jest.setup.js",
       ],
       transformIgnorePatterns: ["node_modules/(?!.*?/es/.*\\.js)"],

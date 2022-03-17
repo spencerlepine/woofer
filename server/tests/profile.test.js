@@ -13,34 +13,34 @@ describe("PROFILE endpoint", () => {
     expect(true).toBe(true)
   })
 
-  // describe("Fetch a single user profile", () => {
-  //   const method = 'GET';
-  //   const endpointPaths = ['PROFILE'];
-  //   const url = endpointURLStr(endpointPaths, method);
+  describe("Fetch a single user profile", () => {
+    const method = "GET";
+    const endpointPaths = ["PROFILE"];
+    const url = endpointURLStr(endpointPaths, method);
 
-  //   const idToQuery = mockUser[DATA_KEYS["USER_ID"]];
+    const idToQuery = mockUser[DATA_KEYS["USER_ID"]];
 
-  //   test(`${method} ${url}`, (done) => {
-  //     signupMockUser(request, app, endpointURLStr, () => {
-  //       request(app)
-  //         .get(url)
-  //         .query({ [DATA_KEYS["USER_ID"]]: idToQuery })
-  //         .expect("Content-Type", /json/)
-  //         .expect(200)
-  //         .expect((res) => {
-  //           expect(verifyEndpointResponse(res.body, endpointPaths, method)).toBe(true)
-  //         })
-  //         .end((err, res) => {
-  //           if (err) return done(err);
-  //           return done();
-  //         });
-  //     })
-  //   });
-  // });
+    test(`${method} ${url}`, (done) => {
+      signupMockUser(request, app, endpointURLStr, () => {
+        request(app)
+          .get(url)
+          .query({ [DATA_KEYS["USER_ID"]]: idToQuery })
+          .expect("Content-Type", /json/)
+          .expect(200)
+          .expect((res) => {
+            expect(verifyEndpointResponse(res.body, res, { endpointPathKeys: endpointPaths, method })).toBe(true)
+          })
+          .end((err, res) => {
+            if (err) return done(err);
+            return done();
+          });
+      })
+    });
+  });
 
   // describe("Fetch a full single user profile", () => {
-  //   const method = 'GET';
-  //   const endpointPaths = ['PROFILE', 'DETAILS'];
+  //   const method = "GET";
+  //   const endpointPaths = ["PROFILE", "DETAILS"];
   //   const url = endpointURLStr(endpointPaths, method);
 
   //   const idToQuery = mockUser[DATA_KEYS["USER_ID"]];
@@ -53,7 +53,7 @@ describe("PROFILE endpoint", () => {
   //         .expect("Content-Type", /json/)
   //         .expect(200)
   //         .expect((res) => {
-  //           expect(verifyEndpointResponse(res.body, endpointPaths, method)).toBe(true)
+  //           expect(verifyEndpointResponse(res.body, res, { endpointPathKeys: endpointPaths, method })).toBe(true)
   //         })
   //         .end((err, res) => {
   //           if (err) return done(err);
@@ -64,8 +64,8 @@ describe("PROFILE endpoint", () => {
   // });
 
   // describe("Update user details", () => {
-  //   const method = 'POST';
-  //   const endpointPaths = ['PROFILE', 'DETAILS'];
+  //   const method = "POST";
+  //   const endpointPaths = ["PROFILE", "DETAILS"];
   //   const url = endpointURLStr(endpointPaths, method);
 
   //   test(`${method} ${url}`, (done) => {
@@ -79,7 +79,7 @@ describe("PROFILE endpoint", () => {
   //         .expect("Content-Type", /json/)
   //         .expect(201)
   //         .expect((res) => {
-  //           expect(verifyEndpointResponse(res.body, endpointPaths, method)).toBe(true)
+  //           expect(verifyEndpointResponse(res.body, res, { endpointPathKeys: endpointPaths, method })).toBe(true)
   //         })
   //         .end((err, res) => {
   //           if (err) return done(err);
@@ -90,8 +90,8 @@ describe("PROFILE endpoint", () => {
   // });
 
   // describe("Delete a user record", () => {
-  //   const method = 'DELETE';
-  //   const endpointPaths = ['PROFILE', 'DETAILS'];
+  //   const method = "DELETE";
+  //   const endpointPaths = ["PROFILE", "DETAILS"];
   //   const url = endpointURLStr(endpointPaths, method);
 
   //   const id = DATA_KEYS["USER_ID"];
