@@ -29,6 +29,8 @@ module.exports = {
             [DATA_KEYS["USER_PREFERENCE"]]: genderPreference,
           } = userProfile
 
+          // TODO, walk through this helper function to find the error
+          //   looks like some function does does pass Object as query, just the id value
           return randomUserFromZipPool(res, userId, userZipcodes, genderPreference)
         })
       // .then((possibleMatch) => {
