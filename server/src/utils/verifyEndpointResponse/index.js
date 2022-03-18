@@ -16,15 +16,11 @@ const verifyEndpointReponse = (
   { endpointPathKeys, method },
   successCallback
 ) => {
-  const validResArg = (
-    typeof res === "object" &&
-    res.status instanceof Function &&
-    res.end instanceof Function
-    )
-   if (!validResArg) {
-     throw new Error('verifyEndpointReponse given invalid \"res\" argument')
-   }
-  
+  const validRes = (res.constructor === Object || typeof res === "object")
+  if (!(validRes && Object.keys(res).length > 0)) {
+    throw new Error("verifyEndpointResponse given invalid res argument")
+  }
+
   const { [RESPONSE_KEYS]: expectedResponseKeys } = expectedRequest(
     endpointPathKeys,
     method

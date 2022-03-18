@@ -15,10 +15,11 @@ const verifyEndpointRequest = (
   { endpointPathKeys, method },
   successCallback
 ) => {
-  if (typeof request !== "object") {
-    throw new Error("verifyEndpointRequest recieved invalid request argument")
+  // if (!(res.constructor === Object && Object.keys(res).length > 0)) {
+  if (typeof res !== "object") {
+    throw new Error("verifyEndpointRequest given invalid res argument")
   }
-  
+
   const {
     [BODY_KEYS]: expectedBodyKeys,
     [OPT_KEYS]: expectedOptionalKeys,
