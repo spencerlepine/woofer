@@ -1,7 +1,7 @@
 const { DATA_KEYS } = require("../../../config/constants")
 const verifyEndpointRequest = require("../../utils/verifyEndpointRequest")
 const verifyEndpointResponse = require("../../utils/verifyEndpointResponse")
-const fetchUserDocument = require("../../utils/user/fetchUserDocument")
+const fetchUserDocument = require("../controllerHelpers/user/fetchUserDocument")
 
 const randomUserFromZipPool = require("./randomUserFromZipPool")
 
@@ -18,34 +18,31 @@ module.exports = {
     }
 
     verifyEndpointRequest(req, res, endpointObj, () => {
-      const userId = req.query[idKey] || req.body[idKey]
-      const query = { [idKey]: userId }
+      const userId = req.body[DATA_KEYS["USER_ID"]]
 
       // Extract details about this user
-      fetchUserDocument(res, query)
+      fetchUserDocument(res, { [idKey]: req.query[idKey] })
         .then((userProfile) => {
           const {
             [DATA_KEYS["USER_ZIPCODES"]]: userZipcodes,
             [DATA_KEYS["USER_PREFERENCE"]]: genderPreference,
           } = userProfile
 
-          // TODO, walk through this helper function to find the error
-          //   looks like some function does does pass Object as query, just the id value
           return randomUserFromZipPool(res, userId, userZipcodes, genderPreference)
         })
-      // .then((possibleMatch) => {
-      //   if (possibleMatch) {
-      //     const responseObj = {
-      //       [DATA_KEYS["USER_PROFILE"]]: possibleMatch,
-      //     }
+        .then((possibleMatch) => {
+          if (possibleMatch) {
+            const responseObj = {
+              [DATA_KEYS["USER_PROFILE"]]: possibleMatch,
+            }
 
-      //     verifyEndpointResponse(responseObj, res, endpointObj, () => {
-      //       res.status(200).json(responseObj)
-      //     })
-      //   } else {
-      //     res.status(422).json("Unable to find a user in this zipcode")
-      //   }
-      // })
+            verifyEndpointResponse(responseObj, res, endpointObj, () => {
+              res.status(200).json(responseObj)
+            })
+          } else {
+            res.status(422).json("Unable to find a user in this zipcode")
+          }
+        })
     })
   },
   saveUserSwipeChoice: (req, res) => {

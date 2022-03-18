@@ -1,10 +1,10 @@
-const fetchUserDocument = require("../../../utils/user/fetchUserDocument")
-const updateUserDocument = require("../../../utils/user/updateUserDocument")
+const fetchUserDocument = require("../../controllerHelpers/user/fetchUserDocument")
+const updateUserDocument = require("../../controllerHelpers/user/updateUserDocument")
 const { DATA_KEYS } = require("../../../../config/constants")
 
-const addChatIdToUserProfile = require("../../../utils/chats/addChatIdToUserProfile")
-const generateTwoUserChat = require("../../../utils/chats/generateTwoUserChat")
-const removeUserFromMatchQueue = require("../../../utils/matches/removeUserFromMatchQueue")
+const addChatIdToUserProfile = require("../../controllerHelpers/chats/addChatIdToUserProfile")
+const generateTwoUserChat = require("../../controllerHelpers/chats/generateTwoUserChat")
+const removeUserFromMatchQueue = require("../../controllerHelpers/matches/removeUserFromMatchQueue")
 
 const handleMutualAccept = (res, thisUserID, thatUserID) => {
   return removeUserFromMatchQueue(res, thisUserID, thatUserID)

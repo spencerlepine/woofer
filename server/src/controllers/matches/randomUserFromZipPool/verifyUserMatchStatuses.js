@@ -1,7 +1,7 @@
 const MatchRecords = require("../../../models/MatchRecords")
 const { DATA_KEYS } = require("../../../../config/constants")
 
-const fetchUserDocument = require("../../../utils/user/fetchUserDocument")
+const fetchUserDocument = require("../../controllerHelpers/user/fetchUserDocument")
 const handleErrorResponse = require("../../../utils/handleErrorResponse")
 
 const verifyUserMatchStatuses = (res, thisUserId, thatUserId) => {

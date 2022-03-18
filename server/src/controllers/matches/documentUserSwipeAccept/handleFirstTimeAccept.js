@@ -1,7 +1,6 @@
-const MatchQueue = require("../../../models/MatchQueue")
-const fetchUserDocument = require("../../../utils/user/fetchUserDocument")
-// const updateUserDocument = require('../../../utils/user/updateUserDocument')
-const { DATA_KEYS } = require("../../../../config/constants")
+const fetchUserDocument = require("../../controllerHelpers/user/fetchUserDocument")
+
+const controllerHelpers = require('../../controllerHelpers/helpers')
 
 const addUserToMatchQueue = (res, thisUserID, thatUserID) => {
   const userIdQuery = { [DATA_KEYS["USER_ID"]]: thatUserID }
@@ -31,7 +30,10 @@ const addUserToMatchQueue = (res, thisUserID, thatUserID) => {
     })
 }
 
-const handleFirstTimeAccept = (res, thisUserID, thatUserID, userIdQuery) => {
+const handleFirstTimeAccept = ({
+  DATA_KEYS,
+  models: { MatchQueue }
+  }) => (res, thisUserID, thatUserID, userIdQuery) => {
   return addUserToMatchQueue(res, thisUserID, thatUserID)
     .then(() => fetchUserDocument(res, userIdQuery))
     .then((userProfile) => {
@@ -39,4 +41,4 @@ const handleFirstTimeAccept = (res, thisUserID, thatUserID, userIdQuery) => {
     })
 }
 
-module.exports = handleFirstTimeAccept
+module.exports = handleFirstTimeAccept(controllerHelpers)

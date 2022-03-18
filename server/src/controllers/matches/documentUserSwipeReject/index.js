@@ -2,12 +2,12 @@ const MatchRecords = require("../../../models/MatchRecords")
 const MatchesQueue = require("../../../models/MatchQueue")
 const { DATA_KEYS } = require("../../../../config/constants")
 
-const removeUserFromMatchQueue = require("../../../utils/matches/removeUserFromMatchQueue")
-const updateUserMatchRecord = require("../../../utils/matches/updateUserMatchRecord")
-const fetchUserDocument = require("../../../utils/user/fetchUserDocument")
-const fetchUserMatchQueue = require("../../../utils/matches/fetchUserMatchQueue")
+const removeUserFromMatchQueue = require("../../controllerHelpers/matches/removeUserFromMatchQueue")
+const updateUserMatchRecord = require("../../controllerHelpers/matches/updateUserMatchRecord")
+const fetchUserDocument = require("../../controllerHelpers/user/fetchUserDocument")
+const fetchUserMatchQueue = require("../../controllerHelpers/matches/fetchUserMatchQueue")
 const verifyEndpointResponse = require("../../../utils/verifyEndpointResponse")
-const fetchMatchRecord = require("../../../utils/matches/fetchMatchRecord")
+const fetchMatchRecord = require("../../controllerHelpers/matches/fetchMatchRecord")
 
 const documentUserSwipeReject = (res, endpointObj, thisUserID, thatUserID) => {
   const userIdQuery = { [DATA_KEYS["USER_ID"]]: thisUserID }
