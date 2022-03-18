@@ -18,10 +18,11 @@ module.exports = {
     }
 
     verifyEndpointRequest(req, res, endpointObj, () => {
-      const userId = req.body[DATA_KEYS["USER_ID"]]
+      const userId = req.query[idKey] || req.body[idKey]
+      const query = { [idKey]: userId }
 
       // Extract details about this user
-      fetchUserDocument(res, { [idKey]: req.query[idKey] })
+      fetchUserDocument(res, query)
         .then((userProfile) => {
           const {
             [DATA_KEYS["USER_ZIPCODES"]]: userZipcodes,
@@ -30,19 +31,19 @@ module.exports = {
 
           return randomUserFromZipPool(res, userId, userZipcodes, genderPreference)
         })
-        .then((possibleMatch) => {
-          if (possibleMatch) {
-            const responseObj = {
-              [DATA_KEYS["USER_PROFILE"]]: possibleMatch,
-            }
+      // .then((possibleMatch) => {
+      //   if (possibleMatch) {
+      //     const responseObj = {
+      //       [DATA_KEYS["USER_PROFILE"]]: possibleMatch,
+      //     }
 
-            verifyEndpointResponse(responseObj, res, endpointObj, () => {
-              res.status(200).json(responseObj)
-            })
-          } else {
-            res.status(422).json("Unable to find a user in this zipcode")
-          }
-        })
+      //     verifyEndpointResponse(responseObj, res, endpointObj, () => {
+      //       res.status(200).json(responseObj)
+      //     })
+      //   } else {
+      //     res.status(422).json("Unable to find a user in this zipcode")
+      //   }
+      // })
     })
   },
   saveUserSwipeChoice: (req, res) => {
