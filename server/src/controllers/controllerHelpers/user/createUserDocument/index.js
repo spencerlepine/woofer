@@ -1,7 +1,9 @@
-const DogUser = require("../../models/DogUser")
-const handleErrorResponse = require("../handleErrorResponse")
+const controllerHelpers = require('../../helpers')
 
-const createUserDocument = (res, query, update, options, successCallback) => {
+const createUserDocument = ({
+  models: { DogUser },
+  handleErrorResponse
+}) => (res, query, update, options, successCallback) => {
   return DogUser.updateOne(query, update, options).then(
     (result) => {
       if (result.upsertedId) {
@@ -16,4 +18,4 @@ const createUserDocument = (res, query, update, options, successCallback) => {
   )
 }
 
-module.exports = createUserDocument
+module.exports = createUserDocument(controllerHelpers)

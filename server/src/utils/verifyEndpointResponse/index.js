@@ -4,11 +4,11 @@ const {
   OPT_KEYS,
   PARAM_KEYS,
   RESPONSE_KEYS,
-} = require("../../config/constants")
+} = require("../../../config/constants")
 
-const verifyKeyDataType = require("./verifyKeyDataType")
+const verifyKeyDataType = require("../verifyKeyDataType")
 
-const errorCallback = require("./handleErrorResponse")
+const errorCallback = require("../handleErrorResponse")
 
 const verifyEndpointReponse = (
   responseBody,
@@ -16,6 +16,15 @@ const verifyEndpointReponse = (
   { endpointPathKeys, method },
   successCallback
 ) => {
+  const validResArg = (
+    typeof res === "object" &&
+    res.status instanceof Function &&
+    res.end instanceof Function
+    )
+   if (!validResArg) {
+     throw new Error('verifyEndpointReponse given invalid \"res\" argument')
+   }
+  
   const { [RESPONSE_KEYS]: expectedResponseKeys } = expectedRequest(
     endpointPathKeys,
     method

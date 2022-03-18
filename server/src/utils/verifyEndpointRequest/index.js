@@ -3,11 +3,11 @@ const {
   BODY_KEYS,
   OPT_KEYS,
   PARAM_KEYS,
-} = require("../../config/constants")
+} = require("../../../config/constants")
 
-const verifyKeyDataType = require("./verifyKeyDataType")
+const verifyKeyDataType = require("../verifyKeyDataType")
 
-const errorCallback = require("./handleErrorResponse")
+const errorCallback = require("../handleErrorResponse")
 
 const verifyEndpointRequest = (
   request,
@@ -15,6 +15,10 @@ const verifyEndpointRequest = (
   { endpointPathKeys, method },
   successCallback
 ) => {
+  if (typeof request !== "object") {
+    throw new Error("verifyEndpointRequest recieved invalid request argument")
+  }
+  
   const {
     [BODY_KEYS]: expectedBodyKeys,
     [OPT_KEYS]: expectedOptionalKeys,

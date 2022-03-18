@@ -1,9 +1,12 @@
-const { DATA_KEYS } = require("../../../config/constants")
-
 const fetchUserDocument = require("../user/fetchUserDocument")
 const updateUserDocument = require("../user/updateUserDocument")
 
-const addChatIdToUserProfile = (res, thisUserID, chatId, idKey) => {
+const controllerHelpers = require('../helpers')
+
+const addChatIdToUserProfile = ({
+  DATA_KEYS,
+  handleErrorResponse
+}) => (res, thisUserID, chatId, idKey) => {
   return fetchUserDocument(res, { [idKey]: thisUserID }).then((userProfile) => {
     // Pull the current list of chats from the user profile
     const { [DATA_KEYS["USER_CHATS"]]: userChats } = userProfile
@@ -25,4 +28,4 @@ const addChatIdToUserProfile = (res, thisUserID, chatId, idKey) => {
   })
 }
 
-module.exports = addChatIdToUserProfile
+module.exports = addChatIdToUserProfile(controllerHelpers)
