@@ -2,7 +2,7 @@
 
 Dating app for dogs, a full stack MERN project.
 
-[![Demo GIF](./resources/images/demo.gif)](https://demo-link/TODO)
+[![Demo GIF](./resources/images/demo.gif)](https://woofer-demo.herokuapp.com/)
 
 ## Table of Contents
 
@@ -24,7 +24,7 @@ A solo full-stack MERN project completed to practice test-driven development wit
 
 # Features
 
-See the [Whitepaper](./WHITEPAPER.md).
+See the [Whitepaper](./WOOFER_WHITEPAPER.md).
 # Setup:
 
 - Create a Firebase project

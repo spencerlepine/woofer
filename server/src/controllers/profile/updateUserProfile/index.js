@@ -4,7 +4,7 @@ const verifyEndpointResponse = require("../../../utils/verifyEndpointResponse")
 module.exports =
   (endpointObj, DATA_KEYS, verifyReq, verifyRes, updateUserRecord) => (req, res) => {
     const idKey = [DATA_KEYS["USER_ID"]]
-    const query = { [idKey]: req.query[idKey] }
+    const query = { [idKey]: req.body[idKey] }
 
     verifyEndpointRequest(req, res, endpointObj, () => {
       // DON'T change the user's ID
@@ -18,17 +18,20 @@ module.exports =
       }
       const options = {}
 
-      updateUserRecord(res, query, update, options).then((updatedRecord) => {
-        const responseObj = {
-          [DATA_KEYS["USER_PROFILE"]]: {
-            [DATA_KEYS["USER_ID"]]: tempId,
-            ...updatedRecord,
-          },
-        }
+      updateUserRecord(res, query, update, options)
+        .then((updatedRecord) => {
+          const profile = Object.assign(updatedRecord._doc)
 
-        verifyEndpointResponse(responseObj, res, endpointObj, () => {
-          res.status(200).json(responseObj)
+          const responseObj = {
+            [DATA_KEYS["USER_PROFILE"]]: {
+              [DATA_KEYS["USER_ID"]]: tempId,
+              ...profile,
+            },
+          }
+
+          verifyEndpointResponse(responseObj, res, endpointObj, () => {
+            res.status(201).json(responseObj)
+          })
         })
-      })
     })
   }

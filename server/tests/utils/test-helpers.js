@@ -1,7 +1,7 @@
 const { DATA_KEYS } = require("../../config/constants")
 
 const mockUser = {
-  [DATA_KEYS["USER_ID"]]: "john124412",
+  [DATA_KEYS["USER_ID"]]: "1234asdfuasdf",
   [DATA_KEYS["USER_EMAIL"]]: "johndoe@gmail.com",
   [DATA_KEYS["USER_NAME"]]: "john124412",
   [DATA_KEYS["USER_ZODIAC"]]: "Virgo",

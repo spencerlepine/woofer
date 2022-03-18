@@ -17,6 +17,7 @@ const schema = (Joi) => {
         .alphanum()
         .min(3)
         .max(15)
+        .lowercase()
     ),
     [DATA_KEYS["USER_ZODIAC"]]: (
       Joi.string()
