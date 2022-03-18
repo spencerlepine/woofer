@@ -2,17 +2,15 @@ const mongoose = require("mongoose")
 const app = require("./app")
 const config = require("../config/config")
 const logger = require("../config/logger")
-
+const { connectDB, disconnectDB = require('./database')
 const PORT = config.PORT
-const MONGO_CONFIG = config.MONGOOSE
+
+connectDb()
 
 let server
 if (config.NODE_ENV !== "test") {
-  mongoose.connect(MONGO_CONFIG.url, MONGO_CONFIG.options).then(() => {
-    logger.info("Connected to MongoDB")
-    server = app.listen(PORT, () => {
-      logger.info(`Listening to port ${PORT}`)
-    })
+  server = app.listen(PORT, () => {
+    logger.info(`Listening to port ${PORT}`)
   })
 }
 
