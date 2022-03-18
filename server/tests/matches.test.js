@@ -26,7 +26,7 @@ describe("MATCHES endpoint", () => {
           expect(verifyEndpointResponse(res.body, endpointPaths, method)).toBe(true)
         })
         .end((err, res) => {
-          if (err) return done(err);
+          if (err) return done(err.stack);
           return done();
         });
     });
@@ -46,7 +46,7 @@ describe("MATCHES endpoint", () => {
           expect(verifyEndpointResponse(res.body, res, { endpointPathKeys: endpointPaths, method })).toBe(true)
         })
         .end((err, res) => {
-          if (err) return done(err);
+          if (err) return done(err.stack);
           return done();
         });
     });

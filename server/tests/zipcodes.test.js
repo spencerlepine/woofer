@@ -24,7 +24,7 @@ const testAddZipCode = (url, endpointObj, done) => {
         expect(mockSuccessCallback.mock.calls.length).toBe(1)
       })
       .end((err, res) => {
-        if (err) return done(err);
+        if (err) return done(err.stack);
         return done();
       });
   })
@@ -58,7 +58,7 @@ describe("ZIPCODES endpoint", () => {
           .expect("Content-Type", /json/)
           .expect(201)
           .end((err, res) => {
-            if (err) return done(err);
+            if (err) return done(err.stack);
             return done();
           });
       })

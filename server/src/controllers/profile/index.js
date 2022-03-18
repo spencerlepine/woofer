@@ -6,13 +6,12 @@ const updateUserDocument = require("../../utils/user/updateUserDocument")
 const deleteUserDocument = require("../../utils/user/deleteUserDocument")
 
 const getUserProfile = require("./getUserProfile")
-const updateUserProfile = require("./getUserProfile")
-const deleteUserProfile = require("./getUserProfile")
+const updateUserProfile = require("./updateUserProfile")
 
 const idKey = DATA_KEYS["USER_ID"]
 
 module.exports = {
-  getUserProfile: () => {
+  getUserProfile: (req, res) => {
     const endpointObj = {
       endpointPathKeys: ["PROFILE"],
       method: "GET",
@@ -24,7 +23,7 @@ module.exports = {
       verifyEndpointRequest,
       verifyEndpointResponse,
       fetchUserDocument
-    )
+    )(req, res)
   },
   getFullUserProfile: (req, res) => {
     const endpointObj = {
@@ -39,7 +38,7 @@ module.exports = {
       verifyEndpointResponse,
       fetchUserDocument,
       { allDetails: true }
-    )
+    )(req, res)
   },
   updateUserProfile: (req, res) => {
     const endpointObj = {
@@ -53,7 +52,7 @@ module.exports = {
       verifyEndpointRequest,
       verifyEndpointResponse,
       updateUserDocument
-    )
+    )(req, res)
   },
   deleteUserProfile: (req, res) => {
     const query = { [idKey]: req.query[idKey] }
@@ -66,7 +65,7 @@ module.exports = {
     verifyEndpointRequest(req, res, endpointObj, () => {
       deleteUserDocument(res, query, options).then((result) => {
         if (result) {
-          res.status(200).json("Successfully deleted user record")
+          res.status(201).json("Successfully deleted user record")
         } else {
           res.status(500).json("Unable to delete user record!")
         }

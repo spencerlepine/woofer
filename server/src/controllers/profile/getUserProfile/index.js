@@ -13,24 +13,24 @@ const filterProfileKeys = (userProfileObj, DATA_KEYS) => {
 
 module.exports =
   (endpointObj, DATA_KEYS, verifyReq, verifyRes, fetchUserDoc, options = {}) =>
-  (req, res) => {
-    const { allDetails } = options
-    const idKey = [DATA_KEYS["USER_ID"]]
-    const query = { [idKey]: req.query[idKey] }
+    (req, res) => {
+      const { allDetails } = options
+      const idKey = DATA_KEYS["USER_ID"]
+      const query = { [idKey]: (req.query[idKey] || req.body[idKey]) }
 
-    verifyReq(req, res, endpointObj, () => {
-      fetchUserDoc(res, query).then((userProfile) => {
-        let filteredProfile = userProfile
-        if (!allDetails) {
-          filteredProfile = filterProfileKeys(userProfile, DATA_KEYS)
-        }
-        const responseObj = {
-          [DATA_KEYS["USER_PROFILE"]]: filteredProfile,
-        }
+      verifyReq(req, res, endpointObj, () => {
+        fetchUserDoc(res, query).then((userProfile) => {
+          let filteredProfile = userProfile
+          if (!allDetails) {
+            filteredProfile = filterProfileKeys(userProfile, DATA_KEYS)
+          }
+          const responseObj = {
+            [DATA_KEYS["USER_PROFILE"]]: filteredProfile,
+          }
 
-        verifyRes(responseObj, res, endpointObj, () => {
-          res.status(200).json(responseObj)
+          verifyRes(responseObj, res, endpointObj, () => {
+            res.status(200).json(responseObj)
+          })
         })
       })
-    })
-  }
+    }
