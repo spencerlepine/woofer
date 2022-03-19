@@ -9,7 +9,7 @@ const controllerHelpers = {
   verifyEndpointResponse: verifyEndpointResponse,
   verifyEndpointRequest: verifyEndpointRequest,
   verifyKeyDataType: verifyKeyDataType,
-  models: require("../../models")
+  models: require("../../models"),
 }
 
 module.exports = controllerHelpers

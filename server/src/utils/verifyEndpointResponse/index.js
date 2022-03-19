@@ -16,7 +16,7 @@ const verifyEndpointReponse = (
   { endpointPathKeys, method },
   successCallback
 ) => {
-  const validRes = (res.constructor === Object || typeof res === "object")
+  const validRes = res.constructor === Object || typeof res === "object"
   if (!(validRes && Object.keys(res).length > 0)) {
     throw new Error("verifyEndpointResponse given invalid res argument")
   }

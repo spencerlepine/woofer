@@ -10,10 +10,10 @@ const {
 
 describe("MATCHES endpoint", () => {
   describe("Generate a match", () => {
-    const method = "GET";
-    const endpointPaths = ["MATCHES", "GENERATE"];
+    const method = "GET"
+    const endpointPaths = ["MATCHES", "GENERATE"]
     const endpointObj = { endpointPathKeys: endpointPaths, method }
-    const url = endpointURLStr(endpointPaths, method);
+    const url = endpointURLStr(endpointPaths, method)
 
     test(`${method} ${url}`, (done) => {
       signupMockUser(mockUser)
@@ -24,18 +24,18 @@ describe("MATCHES endpoint", () => {
             .expect("Content-Type", /json/)
             .expect(200)
             .expect((res) => {
-              const mockSuccessCallback = jest.fn();
+              const mockSuccessCallback = jest.fn()
               verifyEndpointResponse(res.body, res, endpointObj, mockSuccessCallback)
               expect(mockSuccessCallback.mock.calls.length).toBe(1)
             })
             .end((err, res) => {
-              if (err) return done(err.stack);
-              return done();
-            });
+              if (err) return done(err.stack)
+              return done()
+            })
         })
         .catch((err) => done(err))
-    });
-  });
+    })
+  })
   /*
     describe("Save user swipe approval/rejection", () => {
       const method = "POST";

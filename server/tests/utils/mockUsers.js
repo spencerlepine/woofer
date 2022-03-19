@@ -33,10 +33,10 @@ module.exports = (DATA_KEYS) => ({
     [DATA_KEYS["USER_CHATS"]]: [],
   },
   signupMockUser: (user, done) => {
-    const method = "POST";
-    const endpointPaths = ["SIGNUP"];
+    const method = "POST"
+    const endpointPaths = ["SIGNUP"]
     const endpointObj = { endpointPathKeys: endpointPaths, method }
-    const url = endpointURLStr(endpointPaths, method);
+    const url = endpointURLStr(endpointPaths, method)
 
     return new Promise((resolve, reject) => {
       request(app)
@@ -47,5 +47,5 @@ module.exports = (DATA_KEYS) => ({
           if (err) reject(err)
         })
     })
-  }
+  },
 })

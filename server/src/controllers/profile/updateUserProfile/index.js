@@ -18,20 +18,19 @@ module.exports =
       }
       const options = {}
 
-      updateUserRecord(res, query, update, options)
-        .then((updatedRecord) => {
-          const profile = Object.assign(updatedRecord._doc)
+      updateUserRecord(res, query, update, options).then((updatedRecord) => {
+        const profile = Object.assign(updatedRecord._doc)
 
-          const responseObj = {
-            [DATA_KEYS["USER_PROFILE"]]: {
-              [DATA_KEYS["USER_ID"]]: tempId,
-              ...profile,
-            },
-          }
+        const responseObj = {
+          [DATA_KEYS["USER_PROFILE"]]: {
+            [DATA_KEYS["USER_ID"]]: tempId,
+            ...profile,
+          },
+        }
 
-          verifyEndpointResponse(responseObj, res, endpointObj, () => {
-            res.status(201).json(responseObj)
-          })
+        verifyEndpointResponse(responseObj, res, endpointObj, () => {
+          res.status(201).json(responseObj)
         })
+      })
     })
   }

@@ -6,7 +6,7 @@ const {
   mockUser,
   mockUserB,
   signupMockUser,
-  app
+  app,
 } = global.testHelpers
 
 const idKey = DATA_KEYS["USER_ID"]
@@ -22,15 +22,13 @@ const saveUserSwipe = (thisUserID, thatUserID, swipe) => {
     [DATA_KEYS["MATCH_STATUS"]]: swipe,
   }
 
-  return request(app)
-    .post(url)
-    .send(body)
+  return request(app).post(url).send(body)
 }
 
 describe("verifyUserMatchStatus helper", () => {
   const res = {
     status: jest.fn(() => res),
-    json: jest.fn()
+    json: jest.fn(),
   }
 
   test("should return a promise", () => {
@@ -42,7 +40,7 @@ describe("verifyUserMatchStatus helper", () => {
 
   test("should throw an error with missing arguments", (done) => {
     verifyUserMatchStatus()
-      .then(() => { })
+      .then(() => {})
       .catch((err) => err)
       .then((possibleErr) => {
         expect(possibleErr).toBeTruthy()
@@ -52,7 +50,7 @@ describe("verifyUserMatchStatus helper", () => {
 
   test("should fail given invalid arguments", (done) => {
     verifyUserMatchStatus({}, "", "")
-      .then(() => { })
+      .then(() => {})
       .catch((err) => err)
       .then((possibleErr) => {
         expect(possibleErr).toBeTruthy()
@@ -62,7 +60,7 @@ describe("verifyUserMatchStatus helper", () => {
 
   test("should resolve given valid arguments", (done) => {
     verifyUserMatchStatus(res, thisUserId, thatUserId)
-      .then(() => { })
+      .then(() => {})
       .catch((err) => err)
       .then((possibleErr) => {
         expect(possibleErr).not.toBeTruthy()
@@ -86,13 +84,13 @@ describe("verifyUserMatchStatus helper", () => {
     test("Rejects an existing user match", (done) => {
       const testArrange = Promise.all([
         signupMockUser(mockUser),
-        signupMockUser(mockUserB)
+        signupMockUser(mockUserB),
       ])
 
       testArrange
         .then(() => {
           // Swipe YES on the other user
-          const acceptSwipe = DATA_KEYS["MATCH_ACCEPT"];
+          const acceptSwipe = DATA_KEYS["MATCH_ACCEPT"]
           return saveUserSwipe(thisUserId, thatUserId, acceptSwipe)
         })
         .then(() => {
@@ -114,7 +112,7 @@ describe("verifyUserMatchStatus helper", () => {
     test("Accepts a first time user match", (done) => {
       const testArrange = Promise.all([
         signupMockUser(mockUser),
-        signupMockUser(mockUserB)
+        signupMockUser(mockUserB),
       ])
 
       testArrange

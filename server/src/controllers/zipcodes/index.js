@@ -54,7 +54,9 @@ const handleZipcodePoolUpdate =
             res.status(201).json(responseObj)
           })
         })
-        .catch((err) => handleErrorResponse(res, `Error adding user to zipcode => ${err}`, 500))
+        .catch((err) =>
+          handleErrorResponse(res, `Error adding user to zipcode => ${err}`, 500)
+        )
     })
   }
 
@@ -98,8 +100,8 @@ module.exports = {
     verifyEndpointRequest(req, res, endpointObj, () => {
       const zipcodeID = req.body[DATA_KEYS["ZIPCODE_ID"]]
 
-      ZipcodePool.findOne({ [DATA_KEYS["ZIPCODE_ID"]]: zipcodeID }).then(
-        (result) => {
+      ZipcodePool.findOne({ [DATA_KEYS["ZIPCODE_ID"]]: zipcodeID })
+        .then((result) => {
           if (result) {
             res.status(201).json({
               // ...result,
@@ -109,7 +111,9 @@ module.exports = {
             res.status(409).json("Unable to update zipcode record!")
           }
         })
-        .catch((err) => handleErrorResponse(res, "Error adding user to zipcode", 500))
+        .catch((err) =>
+          handleErrorResponse(res, "Error adding user to zipcode", 500)
+        )
     })
   },
 }

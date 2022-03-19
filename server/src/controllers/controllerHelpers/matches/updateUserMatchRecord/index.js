@@ -2,16 +2,18 @@ const fetchMatchRecord = require("../fetchMatchRecord")
 
 const controllerHelpers = require("../../helpers")
 
-const updateUserMatchRecord = ({
-  DATA_KEYS,
-  models: { MatchRecords },
-  handleErrorResponse
-}) => (
+const updateUserMatchRecord =
+  ({ DATA_KEYS, models: { MatchRecords }, handleErrorResponse }) =>
   (res, query, update, options) => {
-    if (res === undefined || query === undefined || update === undefined || options === undefined) {
+    if (
+      res === undefined ||
+      query === undefined ||
+      update === undefined ||
+      options === undefined
+    ) {
       const err = "updateUserMatchDocument called with invalid arguments"
       const failPromise = new Promise((resolve, reject) => {
-        reject(err);
+        reject(err)
       })
       return failPromise
     }
@@ -26,6 +28,5 @@ const updateUserMatchRecord = ({
         handleErrorResponse(res, `Error updating user match record => ${err}`, 500)
     )
   }
-)
 
 module.exports = updateUserMatchRecord(controllerHelpers)

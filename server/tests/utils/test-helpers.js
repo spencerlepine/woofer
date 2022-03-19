@@ -1,10 +1,8 @@
 const constants = require("../../config/constants")
 
-const {
-  mockUser,
-  mockUserB,
-  signupMockUser
-} = require("./mockUsers")(constants.DATA_KEYS)
+const { mockUser, mockUserB, signupMockUser } = require("./mockUsers")(
+  constants.DATA_KEYS
+)
 
 exports.app = require("../../src/app")
 exports.constants = constants
