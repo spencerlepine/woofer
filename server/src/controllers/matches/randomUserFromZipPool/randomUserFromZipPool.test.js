@@ -100,28 +100,5 @@ describe("randomUserFromZipcodePool helper", () => {
         done()
       })
       .catch((err) => done(err))
-    // const zipcode = "10001"
-    // const testArrange = Promise.all([
-    //   signupMockUser(mockUser),
-    //   signupMockUser(mockUserB),
-    //   addUserToZipcodePool(res, zipcode, thisUserId),
-    //   addUserToZipcodePool(res, zipcode, thatUserId)
-    // ])
-
-    // testArrange
-    //   .then(() => {
-    //     // Verify that would accept a brand new match?
-    //     return randomUserFromZipcodePool(res, thisUserId, thatUserId)
-    //   })
-    //   .then((result) => {
-    //     // ASSERT
-    //     expect(result).toBeTruthy()
-    //     expect(typeof result).toBe("object")
-    //     expect(DATA_KEYS["USER_PROFILE"] in result).toBeTruthy()
-    //     expect("matchIsValid" in result).toBeTruthy()
-    //     expect(result.matchIsValid).toBe(true)
-    //     done()
-    //   })
-    //   .catch((err) => done(err))
   })
 })

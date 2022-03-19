@@ -18,34 +18,34 @@ const randomUserFromZipPool = (res, userId, userZipcodes, genderPreference) => {
         res.status(409).json("Profile not found")
       }
     })
-  // .then((poolUsers) => {
-  //   // Pick a random userId from the ZipcodePool
-  //   const userIdKeys = Object.keys(poolUsers)
-  //   let validUserId = null
-  //   while (!validUserId) {
-  //     const tempId = userIdKeys[Math.floor(Math.random() * userIdKeys.length)]
-  //     if (tempId !== userId) {
-  //       validUserId
-  //     }
-  //   }
+    .then((poolUsers) => {
+      // Pick a random userId from the ZipcodePool
+      const userIdKeys = Object.keys(poolUsers)
+      let validUserId = null
+      while (!validUserId) {
+        const tempId = userIdKeys[Math.floor(Math.random() * userIdKeys.length)]
+        if (tempId !== userId) {
+          validUserId
+        }
+      }
 
-  //   return fetchUserDocument(res, userQuery)
-  // })
-  // .then((possibleUser) => {
-  //   // Verify this is the preferrred gender
-  //   const { [DATA_KEYS["USER_GENDER"]]: theirGender } = possibleUser
-  //   const thatUserId = possibleUser[DATA_KEYS["USER_ID"]]
+      return fetchUserDocument(res, userQuery)
+    })
+    .then((possibleUser) => {
+      // Verify this is the preferrred gender
+      const { [DATA_KEYS["USER_GENDER"]]: theirGender } = possibleUser
+      const thatUserId = possibleUser[DATA_KEYS["USER_ID"]]
 
-  //   const validGender = theirGender !== genderPreference
-  //   if (validGender) {
-  //     return verifyUserMatchStatuses(res, userId, thatUserId)
-  //   }
-  //   return { possibleUser: {}, matchIsValid: false }
-  // })
-  // .then(({ possibleUser, matchIsValid }) => {
-  //   // Verify there hasn't been a match between these users previously
-  //   return matchIsValid ? possibleUser : null
-  // })
+      const validGender = theirGender !== genderPreference
+      if (validGender) {
+        return verifyUserMatchStatuses(res, userId, thatUserId)
+      }
+      return { possibleUser: {}, matchIsValid: false }
+    })
+    .then(({ possibleUser, matchIsValid }) => {
+      // Verify there hasn't been a match between these users previously
+      return matchIsValid ? possibleUser : null
+    })
 }
 
-module.exports = fetchUserDocument
+module.exports = randomUserFromZipPool

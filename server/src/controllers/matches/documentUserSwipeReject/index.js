@@ -10,6 +10,15 @@ const verifyEndpointResponse = require("../../../utils/verifyEndpointResponse")
 const fetchMatchRecord = require("../../controllerHelpers/matches/fetchMatchRecord")
 
 const documentUserSwipeReject = (res, endpointObj, thisUserID, thatUserID) => {
+  const invalidRes = (typeof res !== "object" || Object.keys(res).length === 0)
+  if (invalidRes || endpointObj === undefined || thisUserID === undefined) {
+    const err = "documentUserSwipeReject called with invalid arguments"
+    const failPromise = new Promise((resolve, reject) => {
+      reject(err)
+    })
+    return failPromise
+  }
+
   const userIdQuery = { [DATA_KEYS["USER_ID"]]: thisUserID }
   return fetchMatchRecord(res, userIdQuery)
     .then((matchRecord) => {
@@ -37,13 +46,13 @@ const documentUserSwipeReject = (res, endpointObj, thisUserID, thatUserID) => {
         // Means thatUserID already swiped YES
         return removeUserFromMatchQueue(res, thisUserID, thatUserID).then(() => {
           return fetchUserDocument(res, userIdQuery).then((userProfile) => {
-            return ["", userProfile]
+            return ["none", userProfile]
           })
         })
       } else {
         // Means it is a first time swipe for either user
         return fetchUserDocument(res, userIdQuery).then((userProfile) => {
-          return ["", userProfile]
+          return ["none", userProfile]
         })
       }
     })
@@ -56,6 +65,9 @@ const documentUserSwipeReject = (res, endpointObj, thisUserID, thatUserID) => {
       verifyEndpointResponse(responseObj, res, endpointObj, () => {
         res.send(201).json(responseObj)
       })
+    })
+    .catch((err) => {
+      console.error(err)
     })
 }
 

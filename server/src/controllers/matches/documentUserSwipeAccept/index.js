@@ -11,6 +11,15 @@ const handleMutualAccept = require("./handleMutualAccept")
 const handleFirstTimeAccept = require("./handleFirstTimeAccept")
 
 const documentUserSwipeAccept = (res, endpointObj, thisUserID, thatUserID) => {
+  const invalidRes = (typeof res !== "object" || Object.keys(res).length === 0)
+  if (invalidRes || !endpointObj || !thisUserID || !thatUserID) {
+    const err = "documentUserSwipeReject called with invalid arguments"
+    const failPromise = new Promise((resolve, reject) => {
+      reject(err)
+    })
+    return failPromise
+  }
+
   const userIdQuery = { [DATA_KEYS["USER_ID"]]: thisUserID }
 
   return fetchMatchRecord(res, userIdQuery)
