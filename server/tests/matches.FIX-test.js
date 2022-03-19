@@ -16,22 +16,24 @@ describe("MATCHES endpoint", () => {
     const url = endpointURLStr(endpointPaths, method);
 
     test(`${method} ${url}`, (done) => {
-      signupMockUser(request, app, endpointURLStr, () => {
-        request(app)
-          .get(url)
-          .send({ [DATA_KEYS["USER_ID"]]: mockUser[DATA_KEYS["USER_ID"]] })
-          .expect("Content-Type", /json/)
-          .expect(200)
-          .expect((res) => {
-            const mockSuccessCallback = jest.fn();
-            verifyEndpointResponse(res.body, res, endpointObj, mockSuccessCallback)
-            expect(mockSuccessCallback.mock.calls.length).toBe(1)
-          })
-          .end((err, res) => {
-            if (err) return done(err.stack);
-            return done();
-          });
-      })
+      signupMockUser(mockUser)
+        .then(() => {
+          request(app)
+            .get(url)
+            .send({ [DATA_KEYS["USER_ID"]]: mockUser[DATA_KEYS["USER_ID"]] })
+            .expect("Content-Type", /json/)
+            .expect(200)
+            .expect((res) => {
+              const mockSuccessCallback = jest.fn();
+              verifyEndpointResponse(res.body, res, endpointObj, mockSuccessCallback)
+              expect(mockSuccessCallback.mock.calls.length).toBe(1)
+            })
+            .end((err, res) => {
+              if (err) return done(err.stack);
+              return done();
+            });
+        })
+        .catch((err) => done(err))
     });
   });
   /*

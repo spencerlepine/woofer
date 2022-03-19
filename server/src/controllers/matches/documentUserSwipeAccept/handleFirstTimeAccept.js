@@ -1,8 +1,11 @@
 const fetchUserDocument = require("../../controllerHelpers/user/fetchUserDocument")
 
-const controllerHelpers = require('../../controllerHelpers/helpers')
+const controllerHelpers = require("../../controllerHelpers/helpers")
 
-const addUserToMatchQueue = (res, thisUserID, thatUserID) => {
+const addUserToMatchQueue = ({
+  DATA_KEYS,
+  models: { MatchQueue },
+}) => (res, thisUserID, thatUserID) => {
   const userIdQuery = { [DATA_KEYS["USER_ID"]]: thatUserID }
 
   return MatchQueue.findOne(userIdQuery)
@@ -30,15 +33,12 @@ const addUserToMatchQueue = (res, thisUserID, thatUserID) => {
     })
 }
 
-const handleFirstTimeAccept = ({
-  DATA_KEYS,
-  models: { MatchQueue }
-  }) => (res, thisUserID, thatUserID, userIdQuery) => {
-  return addUserToMatchQueue(res, thisUserID, thatUserID)
+const handleFirstTimeAccept = (res, thisUserID, thatUserID, userIdQuery) => {
+  return addUserToMatchQueue(controllerHelpers)(res, thisUserID, thatUserID)
     .then(() => fetchUserDocument(res, userIdQuery))
     .then((userProfile) => {
       return ["", userProfile]
     })
 }
 
-module.exports = handleFirstTimeAccept(controllerHelpers)
+module.exports = handleFirstTimeAccept

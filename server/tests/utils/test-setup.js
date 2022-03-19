@@ -3,7 +3,7 @@ const app = require("../../src/app")
 const { connectDB, disconnectDB, connection: db } = require("../../src/database")
 const config = require("../../config/config")
 
-// const MONGO_CONFIG = config.MONGOOSE
+global.testHelpers = require("./test-helpers");
 
 beforeAll(async () => {
   await connectDB()
@@ -25,6 +25,8 @@ afterAll(async () => {
     await disconnectDB()
   }
 })
+
+// const MONGO_CONFIG = config.MONGOOSE
 
 // afterAll(async () => {
 //   await new Promise(resolve => setTimeout(() => resolve(), 10000)); // avoid jest open handle error

@@ -9,25 +9,26 @@ const {
 } = require("./utils/test-helpers")
 
 const testAddZipCode = (url, endpointObj, done) => {
-  signupMockUser(request, app, endpointURLStr, () => {
-    request(app)
-      .post(url)
-      .send({
-        [DATA_KEYS["USER_ID"]]: mockUser[DATA_KEYS["USER_ID"]],
-        [DATA_KEYS["ZIPCODE"]]: "123456"
-      })
-      .expect("Content-Type", /json/)
-      .expect(201)
-      .expect((res) => {
-        const mockSuccessCallback = jest.fn();
-        verifyEndpointResponse(res.body, res, endpointObj, mockSuccessCallback)
-        expect(mockSuccessCallback.mock.calls.length).toBe(1)
-      })
-      .end((err, res) => {
-        if (err) return done(err.stack);
-        return done();
-      });
-  })
+  signupMockUser(mockUser)
+    .then(() => {
+      request(app)
+        .post(url)
+        .send({
+          [DATA_KEYS["USER_ID"]]: mockUser[DATA_KEYS["USER_ID"]],
+          [DATA_KEYS["ZIPCODE"]]: "123456"
+        })
+        .expect("Content-Type", /json/)
+        .expect(201)
+        .expect((res) => {
+          const mockSuccessCallback = jest.fn();
+          verifyEndpointResponse(res.body, res, endpointObj, mockSuccessCallback)
+          expect(mockSuccessCallback.mock.calls.length).toBe(1)
+        })
+        .end((err, res) => {
+          if (err) return done(err.stack);
+          return done();
+        });
+    })
 }
 
 describe("ZIPCODES endpoint", () => {

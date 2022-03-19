@@ -9,36 +9,33 @@ const {
 } = require("./utils/test-helpers")
 
 describe("PROFILE endpoint", () => {
-  test("TODO", () => {
-    expect(true).toBe(true)
-  })
-
   describe("Fetch a single user profile", () => {
     const method = "GET";
     const endpointPaths = ["PROFILE"];
     const endpointObj = { endpointPathKeys: endpointPaths, method }
     const url = endpointURLStr(endpointPaths, method);
 
-    const idToQuery = mockUser[DATA_KEYS["USER_ID"]];
+    const query = { [DATA_KEYS["USER_ID"]]: mockUser[DATA_KEYS["USER_ID"]] };
 
     test(`${method} ${url}`, (done) => {
-      signupMockUser(request, app, endpointURLStr, () => {
-        request(app)
-          .get(url)
-          .query({ [DATA_KEYS["USER_ID"]]: idToQuery })
-          .expect("Content-Type", /json/)
-          .expect(200)
-          .expect((res) => {
-            const mockSuccessCallback = jest.fn();
-            verifyEndpointResponse(res.body, res, endpointObj, mockSuccessCallback)
-            expect(mockSuccessCallback.mock.calls.length).toBe(1)
-          })
-          .end((err, res) => {
-            if (err) return done(err.stack);
-            return done();
-          });
-      })
-    });
+      signupMockUser(mockUser)
+        .then(() => {
+          request(app)
+            .get(url)
+            .query(query)
+            .expect("Content-Type", /json/)
+            .expect(200)
+            .expect((res) => {
+              const mockSuccessCallback = jest.fn();
+              verifyEndpointResponse(res.body, res, endpointObj, mockSuccessCallback)
+              expect(mockSuccessCallback.mock.calls.length).toBe(1)
+            })
+            .end((err, res) => {
+              if (err) return done(err.stack);
+              return done();
+            });
+        })
+    })
   });
 
   describe("Fetch a full single user profile", () => {
@@ -50,22 +47,23 @@ describe("PROFILE endpoint", () => {
     const idToQuery = mockUser[DATA_KEYS["USER_ID"]];
 
     test(`${method} ${url}`, (done) => {
-      signupMockUser(request, app, endpointURLStr, () => {
-        request(app)
-          .get(url)
-          .query({ [DATA_KEYS["USER_ID"]]: idToQuery })
-          .expect("Content-Type", /json/)
-          .expect(200)
-          .expect((res) => {
-            const mockSuccessCallback = jest.fn();
-            verifyEndpointResponse(res.body, res, endpointObj, mockSuccessCallback)
-            expect(mockSuccessCallback.mock.calls.length).toBe(1)
-          })
-          .end((err, res) => {
-            if (err) return done(err.stack);
-            return done();
-          });
-      });
+      signupMockUser(mockUser)
+        .then(() => {
+          request(app)
+            .get(url)
+            .query({ [DATA_KEYS["USER_ID"]]: idToQuery })
+            .expect("Content-Type", /json/)
+            .expect(200)
+            .expect((res) => {
+              const mockSuccessCallback = jest.fn();
+              verifyEndpointResponse(res.body, res, endpointObj, mockSuccessCallback)
+              expect(mockSuccessCallback.mock.calls.length).toBe(1)
+            })
+            .end((err, res) => {
+              if (err) return done(err.stack);
+              return done();
+            });
+        });
     });
   });
 
@@ -81,24 +79,25 @@ describe("PROFILE endpoint", () => {
     }
 
     test(`${method} ${url}`, (done) => {
-      signupMockUser(request, app, endpointURLStr, () => {
-        request(app)
-          .post(url)
-          .send(body)
-          .expect("Content-Type", /json/)
-          .expect(201)
-          .expect((res) => {
-            const mockSuccessCallback = jest.fn();
-            verifyEndpointResponse(res.body, res, endpointObj, mockSuccessCallback)
-            expect(mockSuccessCallback.mock.calls.length).toBe(1)
-            expect(res.body).toBeDefined()
-            expect(res.body[DATA_KEYS["USER_PROFILE"]][DATA_KEYS["USER_NAME"]]).toBe(newUsername)
-          })
-          .end((err, res) => {
-            if (err) return done(err.stack);
-            return done();
-          })
-      });
+      signupMockUser(mockUser)
+        .then(() => {
+          request(app)
+            .post(url)
+            .send(body)
+            .expect("Content-Type", /json/)
+            .expect(201)
+            .expect((res) => {
+              const mockSuccessCallback = jest.fn();
+              verifyEndpointResponse(res.body, res, endpointObj, mockSuccessCallback)
+              expect(mockSuccessCallback.mock.calls.length).toBe(1)
+              expect(res.body).toBeDefined()
+              expect(res.body[DATA_KEYS["USER_PROFILE"]][DATA_KEYS["USER_NAME"]]).toBe(newUsername)
+            })
+            .end((err, res) => {
+              if (err) return done(err.stack);
+              return done();
+            })
+        });
     })
   });
 
@@ -120,6 +119,7 @@ describe("PROFILE endpoint", () => {
           return done();
         });
     });
+
   });
 
 });

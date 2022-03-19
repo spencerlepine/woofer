@@ -1,14 +1,16 @@
-const MatchRecords = require("../../../models/MatchRecords")
-const { DATA_KEYS } = require("../../../../config/constants")
+const controllerHelpers = require("../../../controllerHelpers/helpers")
 
-const fetchUserDocument = require("../../controllerHelpers/user/fetchUserDocument")
-const handleErrorResponse = require("../../../utils/handleErrorResponse")
+const fetchUserDocument = require("../../../controllerHelpers/user/fetchUserDocument")
 
-const verifyUserMatchStatuses = (res, thisUserId, thatUserId) => {
+const verifyUserMatchStatuses = ({
+  DATA_KEYS,
+  models: { MatchRecords },
+  handleErrorResponse,
+}) => (res, thisUserId, thatUserId) => {
   const fetchRecordsA = MatchRecords.findOne({ [DATA_KEYS["USER_ID"]]: thisUserId })
   const fetchRecordsB = MatchRecords.findOne({ [DATA_KEYS["USER_ID"]]: thatUserId })
 
-  fetchRecordsA
+  return fetchRecordsA
     .then(
       (matchRecordDoc) => {
         if (matchRecordDoc) {
@@ -46,8 +48,9 @@ const verifyUserMatchStatuses = (res, thisUserId, thatUserId) => {
       return fetchUserDocument(res, { [DATA_KEYS["USER_ID"]]: thatUserId })
     })
     .then((userProfile) => {
-      return { possibleUser: userProfile, matchIsValid: true }
+      const possibleMatch = DATA_KEYS["USER_PROFILE"]
+      return { [possibleMatch]: userProfile, matchIsValid: true }
     })
 }
 
-module.exports = fetchUserDocument
+module.exports = verifyUserMatchStatuses(controllerHelpers)

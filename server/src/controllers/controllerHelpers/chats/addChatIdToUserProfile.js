@@ -1,7 +1,7 @@
 const fetchUserDocument = require("../user/fetchUserDocument")
 const updateUserDocument = require("../user/updateUserDocument")
 
-const controllerHelpers = require('../helpers')
+const controllerHelpers = require("../helpers")
 
 const addChatIdToUserProfile = ({
   DATA_KEYS,
