@@ -61,8 +61,11 @@ const documentUserSwipeAccept = (res, endpointObj, thisUserID, thatUserID) => {
       }
 
       verifyEndpointResponse(responseObj, res, endpointObj, () => {
-        res.send(201).json(responseObj)
+        res.status(201).json(responseObj)
       })
+    })
+    .catch((err) => {
+      console.error(err)
     })
 }
 

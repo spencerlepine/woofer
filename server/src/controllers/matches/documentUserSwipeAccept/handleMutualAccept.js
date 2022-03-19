@@ -26,7 +26,7 @@ const handleMutualAccept = (res, thisUserID, thatUserID) => {
     .then((chatId) => {
       return fetchUserDocument(res, { [DATA_KEYS["USER_ID"]]: thatUserID }).then(
         (userProfile) => {
-          return [userProfile, chatId]
+          return [[chatId, userProfile]]
         }
       )
     })
