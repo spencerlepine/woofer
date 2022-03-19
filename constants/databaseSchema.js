@@ -97,8 +97,8 @@ const schema = (Joi) => {
     ),
   };
 
-  outputObj[DATA_KEYS["THAT_USER_ID"]] = Joi.array().items(outputObj[DATA_KEYS["USER_ID"]]);
-  outputObj[DATA_KEYS["THIS_USER_ID"]] = Joi.array().items(outputObj[DATA_KEYS["USER_ID"]]);
+  outputObj[DATA_KEYS["THAT_USER_ID"]] = outputObj[DATA_KEYS["USER_ID"]];
+  outputObj[DATA_KEYS["THIS_USER_ID"]] = outputObj[DATA_KEYS["USER_ID"]];
 
   outputObj[DATA_KEYS["USER_ZIPCODES"]] = Joi.array().items(outputObj[DATA_KEYS["ZIPCODE"]]);
   outputObj[DATA_KEYS["USER_PICTURES"]] = Joi.array().items(outputObj[DATA_KEYS["PICTURE"]]);
