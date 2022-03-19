@@ -40,7 +40,7 @@ describe("verifyUserMatchStatus helper", () => {
 
   test("should throw an error with missing arguments", (done) => {
     verifyUserMatchStatus()
-      .then(() => {})
+      .then(() => { })
       .catch((err) => err)
       .then((possibleErr) => {
         expect(possibleErr).toBeTruthy()
@@ -50,7 +50,7 @@ describe("verifyUserMatchStatus helper", () => {
 
   test("should fail given invalid arguments", (done) => {
     verifyUserMatchStatus({}, "", "")
-      .then(() => {})
+      .then(() => { })
       .catch((err) => err)
       .then((possibleErr) => {
         expect(possibleErr).toBeTruthy()
@@ -60,7 +60,7 @@ describe("verifyUserMatchStatus helper", () => {
 
   test("should resolve given valid arguments", (done) => {
     verifyUserMatchStatus(res, thisUserId, thatUserId)
-      .then(() => {})
+      .then(() => { })
       .catch((err) => err)
       .then((possibleErr) => {
         expect(possibleErr).not.toBeTruthy()
@@ -106,7 +106,9 @@ describe("verifyUserMatchStatus helper", () => {
           expect(result.matchIsValid).toBe(false)
           done()
         })
-        .catch((err) => done(err))
+        .catch((err) => {
+          done(err)
+        })
     })
 
     test("Accepts a first time user match", (done) => {

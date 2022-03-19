@@ -16,7 +16,7 @@ const verifyEndpointRequest = (
   successCallback
 ) => {
   // if (!(res.constructor === Object && Object.keys(res).length > 0)) {
-  if (typeof res !== "object") {
+  if (typeof res !== "object" || Object.keys(res).length === 0) {
     throw new Error("verifyEndpointRequest given invalid res argument")
   }
 

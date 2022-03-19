@@ -6,9 +6,9 @@ const generateTwoUserChat =
     // models: { Chats },
     handleErrorResponse,
   }) =>
-  () => {
-    // TODO
-    return Promise.resolve("12345")
-  }
+    () => {
+      // TODO
+      return Promise.resolve({ chat_id: "12345" })
+    }
 
 module.exports = generateTwoUserChat

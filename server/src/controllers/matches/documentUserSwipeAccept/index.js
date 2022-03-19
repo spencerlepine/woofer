@@ -47,7 +47,7 @@ const documentUserSwipeAccept = (res, endpointObj, thisUserID, thatUserID) => {
     })
     .then(([chatId, userProfile]) => {
       const responseObj = {
-        [DATA_KEYS["CHAT_ID"]]: "",
+        [DATA_KEYS["CHAT_ID"]]: chatId,
         [DATA_KEYS["USER_PROFILE"]]: userProfile,
       }
 
