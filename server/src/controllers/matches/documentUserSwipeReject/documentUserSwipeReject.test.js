@@ -73,22 +73,24 @@ describe("documentUserSwipeReject helper", () => {
       }
 
       // POST the match rejection
-      request(app)
-        .post(url)
-        .send(body)
+      signupMockUser(mockUser)
+        .then(() => {
+          return request(app)
+            .post(url)
+            .send(body)
+            .expect("Content-Type", /json/)
+            .expect(201)
+        })
         .then((response) => {
           // ASSERT the response
           expect(response).toBeDefined()
-          expect(typeof result).toBe("object")
+          expect(typeof response).toBe("object")
           expect(response[DATA_KEYS["CHAT_ID"]]).not.toBeTruthy()
           expect(response[DATA_KEYS["USER_PROFILE"]]).not.toBeTruthy()
         })
-        .then(() => fetchMatchRecord(res, { [DATA_KEYS["USER_MATCHES"]]: thisUserId }))
+        .then(() => fetchMatchRecord(res, { [DATA_KEYS["USER_ID"]]: thisUserId }))
         .then((matchRecord) => {
-          const {
-            [DATA_KEYS["USER_MATCHES"]]: userMatches
-          } = matchRecord
-          expect(userMatches[thatUserId]).toBe(DATA_KEYS["MATCH_REJECTED"])
+          expect(matchRecord[thatUserId]).toBe(DATA_KEYS["MATCH_REJECT"])
           done()
         })
         .catch((err) => done(err))

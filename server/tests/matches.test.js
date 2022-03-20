@@ -1,12 +1,26 @@
 const request = require("supertest")
 
+const addUserToZipcodePool = require("../src/controllers/controllerHelpers/zipcodes/addUserToZipcodePool")
+
 const {
   app,
   constants: { endpointURLStr, DATA_KEYS },
   mockUser,
+  mockUserB,
   verifyEndpointResponse,
   signupMockUser,
 } = require("./utils/test-helpers")
+
+const res = {
+  status: jest.fn(() => res),
+  json: jest.fn(),
+  setHeader: jest.fn(),
+  end: jest.fn((r) => r),
+}
+const zipcode = "10001"
+const idKey = DATA_KEYS["USER_ID"]
+const thisUserId = mockUser[idKey]
+const thatUserId = mockUserB[idKey]
 
 describe("MATCHES endpoint", () => {
   describe("Generate a match", () => {
@@ -17,6 +31,8 @@ describe("MATCHES endpoint", () => {
 
     test(`${method} ${url}`, (done) => {
       signupMockUser(mockUser)
+        .then(() => addUserToZipcodePool(res, zipcode, thatUserId))
+        .then(() => addUserToZipcodePool(res, zipcode, thatUserId))
         .then(() => {
           request(app)
             .get(url)

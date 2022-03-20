@@ -24,7 +24,7 @@ const documentUserSwipeReject = (res, endpointObj, thisUserID, thatUserID) => {
     .then((matchRecord) => {
       // Get the match record
       const newRecord = Object.assign(matchRecord)
-      newRecord[thatUserID] = DATA_KEYS["MATCH_REJECTED"]
+      newRecord[thatUserID] = DATA_KEYS["MATCH_REJECT"]
       return newRecord
     })
     .then((updatedRecord) => {
@@ -63,7 +63,7 @@ const documentUserSwipeReject = (res, endpointObj, thisUserID, thatUserID) => {
       }
 
       verifyEndpointResponse(responseObj, res, endpointObj, () => {
-        res.send(201).json(responseObj)
+        res.status(201).json(responseObj)
       })
     })
     .catch((err) => {
