@@ -1,18 +1,17 @@
 const mongoose = require("mongoose")
 const app = require("../../src/app")
+const { connectDB, disconnectDB, connection: db } = require("../../src/database")
 const config = require("../../config/config")
 
-const MONGO_CONFIG = config.MONGOOSE
+global.testHelpers = require("./test-helpers")
 
 beforeAll(async () => {
-  await mongoose.connect(`${MONGO_CONFIG.testUrl}`, MONGO_CONFIG.options)
+  await connectDB()
 })
 
 afterEach(async () => {
   await Promise.all(
-    Object.values(mongoose.connection.collections).map((collection) =>
-      collection.deleteMany({})
-    )
+    Object.values(db.collections).map((collection) => collection.deleteMany({}))
   )
 })
 
@@ -21,9 +20,11 @@ afterAll(async () => {
     app.close((err) => {
       process.exit(err ? 1 : 0)
     })
-    await mongoose.disconnect()
+    await disconnectDB()
   }
 })
+
+// const MONGO_CONFIG = config.MONGOOSE
 
 // afterAll(async () => {
 //   await new Promise(resolve => setTimeout(() => resolve(), 10000)); // avoid jest open handle error

@@ -1,7 +1,7 @@
 const DogUser = require("../../models/DogUser")
 const { DATA_KEYS } = require("../../../config/constants")
 const verifyEndpointRequest = require("../../utils/verifyEndpointRequest")
-const createUserDocument = require("../../utils/user/createUserDocument")
+const createUserDocument = require("../controllerHelpers/user/createUserDocument")
 
 const mockUser = {
   [DATA_KEYS["USER_NAME"]]: "john1234",

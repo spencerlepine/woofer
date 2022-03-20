@@ -2,22 +2,31 @@ const MatchRecords = require("../../../models/MatchRecords")
 const MatchQueue = require("../../../models/MatchQueue")
 const { DATA_KEYS } = require("../../../../config/constants")
 
-const fetchMatchRecord = require("../../../utils/matches/fetchMatchRecord")
-const updateUserMatchRecord = require("../../../utils/matches/updateUserMatchRecord")
-const fetchUserMatchQueue = require("../../../utils/matches/fetchUserMatchQueue")
+const fetchMatchRecord = require("../../controllerHelpers/matches/fetchMatchRecord")
+const updateUserMatchRecord = require("../../controllerHelpers/matches/updateUserMatchRecord")
+const fetchUserMatchQueue = require("../../controllerHelpers/matches/fetchUserMatchQueue")
 const verifyEndpointResponse = require("../../../utils/verifyEndpointResponse")
 
 const handleMutualAccept = require("./handleMutualAccept")
 const handleFirstTimeAccept = require("./handleFirstTimeAccept")
 
 const documentUserSwipeAccept = (res, endpointObj, thisUserID, thatUserID) => {
+  const invalidRes = typeof res !== "object" || Object.keys(res).length === 0
+  if (invalidRes || !endpointObj || !thisUserID || !thatUserID) {
+    const err = "documentUserSwipeReject called with invalid arguments"
+    const failPromise = new Promise((resolve, reject) => {
+      reject(err)
+    })
+    return failPromise
+  }
+
   const userIdQuery = { [DATA_KEYS["USER_ID"]]: thisUserID }
 
   return fetchMatchRecord(res, userIdQuery)
     .then((matchRecord) => {
       // Get the match record
       const newRecord = Object.assign(matchRecord)
-      newRecord[thatUserID] = DATA_KEYS["MATCH_ACCEPTED"]
+      newRecord[thatUserID] = DATA_KEYS["MATCH_ACCEPT"]
       return newRecord
     })
     .then((updatedRecord) => {
@@ -47,13 +56,16 @@ const documentUserSwipeAccept = (res, endpointObj, thisUserID, thatUserID) => {
     })
     .then(([chatId, userProfile]) => {
       const responseObj = {
-        [DATA_KEYS["CHAT_ID"]]: "",
+        [DATA_KEYS["CHAT_ID"]]: chatId,
         [DATA_KEYS["USER_PROFILE"]]: userProfile,
       }
 
       verifyEndpointResponse(responseObj, res, endpointObj, () => {
-        res.send(201).json(responseObj)
+        res.status(201).json(responseObj)
       })
+    })
+    .catch((err) => {
+      console.error(err)
     })
 }
 

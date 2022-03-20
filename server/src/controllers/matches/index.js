@@ -1,7 +1,8 @@
 const { DATA_KEYS } = require("../../../config/constants")
+const logger = require("../../../config/logger")
 const verifyEndpointRequest = require("../../utils/verifyEndpointRequest")
 const verifyEndpointResponse = require("../../utils/verifyEndpointResponse")
-const fetchUserDocument = require("../../utils/user/fetchUserDocument")
+const fetchUserDocument = require("../controllerHelpers/user/fetchUserDocument")
 
 const randomUserFromZipPool = require("./randomUserFromZipPool")
 
@@ -21,7 +22,7 @@ module.exports = {
       const userId = req.body[DATA_KEYS["USER_ID"]]
 
       // Extract details about this user
-      fetchUserDocument(res, { [idKey]: req.query[idKey] })
+      fetchUserDocument(res, { [idKey]: userId })
         .then((userProfile) => {
           const {
             [DATA_KEYS["USER_ZIPCODES"]]: userZipcodes,
@@ -30,7 +31,9 @@ module.exports = {
 
           return randomUserFromZipPool(res, userId, userZipcodes, genderPreference)
         })
-        .then((possibleMatch) => {
+        .then((result) => {
+          const { [DATA_KEYS["USER_PROFILE"]]: possibleMatch } = result
+
           if (possibleMatch) {
             const responseObj = {
               [DATA_KEYS["USER_PROFILE"]]: possibleMatch,
@@ -43,6 +46,7 @@ module.exports = {
             res.status(422).json("Unable to find a user in this zipcode")
           }
         })
+        .catch((err) => logger.error(err))
     })
   },
   saveUserSwipeChoice: (req, res) => {

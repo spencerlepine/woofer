@@ -2,10 +2,10 @@ const ZipcodePool = require("../../models/ZipcodePool")
 const { DATA_KEYS } = require("../../../config/constants")
 const verifyEndpointRequest = require("../../utils/verifyEndpointRequest")
 const verifyEndpointResponse = require("../../utils/verifyEndpointResponse")
-const updateUserDocument = require("../../utils/user/updateUserDocument")
-const fetchUserDocument = require("../../utils/user/fetchUserDocument")
-const addUserToZipcodePool = require("../../utils/zipcode/addUserToZipcodePool")
-const removeUserFromZipcodePool = require("../../utils/zipcode/removeUserFromZipcodePool")
+const updateUserDocument = require("../controllerHelpers/user/updateUserDocument")
+const fetchUserDocument = require("../controllerHelpers/user/fetchUserDocument")
+const addUserToZipcodePool = require("../controllerHelpers/zipcodes/addUserToZipcodePool")
+const removeUserFromZipcodePool = require("../controllerHelpers/zipcodes/removeUserFromZipcodePool")
 const handleErrorResponse = require("../../utils/handleErrorResponse")
 
 const idKey = DATA_KEYS["USER_ID"]
@@ -54,7 +54,9 @@ const handleZipcodePoolUpdate =
             res.status(201).json(responseObj)
           })
         })
-        .catch((err) => handleErrorResponse(res, `Error adding user to zipcode => ${err}`, 500))
+        .catch((err) =>
+          handleErrorResponse(res, `Error adding user to zipcode => ${err}`, 500)
+        )
     })
   }
 
@@ -98,8 +100,8 @@ module.exports = {
     verifyEndpointRequest(req, res, endpointObj, () => {
       const zipcodeID = req.body[DATA_KEYS["ZIPCODE_ID"]]
 
-      ZipcodePool.findOne({ [DATA_KEYS["ZIPCODE_ID"]]: zipcodeID }).then(
-        (result) => {
+      ZipcodePool.findOne({ [DATA_KEYS["ZIPCODE_ID"]]: zipcodeID })
+        .then((result) => {
           if (result) {
             res.status(201).json({
               // ...result,
@@ -109,7 +111,9 @@ module.exports = {
             res.status(409).json("Unable to update zipcode record!")
           }
         })
-        .catch((err) => handleErrorResponse(res, "Error adding user to zipcode", 500))
+        .catch((err) =>
+          handleErrorResponse(res, "Error adding user to zipcode", 500)
+        )
     })
   },
 }

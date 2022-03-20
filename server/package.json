@@ -22,7 +22,7 @@
     "lint:fix": "prettier --write \"**/**/*.{js,jsx,json,md}\" \"!**/build/*\"",
     "husky:remove": "rm -f .husky/pre-push",
     "broken:prepush": "npx husky add .husky/pre-push \"cd server && npx lint-staged --config .lintstagedrc && npm test\"",
-    "create:prepush": "npx husky add .husky/pre-push \"cd server && npm run lint:staged && npm test\"",
+    "create:prepush": "npx husky add .husky/pre-push \"cd server && npm run lint:staged && npm run lint:fix && npm test\"",
     "prepare": "npm run husky:remove && cd ../ && husky install server/.husky && cd ./server && npm run create:prepush"
   },
   "browserslist": {
@@ -48,6 +48,7 @@
     "helmet": "^5.0.2",
     "http-status": "^1.5.0",
     "lint-staged": "^11.2.3",
+    "mongodb-memory-server": "^8.4.1",
     "mongoose": "^6.2.5",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.13",
