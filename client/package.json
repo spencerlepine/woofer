@@ -19,7 +19,7 @@
     "test": "jest --detectOpenHandles --runInBand --forceExit --outputFile=report.json",
     "test:watch": "jest --onlyChanged --watch",
     "test:branch": "jest --coverage --changedSince=main --watch --coverageThreshold='{\"global\":{\"statements\":\"60\",\"branches\":\"60\",\"functions\":\"60\",\"lines\":\"60\"}}' --outputFile=report.json",
-    "lint:staged": "eslint src --ext .js",
+    "lint": "eslint src --ext .js",
     "lint:fix": "prettier --write \"**/**/*.{js,jsx,json,md}\" \"!**/build/*\"",
     "husky:remove": "rm -f .husky/pre-push",
     "create:prepush": "npx husky add .husky/pre-push \"cd client && npx lint-staged --config .lintstagedrc && npm test\"",
