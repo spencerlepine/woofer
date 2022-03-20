@@ -26,7 +26,7 @@ const documentUserSwipeAccept = (res, endpointObj, thisUserID, thatUserID) => {
     .then((matchRecord) => {
       // Get the match record
       const newRecord = Object.assign(matchRecord)
-      newRecord[thatUserID] = DATA_KEYS["MATCH_ACCEPTED"]
+      newRecord[thatUserID] = DATA_KEYS["MATCH_ACCEPT"]
       return newRecord
     })
     .then((updatedRecord) => {

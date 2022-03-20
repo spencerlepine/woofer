@@ -8,6 +8,7 @@ const {
   mockUserB,
   signupMockUser,
   app,
+  mockRes,
 } = global.testHelpers
 
 const idKey = DATA_KEYS["USER_ID"]
@@ -16,13 +17,6 @@ const thatUserId = mockUserB[idKey]
 const thatUserGender = mockUserB[DATA_KEYS["USER_GENDER"]]
 
 describe("randomUserFromZipcodePool helper", () => {
-  const res = {
-    status: jest.fn(() => res),
-    json: jest.fn(),
-    setHeader: jest.fn(),
-    end: jest.fn((r) => r),
-  }
-
   test("should return a promise", () => {
     const query = { idKey: thisUserId }
 
@@ -52,7 +46,7 @@ describe("randomUserFromZipcodePool helper", () => {
   })
 
   test("should resolve given valid arguments", (done) => {
-    randomUserFromZipcodePool(res, thisUserId, ["10001"], "Male")
+    randomUserFromZipcodePool(mockRes, thisUserId, ["10001"], "Male")
       .then(() => { })
       .catch((err) => err)
       .then((possibleErr) => {
@@ -70,7 +64,7 @@ describe("randomUserFromZipcodePool helper", () => {
         // .then(() => addUserToZipcodePool(res, zipcode, thisUserId))
         .then(() => {
           // Verify that would accept a brand new match?
-          return randomUserFromZipcodePool(res, thisUserId, thatUserId, thatUserGender)
+          return randomUserFromZipcodePool(mockRes, thisUserId, thatUserId, thatUserGender)
         })
         .then((result) => {
           // ASSERT
@@ -88,10 +82,10 @@ describe("randomUserFromZipcodePool helper", () => {
       const zipcode = "10001"
 
       signupMockUser(mockUser)
-        .then(() => addUserToZipcodePool(res, zipcode, thisUserId))
+        .then(() => addUserToZipcodePool(mockRes, zipcode, thisUserId))
         .then(() => {
           // Verify that would accept a brand new match?
-          return randomUserFromZipcodePool(res, thisUserId, thatUserId, thatUserGender)
+          return randomUserFromZipcodePool(mockRes, thisUserId, thatUserId, thatUserGender)
         })
         .then((result) => {
           // ASSERT

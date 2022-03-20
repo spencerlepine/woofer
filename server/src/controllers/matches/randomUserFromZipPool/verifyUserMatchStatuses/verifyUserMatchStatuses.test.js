@@ -7,6 +7,7 @@ const {
   mockUserB,
   signupMockUser,
   app,
+  mockRes,
 } = global.testHelpers
 
 const idKey = DATA_KEYS["USER_ID"]
@@ -26,15 +27,10 @@ const saveUserSwipe = (thisUserID, thatUserID, swipe) => {
 }
 
 describe("verifyUserMatchStatus helper", () => {
-  const res = {
-    status: jest.fn(() => res),
-    json: jest.fn(),
-  }
-
   test("should return a promise", () => {
     const query = { idKey: thisUserId }
 
-    const result = verifyUserMatchStatus(res, thisUserId, thatUserId)
+    const result = verifyUserMatchStatus(mockRes, thisUserId, thatUserId)
     expect(result.constructor).toBe(Promise)
   })
 
@@ -59,7 +55,7 @@ describe("verifyUserMatchStatus helper", () => {
   })
 
   test("should resolve given valid arguments", (done) => {
-    verifyUserMatchStatus(res, thisUserId, thatUserId)
+    verifyUserMatchStatus(mockRes, thisUserId, thatUserId)
       .then(() => { })
       .catch((err) => err)
       .then((possibleErr) => {
@@ -69,8 +65,16 @@ describe("verifyUserMatchStatus helper", () => {
   })
 
   test("should return a user profile and match status", (done) => {
-    verifyUserMatchStatus(res, thisUserId, thatUserId)
-      .catch((err) => null)
+    const testArrange = Promise.all([
+      signupMockUser(mockUser),
+      signupMockUser(mockUserB),
+      saveUserSwipe(thisUserId, thatUserId, DATA_KEYS["MATCH_ACCEPT"]),
+    ])
+
+    testArrange
+      .then(() => {
+        return verifyUserMatchStatus(mockRes, thisUserId, thatUserId)
+      })
       .then((result) => {
         expect(result).toBeTruthy()
         expect(typeof result).toBe("object")
@@ -78,6 +82,7 @@ describe("verifyUserMatchStatus helper", () => {
         expect("matchIsValid" in result).toBeTruthy()
         done()
       })
+      .catch((err) => done(err))
   })
 
   describe("Handles existing match in records", () => {
@@ -94,8 +99,8 @@ describe("verifyUserMatchStatus helper", () => {
           return saveUserSwipe(thisUserId, thatUserId, acceptSwipe)
         })
         .then(() => {
-          // Verify that would reject a previous match?
-          return verifyUserMatchStatus(res, thisUserId, thatUserId)
+          // Verify that it would reject a previous match?
+          return verifyUserMatchStatus(mockRes, thisUserId, thatUserId)
         })
         .then((result) => {
           // ASSERT
@@ -103,6 +108,8 @@ describe("verifyUserMatchStatus helper", () => {
           expect(typeof result).toBe("object")
           expect(DATA_KEYS["USER_PROFILE"] in result).toBeTruthy()
           expect("matchIsValid" in result).toBeTruthy()
+          console.log("END RESULT")
+          console.log(result)
           expect(result.matchIsValid).toBe(false)
           done()
         })
@@ -120,7 +127,7 @@ describe("verifyUserMatchStatus helper", () => {
       testArrange
         .then(() => {
           // Verify that would accept a brand new match?
-          return verifyUserMatchStatus(res, thisUserId, thatUserId)
+          return verifyUserMatchStatus(mockRes, thisUserId, thatUserId)
         })
         .then((result) => {
           // ASSERT

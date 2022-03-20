@@ -3,7 +3,8 @@ const controllerHelpers = require("../../helpers")
 const fetchMatchRecords =
   ({ DATA_KEYS, models: { MatchRecords }, handleErrorResponse }) =>
     (res, query) => {
-      if (res === undefined || query === undefined) {
+      const invalidRes = (typeof res !== "object" || Object.keys(res).length === 0)
+      if (invalidRes || query === undefined) {
         const err = "fetchMatchRecords called with invalid arguments"
         const failPromise = new Promise((resolve, reject) => {
           reject(err)
