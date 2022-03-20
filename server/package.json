@@ -16,14 +16,9 @@
     "dev": "nodemon src/index.js",
     "start": "node src/index.js",
     "test": "jest --detectOpenHandles --runInBand --forceExit",
-    "test:watch": "jest --onlyChanged --watch",
-    "test:branch": "jest --coverage --changedSince=main --watch --coverageThreshold='{\"global\":{\"statements\":\"60\",\"branches\":\"60\",\"functions\":\"60\",\"lines\":\"60\"}}' --outputFile=report.json",
-    "lint:staged": "eslint src --ext .js",
-    "lint:fix": "prettier --write \"**/**/*.{js,jsx,json,md}\" \"!**/build/*\"",
-    "husky:remove": "rm -f .husky/pre-push",
-    "broken:prepush": "npx husky add .husky/pre-push \"cd server && npx lint-staged --config .lintstagedrc && npm test\"",
-    "create:prepush": "npx husky add .husky/pre-push \"cd server && npm run lint:staged && npm run lint:fix && npm test\"",
-    "prepare": "npm run husky:remove && cd ../ && husky install server/.husky && cd ./server && npm run create:prepush"
+    "test:watch": "jest --watch",
+    "test:branch": "jest --watch --changedSince=main",
+    "test:coverage": "jest --coverage --coverageThreshold='{\"global\":{\"statements\":\"60\",\"branches\":\"60\",\"functions\":\"60\",\"lines\":\"60\"}}' --outputFile=report.json"
   },
   "browserslist": {
     "production": [
@@ -36,6 +31,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "lint-staged": {
+    "*.{js,json,md}": [
+      "prettier --write"
+    ],
+    "*.js": "eslint --cache --fix",
+    "*.{js,md}": "prettier --write"
   },
   "dependencies": {
     "axios": "^0.21.4",

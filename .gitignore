@@ -1,5 +1,4 @@
 # misc
 .DS_Store
 .env
-.husky
 .eslintcache
