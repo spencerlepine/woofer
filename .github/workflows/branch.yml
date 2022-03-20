@@ -50,18 +50,13 @@ jobs:
 
       - run: git config --global url."https://github.com/".insteadOf ssh://git@github.com/
 
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
+      - name: Cache NPM dependencies
+        uses: actions/cache@v1
         with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
           path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+            ${{ runner.OS }}-npm-cache-
 
       - name: ⬇️  Install packages
         working-directory: ${{env.working-directory}}
@@ -69,7 +64,7 @@ jobs:
 
       - name: 🧽 Lint all files
         working-directory: ${{env.working-directory}}
-        run: npm run lint:staged
+        run: npm run lint
 
       - name: ✅  Run tests
         working-directory: ${{env.working-directory}}
@@ -137,7 +132,7 @@ jobs:
 
       - name: 🧽 Lint all files
         working-directory: ${{env.working-directory}}
-        run: npm run lint:staged
+        run: npm run lint
 
       - name: ✅  Run tests
         working-directory: ${{env.working-directory}}
