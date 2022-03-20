@@ -13,6 +13,7 @@ const {
 const idKey = DATA_KEYS["USER_ID"]
 const thisUserId = mockUser[idKey]
 const thatUserId = mockUserB[idKey]
+const thatUserGender = mockUserB[DATA_KEYS["USER_GENDER"]]
 
 describe("randomUserFromZipcodePool helper", () => {
   const res = {
@@ -25,7 +26,8 @@ describe("randomUserFromZipcodePool helper", () => {
   test("should return a promise", () => {
     const query = { idKey: thisUserId }
 
-    const result = randomUserFromZipcodePool(res, thisUserId, [], "Male")
+    const result = randomUserFromZipcodePool()
+      .catch(err => { }) // ignore the error
     expect(result.constructor).toBe(Promise)
   })
 
@@ -40,7 +42,7 @@ describe("randomUserFromZipcodePool helper", () => {
   })
 
   test("should fail given invalid arguments", (done) => {
-    randomUserFromZipcodePool({}, "", "")
+    randomUserFromZipcodePool({}, "", null, "Male")
       .then(() => { })
       .catch((err) => err)
       .then((possibleErr) => {
@@ -50,7 +52,7 @@ describe("randomUserFromZipcodePool helper", () => {
   })
 
   test("should resolve given valid arguments", (done) => {
-    randomUserFromZipcodePool(res, thisUserId, [], "Male")
+    randomUserFromZipcodePool(res, thisUserId, ["10001"], "Male")
       .then(() => { })
       .catch((err) => err)
       .then((possibleErr) => {
@@ -68,7 +70,7 @@ describe("randomUserFromZipcodePool helper", () => {
         // .then(() => addUserToZipcodePool(res, zipcode, thisUserId))
         .then(() => {
           // Verify that would accept a brand new match?
-          return randomUserFromZipcodePool(res, thisUserId, thatUserId)
+          return randomUserFromZipcodePool(res, thisUserId, thatUserId, thatUserGender)
         })
         .then((result) => {
           // ASSERT
@@ -80,25 +82,26 @@ describe("randomUserFromZipcodePool helper", () => {
         })
         .catch((err) => done(err))
     })
-  })
 
-  test("Returns a random user when match is found", (done) => {
-    const zipcode = "10001"
 
-    signupMockUser(mockUser)
-      .then(() => addUserToZipcodePool(res, zipcode, thisUserId))
-      .then(() => {
-        // Verify that would accept a brand new match?
-        return randomUserFromZipcodePool(res, thisUserId, thatUserId)
-      })
-      .then((result) => {
-        // ASSERT
-        expect(result).toBeTruthy()
-        expect(typeof result).toBe("object")
-        expect(DATA_KEYS["USER_PROFILE"] in result).toBeTruthy()
-        expect(result[DATA_KEYS["USER_PROFILE"]]).not.toBe(null)
-        done()
-      })
-      .catch((err) => done(err))
+    test("Returns a random user when match is found", (done) => {
+      const zipcode = "10001"
+
+      signupMockUser(mockUser)
+        .then(() => addUserToZipcodePool(res, zipcode, thisUserId))
+        .then(() => {
+          // Verify that would accept a brand new match?
+          return randomUserFromZipcodePool(res, thisUserId, thatUserId, thatUserGender)
+        })
+        .then((result) => {
+          // ASSERT
+          expect(result).toBeTruthy()
+          expect(typeof result).toBe("object")
+          expect(DATA_KEYS["USER_PROFILE"] in result).toBeTruthy()
+          expect(result[DATA_KEYS["USER_PROFILE"]]).not.toBe(null)
+          done()
+        })
+        .catch((err) => done(err))
+    })
   })
 })
