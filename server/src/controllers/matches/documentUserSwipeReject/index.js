@@ -10,7 +10,7 @@ const verifyEndpointResponse = require("../../../utils/verifyEndpointResponse")
 const fetchMatchRecord = require("../../controllerHelpers/matches/fetchMatchRecord")
 
 const documentUserSwipeReject = (res, endpointObj, thisUserID, thatUserID) => {
-  const invalidRes = (typeof res !== "object" || Object.keys(res).length === 0)
+  const invalidRes = typeof res !== "object" || Object.keys(res).length === 0
   if (invalidRes || endpointObj === undefined || thisUserID === undefined) {
     const err = "documentUserSwipeReject called with invalid arguments"
     const failPromise = new Promise((resolve, reject) => {

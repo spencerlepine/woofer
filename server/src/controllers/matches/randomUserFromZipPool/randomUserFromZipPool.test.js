@@ -20,14 +20,13 @@ describe("randomUserFromZipcodePool helper", () => {
   test("should return a promise", () => {
     const query = { idKey: thisUserId }
 
-    const result = randomUserFromZipcodePool()
-      .catch(err => { }) // ignore the error
+    const result = randomUserFromZipcodePool().catch((err) => {}) // ignore the error
     expect(result.constructor).toBe(Promise)
   })
 
   test("should throw an error with missing arguments", (done) => {
     randomUserFromZipcodePool()
-      .then(() => { })
+      .then(() => {})
       .catch((err) => err)
       .then((possibleErr) => {
         expect(possibleErr).toBeTruthy()
@@ -37,7 +36,7 @@ describe("randomUserFromZipcodePool helper", () => {
 
   test("should fail given invalid arguments", (done) => {
     randomUserFromZipcodePool({}, "", null, "Male")
-      .then(() => { })
+      .then(() => {})
       .catch((err) => err)
       .then((possibleErr) => {
         expect(possibleErr).toBeTruthy()
@@ -47,7 +46,7 @@ describe("randomUserFromZipcodePool helper", () => {
 
   test("should resolve given valid arguments", (done) => {
     randomUserFromZipcodePool(mockRes, thisUserId, ["10001"], "Male")
-      .then(() => { })
+      .then(() => {})
       .catch((err) => err)
       .then((possibleErr) => {
         expect(possibleErr).not.toBeTruthy()
@@ -64,7 +63,12 @@ describe("randomUserFromZipcodePool helper", () => {
         // .then(() => addUserToZipcodePool(res, zipcode, thisUserId))
         .then(() => {
           // Verify that would accept a brand new match?
-          return randomUserFromZipcodePool(mockRes, thisUserId, thatUserId, thatUserGender)
+          return randomUserFromZipcodePool(
+            mockRes,
+            thisUserId,
+            thatUserId,
+            thatUserGender
+          )
         })
         .then((result) => {
           // ASSERT
@@ -77,7 +81,6 @@ describe("randomUserFromZipcodePool helper", () => {
         .catch((err) => done(err))
     })
 
-
     test("Returns a random user when match is found", (done) => {
       const zipcode = "10001"
 
@@ -85,7 +88,12 @@ describe("randomUserFromZipcodePool helper", () => {
         .then(() => addUserToZipcodePool(mockRes, zipcode, thisUserId))
         .then(() => {
           // Verify that would accept a brand new match?
-          return randomUserFromZipcodePool(mockRes, thisUserId, thatUserId, thatUserGender)
+          return randomUserFromZipcodePool(
+            mockRes,
+            thisUserId,
+            thatUserId,
+            thatUserGender
+          )
         })
         .then((result) => {
           // ASSERT

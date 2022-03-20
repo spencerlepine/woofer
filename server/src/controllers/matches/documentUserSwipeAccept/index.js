@@ -11,7 +11,7 @@ const handleMutualAccept = require("./handleMutualAccept")
 const handleFirstTimeAccept = require("./handleFirstTimeAccept")
 
 const documentUserSwipeAccept = (res, endpointObj, thisUserID, thatUserID) => {
-  const invalidRes = (typeof res !== "object" || Object.keys(res).length === 0)
+  const invalidRes = typeof res !== "object" || Object.keys(res).length === 0
   if (invalidRes || !endpointObj || !thisUserID || !thatUserID) {
     const err = "documentUserSwipeReject called with invalid arguments"
     const failPromise = new Promise((resolve, reject) => {

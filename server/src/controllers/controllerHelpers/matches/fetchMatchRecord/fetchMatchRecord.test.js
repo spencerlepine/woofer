@@ -8,7 +8,7 @@ const {
   signupMockUser,
   mockUser,
   mockUserB,
-  mockRes
+  mockRes,
 } = global.testHelpers
 
 describe("Fetch match record document", () => {
@@ -23,7 +23,7 @@ describe("Fetch match record document", () => {
     expect(result.constructor).toBe(Promise)
 
     result
-      .then(() => { })
+      .then(() => {})
       .catch((err) => err)
       .then((possibleErr) => {
         expect(possibleErr).not.toBeTruthy()
@@ -33,7 +33,7 @@ describe("Fetch match record document", () => {
 
   test("should throw an error with missing or invalid arguments", (done) => {
     fetchMatchRecord()
-      .then(() => { })
+      .then(() => {})
       .catch((err) => err)
       .then((possibleErr) => {
         expect(possibleErr).toBeTruthy()
@@ -44,18 +44,16 @@ describe("Fetch match record document", () => {
   test("should return a match record", (done) => {
     const swipe = DATA_KEYS["MATCH_ACCEPT"]
     const postUserMatch = () => {
-      const method = "POST";
-      const endpointPaths = ["MATCHES", "SWIPE"];
-      const url = endpointURLStr(endpointPaths, method);
+      const method = "POST"
+      const endpointPaths = ["MATCHES", "SWIPE"]
+      const url = endpointURLStr(endpointPaths, method)
       const body = {
         [DATA_KEYS["THIS_USER_ID"]]: userId,
         [DATA_KEYS["THAT_USER_ID"]]: thatUserId,
         [DATA_KEYS["MATCH_STATUS"]]: swipe,
       }
 
-      return request(app)
-        .post(url)
-        .send(body)
+      return request(app).post(url).send(body)
     }
 
     signupMockUser(mockUser)
@@ -74,7 +72,4 @@ describe("Fetch match record document", () => {
         done(possibleErr)
       })
   })
-
-
-
 })

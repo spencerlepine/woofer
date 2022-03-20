@@ -36,7 +36,7 @@ describe("documentUserSwipeReject helper", () => {
 
   test("should throw an error with missing arguments", (done) => {
     documentUserSwipeReject()
-      .then(() => { })
+      .then(() => {})
       .catch((err) => err)
       .then((possibleErr) => {
         expect(possibleErr).toBeTruthy()
@@ -46,7 +46,7 @@ describe("documentUserSwipeReject helper", () => {
 
   test("should fail given invalid arguments", (done) => {
     documentUserSwipeReject({}, endpointObj, thisUserId, thatUserId)
-      .then(() => { })
+      .then(() => {})
       .catch((err) => err)
       .then((possibleErr) => {
         expect(possibleErr).toBeTruthy()
@@ -56,7 +56,7 @@ describe("documentUserSwipeReject helper", () => {
 
   test("should resolve given valid arguments", (done) => {
     documentUserSwipeReject(res, endpointObj, thisUserId, thatUserId)
-      .then(() => { })
+      .then(() => {})
       .catch((err) => err)
       .then((possibleErr) => {
         expect(possibleErr).not.toBeTruthy()

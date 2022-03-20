@@ -54,9 +54,9 @@ describe("MATCHES endpoint", () => {
   // })
 
   describe("Save user swipe approval", () => {
-    const method = "POST";
-    const endpointPaths = ["MATCHES", "SWIPE"];
-    const url = endpointURLStr(endpointPaths, method);
+    const method = "POST"
+    const endpointPaths = ["MATCHES", "SWIPE"]
+    const url = endpointURLStr(endpointPaths, method)
     const swipe = DATA_KEYS["MATCH_ACCEPT"]
     const body = {
       [DATA_KEYS["THIS_USER_ID"]]: thisUserId,
@@ -70,32 +70,30 @@ describe("MATCHES endpoint", () => {
         signupMockUser(mockUserB),
       ])
 
-
-      testArrange
-        .then(() => {
-          request(app)
-            .post(url)
-            .send(body)
-            .expect("Content-Type", /json/)
-            .expect(201)
-            .expect((result) => {
-              expect(result).toBeDefined()
-              const resBody = result.body
-              expect([DATA_KEYS["USER_PROFILE"]] in resBody).toBeTruthy()
-              expect([DATA_KEYS["CHAT_ID"]] in resBody).toBeTruthy()
-            })
-            .end((err, res) => {
-              if (err) return done(err.stack);
-              return done();
-            });
-        })
-    });
-  });
+      testArrange.then(() => {
+        request(app)
+          .post(url)
+          .send(body)
+          .expect("Content-Type", /json/)
+          .expect(201)
+          .expect((result) => {
+            expect(result).toBeDefined()
+            const resBody = result.body
+            expect([DATA_KEYS["USER_PROFILE"]] in resBody).toBeTruthy()
+            expect([DATA_KEYS["CHAT_ID"]] in resBody).toBeTruthy()
+          })
+          .end((err, res) => {
+            if (err) return done(err.stack)
+            return done()
+          })
+      })
+    })
+  })
 
   describe("Save user swipe rejection", () => {
-    const method = "POST";
-    const endpointPaths = ["MATCHES", "SWIPE"];
-    const url = endpointURLStr(endpointPaths, method);
+    const method = "POST"
+    const endpointPaths = ["MATCHES", "SWIPE"]
+    const url = endpointURLStr(endpointPaths, method)
     const swipe = DATA_KEYS["MATCH_REJECT"]
     const body = {
       [DATA_KEYS["THIS_USER_ID"]]: thisUserId,
@@ -109,24 +107,23 @@ describe("MATCHES endpoint", () => {
         signupMockUser(mockUserB),
       ])
 
-      testArrange
-        .then(() => {
-          request(app)
-            .post(url)
-            .send(body)
-            .expect("Content-Type", /json/)
-            .expect(201)
-            .expect((result) => {
-              expect(result).toBeDefined()
-              const resBody = result.body
-              expect([DATA_KEYS["USER_PROFILE"]] in resBody).toBeTruthy()
-              expect([DATA_KEYS["CHAT_ID"]] in resBody).toBeTruthy()
-            })
-            .end((err, res) => {
-              if (err) return done(err.stack);
-              return done();
-            });
-        })
-    });
-  });
+      testArrange.then(() => {
+        request(app)
+          .post(url)
+          .send(body)
+          .expect("Content-Type", /json/)
+          .expect(201)
+          .expect((result) => {
+            expect(result).toBeDefined()
+            const resBody = result.body
+            expect([DATA_KEYS["USER_PROFILE"]] in resBody).toBeTruthy()
+            expect([DATA_KEYS["CHAT_ID"]] in resBody).toBeTruthy()
+          })
+          .end((err, res) => {
+            if (err) return done(err.stack)
+            return done()
+          })
+      })
+    })
+  })
 })

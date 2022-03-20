@@ -5,7 +5,7 @@ const fetchUserDocument = require("../../controllerHelpers/user/fetchUserDocumen
 const verifyUserMatchStatuses = require("./verifyUserMatchStatuses")
 
 const randomUserFromZipPool = (res, userId, userZipcodes, genderPreference) => {
-  const invalidRes = (typeof res !== "object" || Object.keys(res).length === 0)
+  const invalidRes = typeof res !== "object" || Object.keys(res).length === 0
   if (invalidRes || !userId || !userZipcodes || !genderPreference) {
     const err = "randomUserFromZipPool called with invalid arguments"
     const failPromise = new Promise((resolve, reject) => {
@@ -61,10 +61,7 @@ const randomUserFromZipPool = (res, userId, userZipcodes, genderPreference) => {
       }
     })
     .then((result) => {
-      const {
-        [DATA_KEYS["USER_PROFILE"]]: possibleUser,
-        matchIsValid
-      } = result
+      const { [DATA_KEYS["USER_PROFILE"]]: possibleUser, matchIsValid } = result
 
       // Verify there hasn't been a match between these users previously
       return {

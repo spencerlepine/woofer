@@ -32,13 +32,11 @@ module.exports = {
           return randomUserFromZipPool(res, userId, userZipcodes, genderPreference)
         })
         .then((result) => {
-          const {
-            [DATA_KEYS["USER_PROFILE"]]: possibleMatch
-          } = result
+          const { [DATA_KEYS["USER_PROFILE"]]: possibleMatch } = result
 
           if (possibleMatch) {
             const responseObj = {
-              [DATA_KEYS["USER_PROFILE"]]: possibleMatch
+              [DATA_KEYS["USER_PROFILE"]]: possibleMatch,
             }
 
             verifyEndpointResponse(responseObj, res, endpointObj, () => {

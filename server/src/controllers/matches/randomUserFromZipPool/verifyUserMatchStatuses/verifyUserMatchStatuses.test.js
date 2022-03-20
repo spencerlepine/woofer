@@ -36,7 +36,7 @@ describe("verifyUserMatchStatus helper", () => {
 
   test("should throw an error with missing arguments", (done) => {
     verifyUserMatchStatus()
-      .then(() => { })
+      .then(() => {})
       .catch((err) => err)
       .then((possibleErr) => {
         expect(possibleErr).toBeTruthy()
@@ -46,7 +46,7 @@ describe("verifyUserMatchStatus helper", () => {
 
   test("should fail given invalid arguments", (done) => {
     verifyUserMatchStatus({}, "", "")
-      .then(() => { })
+      .then(() => {})
       .catch((err) => err)
       .then((possibleErr) => {
         expect(possibleErr).toBeTruthy()
@@ -56,7 +56,7 @@ describe("verifyUserMatchStatus helper", () => {
 
   test("should resolve given valid arguments", (done) => {
     verifyUserMatchStatus(mockRes, thisUserId, thatUserId)
-      .then(() => { })
+      .then(() => {})
       .catch((err) => err)
       .then((possibleErr) => {
         expect(possibleErr).not.toBeTruthy()

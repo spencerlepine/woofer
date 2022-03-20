@@ -36,7 +36,7 @@ describe("documentUserSwipeAccept helper", () => {
 
   test("should throw an error with missing arguments", (done) => {
     documentUserSwipeAccept()
-      .then(() => { })
+      .then(() => {})
       .catch((err) => err)
       .then((possibleErr) => {
         expect(possibleErr).toBeTruthy()
@@ -46,7 +46,7 @@ describe("documentUserSwipeAccept helper", () => {
 
   test("should fail given invalid arguments", (done) => {
     documentUserSwipeAccept({}, endpointObj, thisUserId, thatUserId)
-      .then(() => { })
+      .then(() => {})
       .catch((err) => err)
       .then((possibleErr) => {
         expect(possibleErr).toBeTruthy()
@@ -57,7 +57,7 @@ describe("documentUserSwipeAccept helper", () => {
   test("should resolve given valid arguments", (done) => {
     signupMockUser(mockUser)
       .then(() => documentUserSwipeAccept(res, endpointObj, thisUserId, thatUserId))
-      .then(() => { })
+      .then(() => {})
       .catch((err) => err)
       .then((possibleErr) => {
         expect(possibleErr).not.toBeTruthy()
@@ -75,11 +75,7 @@ describe("documentUserSwipeAccept helper", () => {
     test("Should return a response body with chatId and user info", (done) => {
       // POST the match rejection
       signupMockUser(mockUser)
-        .then(() => (
-          request(app)
-            .post(url)
-            .send(body)
-        ))
+        .then(() => request(app).post(url).send(body))
         .then((response) => {
           // ASSERT the response
           expect(response).toBeDefined()
@@ -93,12 +89,10 @@ describe("documentUserSwipeAccept helper", () => {
     test("Should save the rejection in user match records", (done) => {
       // POST the match rejection
       signupMockUser(mockUser)
-        .then(() => (
-          request(app)
-            .post(url)
-            .send(body)
-        ))
-        .then(() => fetchMatchRecord(res, { [DATA_KEYS["USER_MATCHES"]]: thisUserId }))
+        .then(() => request(app).post(url).send(body))
+        .then(() =>
+          fetchMatchRecord(res, { [DATA_KEYS["USER_MATCHES"]]: thisUserId })
+        )
         .then((userMatches) => {
           expect(userMatches[thatUserId]).toBe(DATA_KEYS["MATCH_ACCEPTED"])
           done()
