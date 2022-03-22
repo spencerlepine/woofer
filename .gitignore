@@ -1,5 +1,11 @@
+node_modules
+npm-debug.log*
+
 # misc
 .DS_Store
 .env
-.husky
 .eslintcache
+globalConfig.json
+
+# testing
+/coverage
