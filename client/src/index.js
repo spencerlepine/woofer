@@ -1,14 +1,22 @@
-import React from "react"
-import ReactDOM from "react-dom"
-import { PuppiesProvider } from "context/PuppiesContext/PuppiesContext"
-import "./index.css"
-import App from "components/App"
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Router } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+import './index.css';
+import App from './components/App';
+
+const history = createBrowserHistory();
+
+window.toTitleCase = key => {
+  const result = key.replace('_', ' ').replace(/([A-Z])/g, ' $1');
+  return result.charAt(0).toUpperCase() + result.slice(1);
+};
 
 ReactDOM.render(
-  <React.StrictMode>
-    <PuppiesProvider>
+  <Router history={history}>
+    <React.StrictMode>
       <App />
-    </PuppiesProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
-)
+    </React.StrictMode>,
+  </Router>,
+  document.getElementById('root'),
+);
