@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React from 'react';
 import { WELCOME, HOME } from 'config/routeConstants';
 import useAuth from 'context/AuthContext/AuthContext';
