@@ -63,7 +63,7 @@ jobs:
         run: npm install
 
       - name: 🧽 Lint all files
-        run: npm run lint:staged
+        run: npm run lint
 
       - name: ✅  Run tests
         run: npm run test -- --coverage
