@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect } from "react"
 // import React, { useRef, useEffect } from 'react';
 // import PropTypes from 'prop-types';
 
@@ -13,16 +13,16 @@ function useOutsideClick(ref, handleClick) {
      */
     function handleClickOutside(event) {
       if (ref.current && !ref.current.contains(event.target)) {
-        handleClick();
+        handleClick()
       }
     }
     // Bind the event listener
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside)
     return () => {
       // Unbind the event listener on clean up
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [ref]);
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [ref])
 }
 
 // /**
@@ -39,4 +39,4 @@ function useOutsideClick(ref, handleClick) {
 //   children: PropTypes.element.isRequired,
 // };
 
-export default useOutsideClick;
+export default useOutsideClick

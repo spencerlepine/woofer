@@ -19,7 +19,7 @@
     "dev:server": "nodemon server/src/index.js",
     "dev:client": "webpack serve --config ./webpack.dev.config.js",
     "build": "webpack --config ./webpack.prod.config.js",
-    "lint": "eslint src --ext .js",
+    "lint": "eslint . --ext .js",
     "test": "jest --detectOpenHandles --runInBand --forceExit",
     "test:watch": "jest --onlyChanged --watch"
   },

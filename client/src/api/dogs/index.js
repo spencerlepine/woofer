@@ -9,7 +9,7 @@ const fetchAllPuppies = (requestBody, callback) => {
       callback(response.data)
     })
     .catch((err) => {
-      console.error(`Failed to load /puppies`, err)
+      console.error("Failed to load /puppies", err)
     })
 }
 
@@ -20,7 +20,7 @@ const addPuppyToList = (newPuppy, callback) => {
       callback(response.data)
     })
     .catch((err) => {
-      console.error(`Failed to load /puppies`, err)
+      console.error("Failed to load /puppies", err)
     })
 }
 

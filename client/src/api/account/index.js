@@ -1,24 +1,24 @@
 // TODO
-import { auth, storage } from 'config/firebase';
+import { auth, storage } from "config/firebase"
 
-export const checkLoginStatus = successCb => {
+export const checkLoginStatus = (successCb) => {
   if (auth) {
-    return auth.onAuthStateChanged(user => {
+    return auth.onAuthStateChanged((user) => {
       if (user) {
-        successCb(user);
+        successCb(user)
       }
-    });
+    })
   }
-};
+}
 
 export const signInWithEmailAndPassword = (email, password, successCb) => {
   return auth
     .signInWithEmailAndPassword(email, password)
-    .then(userCredential => {
-      successCb(userCredential.user);
+    .then((userCredential) => {
+      successCb(userCredential.user)
     })
-    .catch(error => console.log(error));
-};
+    .catch((error) => console.log(error))
+}
 
 // export const createUserWithEmailAndPassword = (
 //   displayName,
@@ -76,10 +76,8 @@ export const signInWithEmailAndPassword = (email, password, successCb) => {
 // };
 
 export const signOut = () => {
-  return auth
-    .signOut()
-    .catch(error => console.log(error));
-};
+  return auth.signOut().catch((error) => console.log(error))
+}
 
 // export const sendPasswordResetEmail = (email, successCb) => {
 //   auth

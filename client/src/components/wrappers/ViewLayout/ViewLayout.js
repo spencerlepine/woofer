@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react"
+import PropTypes from "prop-types"
 // import { NotificationsProvider } from 'context/NotificationsContext/NotificationsContext';
 // import { AuthProvider } from 'context/AuthContext/AuthContext';
 // import NotificationsPopup from 'components/ui/NotificationsPopup/NotificationsPopup';
 
-import Footer from 'components/ui/Footer/Footer';
-import Navbar from 'components/ui/Navbar/Navbar';
+import Footer from "components/ui/Footer/Footer"
+import Navbar from "components/ui/Navbar/Navbar"
 
 const ViewLayout = ({ children }) => {
   return (
@@ -21,11 +21,11 @@ const ViewLayout = ({ children }) => {
       {/* </NotificationsProvider>
       </AuthProvider> */}
     </React.Fragment>
-  );
-};
+  )
+}
 
-export default ViewLayout;
+export default ViewLayout
 
 ViewLayout.propTypes = {
   children: PropTypes.any.isRequired,
-};
+}

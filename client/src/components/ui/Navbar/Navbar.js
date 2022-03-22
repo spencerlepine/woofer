@@ -1,17 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react"
+import { Link } from "react-router-dom"
 
 const Navbar = () => {
   return (
     <nav>
-      <Link
-        to='/'
-      >
+      <Link to="/">
         Woofer
         {/* <img src={WooferLogo} alt='QuickCart Logo' className={classes.logoLink}></img> */}
       </Link>
-    </nav >
-  );
-};
+    </nav>
+  )
+}
 
-export default Navbar;
+export default Navbar

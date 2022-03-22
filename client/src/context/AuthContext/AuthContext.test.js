@@ -1,56 +1,56 @@
 // import React from 'react';
 // import { screen, render } from 'test-utils';
 // import * as authUser from 'api/firebase/account';
-import useAuth, { AuthProvider } from './AuthContext';
-import { testContextExports } from 'utils/test-utils';
+import useAuth, { AuthProvider } from "./AuthContext"
+import { testContextExports } from "utils/test-utils"
 
-describe('AuthContext', () => {
+describe("AuthContext", () => {
   const expectedExports = [
     {
-      key: 'loading',
+      key: "loading",
       targetInstance: Boolean,
     },
     {
-      key: 'resetPassword',
+      key: "resetPassword",
       targetInstance: Function,
     },
     {
-      key: 'updatePassword',
+      key: "updatePassword",
       targetInstance: Function,
     },
     {
-      key: 'updateEmail',
+      key: "updateEmail",
       targetInstance: Function,
     },
     {
-      key: 'currentUser',
+      key: "currentUser",
       targetInstance: Object,
     },
     {
-      key: 'loginUser',
+      key: "loginUser",
       targetInstance: Function,
     },
     {
-      key: 'logoutUser',
+      key: "logoutUser",
       targetInstance: Function,
     },
     {
-      key: 'signupUser',
+      key: "signupUser",
       targetInstance: Function,
     },
     {
-      key: 'updateProfilePic',
+      key: "updateProfilePic",
       targetInstance: Function,
     },
     {
-      key: 'accountDetails',
+      key: "accountDetails",
       targetInstance: Object,
     },
     {
-      key: 'getAccountDetails',
+      key: "getAccountDetails",
       targetInstance: Function,
     },
-  ];
+  ]
 
-  testContextExports(AuthProvider, useAuth, expectedExports);
-});
+  testContextExports(AuthProvider, useAuth, expectedExports)
+})
