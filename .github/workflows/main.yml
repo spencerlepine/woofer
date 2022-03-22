@@ -17,7 +17,7 @@ env:
 
 jobs:
 
-  client-tests:
+  ci:
     runs-on: ${{ matrix.os }}
     env:
       REACT_APP_FIREBASE_API_KEY: asdf
@@ -28,11 +28,10 @@ jobs:
       REACT_APP_FIREBASE_APP_ID: asdf
       REACT_APP_FIREBASE_MEASUREMENT_ID: asdf
       API_URL: asdf
-      working-directory: ./client
     strategy:
       fail-fast: false
       matrix:
-        node: ['16']
+        node: ['14', '16']
         os: [ubuntu-latest]
 
     name: (Client) Node ${{ matrix.node }} on ${{ matrix.os }}
@@ -61,27 +60,13 @@ jobs:
             ${{ runner.os }}-
 
       - name: ⬇️  Install packages
-        working-directory: ${{env.working-directory}}
         run: npm install
 
       - name: 🧽 Lint all files
-        working-directory: ${{env.working-directory}}
         run: npm run lint:staged
 
       - name: ✅  Run tests
-        working-directory: ${{env.working-directory}}
         run: npm run test -- --coverage
-
-  server-tests:
-    runs-on: ${{ matrix.os }}
-    env:
-      FRONTEND_URL: http://localhost:3000
-      working-directory: ./server
-    strategy:
-      fail-fast: false
-      matrix:
-        node: ['14', '16']
-        os: [ubuntu-latest]
 
     # services:
     #   mongodb:
@@ -98,42 +83,7 @@ jobs:
     #       ports:
     #         - 27017:27017
 
-    name: (Server) Node ${{ matrix.node }} on ${{ matrix.os }}
-    steps:
-      - name: Create mongoDB Docker container
-        run: sudo docker run -d -p 27017:27017 mongo:latest
-
-      - name: ♻️ Check out Git Repository
-        uses: actions/checkout@v2
-        with:
-          persist-credentials: false
-
-      - name: 🔖  Set up Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node }}
-
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
-      - name: ⬇️  Install packages
-        working-directory: ${{env.working-directory}}
-        run: npm install
-
-      - name: 🧽 Lint all files
-        working-directory: ${{env.working-directory}}
-        run: npm run lint:staged
-
-      - name: ✅  Run tests
-        working-directory: ${{env.working-directory}}
-        run: npm run test -- --coverage
+    # - name: Create mongoDB Docker container
+    #    # run: sudo docker run -d -p 27017:27017 mongo:latest
+    #    ....
+    # - name: ♻️ Check out Git Repository
