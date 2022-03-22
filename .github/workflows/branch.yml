@@ -35,8 +35,11 @@ jobs:
         node: ['14', '16']
         os: [ubuntu-latest]
 
-    name: (Client) Node ${{ matrix.node }} on ${{ matrix.os }}
+    name: Node ${{ matrix.node }} on ${{ matrix.os }}
     steps:
+      - name: Create mongoDB Docker container
+        run: sudo docker run -d -p 27017:27017 mongo:latest
+
       - name: ♻️ Check out Git Repository
         uses: actions/checkout@v2
         with:
