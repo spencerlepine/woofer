@@ -72,11 +72,6 @@ jobs:
       - name: ✅  Run tests
         run: npm run test -- --coverage
 
-      - name: 🌪️ Publish to coveralls.io
-        uses: coverallsapp/github-action@v1.1.2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
     # services:
     #   mongodb:
     #       image: mongo
