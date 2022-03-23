@@ -1,9 +1,8 @@
-import React from 'react';
-import Socials from 'config/socialConstants';
-
+import React from "react"
+import Socials from "config/socialConstants"
 
 const Footer = () => {
-  const classes = {}; // TODO;
+  const classes = {} // TODO;
 
   return (
     <footer className={`footer ${classes.footer}`}>
@@ -25,7 +24,7 @@ const Footer = () => {
         ))}
       </div>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

@@ -1,7 +1,7 @@
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import * as ROUTES from 'config/routeConstants';
-import * as PAGES from 'components/pages';
+import React from "react"
+import { Route, Switch } from "react-router-dom"
+import * as ROUTES from "config/routeConstants"
+import * as PAGES from "components/pages"
 
 const Routes = () => (
   <Switch>
@@ -13,6 +13,6 @@ const Routes = () => (
     <Route path="/empty" component={PAGES.MissingPage} />
     <Route path="/" component={PAGES.MissingPage} />
   </Switch>
-);
+)
 
-export default Routes;
+export default Routes

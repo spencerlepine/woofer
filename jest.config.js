@@ -4,11 +4,21 @@ module.exports = {
   coveragePathIgnorePatterns: ["/node_modules/", "/*.test.js/"],
   projects: [
     {
+      displayName: "node",
+      testEnvironment: "node",
+      testMatch: ["<rootDir>/server/**/*.test.js?(x)"],
+      setupFilesAfterEnv: [
+        "<rootDir>/server/tests/utils/test-setup.js",
+        "<rootDir>/server/config/jest.setup.js",
+      ],
+      transformIgnorePatterns: ["node_modules/(?!.*?/es/.*\\.js)"],
+    },
+    {
       displayName: "DOM",
       testEnvironment: "jsdom",
-      setupFilesAfterEnv: ["<rootDir>/src/utils/test-utils.js"],
+      setupFilesAfterEnv: ["<rootDir>/client/src/utils/test-utils.js"],
       // "extensionsToTreatAsEsm": [".jsx"],
-      testMatch: ["<rootDir>/**/*.test.js"],
+      testMatch: ["<rootDir>/client/**/*.test.js"],
       setupFiles: ["dotenv/config"],
       modulePaths: ["/src/"],
       moduleDirectories: ["node_modules", "src"],
@@ -18,10 +28,11 @@ module.exports = {
       ],
       moduleFileExtensions: ["js"],
       moduleNameMapper: {
-        "\\.(css|less)$": "<rootDir>/src/__mocks__/styleMock.js",
-        "\\.(png|gif|ttf|eot|svg)$": "<rootDir>/src/__mocks__/fileMock.js",
+        "\\.(css|less)$": "<rootDir>/client/src/__mocks__/styleMock.js",
+        "\\.(png|gif|ttf|eot|svg)$": "<rootDir>/client/src/__mocks__/fileMock.js",
       },
       transformIgnorePatterns: ["node_modules/(?!.*?/es/.*\\.js)"],
     },
   ],
+  preset: "@shelf/jest-mongodb",
 }

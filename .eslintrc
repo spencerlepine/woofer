@@ -1,12 +1,13 @@
 {
   "extends": [
-    "react-app",
-    "eslint:recommended",
-    "plugin:react/recommended"
+    "eslint:recommended"
+    // "react-app",
+    // "plugin:react/recommended"
   ],
   "env": {
     "es6": true,
-    "browser": true
+    "node": true,
+    "jest": true
   },
   "parser": "@babel/eslint-parser",
   "parserOptions": {
@@ -18,12 +19,20 @@
     "sourceType": "module"
   },
   "rules": {
+    "no-undef": "off",
     "no-console": "off",
     "no-unused-vars": "off",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "quotes": [
+      2,
+      "double",
+      {
+        "avoidEscape": true
+      }
+    ]
   },
   "plugins": [
-    "react",
-    "prettier"
+    "prettier",
+    "react"
   ]
 }

@@ -55,15 +55,15 @@ module.exports = {
     new HtmlWebPackPlugin({
       template: path.resolve(__dirname, "client", "public", "index.html"),
       filename: "./index.html",
-      title: "QuickCart",
+      title: "Woofer",
       meta: {
         viewport:
           "width=device-width, initial-scale=1,viewport-fit=cover, shrink-to-fit=no",
         "theme-color": "#42b029",
         "apple-mobile-web-app-status-bar-style": "#42b029",
-        "og:title": "QuickCart",
+        "og:title": "Woofer",
         "og:description":
-          "Organize and budget a personal grocery cart for easy shopping",
+          "Dating app for dogs, a full stack MERN project",
         "content-type": {
           "http-equiv": "content-type",
           content: "text/html; charset=UTF-8",

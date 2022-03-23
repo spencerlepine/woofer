@@ -15,16 +15,16 @@ module.exports = {
     extensions: [".js", "*"],
     modules: [path.resolve(__dirname, "js"), "node_modules", "src"],
   },
-  entry: path.resolve(__dirname, "src", "index.js"),
+  entry: path.resolve(__dirname, "client", "src", "index.js"),
   output: {
-    path: path.resolve(__dirname, "build"),
+    path: path.resolve(__dirname, "client", "build"),
     filename: "[name].[chunkhash].bundle.js",
   },
   plugins: [
     new Dotenv(),
 
     new HtmlWebPackPlugin({
-      template: path.resolve(__dirname, "public", "index.html"),
+      template: path.resolve(__dirname, "client", "public", "index.html"),
       filename: "./index.html",
     }),
 
