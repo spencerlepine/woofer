@@ -69,6 +69,7 @@ jobs:
         run: npm run test -- --coverage
 
       - name: 🧪 Upload coverage to Codecov
+        if: "contains(${{ matrix.node }}, 16)"
         uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
