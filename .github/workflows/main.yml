@@ -68,12 +68,15 @@ jobs:
       - name: ✅  Run tests
         run: npm run test -- --coverage
 
-      - name: 🧪 Upload coverage to Codecov
-        if: "contains(${{ matrix.node }}, 16)"
-        uses: codecov/codecov-action@v2
+  coverage:
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🌪️ Publish to coveralls.io
+        uses: coverallsapp/github-action@v1.1.2
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./coverage/coverage-final.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
 
     # services:
     #   mongodb:
