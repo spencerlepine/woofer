@@ -74,6 +74,13 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: 🐳 Publish to Docker Registry [Development]
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: spencerlepine/woofer-dev
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
     # services:
     #   mongodb:
     #       image: mongo
