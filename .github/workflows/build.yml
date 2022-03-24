@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 env:
   CI: true
@@ -31,7 +28,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ['14', '16']
+        node: ['16']
         os: [ubuntu-latest]
 
     name: Node ${{ matrix.node }} on ${{ matrix.os }}
@@ -72,12 +69,11 @@ jobs:
         run: npm run test -- --coverage
 
       - name: 🌪️ Publish to coveralls.io
-        if: "contains(${{ matrix.node }}, 16)"
         uses: coverallsapp/github-action@v1.1.2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish to Docker Registry
+      - name: 🐳 Publish to Docker Registry
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
           name: spencerlepine/woofer
