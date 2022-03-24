@@ -28,7 +28,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ['14', '16']
+        node: ['16']
         os: [ubuntu-latest]
 
     name: Node ${{ matrix.node }} on ${{ matrix.os }}
@@ -69,22 +69,13 @@ jobs:
         run: npm run test -- --coverage
 
       - name: 🌪️ Publish to coveralls.io
-        if: "contains(${{ matrix.node }}, 16)"
         uses: coverallsapp/github-action@v1.1.2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-    # services:
-    #   mongodb:
-    #       image: mongo
-    #       env:
-    #         MONGO_INITDB_ROOT_USERNAME: test
-    #         MONGO_INITDB_ROOT_PASSWORD: password
-    #         MONGO_INITDB_DATABASE: test
-    #       options: >-
-    #         --health-cmd mongo
-    #         --health-interval 10s
-    #         --health-timeout 5s
-    #         --health-retries 5
-    #       ports:
-    #         - 27017:27017
+      - name: 🐳 Publish to Docker Registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: spencerlepine/woofer
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}

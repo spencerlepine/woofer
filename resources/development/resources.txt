@@ -2,3 +2,5 @@ https://excalidraw.com/?ref=uxcollectivebrasil
 
 MERN Repo Setup:
 https://gegia.me/mern-monorepo-boilerplate/
+
+https://yonatankra.com/7-github-actions-tricks-i-wish-i-knew-before-i-started/
