@@ -1,97 +1,84 @@
 # Woofer &middot; [![CI](https://github.com/spencerlepine/woofer/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/spencerlepine/woofer/actions/workflows/main.yml) [![Coverage Status](https://coveralls.io/repos/github/spencerlepine/woofer/badge.svg?branch=main)](https://coveralls.io/github/spencerlepine/woofer?branch=main)
 
-Dating app for dogs, a full stack MERN project.
+Dating app for dogs. Customize a dating profile, update preferences, and match/chat with nearby users.
 
 [![Demo GIF](./resources/images/demo.gif)](https://woofer-demo.herokuapp.com/)
 
-## Table of Contents
+# 🎯 Overview
 
-- [Description](#description)
-- [Features](#features)
-- [⚙️ Setup](#setup)
-- [API Schema](#api-schema)
-- [Application Architecture](#application-architectures)
-- [Database Design](#database-design)
-- [📦 Technologies](#technologies)
-- [🎯 Ticket System](#ticket-system)
-- [Contributors](#contributors)
+- Designed a MongoDB atlas NoSQL database managing user profile records, zip code groups, and yes/no match records
+- Built real-time chat feature with Socket.io with persistent message history stored in the database.
+- Integrated Firebase Authentication to manage user accounts, and verify tokens for the backend API requests.
+- Integrated CI/CD pipeline with Git, Jest, GitHub Actions, Docker Hub, and AWS EC2.
+- Developed with a ticket system and feature branches, while following schemas and UI designs.
 
-# Description
-
-Woofer is a straight-foward dating app for our furry friends. Users can customize a dating profile, update preferences, match with nearby users, and chat with mutual matches.
-
-A solo full-stack MERN project completed to practice test-driven development with modular code. This was created in several weeks following the ticket system with feature branches.
-
-# Features
+# 🌟 Features
 
 See the [Whitepaper](./WOOFER_WHITEPAPER.md).
-# Setup:
 
-- Create a Firebase project
-- Create a MongoDB Atlas Database
-- Complete the `.env` file, referencing `.env.sample`
+# ⚙️ Setup:
 
-```sh
-    cd client
-    cp .env.sample .env
-    npm install
-    npm start
-```
+**Prerequisites:**
+
+- [Firebase](https://firebase.google.com/) project
+- [MongoDB Atlas](https://www.mongodb.com/atlas/database) Database
+- [Docker](https://www.docker.com/) installed locally, and a [DockerHub](https://hub.docker.com/) account
+- Updated `.env` file, referencing `.env.development`
+- **NOTE:** create `DOCKER_USERNAME` and `DOCKER_PASSWORDS` secrets if using a new GitHub repository
 
 ```sh
-    cd server # open new window
-    cp .env.sample .env
-    npm install
-    npm start
+cp .env.development .env.production
+npm install
+# start server/client for development
+npm run dev:react
+npm run dev:server
+# OR build and run with Node
+npm run build
+npm start
 ```
 
-# API Schema
+**OR: Run Docker Containers:**
+
+```sh
+docker compose build
+docker compose up
+docker-compose --env-file ./.env.development up
+```
+
+# 📦 Technologies:
+
+**Front-end:** [React](https://github.com/facebook/react/), [Burma](https://github.com/jgthms/bulma)
+
+**Backend:** [Node](https://nodejs.org/), [Express.js](http://expressjs.com/), [MongoDB](https://docs.mongodb.com/)
+
+**Testing:** [Jest](https://jestjs.io/) , [supertest](https://github.com/visionmedia/supertest), [Testing Library](https://testing-library.com/docs/react-testing-library/intro/), [Puppeteer](https://pptr.dev/), [Coveralls.io](https://coveralls.io/)
+
+**CI/CD:** [Docker](https://docs.docker.com/), [GitHub Actions](https://docs.github.com/en/actions), [AWS EC2](https://aws.amazon.com/ec2/)
+
+**Modules:** [Firebase](https://firebase.google.com/) (Authentication), [Joi](https://github.com/sideway/joi) (Input verification), [Socket.io](https://socket.io/) (Chat API)
+
+# 🌐API Schema
 
 See [Endpoint Schema](./resources/WOOFER_API.md).
 
-# Application Architecture
+# 🏗️ Application Architecture
 
 ![Deployment Architecture](./resources/images/Project_Deployment.png)
 
-# Database Design
+# 🗄Database Design
 
 ![Database Design](./resources/images/Database_Design.png)
 
-# Technologies:
+# 🗃️ Ticket System
 
-Development:
-- [GitHub](https://github.com/)
-- [Heroku](https://www.heroku.com/)
-- [Coveralls.io](https://coveralls.io/)
-<!-- - [docker-compose](https://docs.docker.com/compose/) -->
-
-Front-end:
-- [React](https://github.com/facebook/react/)
-- [Burma](https://github.com/jgthms/bulma) CSS Framework
-- [Firebase](https://firebase.google.com/) Authentication
-
-Backend:
-- [Node](https://nodejs.org/)
-- [Express.js](http://expressjs.com/)
-- [MongoDB](https://docs.mongodb.com/)
-
-Testing:
-- [Jest](https://jestjs.io/) Jest Mock for Unit Testing MERN Back-end | by Yasaminkamali | JavaScript in Plain English
-<!-- - [Crypress](https://www.cypress.io/) End-to-end testing -->
-- [supertest](https://github.com/visionmedia/supertest) Express /endpoint testing
-
-Modules:
-- [Joi](https://github.com/sideway/joi) Input verification
-- [Socket.io](https://socket.io/) API for chat
-
-# Ticket System
 - Project Steps: [Trello Board](https://trello.com/b/tYtdHAT5/woofer-project)
+
 - Development Process: [Trello Board](https://trello.com/b/kf2DJ80r/woofer-development)
 
-# Contributors
+# 🚀 Contributors
 
 - [Spencer Lepine](https://github.com/spencerlepine)
-
----
-
-🏠 [spencerlepine.com](https://www.spencerlepine.com) &nbsp;&middot;&nbsp; 😺 GitHub [@spencerlepine](https://github.com/spencerlepine) &nbsp;&middot;&nbsp; 🐦 Twitter [@spencerlepine](http://twitter.com/spencerlepine)
+  - 🏠 Blog [spencerlepine.com](https://www.spencerlepine.com)
+  - 😺 GitHub [@spencerlepine](https://github.com/spencerlepine)
+  - 🐦 Twitter [@spencerlepine](http://twitter.com/spencerlepine)
+  - 💼 [LinkedIn](https://www.linkedin.com/in/spencer-lepine)
