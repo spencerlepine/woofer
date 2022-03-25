@@ -27,7 +27,7 @@ jobs:
       node: ['16']
       os: [ubuntu-latest]
 
-  name: [TEST]
+  name: (TEST)
   steps:
     - name: 🎯 Print OS and Node version
       run: Runnig on ${{ matrix.os }} with Node v${{ matrix.node }}
