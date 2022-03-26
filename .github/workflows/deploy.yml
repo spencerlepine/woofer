@@ -30,7 +30,7 @@ jobs:
 
   # Skip entire job based on secrets
   build:
-    needs: [check-registry-secrets]
+    needs: [check-github-secrets]
     if: needs.check-registry-secrets.outputs.have_secrets == 'true'
     runs-on: ubuntu-latest
 
