@@ -27,10 +27,11 @@ jobs:
         node: ['16']
         os: [ubuntu-latest]
 
-    name: (TEST)
+    name: CI
     steps:
       - name: 🎯 Print OS and Node version
-        run: Runnig on ${{ matrix.os }} with Node v${{ matrix.node }}
+        run: echo "Running on ${{ matrix.os }} with Node v${{ matrix.node }}"
+
       - name: 🍃 Create mongoDB Docker container
         run: sudo docker run -d -p 27017:27017 mongo:latest
 
