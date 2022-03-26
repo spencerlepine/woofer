@@ -11,6 +11,11 @@ jobs:
    outputs:
      have_secrets: ${{ steps.setvar.outputs.have_secrets }}
    steps:
+     - name: ♻️ Check out Git Repository
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
      - id: setvar
        run: |
          if [[ "${{ secrets.EC2_SSH_KEY }}" != "" && \
@@ -28,9 +33,14 @@ jobs:
   deploy:
     needs: [build]
     if: needs.check-registry-secrets.outputs.have_secrets == 'true'
-    name: Node Build
+    name: EC2 Deploy
     runs-on: ubuntu-latest
     steps:
+       - name: ♻️ Check out Git Repository
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
         - name: TODO
           run: echo "TODO"
       # - name: Deploy to EC2 Server

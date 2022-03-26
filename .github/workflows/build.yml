@@ -47,6 +47,11 @@ jobs:
     outputs:
       have_secrets: ${{ steps.setvar.outputs.have_secrets }}
     steps:
+      - name: ♻️ Check out Git Repository
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
       - id: setvar
         run: |
           if [[ "${{ secrets.DOCKER_HUB_USERNAME }}" != "" && \
