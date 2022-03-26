@@ -13,6 +13,6 @@ jobs:
 
   deploy-dev:
     uses: ./.github/workflows/deploy.yml
-    with:
+    env:
       docker_username: spencerlepine
       docker_repo: woofer-dev
