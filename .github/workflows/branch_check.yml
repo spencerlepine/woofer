@@ -14,5 +14,5 @@ jobs:
   deploy-dev:
     uses: ./.github/workflows/deploy.yml
     with:
-      DOCKER_USERNANE: spencerlepine
-      DOCKER_REPO: woofer-dev
+      docker_username: spencerlepine
+      docker_repo: woofer-dev
