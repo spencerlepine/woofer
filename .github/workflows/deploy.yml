@@ -11,7 +11,7 @@ jobs:
     name: (Docker Publish)
     steps:
       - name: LOG
-        - run: ${{ env.DOCKER_USERNAME }}
+        - run: echo ${{ env.DOCKER_USERNAME }}
       - name: 🐳 Publish to Docker Registry
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
