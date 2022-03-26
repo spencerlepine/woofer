@@ -11,8 +11,10 @@ jobs:
     name: (Docker Publish)
     steps:
       - name: 🐳 Publish to Docker Registry
+        env:
+
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}
+          name: ${{ secrets.DOCKER_REPO }}
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}

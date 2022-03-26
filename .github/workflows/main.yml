@@ -12,6 +12,3 @@ jobs:
 
   deploy:
     uses: ./.github/workflows/deploy.yml
-    env:
-      DOCKER_USERNAME: spencerlepine
-      DOCKER_REPO: woofer
