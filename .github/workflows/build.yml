@@ -61,6 +61,9 @@ jobs:
       - name: Create placeholder env file
         run: touch .env.production
 
+       - name: ⬇️  Install packages
+        run: npm install
+
       - name: 🔖 Set up Node
         uses: actions/setup-node@v1
         with:
