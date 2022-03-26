@@ -52,19 +52,19 @@ jobs:
   #       with:
   #         persist-credentials: false
 
-  #     - id: setvar
-        run: |
-          if [[ "${{ secrets.DOCKER_HUB_USERNAME }}" != "" && \
-                "${{ secrets.DOCKER_HUB_PASSWORD }}" != "" && \
-                "${{ secrets.DOCKER_HUB_REPO }}" != "" ]]; \
-          then
-            echo "Secrets need to deploy were configured in the repo"
-            echo "::set-output name=have_secrets::true"
-          else
-            echo "Secrets need to deploy were not configured in the repo"
-            echo "::set-output name=have_secrets::false"
-            run: exit 1
-          fi
+  # #     - id: setvar
+  #       run: |
+  #         if [[ "${{ secrets.DOCKER_HUB_USERNAME }}" != "" && \
+  #               "${{ secrets.DOCKER_HUB_PASSWORD }}" != "" && \
+  #               "${{ secrets.DOCKER_HUB_REPO }}" != "" ]]; \
+  #         then
+  #           echo "Secrets need to deploy were configured in the repo"
+  #           echo "::set-output name=have_secrets::true"
+  #         else
+  #           echo "Secrets need to deploy were not configured in the repo"
+  #           echo "::set-output name=have_secrets::false"
+  #           run: exit 1
+  #         fi
 
   build-docker:
     # needs: [check-github-secrets]
