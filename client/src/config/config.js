@@ -4,10 +4,9 @@
  * and match expected value/type
  */
 
-const dotenv = require("dotenv")
-const path = require("path")
-const Joi = require("joi")
-
+import dotenv from "dotenv"
+import path from "path"
+import Joi from "joi"
 const nodeEnv = process.env.NODE_ENV || "development"
 dotenv.config({ path: path.join(__dirname, `../../../.env.${nodeEnv}`) })
 
@@ -28,6 +27,4 @@ if (error) {
   throw new Error(`Config validation error: ${error.message}`)
 }
 
-module.exports = {
-  ...envVars,
-}
+export default envVars
