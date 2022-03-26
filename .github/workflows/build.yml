@@ -40,19 +40,19 @@ jobs:
           NODE_ENV: production
         run: npm run build
 
-  check-github-secrets:
-    needs: [build-node]
-    name: Verify Secrets Exist
-    runs-on: ubuntu-latest
-    outputs:
-      have_secrets: ${{ steps.setvar.outputs.have_secrets }}
-    steps:
-      - name: ♻️ Check out Git Repository
-        uses: actions/checkout@v2
-        with:
-          persist-credentials: false
+  # check-github-secrets:
+  #   needs: [build-node]
+  #   name: Verify Secrets Exist
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     have_secrets: ${{ steps.setvar.outputs.have_secrets }}
+  #   steps:
+  #     - name: ♻️ Check out Git Repository
+  #       uses: actions/checkout@v2
+  #       with:
+  #         persist-credentials: false
 
-      - id: setvar
+  #     - id: setvar
         run: |
           if [[ "${{ secrets.DOCKER_HUB_USERNAME }}" != "" && \
                 "${{ secrets.DOCKER_HUB_PASSWORD }}" != "" && \
@@ -66,10 +66,10 @@ jobs:
             run: exit 1
           fi
 
-  # Skip entire job based on secrets
   build-docker:
-    needs: [check-github-secrets]
-    if: needs.check-registry-secrets.outputs.have_secrets == 'true'
+    # needs: [check-github-secrets]
+    needs: [build-node]
+    # if: needs.check-registry-secrets.outputs.have_secrets == 'true'
     runs-on: ubuntu-latest
 
     name: Docker Build/Publish
