@@ -25,12 +25,6 @@ jobs:
            run: exit 1
          fi
 
-  # Skip entire job based on secrets
-  deploy:
-    needs: [check-github-secrets]
-    if: needs.check-registry-secrets.outputs.have_secrets == 'true'
-    runs-on: ubuntu-latest
-
   deploy:
    needs: [build]
    if: needs.check-registry-secrets.outputs.have_secrets == 'true'

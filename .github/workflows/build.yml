@@ -9,6 +9,32 @@ jobs:
     name: Node Build
     runs-on: ubuntu-latest
     steps:
+      - name: ♻️ Check out Git Repository
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: 🔖 Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: ⬇️  Install packages
+        run: npm install
+
       - name: 🏗 Build client files
         env:
           NODE_ENV: production
@@ -36,13 +62,18 @@ jobs:
           fi
 
   # Skip entire job based on secrets
-  build:
+  build-docker:
     needs: [check-github-secrets]
     if: needs.check-registry-secrets.outputs.have_secrets == 'true'
     runs-on: ubuntu-latest
 
-    name: Docker Publish
+    name: Docker Build/Publish
     steps:
+      - name: ♻️ Check out Git Repository
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
       - name: Login to Docker Hub
         uses: docker/login-action@v1
         with:
