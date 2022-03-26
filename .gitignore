@@ -5,6 +5,7 @@ build
 
 # misc
 .DS_Store
+.env.development
 .env.production
 .eslintcache
 globalConfig.json

@@ -5,7 +5,33 @@ on:
 
 jobs:
 
-  deploy:
+  check-github-secrets:
+   name: Verify Secrets Exist
+   runs-on: ubuntu-latest
+   outputs:
+     have_secrets: ${{ steps.setvar.outputs.have_secrets }}
+   steps:
+     - id: setvar
+       # "${{ secrets.EC2_SSH_KEY }}" != "" && \
+       # "${{ secrets.EC2_REMOTE_HOST }}" != "" && \
+       # "${{ secrets.EC2_REMOTE_USER }}" != "" && \
+       run: |
+         if [[ "${{ secrets.DOCKER_USERNAME }}" != "" && \
+               "${{ secrets.DOCKER_PASSWORD }}" != "" && \
+               "${{ secrets.DOCKERHUB_REPO }}" != "" ]]; \
+         then
+           echo "Secrets need to deploy were configured in the repo"
+           echo "::set-output name=have_secrets::true"
+         else
+           echo "Secrets need to deploy were not configured in the repo"
+           echo "::set-output name=have_secrets::false"
+         fi
+
+
+ # Skip entire job based on secrets
+ build:
+   needs: [check-registry-secrets]
+   if: needs.check-registry-secrets.outputs.have_secrets == 'true'
     runs-on: ubuntu-latest
 
     name: (Docker Publish)
@@ -13,6 +39,19 @@ jobs:
       - name: 🐳 Publish to Docker Registry
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: ${{ secrets.DOCKER_REPO }}
+          name: ${{ secrets.DOCKERHUB_REPO }}
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+
+  # deploy:
+  #  needs: [build]
+  #  if: needs.check-registry-secrets.outputs.have_secrets == 'true'
+  #   runs-on: ubuntu-latest
+
+      # - name: Deploy to EC2 Server
+      #   uses: easingthemes/ssh-deploy@main
+      #   env:
+      #     SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+      #     REMOTE_HOST: ${{ secrets.HOST_DNS }}
+      #     REMOTE_USER: ${{ secrets.USERNAME }}
+      #     TARGET: ${{ secrets.TARGET_DIR }}

@@ -18,16 +18,10 @@ See the [Whitepaper](./WOOFER_WHITEPAPER.md).
 
 # ⚙️ Setup:
 
-**Prerequisites:**
-
 - [Firebase](https://firebase.google.com/) project
 - [MongoDB Atlas](https://www.mongodb.com/atlas/database) Database
-- [Docker](https://www.docker.com/) installed locally, and a [DockerHub](https://hub.docker.com/) account
-- Updated `.env` file, referencing `.env.development`
-- **NOTE:** create `DOCKER_USERNAME` and `DOCKER_PASSWORDS` secrets if using a new GitHub repository
 
 ```sh
-cp .env.development .env.production
 npm install
 # start server/client for development
 npm run dev:react
@@ -37,9 +31,19 @@ npm run build
 npm start
 ```
 
-**OR: Run Docker Containers:**
+### For Docker + Deployment:
+
+#### Prerequisites
+
+- [Docker](https://www.docker.com/) installed locally
+- [DockerHub](https://hub.docker.com/) account
+- AWS [EC2](https://aws.amazon.com/ec2/) instance running
+
+- Create `.env.development` or `.env.production` file, see [`.env.sample`](./.env.sample)
+- **GitHub Repository Secrets:** see [EXAMPLE_SECRETS](./resources/EXAMPLE_SECRETS.md)
 
 ```sh
+# cp .env.development .env.production
 docker compose build
 docker compose up
 docker-compose --env-file ./.env.development up
