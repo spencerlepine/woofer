@@ -13,8 +13,9 @@ on:
 jobs:
 
   deploy:
-    name: EC2 Deploy
     runs-on: ubuntu-latest
+
+    name: EC2 Deploy
     steps:
       - name: ♻️ Check out Git Repository
         uses: actions/checkout@v2
