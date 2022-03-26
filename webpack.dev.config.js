@@ -21,7 +21,9 @@ module.exports = {
     filename: "[name].[chunkhash].bundle.js",
   },
   plugins: [
-    new Dotenv(),
+    new Dotenv({
+      path: "./.env.development",
+    }),
 
     new HtmlWebPackPlugin({
       template: path.resolve(__dirname, "client", "public", "index.html"),

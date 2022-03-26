@@ -46,7 +46,7 @@ module.exports = {
     historyApiFallback: true,
   },
   plugins: [
-    new Dotenv({ systemvars: true }),
+    new Dotenv({ systemvars: true, path: "./.env.production" }),
 
     new CompressionPlugin({
       test: /\.js(\?.*)?$/i,
@@ -62,8 +62,7 @@ module.exports = {
         "theme-color": "#42b029",
         "apple-mobile-web-app-status-bar-style": "#42b029",
         "og:title": "Woofer",
-        "og:description":
-          "Dating app for dogs, a full stack MERN project",
+        "og:description": "Dating app for dogs, a full stack MERN project",
         "content-type": {
           "http-equiv": "content-type",
           content: "text/html; charset=UTF-8",
