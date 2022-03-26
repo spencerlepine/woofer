@@ -20,6 +20,6 @@ jobs:
       - name: 🐳 Publish to Docker Registry
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: "${inputs.DOCKER_USERNAME}/${inputs.DOCKER_REPO}"
+          name: ${{ inputs.DOCKER_USERNAME }}/${{ inputs.DOCKER_REPO}}
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}

@@ -14,4 +14,4 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     with:
       DOCKER_USERNANE: spencerlepine
-      DOCKER_REPO: woofer-dev
+      DOCKER_REPO: woofer
