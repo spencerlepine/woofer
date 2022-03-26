@@ -22,9 +22,6 @@ jobs:
       have_secrets: ${{ steps.setvar.outputs.have_secrets }}
     steps:
       - id: setvar
-        # "${{ secrets.EC2_SSH_KEY }}" != "" && \
-        # "${{ secrets.EC2_REMOTE_HOST }}" != "" && \
-        # "${{ secrets.EC2_REMOTE_USER }}" != "" && \
         run: |
           if [[ "${{ secrets.DOCKER_USERNAME }}" != "" && \
                 "${{ secrets.DOCKER_PASSWORD }}" != "" && \
@@ -32,7 +29,6 @@ jobs:
           then
             echo "Secrets need to deploy were configured in the repo"
             echo "::set-output name=have_secrets::true"
-            run: exit 1
           else
             echo "Secrets need to deploy were not configured in the repo"
             echo "::set-output name=have_secrets::false"
