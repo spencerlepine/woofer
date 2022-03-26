@@ -14,7 +14,6 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-
     name: EC2 Deploy
     steps:
       - name: ♻️ Check out Git Repository
@@ -22,8 +21,8 @@ jobs:
         with:
           persist-credentials: false
 
-        - name: TODO
-          run: echo "TODO"
+      - name: TODO
+        run: echo "TODO"
       # - name: Deploy to EC2 Server
       #   uses: easingthemes/ssh-deploy@main
       #   env:
