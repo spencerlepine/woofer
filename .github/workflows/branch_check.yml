@@ -12,4 +12,5 @@ jobs:
     uses: ./.github/workflows/test.yml
 
   deploy-dev:
+    needs: [test]
     uses: ./.github/workflows/deploy.yml
