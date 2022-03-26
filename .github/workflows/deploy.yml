@@ -30,9 +30,11 @@ jobs:
   #          run: exit 1
   #        fi
 
-  deploy:
+  # deploy:
     # needs: [build]
     # if: needs.check-registry-secrets.outputs.have_secrets == 'true'
+
+  deploy:
     name: EC2 Deploy
     runs-on: ubuntu-latest
     steps:

@@ -66,10 +66,12 @@ jobs:
   #           run: exit 1
   #         fi
 
-  build-docker:
+  # build-docker:
     # needs: [check-github-secrets]
-    needs: [build-node]
     # if: needs.check-registry-secrets.outputs.have_secrets == 'true'
+
+  build-docker:
+    needs: [build-node]
     runs-on: ubuntu-latest
 
     name: Docker Build/Publish
