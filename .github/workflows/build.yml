@@ -1,47 +1,27 @@
-name: CI
+name: build
 
 on:
-  push:
-    branches:
-      - main
-
-env:
-  CI: true
-  NODE_ENV: development
-  PORT: 3000
-  MONGODB_URL: mongodb://127.0.0.1:27017/test
-  LOCAL_MONGODB_URL: mongodb://127.0.0.1:27017/test
+  workflow_call:
+    secrets:
+      DOCKER_HUB_USERNAME:
+        required: true
+      DOCKER_HUB_PASSWORD:
+        required: true
+      DOCKER_HUB_REPO:
+        required: true
 
 jobs:
 
-  ci:
-    runs-on: ${{ matrix.os }}
-    env:
-      REACT_APP_FIREBASE_API_KEY: asdf
-      REACT_APP_FIREBASE_AUTH_DOMAIN: asdf
-      REACT_APP_FIREBASE_PROJECT_ID: asdf
-      REACT_APP_FIREBASE_STORAGE_BUCKET: asdf
-      REACT_APP_FIREBASE_MESSAGING_SENDER_ID: asdf
-      REACT_APP_FIREBASE_APP_ID: asdf
-      REACT_APP_FIREBASE_MEASUREMENT_ID: asdf
-      API_URL: asdf
-    strategy:
-      fail-fast: false
-      matrix:
-        node: ['16']
-        os: [ubuntu-latest]
-
-    name: Node ${{ matrix.node }} on ${{ matrix.os }}
+  build-node:
+    name: Node Build
+    runs-on: ubuntu-latest
     steps:
-      - name: Create mongoDB Docker container
-        run: sudo docker run -d -p 27017:27017 mongo:latest
-
       - name: ♻️ Check out Git Repository
         uses: actions/checkout@v2
         with:
           persist-credentials: false
 
-      - name: 🔖  Set up Node
+      - name: 🔖 Set up Node
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
@@ -62,20 +42,49 @@ jobs:
       - name: ⬇️  Install packages
         run: npm install
 
-      - name: 🧽 Lint all files
-        run: npm run lint
+      - name: 🏗 Build client files
+        env:
+          NODE_ENV: production
+        run: npm run build
 
-      - name: ✅  Run tests
-        run: npm run test -- --coverage
+  build-docker:
+    needs: [build-node]
+    runs-on: ubuntu-latest
 
-      - name: 🌪️ Publish to coveralls.io
-        uses: coverallsapp/github-action@v1.1.2
+    name: Docker Build/Publish
+    steps:
+      - name: ♻️ Check out Git Repository
+        uses: actions/checkout@v2
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: false
+
+      - name: Create placeholder env file
+        run: touch .env.production
+
+      - name: ⬇️  Install packages
+        run: npm install
+
+      - name: 🔖 Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
       - name: 🐳 Publish to Docker Registry
-        uses: elgohr/Publish-Docker-Github-Action@master
+        uses: docker/build-push-action@v2
         with:
-          name: spencerlepine/woofer
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          context: ./
+          file: ./Dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_REPO }}:latest
+          cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_REPO }}:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_REPO }}:buildcache,mode=max

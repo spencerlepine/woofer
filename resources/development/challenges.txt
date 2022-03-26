@@ -39,3 +39,26 @@ Used CONTSANTS for API routes.
 Used references to the database schema to verify INCOMING and OUTCOMING data. Instead of hoping the data was good, ONLY valid data could be entered strictly.
 Everything is tightly coupled with the CONSTANTS and SCHEMAS, referring these in each module.
 Keeping the code modular allowed me to have a reusable configuration and constants file. This could be passed around to different files and quickly referenced.
+
+ENV Files?:
+Context: Need enviroment variables for tokens and config.
+Problem: Docker was building with .env in it.
+Solution:
+ - Ignore .env file, pass in .env file during docker-compose up
+ - Organized .env to development and production files for clearer distinction
+ - Easier to reuse these files
+
+CI/CD Pipeline Optimization:
+Context: using GitHub actions for each task, testing, building, deploying
+Problem: SLOW GitHub Actions => Installing packages and setting up enviroments OVER and OVER
+Solution:
+ - Using artifacts to cache npm modules??
+ - Not sure how to optimize GitHub actions yet, just trying to get it working
+
+GitHub actions setup:
+Context: Trying to organize testing, building, and deploying ALL in GitHub actions
+Problem: Getting very messy, hard to tell what fails
+Solution:
+ - Make reusable workflows
+ - Identify what CI/CD process fails
+ - Find error details with context easier

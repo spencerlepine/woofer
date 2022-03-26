@@ -2,7 +2,8 @@
 
 FROM node:14.15.3-alpine3.12
 
-ARG NODE_ENV=development
+ARG NODE_ENV=production
+ARG PORT=3000
 
 # Create App Directory
 RUN mkdir -p /usr/src/app
@@ -19,6 +20,6 @@ COPY . .
 RUN npm run build
 
 # Exports
-EXPOSE 3000
+EXPOSE $PORT
 
 CMD ["npm","start"]

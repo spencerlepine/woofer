@@ -8,7 +8,8 @@ const dotenv = require("dotenv")
 const path = require("path")
 const Joi = require("joi")
 
-dotenv.config({ path: path.join(__dirname, "../../.env") })
+const nodeEnv = process.env.NODE_ENV || "development"
+dotenv.config({ path: path.join(__dirname, `../../.env.${nodeEnv}`) })
 
 const envVarsSchema = Joi.object()
   .keys({
@@ -17,7 +18,6 @@ const envVarsSchema = Joi.object()
       .default("production"),
     PORT: Joi.string().required().description("Entry port the express server"),
     MONGODB_URL: Joi.string().required().description("Mongo DB url"),
-    LOCAL_MONGODB_URL: Joi.string().required().description("Mongo DB url"),
   })
   .unknown()
 
@@ -32,7 +32,6 @@ if (error) {
 module.exports = {
   ...envVars,
   MONGOOSE: {
-    testUrl: envVars.LOCAL_MONGODB_URL,
     url: envVars.MONGODB_URL,
     options: {
       useNewUrlParser: true,

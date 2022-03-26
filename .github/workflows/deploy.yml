@@ -1,0 +1,32 @@
+name: deploy
+
+on:
+  workflow_call:
+    secrets:
+      DOCKER_HUB_USERNAME:
+        required: true
+      DOCKER_HUB_PASSWORD:
+        required: true
+      DOCKER_HUB_REPO:
+        required: true
+
+jobs:
+
+  deploy:
+    name: EC2 Deploy
+    runs-on: ubuntu-latest
+    steps:
+       - name: ♻️ Check out Git Repository
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+        - name: TODO
+          run: echo "TODO"
+      # - name: Deploy to EC2 Server
+      #   uses: easingthemes/ssh-deploy@main
+      #   env:
+      #     SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+      #     REMOTE_HOST: ${{ secrets.HOST_DNS }}
+      #     REMOTE_USER: ${{ secrets.USERNAME }}
+      #     TARGET: ${{ secrets.TARGET_DIR }}

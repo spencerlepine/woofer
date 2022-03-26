@@ -12,9 +12,6 @@ services:
       - "3000:3000"
     depends_on:
       - mongo
-    env_file: ./.env
-    environment:
-      - NODE_ENV=development
     networks:
       - app-network
   mongo:
