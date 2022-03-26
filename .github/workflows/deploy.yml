@@ -26,12 +26,13 @@ jobs:
          fi
 
   deploy:
-   needs: [build]
-   if: needs.check-registry-secrets.outputs.have_secrets == 'true'
+    needs: [build]
+    if: needs.check-registry-secrets.outputs.have_secrets == 'true'
+    name: Node Build
     runs-on: ubuntu-latest
-
-      - name: TODO
-        run: echo "TODO"
+    steps:
+        - name: TODO
+          run: echo "TODO"
       # - name: Deploy to EC2 Server
       #   uses: easingthemes/ssh-deploy@main
       #   env:
