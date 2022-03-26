@@ -51,7 +51,7 @@ jobs:
         run: |
           if [[ "${{ secrets.DOCKER_HUB_USERNAME }}" != "" && \
                 "${{ secrets.DOCKER_HUB_PASSWORD }}" != "" && \
-                "${{ secrets.DOCKERHUB_HUB_REPO }}" != "" ]]; \
+                "${{ secrets.DOCKER_HUB_REPO }}" != "" ]]; \
           then
             echo "Secrets need to deploy were configured in the repo"
             echo "::set-output name=have_secrets::true"
