@@ -16,7 +16,7 @@ jobs:
     name: EC2 Deploy
     runs-on: ubuntu-latest
     steps:
-       - name: ♻️ Check out Git Repository
+      - name: ♻️ Check out Git Repository
         uses: actions/checkout@v2
         with:
           persist-credentials: false
