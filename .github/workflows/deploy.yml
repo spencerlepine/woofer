@@ -2,6 +2,13 @@ name: deploy
 
 on:
   workflow_call:
+    secrets:
+      DOCKER_HUB_USERNAME:
+        required: true
+      DOCKER_HUB_PASSWORD:
+        required: true
+      DOCKER_HUB_REPO:
+        required: true
 
 jobs:
 
