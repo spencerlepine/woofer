@@ -1,6 +1,3 @@
-// import React from 'react';
-// import { screen, render } from 'test-utils';
-// import * as authUser from 'api/firebase/account';
 import useAuth, { AuthProvider } from "./AuthContext"
 import { testContextExports } from "utils/test-utils"
 
