@@ -2,8 +2,9 @@
 
 const path = require("path")
 const HtmlWebPackPlugin = require("html-webpack-plugin")
-const Dotenv = require("dotenv-webpack")
 const webpack = require("webpack")
+
+const Dotenv = require("dotenv-webpack")
 
 module.exports = {
   mode: "development",
@@ -21,13 +22,14 @@ module.exports = {
     filename: "[name].[chunkhash].bundle.js",
   },
   plugins: [
-    new Dotenv({
-      path: "./.env.development",
-    }),
-
     new HtmlWebPackPlugin({
       template: path.resolve(__dirname, "client", "public", "index.html"),
       filename: "./index.html",
+    }),
+
+    new Dotenv({
+      path: "./.env.development",
+      prefix: "process.env.",
     }),
 
     new webpack.DefinePlugin({

@@ -1,12 +1,14 @@
 import axios from "axios"
+import config from "config/config"
 import constants from "config/constants"
 const { endpointURLStr } = constants
+const { SERVER_URL } = config
 
 export const postUserSwipe = (body, callback) => {
   const url = endpointURLStr(["MATCHES", "SWIPE"], "POST")
 
   axios
-    .post(url, body)
+    .post(SERVER_URL + url, body)
     .then((response) => {
       const {
         [DATA_KEYS["CHAT_ID"]]: chatId,

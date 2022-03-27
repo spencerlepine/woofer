@@ -17,8 +17,8 @@
   "scripts": {
     "start": "node server/src/index.js",
     "dev:server": "nodemon server/src/index.js",
-    "dev:client": "webpack serve --config ./webpack.dev.config.js",
-    "build": "webpack --config ./webpack.prod.config.js",
+    "dev:client": "webpack serve --config ./webpack.dev.config.js --env development --mode development",
+    "build": "webpack --config ./webpack.prod.config.js --env production --mode production",
     "lint": "eslint . --ext .js",
     "test": "jest --detectOpenHandles --runInBand --forceExit",
     "test:watch": "jest --onlyChanged --watch"
