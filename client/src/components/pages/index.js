@@ -1,2 +1,5 @@
 export { default as WelcomePage } from "./WelcomePage"
 export { default as MissingPage } from "./MissingPage"
+export { default as LoginPage } from "./LoginPage"
+export { default as SignupPage } from "./SignupPage"
+export { default as HomePage } from "./HomePage"

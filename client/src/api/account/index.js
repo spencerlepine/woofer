@@ -1,5 +1,11 @@
-// TODO
+import axios from "axios"
 import { auth, storage } from "config/firebase"
+import createNotif from "components/ui/NotificationsPopup"
+import config from "config/config"
+const { SERVER_URL } = config
+import constants from "config/constants"
+const { endpointURLStr, DATA_KEYS } = constants
+import { mockUser, mockUserB } from "./mockUser"
 
 export const checkLoginStatus = (successCb) => {
   if (auth) {
@@ -20,38 +26,47 @@ export const signInWithEmailAndPassword = (email, password, successCb) => {
     .catch((error) => console.log(error))
 }
 
-// export const createUserWithEmailAndPassword = (
-//   displayName,
-//   email,
-//   password,
-//   successCb,
-// ) => {
-//   auth
-//     .createUserWithEmailAndPassword(email, password)
-//     .then(userCredential => {
-//       const user = userCredential.user;
+export const createUserWithEmailAndPassword = (
+  displayName,
+  email,
+  password,
+  userData,
+  successCb
+) => {
+  auth
+    .createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      const user = userCredential.user
 
-//       user.updateProfile({
-//         displayName: displayName,
-//       });
+      user.updateProfile({
+        displayName: displayName,
+      })
+    })
+    .then(() => {
+      const url = endpointURLStr(["SIGNUP"], "POST")
 
-//       const newUser = {
-//         displayName: displayName,
-//         savedItemCount: 0,
-//         joinDate: new Date() || '00-00-00',
-//       };
+      return axios.post(SERVER_URL + url, userData)
+    })
+    .then((response) => {
+      successCb(response.data)
+    })
+    .catch((error) => {
+      createNotif(error)
+      console.log(error)
+    })
+}
 
-//       db.collection(ALL_USERS)
-//         .doc(user.uid)
-//         .collection(USER_ACCOUNT)
-//         .doc(ACCOUNT_DETAILS)
-//         .set(newUser, { merge: true })
-//         .then(() => {
-//           successCb(newUser);
-//         });
-//     })
-//     .catch(error => console.log(error));
-// };
+// TODO
+// const email = mockUser[DATA_KEYS["USER_EMAIL"]]
+// const displayName = mockUser[DATA_KEYS["USER_NAME"]]
+// const password = "123password$$$"
+// createUserWithEmailAndPassword(displayName, email, password, mockUser, () => {
+//   console.log("signed up this user")
+// })
+
+// createUserWithEmailAndPassword(mockUserB[DATA_KEYS["USER_NAME"]], mockUserB[DATA_KEYS["USER_EMAIL"]], password, mockUserB, () => {
+//   console.log("signed up this userB")
+// })
 
 // export const updateProfilePic = (newFile, successCb) => {
 //   if (!newFile) {
