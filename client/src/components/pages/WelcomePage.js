@@ -1,9 +1,7 @@
 import React from "react"
 
 const WelcomePage = () => (
-  <div className="WelcomePage">
-    <p>Welcome Page</p>
-  </div>
+  <div className="WelcomePage">Welcome! Log in please :D</div>
 )
 
 export default WelcomePage

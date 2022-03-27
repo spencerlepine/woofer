@@ -5,7 +5,7 @@ import * as authUser from "api/account"
 export const AuthContext = React.createContext()
 
 export const AuthProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState({})
+  const [currentUser, setCurrentUser] = useState(null)
   const [accountDetails, setAccountDetails] = useState({})
   const [loading, setLoading] = useState(true)
 
@@ -18,11 +18,11 @@ export const AuthProvider = ({ children }) => {
   }, [])
 
   function getAccountDetails() {
-    setLoading(true)
-    authUser.fetchAccountDetails((userDetails) => {
-      setAccountDetails(userDetails)
-      setLoading(false)
-    })
+    // setLoading(true)
+    // authUser.fetchAccountDetails((userDetails) => {
+    //   setAccountDetails(userDetails)
+    //   setLoading(false)
+    // })
   }
 
   function loginUser(email, password) {
@@ -34,19 +34,27 @@ export const AuthProvider = ({ children }) => {
   }
 
   function signupUser(displayName, email, password) {
+    const accountDetails = {}
+
     setLoading(true)
-    authUser.createUserWithEmailAndPassword(displayName, email, password, (user) => {
-      setCurrentUser(user)
-      setLoading(false)
-    })
+    authUser.createUserWithEmailAndPassword(
+      displayName,
+      email,
+      password,
+      accountDetails,
+      (user) => {
+        setCurrentUser(user)
+        setLoading(false)
+      }
+    )
   }
 
   function updateProfilePic(newFile) {
-    setLoading(true)
-    authUser.updateProfilePic(newFile, (newImage) => {
-      console.log("TODO -> RETURN THE NEW IMAGE URL", newImage)
-      setLoading(false)
-    })
+    // setLoading(true)
+    // authUser.updateProfilePic(newFile, (newImage) => {
+    //   console.log("TODO -> RETURN THE NEW IMAGE URL", newImage)
+    //   setLoading(false)
+    // })
   }
 
   function logoutUser() {
@@ -58,25 +66,25 @@ export const AuthProvider = ({ children }) => {
   }
 
   function resetPassword(email) {
-    setLoading(true)
-    authUser.sendPasswordResetEmail(email, () => {
-      setLoading(false)
-    })
+    // setLoading(true)
+    // authUser.sendPasswordResetEmail(email, () => {
+    //   setLoading(false)
+    // })
   }
 
   function updateEmail(email) {
-    setLoading(true)
-    authUser.updateEmail(email, (user) => {
-      setCurrentUser(user)
-      setLoading(false)
-    })
+    // setLoading(true)
+    // authUser.updateEmail(email, (user) => {
+    //   setCurrentUser(user)
+    //   setLoading(false)
+    // })
   }
 
   function updatePassword(password) {
-    setLoading(true)
-    authUser.updatePassword(password, () => {
-      setLoading(false)
-    })
+    // setLoading(true)
+    // authUser.updatePassword(password, () => {
+    //   setLoading(false)
+    // })
   }
 
   const value = {

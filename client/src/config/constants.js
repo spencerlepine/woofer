@@ -1,9 +1,13 @@
-const Joi = require("joi")
+import Joi from "joi"
 
-const {
+import {
   DATABASE_SCHEMA,
   DATA_KEYS,
   ENDPOINT_ROUTES,
+} from "../../../constants/ESModules"
+
+const {
+  ENDPOINT_ROUTES: endpointRoutes,
   BODY_KEYS,
   OPT_KEYS,
   PARAM_KEYS,
@@ -11,14 +15,14 @@ const {
   expectedRequest,
   endpointURLStr,
   baseURL,
-} = require("../../constants")
+} = ENDPOINT_ROUTES
 
 const dbSchema = DATABASE_SCHEMA(Joi)
 
-module.exports = {
+const exportObj = {
   DATABASE_SCHEMA: dbSchema,
   DATA_KEYS: DATA_KEYS,
-  ENDPOINT_ROUTES: ENDPOINT_ROUTES.default,
+  ENDPOINT_ROUTES: endpointRoutes,
   BODY_KEYS: BODY_KEYS,
   OPT_KEYS: OPT_KEYS,
   PARAM_KEYS: PARAM_KEYS,
@@ -27,3 +31,5 @@ module.exports = {
   endpointURLStr: endpointURLStr,
   baseURL: baseURL,
 }
+
+export default exportObj

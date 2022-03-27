@@ -3,8 +3,9 @@
 const path = require("path")
 const HtmlWebPackPlugin = require("html-webpack-plugin")
 const CompressionPlugin = require("compression-webpack-plugin")
-const Dotenv = require("dotenv-webpack")
 const webpack = require("webpack")
+
+const Dotenv = require("dotenv-webpack")
 
 module.exports = {
   mode: "production",
@@ -46,10 +47,12 @@ module.exports = {
     historyApiFallback: true,
   },
   plugins: [
-    new Dotenv({ systemvars: true, path: "./.env.production" }),
-
     new CompressionPlugin({
       test: /\.js(\?.*)?$/i,
+    }),
+
+    new Dotenv({
+      path: "./.env.production",
     }),
 
     new HtmlWebPackPlugin({
