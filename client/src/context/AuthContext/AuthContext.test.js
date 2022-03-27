@@ -19,10 +19,10 @@ describe("AuthContext", () => {
       key: "updateEmail",
       targetInstance: Function,
     },
-    {
-      key: "currentUser",
-      targetInstance: Object,
-    },
+    // {
+    //   key: "currentUser",
+    //   targetInstance: Object,
+    // },
     {
       key: "loginUser",
       targetInstance: Function,
