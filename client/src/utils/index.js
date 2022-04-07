@@ -1,7 +1,9 @@
-const calculateAge = (dob, dt) => {
-  dt = dt || new Date()
-  var diff = dt.getTime() - new Date(dob).getTime()
-  return Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25))
+const calculateAge = (dob) => {
+  const birthday = new Date(dob)
+  const todaysDate = new Date()
+  const diff = new Date(todaysDate.getTime() - birthday.getTime())
+  const yearDiff = diff.getUTCFullYear() - 1970
+  return yearDiff
 }
 
 const isDate = (dateStr) => {
@@ -9,7 +11,7 @@ const isDate = (dateStr) => {
 }
 
 export const formatAgeStr = (birthDate) => {
-  if (isDate(birthDate)) {
+  if (typeof birthDate === "string" && isDate(birthDate)) {
     const yearsOld = calculateAge(birthDate)
     return `${yearsOld} y/o`
   }
@@ -24,7 +26,7 @@ export const titleCaseDisplayName = (firstName, lastName) => {
   if (typeof firstName === "string" && typeof lastName === "string") {
     const fullName = `${firstName} ${lastName}`
 
-    return fullName.split(" ").map(capitalize).join(" ")
+    return fullName.split(" ").map(capitalizeStr).join(" ")
   }
 
   return ""

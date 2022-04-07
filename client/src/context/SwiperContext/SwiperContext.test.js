@@ -15,10 +15,10 @@ describe("SwiperContext", () => {
       key: "handleSwipe",
       targetInstance: Function,
     },
-    {
-      key: "possibleMatchUser",
-      targetInstance: Function,
-    },
+    // {
+    //   key: "possibleMatchUser",
+    //   targetInstance: Function,
+    // },
     {
       key: "generateNextMatchUser",
       targetInstance: Function,

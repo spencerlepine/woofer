@@ -3,13 +3,13 @@ import { formatAgeStr, titleCaseDisplayName } from "./index"
 describe("Helper util functions", () => {
   describe("formatAgeStr", () => {
     test("should correctly calculate age in years", () => {
-      const today = Date.now()
+      const today = new Date().toDateString()
       expect(formatAgeStr(today)).toBe("0 y/o")
 
-      const tenYearsAgo = new Date(
-        new Date().setFullYear(new Date().getFullYear() - 10)
-      )
-      expect(formatAgeStr(tenYearsAgo)).toBe("10 y/o")
+      const date = new Date()
+      date.setFullYear(date.getFullYear() - 10)
+
+      expect(formatAgeStr(date.toDateString())).toBe("10 y/o")
     })
 
     test("should reject invalid date argument", () => {

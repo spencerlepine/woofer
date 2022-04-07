@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 import * as ROUTES from "config/routeConstants"
 import constants from "config/constants"
+import Popup from "components/ui/Popup/Popup"
 import { formatAgeStr, titleCaseDisplayName } from "utils"
 import { FaGenderless, FaMars, FaVenus } from "react-icons/fa"
 const { DATA_KEYS } = constants
@@ -20,6 +21,7 @@ export const MatchMadePopup = ({ user, chatId, closePopup, renderMe }) => {
   const {
     [DATA_KEYS["USER_PROFILE_PIC"]]: profilePic,
     [DATA_KEYS["USER_FIRST_NAME"]]: firstName,
+    [DATA_KEYS["USER_GENDER"]]: gender,
     [DATA_KEYS["USER_LAST_NAME"]]: lastName,
     [DATA_KEYS["USER_BIRTHYEAR"]]: birthyear,
     [DATA_KEYS["USER_ZODIAC"]]: zodiac,
@@ -32,8 +34,8 @@ export const MatchMadePopup = ({ user, chatId, closePopup, renderMe }) => {
   return (
     <Popup
       manualDisplay={renderMe}
-      DefaultElem={() => <></>}
-      PopupElem={() => (
+      DefaultElem={<React.Fragment></React.Fragment>}
+      PopupElem={
         <>
           <h3>Match Made!</h3>
 
@@ -52,7 +54,7 @@ export const MatchMadePopup = ({ user, chatId, closePopup, renderMe }) => {
             </Link>
           </div>
         </>
-      )}
+      }
     />
   )
 }

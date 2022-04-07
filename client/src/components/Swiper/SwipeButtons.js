@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import {
   SwiperProvider,
   useSwiperContext,
-} from "./context/SwiperContext/SwiperContext"
+} from "context/SwiperContext/SwiperContext"
 
 const SwipeButtons = ({ thisUser, thatUser }) => {
   const { swipeButtonLoading: loading, handleSwipe } = useSwiperContext()

@@ -9,11 +9,7 @@ const images = [
 
 const HomePage = () => (
   <div className="HomePage">
-    <Swiper
-      images={images}
-      possibleMatchUser={{ id: "john1234" }}
-      thisUser={{ id: "john12345" }}
-    />
+    <Swiper />
   </div>
 )
 

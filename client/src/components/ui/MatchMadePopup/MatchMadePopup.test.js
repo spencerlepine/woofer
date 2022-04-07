@@ -1,7 +1,11 @@
 import React from "react"
-import { render, screen, fireEvent } from "utils/test-utils"
+import {
+  render,
+  screen,
+  fireEvent,
+  testmockUserContextExportstestmockUserContextExports,
+} from "utils/test-utils"
 import MatchMadePopup from "./MatchMadePopup"
-import { testmockUserContextExports } from "utils/test-utils"
 import mockUser from "mockUser"
 
 describe("MatchMadePopup", () => {
@@ -21,8 +25,10 @@ describe("MatchMadePopup", () => {
     const testProps = new Object(defaultProps)
     testProps["renderMe"] = false
 
-    const { container } = render(<MatchMadePopup {...testProps} />)
-    expect(container.firstChild).toBeNull()
+    const checkForPopup = () => {
+      screen.getByText(/Match Made!/i)
+    }
+    expect(checkForPopup).toThrow()
   })
 
   test("should render given true renderMe prop", () => {
@@ -51,7 +57,8 @@ describe("MatchMadePopup", () => {
     const ageElement = screen.getByText(/y\/o/i)
     expect(ageElement).toBeInTheDocument()
 
-    const zodiacElement = screen.getByText(new RegExp(`/${mockZodiac}/`, "i"))
+    const mockZodiac = mockUser["zodiac_sign"]
+    const zodiacElement = screen.getByText(new RegExp(`${mockZodiac}`, "i"))
     expect(zodiacElement).toBeInTheDocument()
 
     getByAltText("Profile Picture")
@@ -62,18 +69,24 @@ describe("MatchMadePopup", () => {
     testProps["renderMe"] = true
 
     render(<MatchMadePopup {...testProps} />)
-    const laterButton = screen.getByRole("button")
+    const laterButton = screen.getByRole("button", {
+      name: /View Later/i,
+    })
     expect(laterButton).toBeInTheDocument()
   })
 
   test("should close popup after clicking View Later button", () => {
     const testProps = new Object(defaultProps)
     testProps["renderMe"] = true
+    testProps["closePopup"] = jest.fn()
 
-    const { container } = render(<MatchMadePopup {...testProps} />)
-    const laterButton = screen.getByRole("button")
+    render(<MatchMadePopup {...testProps} />)
+    const laterButton = screen.getByRole("button", {
+      name: /View Later/i,
+    })
     fireEvent.click(laterButton)
-    expect(container.firstChild).toBeNull()
+    const closeFn = testProps["closePopup"]
+    expect(closeFn.mock.calls.length).toBe(1)
   })
 
   test("should render Open Chat Link", () => {
@@ -81,7 +94,9 @@ describe("MatchMadePopup", () => {
     testProps["renderMe"] = true
 
     render(<MatchMadePopup {...testProps} />)
-    const chatLink = screen.getByRole("link")
+    const chatLink = screen.getByRole("link", {
+      name: /Open Chat/i,
+    })
     expect(chatLink).toBeInTheDocument()
     expect(chatLink).toHaveAttribute("href")
   })

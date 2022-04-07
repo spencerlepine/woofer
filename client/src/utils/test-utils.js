@@ -27,9 +27,8 @@ const AllProviders = ({ children }) => {
 }
 
 // Replace the defualt render function
-const customRender = (ui, options) => {
+const customRender = (ui, options) =>
   render(ui, { wrapper: AllProviders, ...options })
-}
 
 export * from "@testing-library/react"
 
