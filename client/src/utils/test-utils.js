@@ -2,7 +2,6 @@ import React from "react"
 import { Router } from "react-router-dom"
 import { createBrowserHistory } from "history"
 import { render, screen } from "@testing-library/react"
-// import { PuppiesProvider } from "context/PuppiesContext/PuppiesContext"
 import "@testing-library/jest-dom"
 
 const history = createBrowserHistory()
