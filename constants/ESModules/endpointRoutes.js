@@ -94,7 +94,7 @@ export const ENDPOINT_ROUTES = {
           [DATA_KEYS["USER_BIO"]],
           [DATA_KEYS["USER_EMAIL"]],
           [DATA_KEYS["USER_PICTURES"]],
-          [DATA_KEYS["USER_BIRTHYEAR"]],
+          [DATA_KEYS["USER_BIRTHDAY"]],
           [DATA_KEYS["USER_ZIPCODES"]],
         ],
         [RESPONSE_KEYS]: [DATA_KEYS["USER_PROFILE"]],

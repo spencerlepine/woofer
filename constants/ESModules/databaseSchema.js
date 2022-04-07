@@ -13,6 +13,12 @@ const schema = (Joi) => {
       .min(3)
       .max(30),
     [DATA_KEYS["USER_NAME"]]: Joi.string().alphanum().min(3).max(15).lowercase(),
+    [DATA_KEYS["USER_FIRST_NAME"]]: Joi.string()
+      .pattern(new RegExp(/[a-zA-Z]/))
+      .max(15),
+    [DATA_KEYS["USER_LAST_NAME"]]: Joi.string()
+      .pattern(new RegExp(/[a-zA-Z]/))
+      .max(15),
     [DATA_KEYS["USER_ZODIAC"]]: Joi.string().valid(
       ...[
         "Aries",
@@ -50,7 +56,7 @@ const schema = (Joi) => {
       minDomainSegments: 2,
       tlds: { allow: ["com", "net"] },
     }),
-    [DATA_KEYS["USER_BIRTHYEAR"]]: Joi.number().integer().min(1900).max(2013),
+    [DATA_KEYS["USER_BIRTHDAY"]]: Joi.string().pattern(dateRegex),
     [DATA_KEYS["USER_PREFERENCE"]]: Joi.string().valid(...["Male", "Female", "Any"]),
     [DATA_KEYS["ZIPCODE"]]: Joi.string()
       .min(3)
@@ -61,6 +67,8 @@ const schema = (Joi) => {
     [DATA_KEYS["PICTURE"]]: Joi.string().uri().max(255),
     [DATA_KEYS["MATCH_STATUS"]]: Joi.string().valid(...["accept", "reject"]),
   }
+
+  outputObj[DATA_KEYS["USER_PROFILE_PIC"]] = outputObj[DATA_KEYS["PICTURE"]]
 
   outputObj[DATA_KEYS["THAT_USER_ID"]] = outputObj[DATA_KEYS["USER_ID"]]
   outputObj[DATA_KEYS["THIS_USER_ID"]] = outputObj[DATA_KEYS["USER_ID"]]
@@ -91,11 +99,16 @@ const schema = (Joi) => {
   const userProfileObj = {
     [DATA_KEYS["USER_ID"]]: outputObj[DATA_KEYS["USER_ID"]].required(),
     [DATA_KEYS["USER_NAME"]]: outputObj[DATA_KEYS["USER_NAME"]].required(),
+    [DATA_KEYS["USER_FIRST_NAME"]]:
+      outputObj[DATA_KEYS["USER_FIRST_NAME"]].required(),
+    [DATA_KEYS["USER_LAST_NAME"]]: outputObj[DATA_KEYS["USER_LAST_NAME"]].required(),
+    [DATA_KEYS["USER_PROFILE_PIC"]]:
+      outputObj[DATA_KEYS["USER_PROFILE_PIC"]].required(),
     [DATA_KEYS["USER_ZODIAC"]]: outputObj[DATA_KEYS["USER_ZODIAC"]].required(),
     [DATA_KEYS["USER_GENDER"]]: outputObj[DATA_KEYS["USER_GENDER"]].required(),
     [DATA_KEYS["USER_BREED"]]: outputObj[DATA_KEYS["USER_BREED"]].required(),
     [DATA_KEYS["USER_BIO"]]: outputObj[DATA_KEYS["USER_BIO"]].required(),
-    [DATA_KEYS["USER_BIRTHYEAR"]]: outputObj[DATA_KEYS["USER_BIRTHYEAR"]].required(),
+    [DATA_KEYS["USER_BIRTHDAY"]]: outputObj[DATA_KEYS["USER_BIRTHDAY"]].required(),
     [DATA_KEYS["USER_PREFERENCE"]]: outputObj[DATA_KEYS["USER_PREFERENCE"]],
     [DATA_KEYS["USER_ZIPCODES"]]: outputObj[DATA_KEYS["USER_ZIPCODES"]],
     [DATA_KEYS["USER_PICTURES"]]: outputObj[DATA_KEYS["USER_PICTURES"]],

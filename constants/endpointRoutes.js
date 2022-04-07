@@ -1,10 +1,10 @@
-const DATA_KEYS = require('./dataKeys');
+const DATA_KEYS = require("./dataKeys")
 
 const BODY_KEYS = "expectedBodyKeys"
 const OPT_KEYS = "optionalBodyKeys"
 const PARAM_KEYS = "expectedParamKeys"
 const RESPONSE_KEYS = "responseExpectedKeys"
-const baseURL = '/api'
+const baseURL = "/api"
 
 const ENDPOINT_ROUTES = {
   // "EXAMPLE": {
@@ -87,6 +87,9 @@ const ENDPOINT_ROUTES = {
         [BODY_KEYS]: [DATA_KEYS["USER_ID"]],
         [OPT_KEYS]: [
           [DATA_KEYS["USER_NAME"]],
+          [DATA_KEYS["USER_FIRST_NAME"]],
+          [DATA_KEYS["USER_LAST_NAME"]],
+          [DATA_KEYS["USER_PROFILE_PIC"]],
           [DATA_KEYS["USER_GENDER"]],
           [DATA_KEYS["USER_ZODIAC"]],
           [DATA_KEYS["USER_PREFERENCE"]],
@@ -94,8 +97,8 @@ const ENDPOINT_ROUTES = {
           [DATA_KEYS["USER_BIO"]],
           [DATA_KEYS["USER_EMAIL"]],
           [DATA_KEYS["USER_PICTURES"]],
-          [DATA_KEYS["USER_BIRTHYEAR"]],
-          [DATA_KEYS["USER_ZIPCODES"]]
+          [DATA_KEYS["USER_BIRTHDAY"]],
+          [DATA_KEYS["USER_ZIPCODES"]],
         ],
         [RESPONSE_KEYS]: [DATA_KEYS["USER_PROFILE"]],
       },
@@ -105,7 +108,6 @@ const ENDPOINT_ROUTES = {
     },
   },
 }
-
 
 // Chat endpoints?
 /*
@@ -141,17 +143,17 @@ const expectedRequest = (urlRoutes, reqMethod) => {
     }
     throw new Error()
   } catch (err) {
-
-    throw new Error(`Endpoint URL or method does not exist => ${reqMethod}, ${urlRoutes} => ${err}`)
+    throw new Error(
+      `Endpoint URL or method does not exist => ${reqMethod}, ${urlRoutes} => ${err}`
+    )
   }
 }
 
-
-module.exports.default = ENDPOINT_ROUTES;
+module.exports.default = ENDPOINT_ROUTES
 module.exports.BODY_KEYS = "expectedBodyKeys"
 module.exports.OPT_KEYS = "optionalBodyKeys"
 module.exports.PARAM_KEYS = "expectedParamKeys"
 module.exports.RESPONSE_KEYS = "responseExpectedKeys"
 module.exports.expectedRequest = expectedRequest
 module.exports.endpointURLStr = endpointURLStr
-module.exports.baseURL = baseURL;
+module.exports.baseURL = baseURL

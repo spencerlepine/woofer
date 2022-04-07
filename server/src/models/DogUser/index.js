@@ -10,6 +10,18 @@ const dogUserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  [DATA_KEYS["USER_FIRST_NAME"]]: {
+    type: String,
+    required: true,
+  },
+  [DATA_KEYS["USER_LAST_NAME"]]: {
+    type: String,
+    required: true,
+  },
+  [DATA_KEYS["USER_PROFILE_PIC"]]: {
+    type: String,
+    required: true,
+  },
   [DATA_KEYS["USER_EMAIL"]]: {
     type: String,
     required: true,
@@ -30,8 +42,8 @@ const dogUserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  [DATA_KEYS["USER_BIRTHYEAR"]]: {
-    type: Number,
+  [DATA_KEYS["USER_BIRTHDAY"]]: {
+    type: String,
     required: true,
   },
   [DATA_KEYS["USER_PREFERENCE"]]: {

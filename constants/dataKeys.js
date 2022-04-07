@@ -3,6 +3,9 @@
 const DATA_KEYS = {
   USER_ID: "id",
   USER_NAME: "name",
+  USER_FIRST_NAME: "firstName",
+  USER_LAST_NAME: "lastName",
+  USER_PROFILE_PIC: "profile_picture",
   USER_ZODIAC: "zodiac_sign",
   USER_GENDER: "gender",
   USER_PREFERENCE: "preference",
@@ -12,7 +15,7 @@ const DATA_KEYS = {
   USER_EMAIL: "email",
   USER_ZIPCODES: "zipcodes",
   USER_PICTURES: "pictures",
-  USER_BIRTHYEAR: "birthyear",
+  USER_BIRTHDAY: "birthday",
   USER_CHATS: "chats",
   ZIPCODE: "zipcode",
   USER_PROFILE: "user_profile",
@@ -29,7 +32,7 @@ const DATA_KEYS = {
   MATCH_REJECT: "reject",
   USER_QUEUE: "user_queue",
   POOL_USERS: "pool_users",
-  ZIPCODE_ID: "zipcode_id"
+  ZIPCODE_ID: "zipcode_id",
 }
 
 module.exports = DATA_KEYS
