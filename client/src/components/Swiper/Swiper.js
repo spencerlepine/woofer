@@ -1,44 +1,63 @@
-import React, { useState } from "react"
+import React from "react"
+import useSwiper, { SwiperProvider } from "context/SwiperContext/SwiperContext"
+import useAuth, { AuthProvider } from "context/SwiperContext/SwiperContext"
+import SwipeButtons from "./SwipeButtons"
 import ImageCarousel from "./ImageCarousel"
-import { postUserSwipe } from "api/matches"
+import UserInfo from "./UserInfo"
+
 import constants from "config/constants"
 const { DATA_KEYS } = constants
-const yesSwipe = DATA_KEYS["MATCH_ACCEPT"]
-const noSwipe = DATA_KEYS["MATCH_REJECT"]
-const idKey = DATA_KEYS["USER_ID"]
 
-const Swiper = ({ images, possibleMatchUser, thisUser }) => {
-  const thisUserId = thisUser[idKey]
-  const thatUserId = possibleMatchUser[idKey]
-
-  const handleSwipe = (thisUserId, thatUserId, swipe) => {
-    const body = {
-      [DATA_KEYS["THIS_USER_ID"]]: thisUserId,
-      [DATA_KEYS["THAT_USER_ID"]]: thatUserId,
-      [DATA_KEYS["MATCH_STATUS"]]: swipe,
-    }
-
-    postUserSwipe(body, ({ chatId, userProfile }) => {
-      console.log(chatId, userProfile)
-      console.log("'TODO SWIPER'")
-    })
+const extractUserImages = (userObj) => {
+  const imageKey = DATA_KEYS["USER_IMAGES"]
+  if (typeof userObj === "object" && userObj[imageKey]) {
+    return userObj[imageKey]
   }
+  return []
+}
+
+const Swiper = () => {
+  const { currentUser: thisUser } = useAuth()
+  const { swiperUserLoading: loading, possibleMatchUser } = useSwiper()
+
+  const images = extractUserImages(thisUser)
+
+  const RenderInfoOrRetry = () => (
+    <>
+      {possibleMatchUser ? (
+        <>
+          <ImageCarousel images={images} />
+
+          <UserInfo user={possibleMatchUser} />
+        </>
+      ) : (
+        <>
+          <p>Unable to find possible match...</p>
+          <button>Try Again</button>
+        </>
+      )}
+    </>
+  )
 
   return (
-    <div className="Swiper">
-      <div>
-        <button onClick={() => handleSwipe(thisUserId, thatUserId, yesSwipe)}>
-          YES
-        </button>
+    <div className="swiper">
+      <SwipeButtons thisUser={thisUser} thatUser={possibleMatchUser} />
 
-        <button onClick={() => handleSwipe(thisUserId, thatUserId, noSwipe)}>
-          NO
-        </button>
-      </div>
-
-      <ImageCarousel images={images} />
+      {loading ? (
+        <p>Loading... {/*TODO - LOADING SPINNER*/}</p>
+      ) : (
+        <RenderInfoOrRetry />
+      )}
     </div>
   )
 }
 
-export default Swiper
+const WrappedSwiper = (props) => (
+  <AuthProvider>
+    <SwiperProvider>
+      <Swiper {...props} />
+    </SwiperProvider>
+  </AuthProvider>
+)
+
+export default WrappedSwiper
