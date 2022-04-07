@@ -29,7 +29,7 @@ export const MatchMadePopup = ({ user, chatId, closePopup, renderMe }) => {
 
   const formattedAge = formatAgeStr(birthyear)
   const formattedName = titleCaseDisplayName(firstName, lastName)
-  const chatPageURL = ROUTES.CHAT + `?chatId=${chatId}`
+  const chatPageURL = ROUTES.CHATS + `?chatId=${chatId}`
 
   return (
     <Popup

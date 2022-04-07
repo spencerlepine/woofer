@@ -1,6 +1,6 @@
 import React from "react"
 import useSwiper, { SwiperProvider } from "context/SwiperContext/SwiperContext"
-import useAuth, { AuthProvider } from "context/SwiperContext/SwiperContext"
+import useAuth, { AuthProvider } from "context/AuthContext/AuthContext"
 import SwipeButtons from "./SwipeButtons"
 import ImageCarousel from "./ImageCarousel"
 import UserInfo from "./UserInfo"
