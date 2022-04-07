@@ -28,8 +28,8 @@ const Popup = ({ DefaultElem, PopupElem, manualDisplay }) => {
 export default Popup
 
 Popup.propTypes = {
-  DefaultElem: PropTypes.object.isRequired,
-  PopupElem: PropTypes.object.isRequired,
+  DefaultElem: PropTypes.node.isRequired,
+  PopupElem: PropTypes.node.isRequired,
   manualDisplay: PropTypes.bool,
 }
 

@@ -2,7 +2,6 @@ import React from "react"
 import { Router } from "react-router-dom"
 import { createBrowserHistory } from "history"
 import { render, screen } from "@testing-library/react"
-// import { PuppiesProvider } from "context/PuppiesContext/PuppiesContext"
 import "@testing-library/jest-dom"
 
 const history = createBrowserHistory()
@@ -28,9 +27,8 @@ const AllProviders = ({ children }) => {
 }
 
 // Replace the defualt render function
-const customRender = (ui, options) => {
+const customRender = (ui, options) =>
   render(ui, { wrapper: AllProviders, ...options })
-}
 
 export * from "@testing-library/react"
 
