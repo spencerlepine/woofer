@@ -15,7 +15,7 @@ const DATA_KEYS = {
   USER_EMAIL: "email",
   USER_ZIPCODES: "zipcodes",
   USER_PICTURES: "pictures",
-  USER_BIRTHYEAR: "birthyear",
+  USER_BIRTHDAY: "birthday",
   USER_CHATS: "chats",
   ZIPCODE: "zipcode",
   USER_PROFILE: "user_profile",

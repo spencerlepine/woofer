@@ -13,6 +13,12 @@ const schema = (Joi) => {
       .min(3)
       .max(30),
     [DATA_KEYS["USER_NAME"]]: Joi.string().alphanum().min(3).max(15).lowercase(),
+    [DATA_KEYS["USER_FIRST_NAME"]]: Joi.string()
+      .pattern(new RegExp(/[a-zA-Z]/))
+      .max(15),
+    [DATA_KEYS["USER_LAST_NAME"]]: Joi.string()
+      .pattern(new RegExp(/[a-zA-Z]/))
+      .max(15),
     [DATA_KEYS["USER_ZODIAC"]]: Joi.string().valid(
       ...[
         "Aries",
@@ -102,7 +108,7 @@ const schema = (Joi) => {
     [DATA_KEYS["USER_GENDER"]]: outputObj[DATA_KEYS["USER_GENDER"]].required(),
     [DATA_KEYS["USER_BREED"]]: outputObj[DATA_KEYS["USER_BREED"]].required(),
     [DATA_KEYS["USER_BIO"]]: outputObj[DATA_KEYS["USER_BIO"]].required(),
-    [DATA_KEYS["USER_BIRTHDATE"]]: outputObj[DATA_KEYS["USER_BIRTHDATE"]].required(),
+    [DATA_KEYS["USER_BIRTHDAY"]]: outputObj[DATA_KEYS["USER_BIRTHDAY"]].required(),
     [DATA_KEYS["USER_PREFERENCE"]]: outputObj[DATA_KEYS["USER_PREFERENCE"]],
     [DATA_KEYS["USER_ZIPCODES"]]: outputObj[DATA_KEYS["USER_ZIPCODES"]],
     [DATA_KEYS["USER_PICTURES"]]: outputObj[DATA_KEYS["USER_PICTURES"]],

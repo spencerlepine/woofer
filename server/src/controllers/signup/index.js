@@ -13,7 +13,7 @@ const mockUser = {
   [DATA_KEYS["USER_GENDER"]]: "Male",
   [DATA_KEYS["USER_BREED"]]: "Shiba",
   [DATA_KEYS["USER_BIO"]]: "Something about me :D",
-  [DATA_KEYS["USER_BIRTHYEAR"]]: "06/12/2002",
+  [DATA_KEYS["USER_BIRTHDAY"]]: "06/12/2002",
   [DATA_KEYS["USER_PREFERENCE"]]: "Female",
   [DATA_KEYS["USER_ZIPCODES"]]: [],
   [DATA_KEYS["USER_PICTURES"]]: [],

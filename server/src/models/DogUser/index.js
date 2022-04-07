@@ -42,8 +42,8 @@ const dogUserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  [DATA_KEYS["USER_BIRTHYEAR"]]: {
-    type: Number,
+  [DATA_KEYS["USER_BIRTHDAY"]]: {
+    type: String,
     required: true,
   },
   [DATA_KEYS["USER_PREFERENCE"]]: {
