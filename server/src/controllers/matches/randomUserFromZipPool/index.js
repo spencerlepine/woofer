@@ -1,5 +1,6 @@
 const ZipcodePool = require("../../../models/ZipcodePool")
 const { DATA_KEYS } = require("../../../../config/constants")
+const handleErrorResponse = require("../../../utils/handleErrorResponse")
 const fetchUserDocument = require("../../controllerHelpers/user/fetchUserDocument")
 
 const verifyUserMatchStatuses = require("./verifyUserMatchStatuses")
@@ -21,7 +22,6 @@ const randomUserFromZipPool = (res, userId, userZipcodes, genderPreference) => {
       if (result) {
         // Get the zipcode pool
         const { [DATA_KEYS["POOL_USERS"]]: poolUsers } = result
-        console.log(poolUsers)
         return poolUsers || {}
       } else {
         return {}
@@ -32,7 +32,7 @@ const randomUserFromZipPool = (res, userId, userZipcodes, genderPreference) => {
       const userIdKeys = Object.keys(poolUsers)
 
       if (userIdKeys.length === 0) {
-        res.status(409).json("No users stored in this pool")
+        return
       } else {
         let validUserId = null
         while (!validUserId) {
@@ -68,6 +68,9 @@ const randomUserFromZipPool = (res, userId, userZipcodes, genderPreference) => {
         [DATA_KEYS["USER_PROFILE"]]: matchIsValid ? possibleUser : null,
         matchIsValid,
       }
+    })
+    .catch((err) => {
+      handleErrorResponse(res, `Error getting user from pool => ${err}`, 409)
     })
 }
 
