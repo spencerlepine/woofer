@@ -1,10 +1,13 @@
 import React from "react"
+import { Link } from "react-router-dom"
 import useSwiper, { SwiperProvider } from "context/SwiperContext/SwiperContext"
 import useAuth, { AuthProvider } from "context/AuthContext/AuthContext"
-import SwipeButtons from "./SwipeButtons"
-import ImageCarousel from "./ImageCarousel"
-import UserInfo from "./UserInfo"
 
+import SwipeButtons from "./SwipeButtons/SwipeButtons"
+import ImageCarousel from "./ImageCarousel/ImageCarousel"
+import UserInfo from "./UserInfo/UserInfo"
+
+import * as ROUTES from "config/routeConstants"
 import constants from "config/constants"
 const { DATA_KEYS } = constants
 const idKey = DATA_KEYS["USER_ID"]
@@ -19,6 +22,7 @@ const extractUserImages = (userObj) => {
 
 const Swiper = () => {
   const { currentUser: thisUser } = useAuth()
+
   const {
     swiperUserLoading: loading,
     possibleMatchUser,
@@ -50,12 +54,25 @@ const Swiper = () => {
     </>
   )
 
+  const InfoOrLogInPrompt = () => (
+    <>
+      {thisUser ? (
+        <RenderInfoOrRetry />
+      ) : (
+        <>
+          <h4>Sign in to continue</h4>
+          <Link to={ROUTES.LOGIN}>LOG IN</Link>
+        </>
+      )}
+    </>
+  )
+
   return (
     <div className="swiper">
       {loading ? (
         <p>Loading... {/*TODO - LOADING SPINNER*/}</p>
       ) : (
-        <RenderInfoOrRetry />
+        <InfoOrLogInPrompt />
       )}
     </div>
   )
