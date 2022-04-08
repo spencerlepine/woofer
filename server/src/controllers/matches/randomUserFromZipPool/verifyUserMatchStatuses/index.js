@@ -49,7 +49,7 @@ const verifyUserMatchStatuses =
         return { [possibleMatch]: userProfile, matchIsValid: stillAValidMatch }
       })
       .catch((err) => {
-        handleErrorResponse(res, err, 500)
+        handleErrorResponse(res, `Error verifying user match status => ${err}`, 500)
       })
   }
 

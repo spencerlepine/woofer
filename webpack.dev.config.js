@@ -2,6 +2,7 @@
 
 const path = require("path")
 const HtmlWebPackPlugin = require("html-webpack-plugin")
+const InterpolateHtmlPlugin = require("interpolate-html-plugin")
 const webpack = require("webpack")
 
 const Dotenv = require("dotenv-webpack")
@@ -35,6 +36,8 @@ module.exports = {
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify("development"),
     }),
+
+    new InterpolateHtmlPlugin({ PUBLIC_URL: "static" }),
   ],
   devServer: {
     host: "0.0.0.0",
@@ -50,6 +53,10 @@ module.exports = {
       {
         test: /\.css$/,
         use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.scss$/,
+        use: ["css-loader", "sass-loader"],
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,

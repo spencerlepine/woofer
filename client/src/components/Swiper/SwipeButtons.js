@@ -1,12 +1,9 @@
 import React from "react"
 import PropTypes from "prop-types"
-import {
-  SwiperProvider,
-  useSwiperContext,
-} from "context/SwiperContext/SwiperContext"
+import useSwiper, { SwiperProvider } from "context/SwiperContext/SwiperContext"
 
 const SwipeButtons = ({ thisUser, thatUser }) => {
-  const { swipeButtonLoading: loading, handleSwipe } = useSwiperContext()
+  const { swipeButtonLoading: loading, handleSwipe } = useSwiper()
 
   return (
     <div className="swipeButtons">

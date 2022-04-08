@@ -1,6 +1,7 @@
 const MatchRecords = require("../../../models/MatchRecords")
 const MatchesQueue = require("../../../models/MatchQueue")
 const { DATA_KEYS } = require("../../../../config/constants")
+const handleErrorResponse = require("../../../utils/handleErrorResponse")
 
 const removeUserFromMatchQueue = require("../../controllerHelpers/matches/removeUserFromMatchQueue")
 const updateUserMatchRecord = require("../../controllerHelpers/matches/updateUserMatchRecord")
@@ -67,7 +68,7 @@ const documentUserSwipeReject = (res, endpointObj, thisUserID, thatUserID) => {
       })
     })
     .catch((err) => {
-      console.error(err)
+      handleErrorResponse(res, `Error recording user NO match => ${err}`, 409)
     })
 }
 

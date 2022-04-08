@@ -9,21 +9,25 @@ export const AuthProvider = ({ children }) => {
   const [accountDetails, setAccountDetails] = useState({})
   const [loading, setLoading] = useState(true)
 
+  const getAccountDetails = () => {
+    setLoading(true)
+    authUser.fetchUserProfileRecord(({ userProfile }) => {
+      setCurrentUser((currentUser) => ({
+        ...currentUser,
+        ...userProfile,
+      }))
+      setLoading(false)
+    })
+  }
+
   useEffect(() => {
     authUser.checkLoginStatus((authenicatedUser) => {
       if (authenicatedUser) {
         setCurrentUser(authenicatedUser)
+        getAccountDetails()
       }
     }, [])
   }, [])
-
-  function getAccountDetails() {
-    // setLoading(true)
-    // authUser.fetchAccountDetails((userDetails) => {
-    //   setAccountDetails(userDetails)
-    //   setLoading(false)
-    // })
-  }
 
   function loginUser(email, password) {
     setLoading(true)
@@ -33,8 +37,14 @@ export const AuthProvider = ({ children }) => {
     })
   }
 
-  function signupUser(displayName, email, password) {
-    const accountDetails = {}
+  function signupUser(firstName, lastName, username, email, password) {
+    const accountDetails = {
+      email,
+      username,
+      first_name: firstName,
+      last_name: lastName,
+    }
+    const displayName = `${firstName} ${lastName}`
 
     setLoading(true)
     authUser.createUserWithEmailAndPassword(

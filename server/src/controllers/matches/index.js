@@ -1,8 +1,8 @@
 const { DATA_KEYS } = require("../../../config/constants")
-const logger = require("../../../config/logger")
 const verifyEndpointRequest = require("../../utils/verifyEndpointRequest")
 const verifyEndpointResponse = require("../../utils/verifyEndpointResponse")
 const fetchUserDocument = require("../controllerHelpers/user/fetchUserDocument")
+const handleErrorResponse = require("../../utils/handleErrorResponse")
 
 const randomUserFromZipPool = require("./randomUserFromZipPool")
 
@@ -19,7 +19,7 @@ module.exports = {
     }
 
     verifyEndpointRequest(req, res, endpointObj, () => {
-      const userId = req.body[DATA_KEYS["USER_ID"]]
+      const userId = req.query[DATA_KEYS["USER_ID"]]
 
       // Extract details about this user
       fetchUserDocument(res, { [idKey]: userId })
@@ -46,7 +46,9 @@ module.exports = {
             res.status(422).json("Unable to find a user in this zipcode")
           }
         })
-        .catch((err) => logger.error(err))
+        .catch((err) => {
+          handleErrorResponse(res, `Error generating user match => ${err}`, 409)
+        })
     })
   },
   saveUserSwipeChoice: (req, res) => {

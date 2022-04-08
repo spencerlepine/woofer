@@ -55,7 +55,7 @@ export const ENDPOINT_ROUTES = {
     GENERATE: {
       URL: "generate",
       GET: {
-        [BODY_KEYS]: [DATA_KEYS["USER_ID"]],
+        [PARAM_KEYS]: [DATA_KEYS["USER_ID"]],
         [RESPONSE_KEYS]: [DATA_KEYS["USER_PROFILE"]],
       },
     },
