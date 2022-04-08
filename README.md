@@ -14,9 +14,23 @@ Dating app for dogs. Customize a dating profile, update preferences, and match/c
 
 # 🌟 Features
 
-See the [Whitepaper](./WOOFER_WHITEPAPER.md).
+See the [Whitepaper](./WOOFER_WHITEPAPER.pdf).
+
+# 📦 Technologies:
+
+**Front-end:** [React](https://github.com/facebook/react/), [Burma](https://github.com/jgthms/bulma)
+
+**Backend:** [Node](https://nodejs.org/), [Express.js](http://expressjs.com/), [MongoDB](https://docs.mongodb.com/)
+
+**Testing:** [Jest](https://jestjs.io/) , [supertest](https://github.com/visionmedia/supertest), [Testing Library](https://testing-library.com/docs/react-testing-library/intro/), [Puppeteer](https://pptr.dev/), [Coveralls.io](https://coveralls.io/)
+
+**CI/CD:** [Docker](https://docs.docker.com/), [GitHub Actions](https://docs.github.com/en/actions), [AWS EC2](https://aws.amazon.com/ec2/)
+
+**Modules:** [Firebase](https://firebase.google.com/) (Authentication), [Joi](https://github.com/sideway/joi) (Input verification), [Socket.io](https://socket.io/) (Chat API)
 
 # ⚙️ Setup:
+
+#### Prerequisites
 
 - [Firebase](https://firebase.google.com/) project
 - [MongoDB Atlas](https://www.mongodb.com/atlas/database) Database
@@ -48,18 +62,6 @@ docker compose build
 docker compose up
 docker-compose --env-file ./.env.development up
 ```
-
-# 📦 Technologies:
-
-**Front-end:** [React](https://github.com/facebook/react/), [Burma](https://github.com/jgthms/bulma)
-
-**Backend:** [Node](https://nodejs.org/), [Express.js](http://expressjs.com/), [MongoDB](https://docs.mongodb.com/)
-
-**Testing:** [Jest](https://jestjs.io/) , [supertest](https://github.com/visionmedia/supertest), [Testing Library](https://testing-library.com/docs/react-testing-library/intro/), [Puppeteer](https://pptr.dev/), [Coveralls.io](https://coveralls.io/)
-
-**CI/CD:** [Docker](https://docs.docker.com/), [GitHub Actions](https://docs.github.com/en/actions), [AWS EC2](https://aws.amazon.com/ec2/)
-
-**Modules:** [Firebase](https://firebase.google.com/) (Authentication), [Joi](https://github.com/sideway/joi) (Input verification), [Socket.io](https://socket.io/) (Chat API)
 
 # 🌐API Schema
 
