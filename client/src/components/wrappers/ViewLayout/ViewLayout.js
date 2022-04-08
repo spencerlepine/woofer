@@ -12,9 +12,7 @@ const ViewLayout = ({ children }) => {
       <AuthProvider>
         <NotificationsPopup />
         <Navbar />
-        <div></div>
-        <div>{children}</div>
-        <div></div>
+        <div className="container">{children}</div>
         <Footer />
       </AuthProvider>
     </React.Fragment>
