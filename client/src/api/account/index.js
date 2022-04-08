@@ -49,7 +49,7 @@ export const createUserWithEmailAndPassword = (
         [DATA_KEYS["USER_ID"]]: auth.currentUser.uid,
       }
 
-      return axios.post(SERVER_URL + url, userData)
+      return axios.post(SERVER_URL + url, dataWithUid)
     })
     .then((response) => {
       successCb(response.data)
@@ -58,6 +58,28 @@ export const createUserWithEmailAndPassword = (
       createNotif(error)
       console.log(error)
     })
+}
+
+export const fetchUserProfileRecord = (successCb, failCallback = () => {}) => {
+  if (auth && auth.currentUser) {
+    const { uid } = auth.currentUser
+    const url = endpointURLStr(["PROFILE", "DETAILS"], "GET")
+    const params = {
+      [DATA_KEYS["USER_ID"]]: uid,
+    }
+
+    axios
+      .get(SERVER_URL + url, { params })
+      .then((response) => {
+        const { [DATA_KEYS["USER_PROFILE"]]: userProfile } = response.data
+
+        successCallback({ userProfile })
+      })
+      .catch((error) => {
+        createNotif(error)
+        failCallback(error)
+      })
+  }
 }
 
 // TODO
