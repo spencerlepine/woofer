@@ -2,6 +2,8 @@ import constants from "config/constants"
 const { DATA_KEYS } = constants
 
 const mockUser = {
+  uid: "asdf123456",
+  emailVerified: true,
   [DATA_KEYS["USER_ID"]]: "1234asdfuasdf",
   [DATA_KEYS["USER_EMAIL"]]: "johndoe@gmail.com",
   [DATA_KEYS["USER_NAME"]]: "john124412",
@@ -20,8 +22,6 @@ const mockUser = {
   [DATA_KEYS["USER_CHATS"]]: [],
 }
 
-jest.mock("mockUser", () => ({
-  mockMockUser: () => mockUser,
-}))
+jest.mock("mockUser", () => mockUser)
 
 export default mockUser

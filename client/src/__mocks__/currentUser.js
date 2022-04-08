@@ -1,11 +1,58 @@
-const currentUser = {
-  id: "k3nQJ2a9fMcDIku6wBZObXMjpYo1",
-  username: "John Doe",
-  email: "johndoe@gmail.com",
-}
-
 jest.mock("currentUser", () => ({
-  mockCurrentUser: () => currentUser,
-}))
+  mockCurrentUser: () => {
+    const DATA_KEYS = {
+      USER_ID: "id",
+      USER_NAME: "name",
+      USER_FIRST_NAME: "first_name",
+      USER_LAST_NAME: "last_name",
+      USER_PROFILE_PIC: "profile_picture",
+      USER_ZODIAC: "zodiac_sign",
+      USER_GENDER: "gender",
+      USER_PREFERENCE: "preference",
+      USER_GROUP: "group",
+      USER_BREED: "breed",
+      USER_BIO: "bio",
+      USER_EMAIL: "email",
+      USER_ZIPCODES: "zipcodes",
+      USER_PICTURES: "pictures",
+      USER_BIRTHDAY: "birthday",
+      USER_CHATS: "chats",
+      ZIPCODE: "zipcode",
+      USER_PROFILE: "user_profile",
+      PICTURE: "picture",
+      THIS_USER_ID: "this_user_id",
+      THAT_USER_ID: "that_user_id",
+      CHAT_ID: "chat_id",
+      CHAT_INFO: "chat_info",
+      CHAT_USERS: "chat_users",
+      CHAT_STARTDATE: "creation_date",
+      MATCH_STATUS: "status",
+      USER_MATCHES: "match_records",
+      MATCH_ACCEPT: "accept",
+      MATCH_REJECT: "reject",
+      USER_QUEUE: "user_queue",
+      POOL_USERS: "pool_users",
+      ZIPCODE_ID: "zipcode_id",
+    }
 
-export default currentUser
+    return {
+      uid: "k3nQJ2a9fMcDIku6wBZObXMjpYo1",
+      [DATA_KEYS["USER_ID"]]: "1234asdfuasdf",
+      [DATA_KEYS["USER_EMAIL"]]: "johndoe@gmail.com",
+      [DATA_KEYS["USER_NAME"]]: "john124412",
+      [DATA_KEYS["USER_FIRST_NAME"]]: "John",
+      [DATA_KEYS["USER_LAST_NAME"]]: "Doe",
+      [DATA_KEYS["USER_PROFILE_PIC"]]:
+        "https://www.bing.com/th?id=OIP.EQq_JNDqxUVzS4aszkfoDAHaHa&w=150&h=160&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2",
+      [DATA_KEYS["USER_ZODIAC"]]: "Virgo",
+      [DATA_KEYS["USER_GENDER"]]: "Male",
+      [DATA_KEYS["USER_BREED"]]: "Shiba",
+      [DATA_KEYS["USER_BIO"]]: "Example description",
+      [DATA_KEYS["USER_BIRTHDAY"]]: "06/12/2002",
+      [DATA_KEYS["USER_PREFERENCE"]]: "Female",
+      [DATA_KEYS["USER_ZIPCODES"]]: [],
+      [DATA_KEYS["USER_PICTURES"]]: [],
+      [DATA_KEYS["USER_CHATS"]]: [],
+    }
+  },
+}))
