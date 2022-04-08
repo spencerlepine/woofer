@@ -1,10 +1,5 @@
 import React from "react"
-import {
-  render,
-  screen,
-  fireEvent,
-  testmockUserContextExportstestmockUserContextExports,
-} from "utils/test-utils"
+import { render, screen, fireEvent } from "utils/test-utils"
 import MatchMadePopup from "./MatchMadePopup"
 import mockUser from "mockUser"
 
