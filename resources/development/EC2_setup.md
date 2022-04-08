@@ -1,3 +1,10 @@
+Article (with nginx):
+https://medium.com/digitalcrafts/how-to-set-up-an-ec2-instance-with-github-node-js-and-postgresql-e363cb771826
+
+Deploy NOde to EC2:
+Uses rsync tho... do not use the action
+https://dev.to/stretch0/deploy-your-node-app-to-ec2-with-github-actions-h9a
+
 Update the packages on your instance
 
 [ec2-user ~]$ sudo yum update -y
