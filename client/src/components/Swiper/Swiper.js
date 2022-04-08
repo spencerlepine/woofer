@@ -7,10 +7,11 @@ import UserInfo from "./UserInfo"
 
 import constants from "config/constants"
 const { DATA_KEYS } = constants
+const idKey = DATA_KEYS["USER_ID"]
 
 const extractUserImages = (userObj) => {
   const imageKey = DATA_KEYS["USER_IMAGES"]
-  if (typeof userObj === "object" && userObj[imageKey]) {
+  if (userObj && typeof userObj === "object" && userObj[imageKey]) {
     return userObj[imageKey]
   }
   return []
@@ -18,7 +19,11 @@ const extractUserImages = (userObj) => {
 
 const Swiper = () => {
   const { currentUser: thisUser } = useAuth()
-  const { swiperUserLoading: loading, possibleMatchUser } = useSwiper()
+  const {
+    swiperUserLoading: loading,
+    possibleMatchUser,
+    generateNextMatchUser,
+  } = useSwiper()
 
   const images = extractUserImages(thisUser)
 
@@ -26,6 +31,8 @@ const Swiper = () => {
     <>
       {possibleMatchUser ? (
         <>
+          <SwipeButtons thisUser={thisUser} thatUser={possibleMatchUser} />
+
           <ImageCarousel images={images} />
 
           <UserInfo user={possibleMatchUser} />
@@ -33,7 +40,11 @@ const Swiper = () => {
       ) : (
         <>
           <p>Unable to find possible match...</p>
-          <button>Try Again</button>
+          <button
+            onClick={() => generateNextMatchUser(thisUser[idKey] || thisUser["uid"])}
+          >
+            Try Again
+          </button>
         </>
       )}
     </>
@@ -41,8 +52,6 @@ const Swiper = () => {
 
   return (
     <div className="swiper">
-      <SwipeButtons thisUser={thisUser} thatUser={possibleMatchUser} />
-
       {loading ? (
         <p>Loading... {/*TODO - LOADING SPINNER*/}</p>
       ) : (

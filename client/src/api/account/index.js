@@ -44,6 +44,10 @@ export const createUserWithEmailAndPassword = (
     })
     .then(() => {
       const url = endpointURLStr(["SIGNUP"], "POST")
+      const dataWithUid = {
+        ...userData,
+        [DATA_KEYS["USER_ID"]]: auth.currentUser.uid,
+      }
 
       return axios.post(SERVER_URL + url, userData)
     })

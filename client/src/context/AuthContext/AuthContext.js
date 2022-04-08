@@ -33,8 +33,13 @@ export const AuthProvider = ({ children }) => {
     })
   }
 
-  function signupUser(displayName, email, password) {
-    const accountDetails = {}
+  function signupUser(firstName, lastName, username, email, password) {
+    const accountDetails = {
+      username,
+      first_name: firstName,
+      last_name: lastName,
+    }
+    const displayName = `${firstName} ${lastName}`
 
     setLoading(true)
     authUser.createUserWithEmailAndPassword(

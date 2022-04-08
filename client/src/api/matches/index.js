@@ -32,7 +32,7 @@ export const generateUserSwipe = (
   const url = endpointURLStr(["MATCHES", "GENERATE"], "GET")
 
   axios
-    .get(SERVER_URL + url, params)
+    .get(SERVER_URL + url, { params })
     .then((response) => {
       const { [DATA_KEYS["USER_PROFILE"]]: userProfile } = response.data
 

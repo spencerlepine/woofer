@@ -8,13 +8,27 @@ const SignupPage = () => {
   const { signupUser } = useAuth()
 
   const handleSignup = (formEntries) => {
-    signupUser(formEntries["name"], formEntries["email"], formEntries["password"])
+    signupUser(
+      formEntries["firstName"],
+      formEntries["lastName"],
+      formEntries["username"],
+      formEntries["email"],
+      formEntries["password"]
+    )
   }
 
   const signupFields = [
     {
-      name: "name",
-      placeholder: "Name",
+      name: "firstName",
+      placeholder: "First Name",
+    },
+    {
+      name: "lastName",
+      placeholder: "Last Name",
+    },
+    {
+      name: "username",
+      placeholder: "Username",
     },
     {
       name: "email",
