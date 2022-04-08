@@ -11,14 +11,16 @@ const Navbar = () => {
   // TODO import woofer logo
 
   return (
-    <nav>
-      <Link to={ROUTES.HOME}>
-        Woofer
-        {/* <img src={WooferLogo} alt='Woofer Logo' className={classes.logoLink}></img> */}
-      </Link>
+    <nav className="navbar is-primary" role="navigation">
+      <div className="navbar-start">
+        <Link to={ROUTES.HOME} className="navbar-item">
+          Woofer
+          {/* <img src={WooferLogo} alt='Woofer Logo' className={classes.logoLink}></img> */}
+        </Link>
+      </div>
 
       {currentUser ? (
-        <>
+        <div className="navbar-end">
           <button onClick={() => logoutUser()}>Log Out</button>
 
           <Link to={ROUTES.CHATS}>
@@ -32,13 +34,13 @@ const Navbar = () => {
           <Link to={ROUTES.SETTINGS}>
             <SettingsIcon />
           </Link>
-        </>
+        </div>
       ) : (
-        <>
+        <div className="navbar-end">
           <Link to={ROUTES.LOGIN}>Login</Link>
 
           <Link to={ROUTES.SIGNUP}>Signup</Link>
-        </>
+        </div>
       )}
     </nav>
   )
