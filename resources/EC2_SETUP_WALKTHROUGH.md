@@ -33,23 +33,23 @@
   # Verify docker installed
   [ec2-user ~]$ docker --version
   # Forward the port for HTTPS access
-  [ec2-user ~]$ docker run -d -p 3000:3000 -t spencerlepine/woofer:latest woofer --env-file ./env.list ubuntu bash
+  [ec2-user ~]$ docker run -d -p 3000:3000 -t spencerlepine/woofer:latest woofer
 ```
 
 ## Create the .env file
 
-Create the `.env.list` file (see [.env.sample](../.env.sample))
+Create the `.env` file (see [.env.sample](../.env.sample))
 
 ```sh
-[ec2-user ~]$ touch .env.list
-[ec2-user ~]$ vim .env.list # paste values
+[ec2-user ~]$ touch .env
+[ec2-user ~]$ vim .env # paste values
 ```
 
 ## Start/Restart Docker Container
 
 ```sh
 # Run the docker container build
-[ec2-user ~]$ docker run -d -p 3000:3000 -t spencerlepine/woofer:latest woofer --env-file ./env.list ubuntu bash
+[ec2-user ~]$ docker run -d -p 3000:3000 -t spencerlepine/woofer:latest woofer
 ```
 
 #### Restart the docker container
@@ -57,7 +57,7 @@ Create the `.env.list` file (see [.env.sample](../.env.sample))
 ```sh
 [ec2-user ~]$ docker ps -a | grep "woofer" | awk '{print $1}' | xargs docker rm
 [ec2-user ~]$ docker containers ls
-[ec2-user ~]$ docker run -d -p 3000:3000 -t spencerlepine/woofer:latest woofer --env-file ./env.list ubuntu bash
+[ec2-user ~]$ docker run -d -p 3000:3000 -t spencerlepine/woofer:latest woofer
 ```
 
 # macOS M1 Chip Docker issue
@@ -80,7 +80,7 @@ sudo yum install qemu binfmt-support qemu-user-static -y # Install the qemu pack
 docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
 docker run --rm -t arm64v8/ubuntu uname -m # Testing the emulation environment
 # NOW start the docker container again
-docker run -d -p 3000:3000 -t spencerlepine/woofer:latest woofer --env-file ./env.list ubuntu bash
+docker run -d -p 3000:3000 -t spencerlepine/woofer:latest woofer
 ```
 
 # BUILD A MULTI ARCH IMAGE

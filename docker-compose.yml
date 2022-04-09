@@ -8,6 +8,8 @@ services:
     image: woofer
     container_name: woofer-app
     command: npm run start
+    env_file:
+      - ./.env
     ports:
       - "3000:3000"
     depends_on:
