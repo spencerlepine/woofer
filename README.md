@@ -39,7 +39,7 @@ npm start
 - [DockerHub](https://hub.docker.com/) account
 - AWS [EC2](https://aws.amazon.com/ec2/) instance running
 
-- Create `.env.development` or `.env.production` file, see [`.env.sample`](./.env.sample)
+- Create `.env` file, see [`.env.sample`](./.env.sample)
 - **GitHub Repository Secrets:** see [EXAMPLE_SECRETS](./resources/EXAMPLE_SECRETS.md)
 
 ```sh

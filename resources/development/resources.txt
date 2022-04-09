@@ -4,3 +4,8 @@ MERN Repository Setup:
 https://gegia.me/mern-monorepo-boilerplate/
 
 https://yonatankra.com/7-github-actions-tricks-i-wish-i-knew-before-i-started/
+
+
+Docker Refactor Article:
+Setting up docker from scratch
+https://mherman.org/blog/dockerizing-a-react-app/

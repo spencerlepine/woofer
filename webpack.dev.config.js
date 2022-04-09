@@ -31,7 +31,7 @@ module.exports = {
     }),
 
     new Dotenv({
-      path: "./.env.development",
+      path: "./.env",
       prefix: "process.env.",
     }),
 
