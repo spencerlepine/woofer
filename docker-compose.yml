@@ -9,7 +9,7 @@ services:
     container_name: woofer-app
     command: npm run start
     env_file:
-      - ./.env
+      - ./.env.production
     volumes:
       - /usr/src/app/node_modules
     ports:
