@@ -11,4 +11,5 @@ github_secrets:
   EC2_REMOTE_HOST: ec2-xx-xxx-xxx-xxx.us-west-2.compute.amazonaws.com
   EC2_REMOTE_USER: ec2-user
   EC2_PORT: "3000"
+  ENV_PRODUCTION: # copy/paste .env.sample file
 ```
