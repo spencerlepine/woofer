@@ -24,4 +24,20 @@ docker --version
 # Forward the port for HTTPS access
 sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
 # Run the product build docker image in container
-docker run -d -p 3000:3000 --name woofer -t spencerlepine/woofer:latest
+docker run \
+    -d \ # or "-it" to test
+    --rm \
+    -p 3000:3000 \
+    --env-file ./.env \
+    --name woofer \
+    -t spencerlepine/woofer:latest
+
+
+# Build sample container
+docker build -t sample:dev .
+docker run \
+    -it \
+    --rm \
+    -p 3000:3000 \
+    --env-file ./.env \
+    sample:dev
