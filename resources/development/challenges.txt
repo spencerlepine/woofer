@@ -69,13 +69,25 @@ Context: Building on M1 Mac chip and pushing to DockerHub
 Problem: building different architectures, could not run on EC2 ubuntu
 Solution: qemu emulator on EC2 to run anything, OR build specific architecture before pushing to DockerHub
 
-Context: docker image enviroment variables
-Problem: tracking enviroment variables for production and development, NOT pushing env files into images/DockerHub
+Docker Image and Enviroment Variables
+Context: docker image unable to access enviroment variables
+Problem: have file for enviroment variables, it is pushing env files into images to DockerHub
 Thinking:
 Thinking through it: we want to BUILD/BUNDLE the code, which "brands" the code into bundle files.
  That would mean the env variables get hard coded in UNDER THE HOOD. I cannot BUILD the docker image combining everything, but also leave out the .env.
  Building triggers, Webpack searches for the .env
 Solution:
- Store .env.production in GitHub Secrets
- BUILD production image in GitHub actions with .env.production
- Make production DockerHub image PRIVATE
+  Store .env.production in GitHub
+  Create the .env.production file when building
+  Reference the .env.production file in Docker build
+  Push image with .env file to DockerHub
+  Make production DockerHub image PRIVATE
+
+WIP - Broken Deployment architecture:
+Context: Currently, Server + Client is built into ONE image with docker, which references .env file
+Problem:
+ - Everytime the server or client updates, it redeploys BOTH
+ - If one server fails, the entire docker container needs to restart
+ - Server and Client access ENV variables different ways
+Solution:
+ - Split up architecture into two different containers?
