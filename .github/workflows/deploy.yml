@@ -40,7 +40,7 @@ jobs:
             docker rm ${{ secrets.DOCKER_CONTAINER_NAME }}
             echo -e "$GREEN successfully stopped docker containers $NC \n"
             echo "Docker containers now:"
-            docker container -ls
+            docker container ls
 
             echo "Starting the new docker image"
             docker run -d -p ${{ secrets.EC2_PORT }}:${{ secrets.EC2_PORT }} --name ${{ secrets.DOCKER_CONTAINER_NAME }} -t ${{ secrets.DOCKER_HUB_REPO }}:latest

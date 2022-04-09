@@ -5,3 +5,7 @@ https://specialmansolution.com/en/setting-up-ci-cd-on-a-nodejs-application-to-a-
 Article:
 Generate SSH keys
 https://zellwk.com/blog/github-actions-deploy/
+
+Another Article:
+GitHub actions + SHH Keys setup:
+https://dev.to/stretch0/deploy-your-node-app-to-ec2-with-github-actions-h9a
