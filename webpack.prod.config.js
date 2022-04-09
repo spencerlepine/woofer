@@ -6,15 +6,16 @@ const CompressionPlugin = require("compression-webpack-plugin")
 const InterpolateHtmlPlugin = require("interpolate-html-plugin")
 const webpack = require("webpack")
 
-require("dotenv").config()
 const Dotenv = require("dotenv-webpack")
 
 module.exports = {
   mode: "production",
   resolve: {
     fallback: {
+      fs: false,
       https: false,
       path: false,
+      os: false,
     },
     extensions: [".js", "*"],
     modules: [path.resolve(__dirname, "js"), "node_modules", "src"],
@@ -53,34 +54,9 @@ module.exports = {
       test: /\.js(\?.*)?$/i,
     }),
 
-    // new Dotenv({
-    //   path: path.resolve(__dirname, ".env"),
-    // }),
-    new webpack.DefinePlugin({
-      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
-      "process.env.SERVER_URL": JSON.stringify(process.env.SERVER_URL),
-      "process.env.PORT": JSON.stringify(process.env.PORT),
-      "process.env.REACT_APP_FIREBASE_API_KEY": JSON.stringify(
-        process.env.REACT_APP_FIREBASE_API_KEY
-      ),
-      "process.env.REACT_APP_FIREBASE_AUTH_DOMAIN": JSON.stringify(
-        process.env.REACT_APP_FIREBASE_AUTH_DOMAIN
-      ),
-      "process.env.REACT_APP_FIREBASE_PROJECT_ID": JSON.stringify(
-        process.env.REACT_APP_FIREBASE_PROJECT_ID
-      ),
-      "process.env.REACT_APP_FIREBASE_STORAGE_BUCKET": JSON.stringify(
-        process.env.REACT_APP_FIREBASE_STORAGE_BUCKET
-      ),
-      "process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID": JSON.stringify(
-        process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID
-      ),
-      "process.env.REACT_APP_FIREBASE_APP_ID": JSON.stringify(
-        process.env.REACT_APP_FIREBASE_APP_ID
-      ),
-      "process.env.REACT_APP_FIREBASE_MEASUREMENT_ID": JSON.stringify(
-        process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
-      ),
+    new Dotenv({
+      path: "./.env.production",
+      prefix: "process.env.",
     }),
 
     new HtmlWebPackPlugin({
@@ -107,10 +83,6 @@ module.exports = {
         removeStyleLinkTypeAttributes: true,
         useShortDoctype: true,
       },
-    }),
-
-    new webpack.DefinePlugin({
-      "process.env.NODE_ENV": JSON.stringify("production"),
     }),
 
     new InterpolateHtmlPlugin({ PUBLIC_URL: "static" }),
