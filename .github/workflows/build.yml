@@ -51,15 +51,15 @@ jobs:
     needs: [build-node]
     runs-on: ubuntu-latest
 
-    name: Docker Build/Publish
+    name: Docker Image Build + Publish
     steps:
       - name: ♻️ Check out Git Repository
         uses: actions/checkout@v2
         with:
           persist-credentials: false
 
-      # - name: Create placeholder env file
-      #   run: touch .env
+      - name: Create placeholder env file
+        run: touch .env.production
 
       - name: ⬇️  Install packages
         run: npm install
