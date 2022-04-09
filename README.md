@@ -76,9 +76,7 @@ See [Endpoint Schema](./resources/WOOFER_API.md).
 
 # 🗃️ Ticket System
 
-- Project Steps: [Trello Board](https://trello.com/b/tYtdHAT5/woofer-project)
-
-- Development Process: [Trello Board](https://trello.com/b/kf2DJ80r/woofer-development)
+- Project Tickets: [Trello Board](https://trello.com/b/tYtdHAT5/woofer-project)
 
 # 🚀 Contributors
 
