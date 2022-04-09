@@ -60,7 +60,6 @@ npm start
 # cp .env.development .env.production
 docker compose build
 docker compose up
-docker-compose --env-file ./.env.development up
 ```
 
 # 🌐API Schema
