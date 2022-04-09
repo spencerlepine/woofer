@@ -11,7 +11,7 @@
 
 ```sh
   [ec2-user ~]$ cd ~/.ssh
-  [ec2-user ~]$ ssh-keygen -t rsa -b 4096 -C "spencerlepine26@gmail.com"
+  [ec2-user ~]$ ssh-keygen -t rsa -b 4096 -C "myemail@gmail.com"
   # enter "github-actions"
   # *enter passphrase*
   [ec2-user ~]$ cat github-actions.pub >> authorized_keys
@@ -33,23 +33,31 @@
   # Verify docker installed
   [ec2-user ~]$ docker --version
   # Forward the port for HTTPS access
-  [ec2-user ~]$ sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
+  [ec2-user ~]$ docker run -d -p 3000:3000 -t spencerlepine/woofer:latest woofer --env-file ./env.list ubuntu bash
+```
+
+## Create the .env file
+
+Create the `.env.list` file (see [.env.sample](../.env.sample))
+
+```sh
+[ec2-user ~]$ touch .env.list
+[ec2-user ~]$ vim .env.list # paste values
 ```
 
 ## Start/Restart Docker Container
 
 ```sh
 # Run the docker container build
-[ec2-user ~]$ docker run -d -p 3000:3000 --name woofer -t spencerlepine/woofer:latest
+[ec2-user ~]$ docker run -d -p 3000:3000 -t spencerlepine/woofer:latest woofer --env-file ./env.list ubuntu bash
 ```
 
 #### Restart the docker container
 
 ```sh
-[ec2-user ~]$ docker stop woofer
-[ec2-user ~]$ docker rm woofer
+[ec2-user ~]$ docker ps -a | grep "woofer" | awk '{print $1}' | xargs docker rm
 [ec2-user ~]$ docker containers ls
-[ec2-user ~]$ docker run -d -p 3000:3000 --name woofer -t spencerlepine/woofer:latest
+[ec2-user ~]$ docker run -d -p 3000:3000 -t spencerlepine/woofer:latest woofer --env-file ./env.list ubuntu bash
 ```
 
 # macOS M1 Chip Docker issue
@@ -72,12 +80,12 @@ sudo yum install qemu binfmt-support qemu-user-static -y # Install the qemu pack
 docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
 docker run --rm -t arm64v8/ubuntu uname -m # Testing the emulation environment
 # NOW start the docker container again
-docker run -d -p 3000:3000 --name woofer -t spencerlepine/woofer:latest
+docker run -d -p 3000:3000 -t spencerlepine/woofer:latest woofer --env-file ./env.list ubuntu bash
 ```
 
-# https://github.com/docker/docker.github.io/blob/2d8b420d3c49712ec4a7bcec1464278fa4c41936/docker-for-mac/multi-arch.md
-
 # BUILD A MULTI ARCH IMAGE
+
+> DockerHub multi-arch [Article](https://github.com/docker/docker.github.io/blob/2d8b420d3c49712ec4a7bcec1464278fa4c41936/docker-for-mac/multi-arch.md)
 
 ```sh
 docker buildx ls

@@ -17,7 +17,7 @@ jobs:
     secrets:
       DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
       DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-      DOCKER_HUB_REPO: ${{ secrets.DOCKER_HUB_REPO_DEV }}
+      DOCKER_HUB_REPO: ${{ secrets.DOCKER_HUB_REPO }} ## TODO: _DEV
 
   # TODO, remove this, just deploy for practice
   deploy:
