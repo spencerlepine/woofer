@@ -62,3 +62,18 @@ Solution:
  - Make reusable workflows
  - Identify what CI/CD process fails
  - Find error details with context easier
+
+
+Deploying the Docker Image to EC2
+Context: Building on M1 Mac chip and pushing to DockerHub
+Problem: building different architectures, could not run on EC2 ubuntu
+Solution: qemu emulator on EC2 to run anything, OR build specific architecture before pushing to DockerHub
+
+Context: docker image enviroment variables
+Problem: tracking enviroment variables for production and development, NOT pushing env files into images/DockerHub
+Thinking:
+Thinking through it: we want to BUILD/BUNDLE the code, which "brands" the code into bundle files.
+ That would mean the env variables get hard coded in UNDER THE HOOD. I cannot BUILD the docker image combining everything, but also leave out the .env.
+ Building triggers, Webpack searches for the .env
+Solution:
+ Make Webpack rely on system enviroment variables NOT .env file. It should never have to look for .env file anymore

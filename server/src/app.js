@@ -47,8 +47,6 @@ const CLIENT_FRONTEND = express.static(
 )
 app.use(CLIENT_FRONTEND)
 
-app.use(express.static(path.join(__dirname, "..", "build", "static")))
-
 // v1 api routes
 app.use("/api", routes)
 
