@@ -76,4 +76,6 @@ Thinking through it: we want to BUILD/BUNDLE the code, which "brands" the code i
  That would mean the env variables get hard coded in UNDER THE HOOD. I cannot BUILD the docker image combining everything, but also leave out the .env.
  Building triggers, Webpack searches for the .env
 Solution:
- Make Webpack rely on system enviroment variables NOT .env file. It should never have to look for .env file anymore
+ Store .env.production in GitHub Secrets
+ BUILD production image in GitHub actions with .env.production
+ Make production DockerHub image PRIVATE

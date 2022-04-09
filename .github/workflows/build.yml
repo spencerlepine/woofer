@@ -59,7 +59,7 @@ jobs:
           persist-credentials: false
 
       - name: Create placeholder env file
-        run: touch .env
+        run: touch .env.production
 
       - name: ⬇️  Install packages
         run: npm install
