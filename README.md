@@ -53,13 +53,12 @@ npm start
 - [DockerHub](https://hub.docker.com/) account
 - AWS [EC2](https://aws.amazon.com/ec2/) instance running (see [EC2 Setup Walkthrough](./resources/EC2_SETUP_WALKTHROUGH.md))
 
-- Create `.env.development` or `.env.production` file (see [`.env.sample`](./.env.sample))
+- Create `.env` file (see [`.env.sample`](./.env.sample))
 - update the **GitHub Repository Secrets** (see [EXAMPLE_SECRETS](./resources/EXAMPLE_SECRETS.md))
 
 ```sh
-# cp .env.development .env.production
-docker compose build
-docker compose up
+# cp .env.sample .env
+docker-compose up --build
 ```
 
 # 🌐API Schema
