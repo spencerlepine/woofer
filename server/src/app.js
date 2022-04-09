@@ -42,8 +42,12 @@ app.use(compression())
 app.use(cors())
 app.options("*", cors())
 
-const CLIENT_FRONTEND = express.static(path.join(__dirname, "..", "..", "client", "build"))
+const CLIENT_FRONTEND = express.static(
+  path.join(__dirname, "..", "..", "client", "build")
+)
 app.use(CLIENT_FRONTEND)
+
+app.use(express.static(path.join(__dirname, "..", "build", "static")))
 
 // v1 api routes
 app.use("/api", routes)
