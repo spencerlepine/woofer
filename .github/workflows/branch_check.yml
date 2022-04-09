@@ -8,22 +8,23 @@ on:
 
 jobs:
 
-  # test: TODO
-  #   uses: ./.github/workflows/test.yml
+  test:
+    uses: ./.github/workflows/test.yml
 
   build:
-    # needs: [test]
+    needs: [test]
     uses: ./.github/workflows/build.yml
     secrets:
       DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
       DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-      DOCKER_HUB_REPO: ${{ secrets.DOCKER_HUB_REPO }} ## TODO: _DEV
+      DOCKER_HUB_REPO: ${{ secrets.DOCKER_HUB_REPO_DEV }}
+      ENV_VARS: ${{ secrets.ENV_DEVELOPMENT }}
 
   # TODO, remove this, just deploy for practice
-  # deploy:
-  #   needs: [build]
-  #   uses: ./.github/workflows/deploy.yml
-  #   secrets:
-  #     DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-  #     DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-  #     DOCKER_HUB_REPO: ${{ secrets.DOCKER_HUB_REPO }}
+  deploy:
+    needs: [build]
+    uses: ./.github/workflows/deploy.yml
+    secrets:
+      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+      DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      DOCKER_HUB_REPO: ${{ secrets.DOCKER_HUB_REPO_DEV }}
