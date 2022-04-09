@@ -10,6 +10,8 @@ services:
     command: npm run start
     env_file:
       - ./.env
+    volumes:
+      - /usr/src/app/node_modules
     ports:
       - "3000:3000"
     depends_on:
@@ -24,22 +26,6 @@ services:
       - "27017:27017"
     networks:
       - app-network
-  # client:
-  #   build:
-  #     context: ./client
-  #     dockerfile: Dockerfile
-  #   image: woofer-client
-  #   container_name: woofer-react-client
-  #   command: npm run start
-  #   volumes:
-  #     - ./client/:/usr/app
-  #     - /usr/app/node_modules
-  #   depends_on:
-  #     - server
-  #   ports:
-  #     - "3000:3000"
-  #   networks:
-  #     - app-network
 
 networks:
     app-network:
