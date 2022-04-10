@@ -61,7 +61,7 @@ const schema = (Joi) => {
     [DATA_KEYS["ZIPCODE"]]: Joi.string()
       .min(3)
       .max(10)
-      .pattern(new RegExp(/[0-9\-]/)),
+      .pattern(new RegExp(/[0-9-]/)),
     [DATA_KEYS["CHAT_ID"]]: Joi.string().alphanum(),
     [DATA_KEYS["CHAT_STARTDATE"]]: Joi.string().pattern(dateRegex),
     [DATA_KEYS["PICTURE"]]: Joi.string().uri().max(255),
