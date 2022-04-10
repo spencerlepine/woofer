@@ -8,11 +8,18 @@ on:
 
 jobs:
 
-  test:
+  test-client:
     uses: ./.github/workflows/test.yml
+    secrets:
+      FOLDER: client
+
+  test-server:
+    uses: ./.github/workflows/test.yml
+    secrets:
+      FOLDER: server
 
   build:
-    needs: [test]
+    needs: [test-server]
     uses: ./.github/workflows/build.yml
     secrets:
       DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
