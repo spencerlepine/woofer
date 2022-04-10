@@ -15,10 +15,7 @@ RUN npm install --silent
 # Copies everything over to Docker environment
 COPY . ./
 
+EXPOSE 3000
+
 # Finally runs the application
 CMD [ "npm", "start" ]
-
-# Stage 2
-FROM nginx:latest
-
-COPY ./nginx/nginx.default.conf /etc/nginx/conf.d/default.conf

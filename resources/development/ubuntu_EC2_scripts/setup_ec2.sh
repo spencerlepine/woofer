@@ -33,7 +33,7 @@ vim .env # paste .env file contents, see .env.sample
 docker run \
     -d \
     --rm \
-    -p 3000:3000 \
+    -p 80:80 \
     --env-file ./.env \
     --name woofer \
     -t spencerlepine/woofer:latest
@@ -44,6 +44,6 @@ docker build -t sample:dev .
 docker run \
     -it \
     --rm \
-    -p 3000:3000 \
+    -p 80:80 \
     --env-file ./.env \
     sample:dev

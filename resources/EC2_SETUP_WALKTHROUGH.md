@@ -52,7 +52,7 @@ Create the `.env` file (see [.env.sample](../.env.sample))
 [ec2-user ~]$ docker run \
                 -d \
                 --rm \
-                -p 3000:3000 \
+                -p 80:80 \
                 --env-file ./.env \
                 --name woofer \
                 -t spencerlepine/woofer:latest
@@ -66,7 +66,7 @@ Create the `.env` file (see [.env.sample](../.env.sample))
 [ec2-user ~]$ docker run \
                 -d \
                 --rm \
-                -p 3000:3000 \
+                -p 80:80 \
                 --env-file ./.env \
                 --name woofer \
                 -t spencerlepine/woofer:latest
@@ -92,7 +92,7 @@ sudo yum install qemu binfmt-support qemu-user-static -y # Install the qemu pack
 docker run --rm --privileged multiarch/qemu-user-static --reset -p yes # This step will execute the registering scripts
 docker run --rm -t arm64v8/ubuntu uname -m # Testing the emulation environment
 # NOW start the docker container again
-docker run -d -p 3000:3000 -t spencerlepine/woofer:latest woofer
+docker run -d -p 80:80 -t spencerlepine/woofer:latest woofer
 ```
 
 # BUILD A MULTI ARCH IMAGE

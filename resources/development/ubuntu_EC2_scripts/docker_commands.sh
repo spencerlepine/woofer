@@ -11,7 +11,7 @@ docker build -t sample:dev .
 docker run \
     -it \
     --rm \
-    -p 3000:80 \
+    -p 80:80 \
     --env-file ./.env \
     sample:dev
 
@@ -19,7 +19,7 @@ docker run \
 docker run \
     -d \ # or "-it" to test
     --rm \
-    -p 3000:3000 \
+    -p 80:80 \
     --env-file ./.env \
     --name woofer \
     -t spencerlepine/woofer:latest
@@ -29,13 +29,13 @@ docker run \
 docker run \
     -d \
     --rm \
-    -p 3000:3000 \
+    -p 80:80 \
     --env-file ./.env \
     -t spencerlepine/woofer-dev:latest
 
 docker run \
     -it \
     --rm \
-    -p 3000:3000 \
+    -p 80:80 \
     --env-file ./.env \
     -t spencerlepine/woofer-dev:latest

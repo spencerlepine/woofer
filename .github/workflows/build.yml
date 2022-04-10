@@ -120,12 +120,12 @@ jobs:
           docker run \
             -d \
             --rm \
-            -p 3000:3000 \
+            -p 80:80 \
             --env-file ./.env.sample \
             --name woofer \
             -t spencerlepine/woofer:latest
 
-      # curl command fails
-      # - name: Should be running on localhost
-      #   run: |
-      #     curl http://localhost:3000
+      curl command fails
+      - name: Should be running on localhost
+        run: |
+          curl http://localhost:80
