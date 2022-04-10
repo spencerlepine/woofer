@@ -43,29 +43,25 @@ jobs:
             NC='\033[0m' # No Color
             echo -e "$GREEN Starting EC2 deployment script $NC"
 
-            echo "Stopping all running Docker Containers"
-            # # docker stop ${{ secrets.DOCKER_CONTAINER_NAME }}
-            docker rm ${{ secrets.DOCKER_CONTAINER_NAME }} -f
-            docker image prune -a -f
+            docker kill $(docker ps -q)
+            docker rm $(docker ps -a -q)
+            echo -e "$GREEN Successfully stopped all docker containers $NC \n"
 
-            echo -e "$GREEN successfully stopped docker containers $NC \n"
-            echo "Docker containers now:"
-            docker container ls
+            docker rmi $(docker images -q)
+            echo -e "$GREEN Successfully removed all docker images $NC \n"
 
-            # systemctl restart docker
-            # docker ps -a | grep "${{ secrets.DOCKER_CONTAINER_NAME }}" | awk '{print $1}' | xargs docker rm -f
+            rm -rf /${{ github.event.repository.name }}
+            echo -e "$GREEN Deleted old repository folder $NC \n"
 
-            echo -e "$GREEN Starting new Docker container $NC"
-            docker run \
-              -d \
-              --rm \
-              -p ${{ secrets.EC2_PORT }}:${{ secrets.EC2_PORT }} \
-              --env-file ./.env \
-              --name ${{ secrets.DOCKER_CONTAINER_NAME }} \
-              -t ${{ secrets.DOCKER_HUB_REPO }}:latest
+            git clone ${{ github.repository }}
+            echo -e "$GREEN Successfully cloned the repository $NC \n"
+
+            cd ${{ github.event.repository.name }}
+
+            docker-compose up --build -d
 
             sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
 
-            echo -e "$GREEN Successfully started the docker image $NC \n"
+            echo -e "$GREEN Successfully started the docker container! $NC \n"
 
             echo -e "$GREEN EC2 deployment complete! $NC"
