@@ -3,15 +3,19 @@ name: deploy
 on:
   workflow_call:
     secrets:
-      DOCKER_HUB_USERNAME:
+      EC2_REMOTE_HOST:
         required: true
-      DOCKER_HUB_PASSWORD:
+      EC2_REMOTE_USER:
         required: true
-      DOCKER_HUB_REPO:
+      EC2_SSH_KEY:
+        required: true
+      EC2_PASSPHRASE:
+        required: true
+      EC2_PORT:
         required: true
       DOCKER_CONTAINER_NAME:
         required: true
-      EC2_PORT:
+      DOCKER_HUB_REPO:
         required: true
 
 jobs:
