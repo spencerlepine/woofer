@@ -92,3 +92,32 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_REPO }}:latest
           cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_REPO }}:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_REPO }}:buildcache,mode=max
+
+  check-docker:
+    needs: [build-docker]
+    runs-on: ubuntu-latest
+    # services:
+    #   woofer-build:
+    #     image: ${{ secrects.DOCKER_HUB_REPO }}
+    #     ports:
+    #        - 3000:3000
+
+    name: Verify Docker Image Runs
+    steps:
+      - name: Pull Docker Image
+        run: |
+          docker pull ${{ secrets.DOCKER_HUB_REPO }}:latest
+
+      - name: Run Docker Container
+        run: |
+          docker run \
+            -d \
+            --rm \
+            -p 3000:3000 \
+            --env-file ./.env.sample \
+            --name woofer \
+            -t spencerlepine/woofer:latest
+
+      - name: Should be running on localhost
+        run: |
+          curl http://localhost:3000
