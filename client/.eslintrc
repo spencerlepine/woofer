@@ -1,0 +1,37 @@
+{
+  "extends": [
+    "eslint:recommended"
+    // "react-app",
+    // "plugin:react/recommended"
+  ],
+  "env": {
+    "es6": true,
+    "jest": true
+  },
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "requireConfigFile": false,
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-undef": "off",
+    "no-console": "off",
+    "no-unused-vars": "off",
+    "react/prop-types": "off",
+    "quotes": [
+      2,
+      "double",
+      {
+        "avoidEscape": true
+      }
+    ]
+  },
+  "plugins": [
+    "prettier",
+    "react"
+  ]
+}
