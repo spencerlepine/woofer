@@ -39,31 +39,32 @@ jobs:
           port: ${{ secrets.EC2_PORT }}
           script_stop: true
           script: |
-            GREEN='\033[0;32m'
-            NC='\033[0m' # No Color
-            echo -e "$GREEN Starting EC2 deployment script $NC"
+            whoami
+            # GREEN='\033[0;32m'
+            # NC='\033[0m' # No Color
+            # echo -e "$GREEN Starting EC2 deployment script $NC"
 
-            # echo "Stopping all running Docker Containers"
-            # docker stop ${{ secrets.DOCKER_CONTAINER_NAME }}
-            # docker rm ${{ secrets.DOCKER_CONTAINER_NAME }}
-            # echo -e "$GREEN successfully stopped docker containers $NC \n"
-            # echo "Docker containers now:"
-            # docker container ls
+            # # echo "Stopping all running Docker Containers"
+            # # docker stop ${{ secrets.DOCKER_CONTAINER_NAME }}
+            # # docker rm ${{ secrets.DOCKER_CONTAINER_NAME }}
+            # # echo -e "$GREEN successfully stopped docker containers $NC \n"
+            # # echo "Docker containers now:"
+            # # docker container ls
 
-            systemctl restart docker
-            docker ps -a | grep "${{ secrets.DOCKER_CONTAINER_NAME }}" | awk '{print $1}' | xargs docker rm
+            # systemctl restart docker
+            # docker ps -a | grep "${{ secrets.DOCKER_CONTAINER_NAME }}" | awk '{print $1}' | xargs docker rm
 
-            echo "Starting the new docker image"
-            # docker run \
-            #   -d \
-            #   --rm \
-            #   -p ${{ secrets.EC2_PORT }}:${{ secrets.EC2_PORT }} \
-            #   --env-file ./.env \
-            #   --name ${{ secrets.DOCKER_CONTAINER_NAME }} \
-            #   -t ${{ secrets.DOCKER_HUB_REPO }}:latest
+            # echo "Starting the new docker image"
+            # # docker run \
+            # #   -d \
+            # #   --rm \
+            # #   -p ${{ secrets.EC2_PORT }}:${{ secrets.EC2_PORT }} \
+            # #   --env-file ./.env \
+            # #   --name ${{ secrets.DOCKER_CONTAINER_NAME }} \
+            # #   -t ${{ secrets.DOCKER_HUB_REPO }}:latest
 
-            sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
+            # sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
 
-            echo -e "$GREEN Successfully started the docker image $NC \n"
+            # echo -e "$GREEN Successfully started the docker image $NC \n"
 
-            echo -e "$GREEN EC2 deployment complete! $NC"
+            # echo -e "$GREEN EC2 deployment complete! $NC"
