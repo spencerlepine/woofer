@@ -61,6 +61,7 @@ jobs:
             echo -e "$GREEN Successfully cloned the repository $NC \n"
 
             cp .env ./${{ github.event.repository.name }}/.env
+            cp .env ./${{ github.event.repository.name }}/client/.env
             echo -e "$GREEN Duplicated the .env file $NC \n"
 
             cd ${{ github.event.repository.name }}

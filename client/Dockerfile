@@ -5,12 +5,10 @@ RUN mkdir -p /usr/src/app/
 WORKDIR /usr/src/app/
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
-COPY package*.json ./
-
-# Installs all node packages
+COPY package.json .
 RUN npm install
 
-COPY . ./
+COPY ./ ./
 
 #Expose port and start application
 # EXPOSE 3000

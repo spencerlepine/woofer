@@ -24,17 +24,15 @@ services:
   # Nodejs backend
   ##############################################################################
 
-  backend:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-    image: spencerlepine/woofer-server
-    restart: always
-    container_name: 'backend'
-    env_file:
-      - ./.env
-    ports:
-      - "5000:5000"
-    volumes:
-      - /usr/src/nodejs/node_modules
-      - ./server:/usr/src/nodejs
+  # backend:
+  #   build:
+  #     context: ./server
+  #     dockerfile: Dockerfile
+  #   image: spencerlepine/mern-ec2-server
+  #   restart: always
+  #   container_name: 'backend'
+  #   ports:
+  #     - "5000:5000"
+  #   volumes:
+  #     - /usr/src/nodejs/node_modules
+  #     - ./server:/usr/src/nodejs
