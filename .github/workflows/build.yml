@@ -45,58 +45,59 @@ jobs:
           NODE_ENV: production
         run: npm run build
 
-  build-docker:
-    needs: [build-node]
-    runs-on: ubuntu-latest
+  # build-docker:
+  #   needs: [build-node]
+  #   runs-on: ubuntu-latest
 
-    name: Docker Image Build + Publish
-    steps:
-      - name: ♻️ Check out Git Repository
-        uses: actions/checkout@v2
-        with:
-          persist-credentials: false
+  #   name: Docker Image Build + Publish
+  #   steps:
+  #     - name: ♻️ Check out Git Repository
+  #       uses: actions/checkout@v2
+  #       with:
+  #         persist-credentials: false
 
-      - name: Cache node modules
-        uses: actions/cache@v2
-        id: npm_cache_id
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-cache-
-            ${{ runner.os }}-
+  #     - name: Cache node modules
+  #       uses: actions/cache@v2
+  #       id: npm_cache_id
+  #       with:
+  #         path: node_modules
+  #         key: ${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+  #         restore-keys: |
+  #           ${{ runner.os }}-npm-cache-
+  #           ${{ runner.os }}-
 
-      - name: ⬇️  Install packages
-        if: steps.npm_cache_id.outputs.cache-hit != 'true'
-        run: npm install
+  #     - name: ⬇️  Install packages
+  #       if: steps.npm_cache_id.outputs.cache-hit != 'true'
+  #       run: npm install
 
-      - name: 🔖 Set up Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node }}
+  #     - name: 🔖 Set up Node
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: ${{ matrix.node }}
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+  #     - name: Login to Docker Hub
+  #       uses: docker/login-action@v1
+  #       with:
+  #         username: ${{ secrets.DOCKER_HUB_USERNAME }}
+  #         password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v1
 
-      - name: 🐳 Publish to Docker Registry
-        uses: docker/build-push-action@v2
-        with:
-          context: ./
-          file: ./Dockerfile
-          builder: ${{ steps.buildx.outputs.name }}
-          push: true
-          tags: ${{ secrets.DOCKER_HUB_REPO }}:latest
-          cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_REPO }}:buildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_REPO }}:buildcache,mode=max
+  #     - name: 🐳 Publish to Docker Registry
+  #       uses: docker/build-push-action@v2
+  #       with:
+  #         context: ./
+  #         file: ./Dockerfile
+  #         builder: ${{ steps.buildx.outputs.name }}
+  #         push: true
+  #         tags: ${{ secrets.DOCKER_HUB_REPO }}:latest
+  #         cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_REPO }}:buildcache
+  #         cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_REPO }}:buildcache,mode=max
 
   check-docker:
-    needs: [build-docker]
+    # needs: [build-docker]
+    needs: [build-node]
     runs-on: ubuntu-latest
 
     name: Verify Docker Image Runs
