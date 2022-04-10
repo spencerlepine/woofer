@@ -22,10 +22,10 @@ jobs:
     needs: [build]
     uses: ./.github/workflows/deploy.yml
     secrets:
-      EC2_REMOTE_HOST: ${{ secerets.EC2_REMOTE_HOST }}
-      EC2_REMOTE_USER: ${{ secerets.EC2_REMOTE_USER }}
-      EC2_SSH_KEY: ${{ secerets.EC2_SSH_KEY }}
-      EC2_PASSPHRASE: ${{ secerets.EC2_PASSPHRASE }}
-      EC2_PORT: ${{ secerets.EC2_PORT }}
-      DOCKER_CONTAINER_NAME: ${{ secerets.DOCKER_CONTAINER_NAME }}
-      DOCKER_HUB_REPO: ${{ secerets.DOCKER_HUB_REPO }}
+      EC2_REMOTE_HOST: ${{ secrets.EC2_REMOTE_HOST }}
+      EC2_REMOTE_USER: ${{ secrets.EC2_REMOTE_USER }}
+      EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+      EC2_PASSPHRASE: ${{ secrets.EC2_PASSPHRASE }}
+      EC2_PORT: ${{ secrets.EC2_PORT }}
+      DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
+      DOCKER_HUB_REPO: ${{ secrets.DOCKER_HUB_REPO }}
