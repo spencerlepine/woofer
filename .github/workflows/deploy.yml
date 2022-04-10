@@ -35,8 +35,8 @@ jobs:
           host: ${{ secrets.EC2_REMOTE_HOST }}
           username: ${{ secrets.EC2_REMOTE_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          # passphrase: ${{ secrets.EC2_PASSPHRASE }}
-          port: ${{ secrets.EC2_PORT }}
+          passphrase: ${{ secrets.EC2_PASSPHRASE }}
+          port: 22
           script_stop: true
           script: |
             whoami
@@ -46,7 +46,9 @@ jobs:
 
             # # echo "Stopping all running Docker Containers"
             # # docker stop ${{ secrets.DOCKER_CONTAINER_NAME }}
-            # # docker rm ${{ secrets.DOCKER_CONTAINER_NAME }}
+            docker rm ${{ secrets.DOCKER_CONTAINER_NAME }} -f
+            docker image prune -a -f
+
             # # echo -e "$GREEN successfully stopped docker containers $NC \n"
             # # echo "Docker containers now:"
             # # docker container ls
