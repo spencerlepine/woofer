@@ -10,10 +10,10 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
-    image: spencerlepine/mern-ec2-client
+    image: spencerlepine/woofer-client
     restart: always
     env_file:
-      - ./client/.env
+      - ./.env
     ports:
       - "80:80"
     volumes:
@@ -28,11 +28,11 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-    image: spencerlepine/mern-ec2-server
+    image: spencerlepine/woofer-server
     restart: always
     container_name: 'backend'
     env_file:
-      - ./server/.env
+      - ./.env
     ports:
       - "5000:5000"
     volumes:

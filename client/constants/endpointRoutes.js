@@ -1,12 +1,12 @@
-const DATA_KEYS = require("./dataKeys")
+import DATA_KEYS from "./dataKeys"
 
-const BODY_KEYS = "expectedBodyKeys"
-const OPT_KEYS = "optionalBodyKeys"
-const PARAM_KEYS = "expectedParamKeys"
-const RESPONSE_KEYS = "responseExpectedKeys"
-const baseURL = "/api"
+export const BODY_KEYS = "expectedBodyKeys"
+export const OPT_KEYS = "optionalBodyKeys"
+export const PARAM_KEYS = "expectedParamKeys"
+export const RESPONSE_KEYS = "responseExpectedKeys"
+export const baseURL = "/api"
 
-const ENDPOINT_ROUTES = {
+export const ENDPOINT_ROUTES = {
   // "EXAMPLE": {
   //   "URL": "example",
   //   "POST": {
@@ -87,9 +87,6 @@ const ENDPOINT_ROUTES = {
         [BODY_KEYS]: [DATA_KEYS["USER_ID"]],
         [OPT_KEYS]: [
           [DATA_KEYS["USER_NAME"]],
-          [DATA_KEYS["USER_FIRST_NAME"]],
-          [DATA_KEYS["USER_LAST_NAME"]],
-          [DATA_KEYS["USER_PROFILE_PIC"]],
           [DATA_KEYS["USER_GENDER"]],
           [DATA_KEYS["USER_ZODIAC"]],
           [DATA_KEYS["USER_PREFERENCE"]],
@@ -118,7 +115,7 @@ READ /chats/messages/:chatId => GET Last messages in the chat
 DELETE /chats/delete/:chatId => Delete access to chat "Block User", just remove chat Ids from chat lists under profiles. Still "in" database
 */
 
-const endpointURLStr = (urlRoutes, reqMethod) => {
+export const endpointURLStr = (urlRoutes, reqMethod) => {
   try {
     let lastObject = ENDPOINT_ROUTES
     let urls = [baseURL]
@@ -132,7 +129,7 @@ const endpointURLStr = (urlRoutes, reqMethod) => {
   }
 }
 
-const expectedRequest = (urlRoutes, reqMethod) => {
+export const expectedRequest = (urlRoutes, reqMethod) => {
   let lastObject = ENDPOINT_ROUTES
   try {
     urlRoutes.forEach((str) => {
@@ -148,12 +145,3 @@ const expectedRequest = (urlRoutes, reqMethod) => {
     )
   }
 }
-
-module.exports.default = ENDPOINT_ROUTES
-module.exports.BODY_KEYS = "expectedBodyKeys"
-module.exports.OPT_KEYS = "optionalBodyKeys"
-module.exports.PARAM_KEYS = "expectedParamKeys"
-module.exports.RESPONSE_KEYS = "responseExpectedKeys"
-module.exports.expectedRequest = expectedRequest
-module.exports.endpointURLStr = endpointURLStr
-module.exports.baseURL = baseURL
