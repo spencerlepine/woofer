@@ -13,10 +13,6 @@ on:
         required: true
       EC2_PORT:
         required: true
-      DOCKER_CONTAINER_NAME:
-        required: true
-      DOCKER_HUB_REPO:
-        required: true
 
 jobs:
 
