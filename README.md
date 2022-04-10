@@ -62,7 +62,6 @@ npm run dev:server
 #### Prerequisites
 
 - [Docker](https://www.docker.com/) installed locally
-- [DockerHub](https://hub.docker.com/) account
 - AWS [EC2](https://aws.amazon.com/ec2/) instance running (see [EC2 Setup Walkthrough](./resources/EC2_SETUP_WALKTHROUGH.md))
 - update the **GitHub Repository Secrets** (see [EXAMPLE_SECRETS](./resources/EXAMPLE_SECRETS.md))
 
