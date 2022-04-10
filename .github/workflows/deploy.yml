@@ -35,7 +35,7 @@ jobs:
           host: ${{ secrets.EC2_REMOTE_HOST }}
           username: ${{ secrets.EC2_REMOTE_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          passphrase: ${{ secrets.EC2_PASSPHRASE }}
+          # passphrase: ${{ secrets.EC2_PASSPHRASE }}
           port: ${{ secrets.EC2_PORT }}
           script_stop: true
           script: |
