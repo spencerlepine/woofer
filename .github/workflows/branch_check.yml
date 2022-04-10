@@ -8,26 +8,13 @@ on:
 
 jobs:
 
-  # test:
-  #   uses: ./.github/workflows/test.yml
+  test:
+    uses: ./.github/workflows/test.yml
 
-  # build:
-  #   needs: [test]
-  #   uses: ./.github/workflows/build.yml
-  #   secrets:
-  #     DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-  #     DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-  #     DOCKER_HUB_REPO: ${{ secrets.DOCKER_HUB_REPO_DEV }}
-
-  # TODO, remove this, just deploy for practice
-  deploy:
-    # needs: [build]
-    uses: ./.github/workflows/deploy.yml
+  build:
+    needs: [test]
+    uses: ./.github/workflows/build.yml
     secrets:
-      EC2_REMOTE_HOST: ${{ secrets.EC2_REMOTE_HOST }}
-      EC2_REMOTE_USER: ${{ secrets.EC2_REMOTE_USER }}
-      EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
-      EC2_PASSPHRASE: ${{ secrets.EC2_PASSPHRASE }}
-      EC2_PORT: ${{ secrets.EC2_PORT }}
-      DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
-      DOCKER_HUB_REPO: ${{ secrets.DOCKER_HUB_REPO }}
+      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+      DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      DOCKER_HUB_REPO: ${{ secrets.DOCKER_HUB_REPO_DEV }}

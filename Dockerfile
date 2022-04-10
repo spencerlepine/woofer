@@ -13,7 +13,7 @@ COPY package*.json ./
 RUN npm install
 
 # Copies everything over to Docker environment
-COPY . .
+COPY . ./
 
 # Uses port which is used by the actual application
 EXPOSE $PORT
