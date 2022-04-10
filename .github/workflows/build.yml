@@ -88,7 +88,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./
-          file: ./Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ secrets.DOCKER_HUB_REPO }}:latest
@@ -98,11 +97,6 @@ jobs:
   check-docker:
     needs: [build-docker]
     runs-on: ubuntu-latest
-    # services:
-    #   woofer-build:
-    #     image: ${{ secrects.DOCKER_HUB_REPO }}
-    #     ports:
-    #        - 3000:3000
 
     name: Verify Docker Image Runs
     steps:
@@ -123,7 +117,7 @@ jobs:
             -p 80:80 \
             --env-file ./.env.sample \
             --name woofer \
-            -t spencerlepine/woofer:latest
+            -t ${{ secrets.DOCKER_HUB_REPO }}:latest
 
       curl command fails
       - name: Should be running on localhost
