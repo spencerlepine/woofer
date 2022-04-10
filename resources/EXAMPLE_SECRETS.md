@@ -6,6 +6,8 @@ github_secrets:
   DOCKER_CONTAINER_NAME: myproject
   DOCKER_HUB_REPO: johndoe/myproject
   DOCKER_HUB_REPO_DEV: johndoe/myproject-dev
+  DOCKER_HUB_NGIX_REPO: johndoe/myproject-ngnix
+  DOCKER_HUB_NGIX_REPO_DEV: johndoe/myproject-ngnix-dev
   EC2_PASSPHRASE: "the fox jumped over the moon"
   EC2_SSH_KEY: # .pem file contents
   EC2_REMOTE_HOST: ec2-xx-xxx-xxx-xxx.us-west-2.compute.amazonaws.com

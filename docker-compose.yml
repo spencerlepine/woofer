@@ -10,6 +10,7 @@ services:
     volumes:
         - /app/node_modules
         - ./:/app
+    # image: spencerlepine/woofer
     restart: always
 
   nginx:
@@ -18,4 +19,6 @@ services:
         dockerfile: Dockerfile
     ports:
         - 80:80
+    # image: spencerlepine/woofer-nginx
     restart: always
+
