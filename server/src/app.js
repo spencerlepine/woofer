@@ -39,8 +39,12 @@ app.use(mongoSanitize())
 app.use(compression())
 
 // enable cors
-app.use(cors())
-app.options("*", cors())
+app.use(
+  cors({
+    origin: "*",
+  })
+)
+// app.options("*", cors())
 
 const CLIENT_FRONTEND = express.static("client/build")
 app.use(CLIENT_FRONTEND)
