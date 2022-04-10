@@ -1,2 +1,8 @@
 .env*
-.env.production
+resrouces/
+*.test*
+node_modules
+.dockerignore
+Dockerfile
+build
+Dockerfile.prod

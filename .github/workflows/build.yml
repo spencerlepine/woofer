@@ -28,18 +28,16 @@ jobs:
 
       - name: Cache node modules
         uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
+        id: npm_cache_id
         with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          path: node_modules
+          key: ${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
+            ${{ runner.os }}-npm-cache-
             ${{ runner.os }}-
 
       - name: ⬇️  Install packages
+        if: steps.npm_cache_id.outputs.cache-hit != 'true'
         run: npm install
 
       - name: 🏗 Build client files
@@ -51,17 +49,25 @@ jobs:
     needs: [build-node]
     runs-on: ubuntu-latest
 
-    name: Docker Build/Publish
+    name: Docker Image Build + Publish
     steps:
       - name: ♻️ Check out Git Repository
         uses: actions/checkout@v2
         with:
           persist-credentials: false
 
-      - name: Create placeholder env file
-        run: touch .env.production
+      - name: Cache node modules
+        uses: actions/cache@v2
+        id: npm_cache_id
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-cache-
+            ${{ runner.os }}-
 
       - name: ⬇️  Install packages
+        if: steps.npm_cache_id.outputs.cache-hit != 'true'
         run: npm install
 
       - name: 🔖 Set up Node
@@ -88,3 +94,38 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_REPO }}:latest
           cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_REPO }}:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_REPO }}:buildcache,mode=max
+
+  check-docker:
+    needs: [build-docker]
+    runs-on: ubuntu-latest
+    # services:
+    #   woofer-build:
+    #     image: ${{ secrects.DOCKER_HUB_REPO }}
+    #     ports:
+    #        - 3000:3000
+
+    name: Verify Docker Image Runs
+    steps:
+      - name: ♻️ Check out Git Repository
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Pull Docker Image
+        run: |
+          docker pull ${{ secrets.DOCKER_HUB_REPO }}:latest
+
+      - name: Run Docker Container
+        run: |
+          docker run \
+            -d \
+            --rm \
+            -p 3000:3000 \
+            --env-file ./.env.sample \
+            --name woofer \
+            -t spencerlepine/woofer:latest
+
+      # curl command fails
+      # - name: Should be running on localhost
+      #   run: |
+      #     curl http://localhost:3000

@@ -12,8 +12,10 @@ module.exports = {
   mode: "production",
   resolve: {
     fallback: {
+      fs: false,
       https: false,
       path: false,
+      os: false,
     },
     extensions: [".js", "*"],
     modules: [path.resolve(__dirname, "js"), "node_modules", "src"],
@@ -53,7 +55,8 @@ module.exports = {
     }),
 
     new Dotenv({
-      path: "./.env.production",
+      path: "./.env",
+      prefix: "process.env.",
     }),
 
     new HtmlWebPackPlugin({
@@ -80,10 +83,6 @@ module.exports = {
         removeStyleLinkTypeAttributes: true,
         useShortDoctype: true,
       },
-    }),
-
-    new webpack.DefinePlugin({
-      "process.env.NODE_ENV": JSON.stringify("production"),
     }),
 
     new InterpolateHtmlPlugin({ PUBLIC_URL: "static" }),

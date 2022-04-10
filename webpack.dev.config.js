@@ -11,8 +11,10 @@ module.exports = {
   mode: "development",
   resolve: {
     fallback: {
+      fs: false,
       https: false,
       path: false,
+      os: false,
     },
     extensions: [".js", "*"],
     modules: [path.resolve(__dirname, "js"), "node_modules", "src"],
@@ -29,7 +31,7 @@ module.exports = {
     }),
 
     new Dotenv({
-      path: "./.env.development",
+      path: "./.env",
       prefix: "process.env.",
     }),
 
