@@ -83,11 +83,23 @@ Solution:
   Push image with .env file to DockerHub
   Make production DockerHub image PRIVATE
 
-WIP - Broken Deployment architecture:
+Broken Deployment ENV variables:
 Context: Currently, Server + Client is built into ONE image with docker, which references .env file
 Problem:
  - Everytime the server or client updates, it redeploys BOTH
  - If one server fails, the entire docker container needs to restart
  - Server and Client access ENV variables different ways
 Solution:
- - Split up architecture into two different containers?
+ - Require the image (Dockerfile) to look for .env file on runtime, should be in root directory
+
+CORS Error when running deployed Docker containers
+### Problem:
+**Context:** Docker image can build and run locally. HOWEVER, the set up is with the server AND client combined, serving static files and acting as the backend API.
+**Problem**: This results in`CORS` error on EC2 server.
+**Solution:** Use `nginx` to serve files, and run the `Express` server in `parallel`
+
+Managing multiple DockerHub repositories
+### Problem #2:
+**Context:** Docker compose can build images easily, and referencing backend/frontend ports works. HOWEVER, with a `client`, `server`, and `nginx` folder and Dockerfile, that is 3 different images.
+**Problem:** Need to PUSH 3 different docker images to DockerHub, and pull all 3 images again on EC2
+**Solution:** Don't go through DockerHub, just clone the GitHub repository and use `docker-compose` on the EC2

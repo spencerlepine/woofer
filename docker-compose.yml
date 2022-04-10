@@ -1,26 +1,40 @@
-version: '3.9'
+version: '3.4'
 
 services:
-  nodeserver:
+
+  ##############################################################################
+  # React app
+  ##############################################################################
+
+  client:
     build:
-        context: ./
-        dockerfile: Dockerfile
-    ports:
-        - 3000:3000
+      context: ./
+      dockerfile: ./client/Dockerfile
+    image: spencerlepine/mern-ec2-client
+    restart: always
     env_file:
       - ./.env
-    volumes:
-        - /app/node_modules
-        - ./:/app
-    image: spencerlepine/woofer
-    restart: always
-
-  nginx:
-    build:
-        context: ./nginx
-        dockerfile: Dockerfile
     ports:
-        - 80:80
-    image: spencerlepine/woofer-nginx
-    restart: always
+      - "80:80"
+    volumes:
+      - /usr/src/app/node_modules
+      - ./client:/usr/src/app
 
+  ##############################################################################
+  # Nodejs backend
+  ##############################################################################
+
+  backend:
+    build:
+      context: ./
+      dockerfile: ./server/Dockerfile
+    image: spencerlepine/mern-ec2-server
+    restart: always
+    container_name: 'backend'
+    env_file:
+      - ./.env
+    ports:
+      - "5000:5000"
+    volumes:
+      - /usr/src/nodejs/node_modules
+      - ./server:/usr/src/nodejs
