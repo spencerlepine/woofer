@@ -10,4 +10,4 @@ build
 globalConfig.json
 
 # testing
-/coverage
+coverage*
