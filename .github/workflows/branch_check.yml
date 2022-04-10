@@ -11,12 +11,13 @@ jobs:
   test-client:
     uses: ./.github/workflows/test.yml
     secrets:
-      FOLDER: client
+      SUB_FOLDER: client
 
   test-server:
+    needs: [test-client]
     uses: ./.github/workflows/test.yml
     secrets:
-      FOLDER: server
+      SUB_FOLDER: server
 
   build:
     needs: [test-server]

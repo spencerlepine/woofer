@@ -17,7 +17,7 @@ env:
 on:
   workflow_call:
     secrets:
-      FOLDER:
+      SUB_FOLDER:
         required: true
 
 jobs:
@@ -26,7 +26,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     defaults:
       run:
-        working-directory: ./${{ secrets.FOLDER }}
+        working-directory: ./${{ secrets.SUB_FOLDER }}
     strategy:
       fail-fast: false
       matrix:
