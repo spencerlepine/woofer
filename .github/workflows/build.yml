@@ -120,7 +120,6 @@ jobs:
             --name woofer \
             -t "${{ secrets.DOCKER_HUB_REPO }}:latest"
 
-      curl command fails
       - name: Should be running on localhost
         run: |
           curl http://localhost:80
