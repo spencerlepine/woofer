@@ -1,10 +1,6 @@
 import Joi from "joi"
 
-import {
-  DATABASE_SCHEMA,
-  DATA_KEYS,
-  ENDPOINT_ROUTES,
-} from "../../../constants/ESModules"
+import { DATABASE_SCHEMA, DATA_KEYS, ENDPOINT_ROUTES } from "../../../constants"
 
 const {
   ENDPOINT_ROUTES: endpointRoutes,
