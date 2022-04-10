@@ -7,10 +7,12 @@ services:
         dockerfile: Dockerfile
     ports:
         - 3000:3000
+    env_file:
+      - ./.env
     volumes:
         - /app/node_modules
         - ./:/app
-    # image: spencerlepine/woofer
+    image: spencerlepine/woofer
     restart: always
 
   nginx:
@@ -19,6 +21,6 @@ services:
         dockerfile: Dockerfile
     ports:
         - 80:80
-    # image: spencerlepine/woofer-nginx
+    image: spencerlepine/woofer-nginx
     restart: always
 
