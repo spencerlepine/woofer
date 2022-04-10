@@ -42,9 +42,7 @@ app.use(compression())
 app.use(cors())
 app.options("*", cors())
 
-const CLIENT_FRONTEND = express.static(
-  path.join(__dirname, "..", "..", "client", "build")
-)
+const CLIENT_FRONTEND = express.static("client/build")
 app.use(CLIENT_FRONTEND)
 app.use("/static", express.static(path.join(__dirname, "../../client/public")))
 
