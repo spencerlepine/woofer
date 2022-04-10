@@ -32,17 +32,29 @@ See the [Whitepaper](./WOOFER_WHITEPAPER.pdf).
 
 #### Prerequisites
 
+- Create `.env` file (see [`.env.sample`](./.env.sample))
+- **NOTE:** Make sure to paste the `.env` in the `/client` folder
+
 - [Firebase](https://firebase.google.com/) project
 - [MongoDB Atlas](https://www.mongodb.com/atlas/database) Database
 
 ```sh
+cp .env.sample .env
+```
+
+```sh
+# Start the client
+# cp .env ./client/.env
+cd client
 npm install
-# start server/client for development
-npm run dev:react
+npm run dev:client # or "npm start"
+```
+
+```sh
+# Start the client
+cd server
+npm install
 npm run dev:server
-# OR build and run with Node
-npm run build
-npm start
 ```
 
 ### For Docker + Deployment:
@@ -52,12 +64,11 @@ npm start
 - [Docker](https://www.docker.com/) installed locally
 - [DockerHub](https://hub.docker.com/) account
 - AWS [EC2](https://aws.amazon.com/ec2/) instance running (see [EC2 Setup Walkthrough](./resources/EC2_SETUP_WALKTHROUGH.md))
-
-- Create `.env` file (see [`.env.sample`](./.env.sample))
 - update the **GitHub Repository Secrets** (see [EXAMPLE_SECRETS](./resources/EXAMPLE_SECRETS.md))
 
 ```sh
 # cp .env.sample .env
+# cp .env ./client/.env
 docker-compose up --build
 ```
 
