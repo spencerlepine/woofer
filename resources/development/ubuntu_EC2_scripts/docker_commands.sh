@@ -29,13 +29,13 @@ docker run \
 docker run \
     -d \
     --rm \
-    -p 80:80 \
+    -p 3000:3000 \
     --env-file ./.env \
     -t spencerlepine/woofer-dev:latest
 
 docker run \
     -it \
     --rm \
-    -p 80:80 \
+    -p 3000:3000 \
     --env-file ./.env \
     -t spencerlepine/woofer-dev:latest
