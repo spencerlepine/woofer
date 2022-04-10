@@ -39,6 +39,7 @@ jobs:
           port: 22
           script_stop: true
           script: |
+            RED='\033[0;31m'
             GREEN='\033[0;32m'
             NC='\033[0m' # No Color
             echo -e "$GREEN Starting EC2 deployment script $NC"
@@ -50,11 +51,17 @@ jobs:
             docker rmi $(docker images -q)
             echo -e "$GREEN Successfully removed all docker images $NC \n"
 
+            echo -e "Is there a .env file in the root directory?"
+            test -e ~/.env && echo -e "$GREEN env file exists" || echo -e "$RED env file not found $NC && exit 1"
+
             rm -rf /${{ github.event.repository.name }}
             echo -e "$GREEN Deleted old repository folder $NC \n"
 
             git clone ${{ github.repository }}
             echo -e "$GREEN Successfully cloned the repository $NC \n"
+
+            cp .env ./${{ github.event.repository.name }}/.env
+            echo -e "$GREEN Duplicated the .env file $NC \n"
 
             cd ${{ github.event.repository.name }}
 
