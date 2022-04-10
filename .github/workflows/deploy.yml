@@ -53,13 +53,13 @@ jobs:
             docker ps -a | grep "${{ secrets.DOCKER_CONTAINER_NAME }}" | awk '{print $1}' | xargs docker rm
 
             echo "Starting the new docker image"
-            docker run \
-              -d \
-              --rm \
-              -p ${{ secrets.EC2_PORT }}:${{ secrets.EC2_PORT }} \
-              --env-file ./.env \
-              --name ${{ secrets.DOCKER_CONTAINER_NAME }} \
-              -t ${{ secrets.DOCKER_HUB_REPO }}:latest
+            # docker run \
+            #   -d \
+            #   --rm \
+            #   -p ${{ secrets.EC2_PORT }}:${{ secrets.EC2_PORT }} \
+            #   --env-file ./.env \
+            #   --name ${{ secrets.DOCKER_CONTAINER_NAME }} \
+            #   -t ${{ secrets.DOCKER_HUB_REPO }}:latest
 
             sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
 
