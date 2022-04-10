@@ -46,6 +46,7 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: Cache node modules
+        id: myCacheStep
         uses: actions/cache@v2
         env:
           cache-name: cache-node-modules
@@ -59,6 +60,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: ⬇️  Install packages
+        if: steps.myCacheStep.outputs.cache-hit != 'true'
         run: npm install
 
       - name: 🧽 Lint all files
