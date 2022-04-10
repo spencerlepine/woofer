@@ -17,5 +17,5 @@ services:
         context: ./nginx
         dockerfile: Dockerfile
     ports:
-        - 3000:80
+        - 80:80
     restart: always
