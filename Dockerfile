@@ -4,7 +4,7 @@ FROM node:14.15.3-alpine3.12 as build-stage
 
 # A directory within the virtualized Docker environment
 # Becomes more relevant when using Docker Compose later
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Copies package.json and package-lock.json to Docker environment
 COPY package*.json ./
@@ -15,8 +15,10 @@ RUN npm install --silent
 # Copies everything over to Docker environment
 COPY . ./
 
-# Uses port which is used by the actual application
-EXPOSE $PORT
-
 # Finally runs the application
 CMD [ "npm", "start" ]
+
+# Stage 2
+FROM nginx:latest
+
+COPY ./nginx/nginx.default.conf /etc/nginx/conf.d/default.conf

@@ -11,7 +11,7 @@ docker build -t sample:dev .
 docker run \
     -it \
     --rm \
-    -p 3000:3000 \
+    -p 3000:80 \
     --env-file ./.env \
     sample:dev
 

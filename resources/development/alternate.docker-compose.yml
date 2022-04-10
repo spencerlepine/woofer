@@ -1,26 +1,30 @@
+# docker-compose.yml in root directory
+# 3 seperate Dockerfiles, in client/, server/, and nginx
+# 2 seperate package.json in client/ and server/
+
 version: '3.9'
 
 services:
   backend:
     build:
-        context: ./
+        context: ./server
         dockerfile: Dockerfile
     volumes:
         - /app/node_modules
-        - ./:/app
+        - ./server:/app
     restart: always
 
   frontend:
     build:
-        context: ./
+        context: ./client
         dockerfile: Dockerfile
     volumes:
         - /app/node_modules
-        - ./:/app
+        - ./client:/app
 
   nginx:
     build:
-        context: ./
+        context: ./nginx
         dockerfile: Dockerfile
     ports:
         - 3000:80
