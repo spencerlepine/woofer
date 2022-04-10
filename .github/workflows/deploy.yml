@@ -52,7 +52,7 @@ jobs:
             echo "Docker containers now:"
             docker container ls
 
-            systemctl restart docker
+            # systemctl restart docker
             # docker ps -a | grep "${{ secrets.DOCKER_CONTAINER_NAME }}" | awk '{print $1}' | xargs docker rm
 
             echo "Starting the new docker image"
