@@ -23,9 +23,15 @@ sudo usermod -a -G docker ec2-user
 docker --version
 # Forward the port for HTTPS access
 sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
+
+# Create the .env file
+touch .env
+vim .env # paste .env file contents, see .env.sample
+
 # Run the product build docker image in container
+# "-d" to running in background, or "-it" to see output and test
 docker run \
-    -d \ # or "-it" to test
+    -d \
     --rm \
     -p 3000:3000 \
     --env-file ./.env \

@@ -3,6 +3,9 @@ docker images
 docker tag bb38976d03cf spencerlepine/woofer:latest
 docker push spencerlepine/woofer
 
+# docker tag 0c8f381c0e2b spencerlepine/woofer-dev:latest
+# docker push spencerlepine/woofer-dev
+
 # Build sample container
 docker build -t sample:dev .
 docker run \
@@ -20,3 +23,12 @@ docker run \
     --env-file ./.env \
     --name woofer \
     -t spencerlepine/woofer:latest
+
+
+
+docker run \
+    -it \
+    --rm \
+    -p 3000:3000 \
+    --env-file ./.env \
+    -t spencerlepine/woofer-dev:latest

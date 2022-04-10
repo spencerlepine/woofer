@@ -33,7 +33,7 @@
   # Verify docker installed
   [ec2-user ~]$ docker --version
   # Forward the port for HTTPS access
-  [ec2-user ~]$ docker run -d -p 3000:3000 -t spencerlepine/woofer:latest woofer
+  [ec2-user ~]$ sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
 ```
 
 ## Create the .env file
@@ -45,11 +45,17 @@ Create the `.env` file (see [.env.sample](../.env.sample))
 [ec2-user ~]$ vim .env # paste values
 ```
 
-## Start/Restart Docker Container
+## Start the Docker Container
 
 ```sh
 # Run the docker container build
-[ec2-user ~]$ docker run -d -p 3000:3000 -t spencerlepine/woofer:latest woofer
+[ec2-user ~]$ docker run \
+                -d \
+                --rm \
+                -p 3000:3000 \
+                --env-file ./.env \
+                --name woofer \
+                -t spencerlepine/woofer:latest
 ```
 
 #### Restart the docker container
@@ -57,7 +63,13 @@ Create the `.env` file (see [.env.sample](../.env.sample))
 ```sh
 [ec2-user ~]$ docker ps -a | grep "woofer" | awk '{print $1}' | xargs docker rm
 [ec2-user ~]$ docker containers ls
-[ec2-user ~]$ docker run -d -p 3000:3000 -t spencerlepine/woofer:latest woofer
+[ec2-user ~]$ docker run \
+                -d \
+                --rm \
+                -p 3000:3000 \
+                --env-file ./.env \
+                --name woofer \
+                -t spencerlepine/woofer:latest
 ```
 
 # macOS M1 Chip Docker issue
