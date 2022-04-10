@@ -43,7 +43,14 @@ jobs:
             docker container ls
 
             echo "Starting the new docker image"
-            docker run -d -p ${{ secrets.EC2_PORT }}:${{ secrets.EC2_PORT }} --name ${{ secrets.DOCKER_CONTAINER_NAME }} -t ${{ secrets.DOCKER_HUB_REPO }}:latest
+            docker run \
+              -d \
+              --rm \
+              -p ${{ secrets.EC2_PORT }}:${{ secrets.EC2_PORT }} \
+              --env-file ./.env \
+              --name ${{ secrets.DOCKER_CONTAINER_NAME }} \
+              -t ${{ secrets.DOCKER_HUB_REPO }}:latest
+
             echo -e "$GREEN Successfully started the docker image $NC \n"
 
             echo -e "$GREEN EC2 deployment complete! $NC"
