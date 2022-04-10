@@ -108,22 +108,9 @@ jobs:
 
       - name: Run Docker build
         run: |
+          cp .env.sample .env
           docker-compose up --build -d
-
-      # - name: Pull Docker Image
-      #   run: |
-      #     docker pull ${{ secrets.DOCKER_HUB_REPO }}:latest
-
-      # - name: Run Docker Container
-      #   run: |
-      #     docker run \
-      #       -d \
-      #       --rm \
-      #       -p 80:80 \
-      #       --env-file ./.env.sample \
-      #       --name woofer \
-      #       -t "${{ secrets.DOCKER_HUB_REPO }}:latest"
 
       - name: Should be running on localhost
         run: |
-          curl http://localhost:3000
+          curl http://localhost
