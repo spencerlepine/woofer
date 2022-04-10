@@ -22,7 +22,7 @@ describe("PROFILE endpoint", () => {
         request(app)
           .get(url)
           .query(query)
-          .expect("Content-Type", /json/)
+          // .expect("Content-Type", /json/)
           .expect(200)
           .expect((res) => {
             const mockSuccessCallback = jest.fn()

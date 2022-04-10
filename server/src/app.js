@@ -47,7 +47,10 @@ const CLIENT_FRONTEND = express.static(
 )
 app.use(CLIENT_FRONTEND)
 app.use("/static", express.static(path.join(__dirname, "../../client/public")))
-app.get("*", function (req, res) {
+
+// Return index.html for React Router
+// AVOID triggering for /api GET requests
+app.get(/^(?!\/api*)/, function (req, res) {
   res.sendFile("index.html", { root: path.join(__dirname, "../../client/build/") })
 })
 
