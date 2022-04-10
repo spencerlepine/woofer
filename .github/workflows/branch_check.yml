@@ -21,7 +21,7 @@ jobs:
 
   # temporary
   deploy:
-    needs: [build]
+    # needs: [build]
     uses: ./.github/workflows/deploy.yml
     secrets:
       EC2_REMOTE_HOST: ${{ secrets.EC2_REMOTE_HOST }}
