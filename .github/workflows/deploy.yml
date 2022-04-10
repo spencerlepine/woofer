@@ -43,12 +43,14 @@ jobs:
             NC='\033[0m' # No Color
             echo -e "$GREEN Starting EC2 deployment script $NC"
 
-            echo "Stopping all running Docker Containers"
-            docker stop ${{ secrets.DOCKER_CONTAINER_NAME }}
-            docker rm ${{ secrets.DOCKER_CONTAINER_NAME }}
-            echo -e "$GREEN successfully stopped docker containers $NC \n"
-            echo "Docker containers now:"
-            docker container ls
+            # echo "Stopping all running Docker Containers"
+            # docker stop ${{ secrets.DOCKER_CONTAINER_NAME }}
+            # docker rm ${{ secrets.DOCKER_CONTAINER_NAME }}
+            # echo -e "$GREEN successfully stopped docker containers $NC \n"
+            # echo "Docker containers now:"
+            # docker container ls
+
+            docker ps -a | grep "${{ secrets.DOCKER_CONTAINER_NAME }}" | awk '{print $1}' | xargs docker rm
 
             echo "Starting the new docker image"
             docker run \
@@ -58,6 +60,8 @@ jobs:
               --env-file ./.env \
               --name ${{ secrets.DOCKER_CONTAINER_NAME }} \
               -t ${{ secrets.DOCKER_HUB_REPO }}:latest
+
+            sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
 
             echo -e "$GREEN Successfully started the docker image $NC \n"
 
