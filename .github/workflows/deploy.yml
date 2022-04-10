@@ -53,7 +53,7 @@ jobs:
             docker container ls
 
             # systemctl restart docker
-            docker ps -a | grep "${{ secrets.DOCKER_CONTAINER_NAME }}" | awk '{print $1}' | xargs docker rm
+            docker ps -a | grep "${{ secrets.DOCKER_CONTAINER_NAME }}" | awk '{print $1}' | xargs docker rm -f
 
             echo "Starting the new docker image"
             docker run \
