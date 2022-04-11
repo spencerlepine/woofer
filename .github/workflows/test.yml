@@ -18,6 +18,7 @@ on:
   workflow_call:
     inputs:
       SUB_FOLDER:
+        type: string
         required: true
 
 jobs:
