@@ -3,6 +3,7 @@ import "./Messages.css"
 
 function Messages({ socket }) {
   const [messages, setMessages] = useState({})
+  console.log(messages)
 
   useEffect(() => {
     const messageListener = (message) => {

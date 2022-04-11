@@ -17,19 +17,6 @@ const ApiError = require("./utils/ApiError")
 
 const app = express()
 
-// Socket IO configuration
-const chat = require("./chat")
-const socketio = require("socket.io")
-const http = require("http")
-const server = http.createServer(app)
-const io = socketio(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  },
-})
-chat(io)
-
 if (config.env !== "test") {
   app.use(morgan.successHandler)
   app.use(morgan.errorHandler)

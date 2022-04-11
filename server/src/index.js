@@ -12,6 +12,18 @@ if (config.NODE_ENV !== "test") {
   server = app.listen(PORT, () => {
     logger.info(`Listening to port ${PORT}`)
   })
+
+  // Socket IO configuration
+  const socket = require("socket.io")
+  const io = socket(server, {
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST", "PUT", "DELETE"],
+    },
+  })
+
+  const chat = require("./chat")
+  chat(io)
 }
 
 const exitHandler = () => {

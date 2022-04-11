@@ -3,10 +3,10 @@ import "./MessageInput.css"
 
 const NewMessage = ({ socket }) => {
   const [value, setValue] = useState("")
+
   const submitForm = (e) => {
     e.preventDefault()
     socket.emit("message", value)
-    setValue("")
   }
 
   return (
