@@ -33,6 +33,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           passphrase: ${{ secrets.EC2_PASSPHRASE }}
           port: 22
+          command_timeout: 200m
           script_stop: true
           script: |
             RED='\033[0;31m'
