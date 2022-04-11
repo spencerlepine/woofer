@@ -20,6 +20,7 @@ const app = express()
 // Socket IO configuration
 const chat = require("./chat")
 const socketio = require("socket.io")
+const http = require("http")
 const server = http.createServer(app)
 const io = socketio(server, {
   cors: {
