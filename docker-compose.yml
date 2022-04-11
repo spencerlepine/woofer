@@ -1,35 +1,38 @@
-version: '3.9'
-
+version: '3.4'
 services:
-  server:
+
+  ##############################################################################
+  # React app
+  ##############################################################################
+
+  client:
     build:
-      context: ./
+      context: ./client
       dockerfile: Dockerfile
-    image: woofer
-    container_name: woofer-app
-    command: npm run start
+    image: spencerlepine/mern-ec2-client
+    restart: always
     env_file:
       - ./.env
     ports:
-      - "3000:3000"
-    depends_on:
-      - mongo
-    networks:
-      - app-network
-  mongo:
-    image: mongo:latest
+      - "80:80"
     volumes:
-      - data-volume:/data/db
+      - /usr/src/app/node_modules
+      - ./client:/usr/src/app
+
+  ##############################################################################
+  # Nodejs backend
+  ##############################################################################
+
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    image: spencerlepine/mern-ec2-server
+    restart: always
+    env_file:
+      - ./.env
     ports:
-      - "27017:27017"
-    networks:
-      - app-network
-
-networks:
-    app-network:
-        driver: bridge
-
-volumes:
-  data-volume:
-  web-root:
-    driver: local
+      - "5000:5000"
+    volumes:
+      - /usr/src/nodejs/node_modules
+      - ./server:/usr/src/nodejs

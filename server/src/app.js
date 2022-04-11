@@ -39,12 +39,25 @@ app.use(mongoSanitize())
 app.use(compression())
 
 // enable cors
-app.use(cors())
-app.options("*", cors())
+// const corsOptions = {
+//   origin: 'http://localhost:3000',
+//   optionsSuccessStatus: 200 // For legacy browser support
+// }
 
-const CLIENT_FRONTEND = express.static(
-  path.join(__dirname, "..", "..", "client", "build")
-)
+// app.use(cors(corsOptions));
+
+// app.use(cors())
+
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*")
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  )
+  next()
+})
+
+const CLIENT_FRONTEND = express.static("client/build")
 app.use(CLIENT_FRONTEND)
 app.use("/static", express.static(path.join(__dirname, "../../client/public")))
 

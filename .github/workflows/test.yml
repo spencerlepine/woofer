@@ -55,8 +55,16 @@ jobs:
             ${{ runner.os }}-npm-cache-
             ${{ runner.os }}-
 
-      - name: ⬇️  Install packages
+      - name: ⬇️  Install testing packages
         if: steps.npm_cache_id.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: ⬇️ Install Client packages
+        working-directory: ./client
+        run: npm install
+
+      - name: ⬇️ Install Server packages
+        working-directory: ./server
         run: npm install
 
       - name: 🧽 Lint all files
@@ -69,19 +77,3 @@ jobs:
         uses: coverallsapp/github-action@v1.1.2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-
-
-        # services:
-        #   mongodb:
-        #       image: mongo
-        #       env:
-        #         MONGO_INITDB_ROOT_USERNAME: test
-        #         MONGO_INITDB_ROOT_PASSWORD: password
-        #         MONGO_INITDB_DATABASE: test
-        #       options: >-
-        #         --health-cmd mongo
-        #         --health-interval 10s
-        #         --health-timeout 5s
-        #         --health-retries 5
-        #       ports:
-        #         - 27017:27017

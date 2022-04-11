@@ -21,6 +21,14 @@ sudo service docker start
 sudo usermod -a -G docker ec2-user
 # Verify docker installed
 docker --version
+
+# [optional?] Install docker compose
+sudo yum update
+sudo yum install docker
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
 # Forward the port for HTTPS access
 sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
 
@@ -33,7 +41,7 @@ vim .env # paste .env file contents, see .env.sample
 docker run \
     -d \
     --rm \
-    -p 3000:3000 \
+    -p 80:80 \
     --env-file ./.env \
     --name woofer \
     -t spencerlepine/woofer:latest
@@ -44,6 +52,6 @@ docker build -t sample:dev .
 docker run \
     -it \
     --rm \
-    -p 3000:3000 \
+    -p 80:80 \
     --env-file ./.env \
     sample:dev

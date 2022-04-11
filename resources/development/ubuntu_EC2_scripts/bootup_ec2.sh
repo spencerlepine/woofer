@@ -6,7 +6,7 @@ docker ps -a | grep "woofer" | awk '{print $1}' | xargs docker rm
 docker run \
     -it \
     --rm \
-    -p 3000:3000 \
+    -p 80:80 \
     --env-file ./.env \
     -t spencerlepine/woofer:latest
 

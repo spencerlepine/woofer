@@ -11,7 +11,7 @@ const {
   expectedRequest,
   endpointURLStr,
   baseURL,
-} = require("../../constants")
+} = require("../constants")
 
 const dbSchema = DATABASE_SCHEMA(Joi)
 

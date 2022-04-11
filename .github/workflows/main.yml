@@ -13,10 +13,6 @@ jobs:
   build:
     needs: [test]
     uses: ./.github/workflows/build.yml
-    secrets:
-      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-      DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-      DOCKER_HUB_REPO: ${{ secrets.DOCKER_HUB_REPO }}
 
   deploy:
     needs: [build]
@@ -27,5 +23,3 @@ jobs:
       EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
       EC2_PASSPHRASE: ${{ secrets.EC2_PASSPHRASE }}
       EC2_PORT: ${{ secrets.EC2_PORT }}
-      DOCKER_CONTAINER_NAME: ${{ secrets.DOCKER_CONTAINER_NAME }}
-      DOCKER_HUB_REPO: ${{ secrets.DOCKER_HUB_REPO }}

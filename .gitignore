@@ -6,8 +6,9 @@ build
 # misc
 .DS_Store
 .env*
+!.env.sample
 .eslintcache
 globalConfig.json
 
 # testing
-/coverage
+*coverage*

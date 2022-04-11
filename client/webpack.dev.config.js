@@ -19,14 +19,14 @@ module.exports = {
     extensions: [".js", "*"],
     modules: [path.resolve(__dirname, "js"), "node_modules", "src"],
   },
-  entry: path.resolve(__dirname, "client", "src", "index.js"),
+  entry: path.resolve(__dirname, "src", "index.js"),
   output: {
-    path: path.resolve(__dirname, "client", "build"),
+    path: path.resolve(__dirname, "build"),
     filename: "[name].[chunkhash].bundle.js",
   },
   plugins: [
     new HtmlWebPackPlugin({
-      template: path.resolve(__dirname, "client", "public", "index.html"),
+      template: path.resolve(__dirname, "public", "index.html"),
       filename: "./index.html",
     }),
 

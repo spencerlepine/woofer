@@ -4,13 +4,13 @@ const config = require("../config/config")
 const logger = require("../config/logger")
 const MONGO_CONFIG = config.MONGOOSE
 
-const { MongoMemoryServer } = require("mongodb-memory-server")
 let mongod = null
 
 const connectDB = async () => {
   try {
     let dbUrl = MONGO_CONFIG.url
     if (config.NODE_ENV === "test") {
+      const { MongoMemoryServer } = require("mongodb-memory-server")
       mongod = await MongoMemoryServer.create()
       dbUrl = mongod.getUri()
     }

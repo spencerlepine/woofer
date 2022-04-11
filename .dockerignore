@@ -1,8 +1,8 @@
+.git
 .env*
-resrouces/
+resources*
 *.test*
-node_modules
+node_modules*
 .dockerignore
 Dockerfile
-build
 Dockerfile.prod
