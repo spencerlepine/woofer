@@ -16,7 +16,7 @@ env:
 
 on:
   workflow_call:
-    secrets:
+    inputs:
       SUB_FOLDER:
         required: true
 
