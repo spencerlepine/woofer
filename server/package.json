@@ -14,8 +14,8 @@
   ],
   "license": "MIT",
   "scripts": {
-    "start": "node server/src/index.js",
-    "dev:server": "nodemon server/src/index.js",
+    "start": "node src/index.js",
+    "dev:server": "nodemon src/index.js",
     "lint": "eslint . --ext .js",
     "test": "jest --detectOpenHandles --runInBand --forceExit",
     "test:watch": "jest --onlyChanged --watch"
@@ -42,6 +42,7 @@
     "firebase": "^8.10.1",
     "helmet": "^5.0.2",
     "http-status": "^1.5.0",
+    "mongodb-memory-server": "^8.4.2",
     "mongoose": "^6.2.5",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15",

@@ -1,5 +1,4 @@
 version: '3.4'
-
 services:
 
   ##############################################################################
@@ -10,7 +9,7 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
-    image: spencerlepine/woofer-client
+    image: spencerlepine/mern-ec2-client
     restart: always
     env_file:
       - ./.env
@@ -30,9 +29,10 @@ services:
       dockerfile: Dockerfile
     image: spencerlepine/mern-ec2-server
     restart: always
-    container_name: 'backend'
+    env_file:
+      - ./.env
     ports:
       - "5000:5000"
     volumes:
-      - /usr/src/app/node_modules
-      - ./client:/usr/src/app
+      - /usr/src/nodejs/node_modules
+      - ./server:/usr/src/nodejs
