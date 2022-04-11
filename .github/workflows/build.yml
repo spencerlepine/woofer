@@ -5,13 +5,37 @@ on:
 
 jobs:
 
-  build-client:
-    name: Client Build (Node + Webpack)
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./client
+  # build-client:
+  #   name: Client Build (Node + Webpack)
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: ./client
 
+  #   steps:
+  #     - name: ♻️ Check out Git Repository
+  #       uses: actions/checkout@v2
+  #       with:
+  #         persist-credentials: false
+
+  #     - name: 🔖 Set up Node
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: ${{ matrix.node }}
+
+  #     - name: ⬇️  Install packages
+  #       run: npm install
+
+  #     - name: 🏗 Build client files
+  #       env:
+  #         NODE_ENV: production
+  #       run: npm run build
+
+  check-docker:
+    # needs: [build-client]
+    runs-on: ubuntu-latest
+
+    name: Verify Docker Image Runs
     steps:
       - name: ♻️ Check out Git Repository
         uses: actions/checkout@v2
@@ -23,24 +47,13 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: ⬇️  Install packages
+      - name: ⬇️  Install Client packages
+        working-directory: ./client
         run: npm install
 
-      - name: 🏗 Build client files
-        env:
-          NODE_ENV: production
-        run: npm run build
-
-  check-docker:
-    needs: [build-client]
-    runs-on: ubuntu-latest
-
-    name: Verify Docker Image Runs
-    steps:
-      - name: ♻️ Check out Git Repository
-        uses: actions/checkout@v2
-        with:
-          persist-credentials: false
+      - name: ⬇️  Install Server packages
+        working-directory: ./client
+        run: npm install
 
       - name: Run Docker build
         run: |
