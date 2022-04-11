@@ -16,9 +16,8 @@ env:
 
 on:
   workflow_call:
-    inputs:
+    secrets:
       SUB_FOLDER:
-        type: string
         required: true
 
 jobs:
@@ -27,7 +26,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     defaults:
       run:
-        working-directory: ${{ github.event.inputs.SUB_FOLDER }}
+        working-directory: ${{ secrets.SUB_FOLDER }}
     strategy:
       fail-fast: false
       matrix:
