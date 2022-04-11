@@ -9,7 +9,7 @@ Dating app for dogs. Customize a dating profile, update preferences, and match/c
 - Designed a MongoDB atlas NoSQL database managing user profile records, zip code groups, and yes/no match records
 - Built real-time chat feature with Socket.io with persistent message history stored in the database.
 - Integrated Firebase Authentication to manage user accounts, and verify tokens for the backend API requests.
-- Integrated CI/CD pipeline with Git, Jest, GitHub Actions, Docker Hub, and AWS EC2.
+- Integrated CI/CD pipeline with Git, Jest, GitHub Actions, Docker, and AWS EC2.
 - Developed with a ticket system and feature branches, while following schemas and UI designs.
 
 # 🌟 Features
@@ -40,21 +40,17 @@ See the [Whitepaper](./WOOFER_WHITEPAPER.pdf).
 
 ```sh
 cp .env.sample .env
+cp .env ./client/.env
+npm install
 ```
 
 ```sh
-# Start the client
-# cp .env ./client/.env
-cd client
-npm install
-npm run dev:client # or "npm start"
-```
-
-```sh
-# Start the client
-cd server
-npm install
 npm run dev:server
+```
+
+```sh
+# * Open a NEW terminal *
+npm run dev:client
 ```
 
 ### For Docker + Deployment:
