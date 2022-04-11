@@ -9,45 +9,12 @@ Dating app for dogs. Customize a dating profile, update preferences, and match/c
 - Designed a MongoDB atlas NoSQL database managing user profile records, zip code groups, and yes/no match records
 - Built real-time chat feature with Socket.io with persistent message history stored in the database.
 - Integrated Firebase Authentication to manage user accounts, and verify tokens for the backend API requests.
-- Integrated CI/CD pipeline with Git, Jest, GitHub Actions, Docker Hub, and AWS EC2.
+- Integrated CI/CD pipeline with Git, Jest, GitHub Actions, Docker, and AWS EC2.
 - Developed with a ticket system and feature branches, while following schemas and UI designs.
 
 # 🌟 Features
 
-See the [Whitepaper](./WOOFER_WHITEPAPER.md).
-
-# ⚙️ Setup:
-
-- [Firebase](https://firebase.google.com/) project
-- [MongoDB Atlas](https://www.mongodb.com/atlas/database) Database
-
-```sh
-npm install
-# start server/client for development
-npm run dev:react
-npm run dev:server
-# OR build and run with Node
-npm run build
-npm start
-```
-
-### For Docker + Deployment:
-
-#### Prerequisites
-
-- [Docker](https://www.docker.com/) installed locally
-- [DockerHub](https://hub.docker.com/) account
-- AWS [EC2](https://aws.amazon.com/ec2/) instance running
-
-- Create `.env` file, see [`.env.sample`](./.env.sample)
-- **GitHub Repository Secrets:** see [EXAMPLE_SECRETS](./resources/EXAMPLE_SECRETS.md)
-
-```sh
-# cp .env.development .env.production
-docker compose build
-docker compose up
-docker-compose --env-file ./.env.development up
-```
+See the [Whitepaper](./WOOFER_WHITEPAPER.pdf).
 
 # 📦 Technologies:
 
@@ -60,6 +27,45 @@ docker-compose --env-file ./.env.development up
 **CI/CD:** [Docker](https://docs.docker.com/), [GitHub Actions](https://docs.github.com/en/actions), [AWS EC2](https://aws.amazon.com/ec2/)
 
 **Modules:** [Firebase](https://firebase.google.com/) (Authentication), [Joi](https://github.com/sideway/joi) (Input verification), [Socket.io](https://socket.io/) (Chat API)
+
+# ⚙️ Setup:
+
+> ### Prerequisites
+
+> - [.env](./.env.sample) file (see [`.env.sample`](./.env.sample))
+> - [Firebase](https://firebase.google.com/) project
+> - [MongoDB Atlas](https://www.mongodb.com/atlas/database) Database
+
+```sh
+cp .env.sample .env
+cp .env ./client/.env
+npm install
+```
+
+```sh
+npm run dev:server
+```
+
+```sh
+# * Open a NEW terminal *
+npm run dev:client
+```
+
+# 🐳 Deploy with Docker
+
+> ### Prerequisites
+
+> - [Docker](https://www.docker.com/) installed locally
+> - AWS [EC2](https://aws.amazon.com/ec2/) instance running (see [EC2 > Setup Walkthrough](./resources/EC2_SETUP_WALKTHROUGH.md))
+> - Update the **GitHub Repository Secrets** (see [EXAMPLE_SECRETS](./resources/EXAMPLE_SECRETS.md))
+
+```sh
+cp .env.sample .env
+cp .env ./client/.env
+git clone https://github.com/spencerlepine/woofer.git
+docker-compose up --build
+# visit http://localhost
+```
 
 # 🌐API Schema
 
@@ -75,9 +81,7 @@ See [Endpoint Schema](./resources/WOOFER_API.md).
 
 # 🗃️ Ticket System
 
-- Project Steps: [Trello Board](https://trello.com/b/tYtdHAT5/woofer-project)
-
-- Development Process: [Trello Board](https://trello.com/b/kf2DJ80r/woofer-development)
+- Project Tickets: [Trello Board](https://trello.com/b/tYtdHAT5/woofer-project)
 
 # 🚀 Contributors
 
