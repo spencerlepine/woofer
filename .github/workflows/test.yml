@@ -55,9 +55,17 @@ jobs:
             ${{ runner.os }}-npm-cache-
             ${{ runner.os }}-
 
-      - name: ⬇️  Install packages
-        if: steps.npm_cache_id.outputs.cache-hit != 'true'
+      - name: ⬇️  Install testing packages
+        # if: steps.npm_cache_id.outputs.cache-hit != 'true'
         run: npm install
+
+      - name: ⬇️ Install Server packages
+        working-directory: ./client
+        run: cd client npm install
+
+      - name: ⬇️ Install Server packages
+        working-directory: ./server
+        run: cd client npm install
 
       - name: 🧽 Lint all files
         run: npm run lint
