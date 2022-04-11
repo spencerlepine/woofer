@@ -2,18 +2,12 @@ name: build
 
 on:
   workflow_call:
-    secrets:
-      SUB_FOLDER:
-        required: true
 
 jobs:
 
   build-client:
     name: Client Build (Node + Webpack)
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: "./${{ secrets.SUB_FOLDER_CLIENT }}"
 
     steps:
       - name: ♻️ Check out Git Repository

@@ -7,19 +7,11 @@ on:
 
 jobs:
 
-  test-client:
+  test:
     uses: ./.github/workflows/test.yml
-    secrets:
-      SUB_FOLDER: "./${{ secrets.SUB_FOLDER_CLIENT }}"
-
-  test-server:
-    needs: [test-client]
-    uses: ./.github/workflows/test.yml
-    secrets:
-      SUB_FOLDER: "./${{ secrets.SUB_FOLDER_SERVER }}"
 
   build:
-    needs: [test-server]
+    needs: [test]
     uses: ./.github/workflows/build.yml
 
   deploy:

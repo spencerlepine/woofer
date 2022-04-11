@@ -14,11 +14,9 @@
   "license": "MIT",
   "scripts": {
     "dev:client": "webpack serve --config ./webpack.dev.config.js --env development --mode development",
-    "start": "npm run dev:client",
-    "build": "webpack --config ./webpack.prod.config.js --mode production",
-    "lint": "eslint . --ext .js",
     "test": "jest --detectOpenHandles --runInBand --forceExit",
-    "test:watch": "jest --onlyChanged --watch"
+    "start": "npm run dev:client",
+    "build": "webpack --config ./webpack.prod.config.js --mode production"
   },
   "browserslist": {
     "production": [
