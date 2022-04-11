@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const socket = require("socket.io")
 const app = require("./app")
 const config = require("../config/config")
 const logger = require("../config/logger")
@@ -14,7 +15,6 @@ if (config.NODE_ENV !== "test") {
   })
 
   // Socket IO configuration
-  const socket = require("socket.io")
   const io = socket(server, {
     cors: {
       origin: "*",
