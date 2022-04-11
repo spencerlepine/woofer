@@ -10,7 +10,7 @@ const connectDB = async () => {
   try {
     let dbUrl = MONGO_CONFIG.url
     if (config.NODE_ENV === "test") {
-      const mongoMemory = require("mongodb-memory-server").MongoMemoryServer
+      const { MongoMemoryServer } = require("mongodb-memory-server")
       mongod = await MongoMemoryServer.create()
       dbUrl = mongod.getUri()
     }
