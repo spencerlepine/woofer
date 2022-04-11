@@ -15,10 +15,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node src/index.js",
-    "dev:server": "nodemon src/index.js",
-    "lint": "eslint . --ext .js",
-    "test": "jest --detectOpenHandles --runInBand --forceExit",
-    "test:watch": "jest --onlyChanged --watch"
+    "dev:server": "nodemon src/index.js"
   },
   "browserslist": {
     "production": [

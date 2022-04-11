@@ -39,6 +39,8 @@ class Connection {
       time: Date.now(),
     }
 
+    console.log(message)
+
     messages.add(message)
     this.sendMessage(message)
 
