@@ -1,12 +1,12 @@
+### Overview
+
+What did you add/change/fix?
+
 ## Ticket
 
-Trello Link: [Ticket #1](CHANGE_ME)
+Trello Ticket: [#1](CHANGE_ME)
 
-## Description
-
-Describe the purpose of this feature
-
-## Changes
+## Checklist
 
 - [ ] created a file?
 - [ ] did something cool :D
