@@ -8,16 +8,16 @@ on:
 
 jobs:
 
-  test:
-    uses: ./.github/workflows/test.yml
+  # test:
+  #   uses: ./.github/workflows/test.yml
 
-  build:
-    needs: [test]
-    uses: ./.github/workflows/build.yml
+  # build:
+  #   needs: [test]
+  #   uses: ./.github/workflows/build.yml
 
   # temporary
   deploy:
-    needs: [build]
+    # needs: [build]
     uses: ./.github/workflows/deploy.yml
     secrets:
       EC2_REMOTE_HOST: ${{ secrets.EC2_REMOTE_HOST }}

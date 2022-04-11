@@ -53,7 +53,7 @@ jobs:
             rm -rf /${{ github.event.repository.name }}
             echo -e "$GREEN Deleted old repository folder $NC \n"
 
-            git clone ${{ github.repository }}
+            git clone ${{ github.repository }}.git
             echo -e "$GREEN Successfully cloned the repository $NC \n"
 
             docker-compose down
