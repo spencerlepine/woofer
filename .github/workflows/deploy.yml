@@ -27,17 +27,17 @@ jobs:
 
       - name: 🧪 Test EC2 SSH Connection
         uses: appleboy/ssh-action@master
-          with:
-            host: ${{ secrets.EC2_REMOTE_HOST }}
-            username: ${{ secrets.EC2_REMOTE_USER }}
-            key: ${{ secrets.EC2_SSH_KEY }}
-            passphrase: ${{ secrets.EC2_PASSPHRASE }}
-            port: 22
-            script_stop: true
-            script: |
-              GREEN='\033[0;32m'
-              NC='\033[0m' # No Color
-              echo -e "$GREEN Connected to the EC2 Instance! $NC"
+        with:
+          host: ${{ secrets.EC2_REMOTE_HOST }}
+          username: ${{ secrets.EC2_REMOTE_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          passphrase: ${{ secrets.EC2_PASSPHRASE }}
+          port: 22
+          script_stop: true
+          script: |
+            GREEN='\033[0;32m'
+            NC='\033[0m' # No Color
+            echo -e "$GREEN Connected to the EC2 Instance! $NC"
 
       - name: Deploy to EC2 Server
         uses: appleboy/ssh-action@master
