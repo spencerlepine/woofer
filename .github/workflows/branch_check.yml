@@ -14,3 +14,14 @@ jobs:
   build:
     needs: [test]
     uses: ./.github/workflows/build.yml
+
+  # temporary
+  deploy:
+    needs: [build]
+    uses: ./.github/workflows/deploy.yml
+    secrets:
+      EC2_REMOTE_HOST: ${{ secrets.EC2_REMOTE_HOST }}
+      EC2_REMOTE_USER: ${{ secrets.EC2_REMOTE_USER }}
+      EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+      EC2_PASSPHRASE: ${{ secrets.EC2_PASSPHRASE }}
+      EC2_PORT: ${{ secrets.EC2_PORT }}
