@@ -59,13 +59,13 @@ jobs:
         # if: steps.npm_cache_id.outputs.cache-hit != 'true'
         run: npm install
 
-      - name: ⬇️ Install Server packages
+      - name: ⬇️ Install Client packages
         working-directory: ./client
-        run: cd client npm install
+        run: npm install
 
       - name: ⬇️ Install Server packages
         working-directory: ./server
-        run: cd client npm install
+        run: npm install
 
       - name: 🧽 Lint all files
         run: npm run lint
