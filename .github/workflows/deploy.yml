@@ -38,54 +38,61 @@ jobs:
             GREEN='\033[0;32m'
             NC='\033[0m' # No Color
             echo -e "$GREEN Connected to the EC2 Instance! $NC"
+            exit 0
 
       - name: Deploy to EC2 Server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_REMOTE_HOST }}
-          username: ${{ secrets.EC2_REMOTE_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          passphrase: ${{ secrets.EC2_PASSPHRASE }}
-          port: 22
-          timeout: 200m
-          command_timeout: 200m
-          script_stop: true
-          script: |
-            RED='\033[0;31m'
-            GREEN='\033[0;32m'
-            NC='\033[0m' # No Color
-            echo -e "$GREEN Starting EC2 deployment script $NC"
+        run: |
+          RED='\033[0;31m'
+          NC='\033[0m' # No Color
+          echo -e "EC2 Instance cannot docker-compose build fast enough"
+          echo -e "$RED Skipping EC2 Deployment $NC"
 
-            # docker kill $(docker ps -q)
-            # docker rm $(docker ps -a -q)
-            # echo -e "$GREEN Successfully stopped all docker containers $NC \n"
+        # uses: appleboy/ssh-action@master
+        # with:
+        #   host: ${{ secrets.EC2_REMOTE_HOST }}
+        #   username: ${{ secrets.EC2_REMOTE_USER }}
+        #   key: ${{ secrets.EC2_SSH_KEY }}
+        #   passphrase: ${{ secrets.EC2_PASSPHRASE }}
+        #   port: 22
+        #   timeout: 200m
+        #   command_timeout: 200m
+        #   script_stop: true
+        #   script: |
+        #     RED='\033[0;31m'
+        #     GREEN='\033[0;32m'
+        #     NC='\033[0m' # No Color
+        #     echo -e "$GREEN Starting EC2 deployment script $NC"
 
-            # docker rmi $(docker images -q)
-            # echo -e "$GREEN Successfully removed all docker images $NC \n"
+        #     # docker kill $(docker ps -q)
+        #     # docker rm $(docker ps -a -q)
+        #     # echo -e "$GREEN Successfully stopped all docker containers $NC \n"
 
-            echo -e "Is there a .env file in the root directory?"
-            test -e ~/.env && echo -e "$GREEN env file exists" || echo -e "$RED env file not found $NC && exit 1"
+        #     # docker rmi $(docker images -q)
+        #     # echo -e "$GREEN Successfully removed all docker images $NC \n"
 
-            # rm -rf /${{ github.event.repository.name }}
-            rm -rf woofer
-            echo -e "$GREEN Deleted old repository folder $NC \n"
+        #     echo -e "Is there a .env file in the root directory?"
+        #     test -e ~/.env && echo -e "$GREEN env file exists" || echo -e "$RED env file not found $NC && exit 1"
 
-            git clone "https://github.com/${{ github.repository }}.git"
-            echo -e "$GREEN Successfully cloned the repository $NC \n"
+        #     # rm -rf /${{ github.event.repository.name }}
+        #     rm -rf woofer
+        #     echo -e "$GREEN Deleted old repository folder $NC \n"
 
-            cp .env ./${{ github.event.repository.name }}/.env
-            cp .env ./${{ github.event.repository.name }}/client/.env
-            echo -e "$GREEN Duplicated the .env file $NC \n"
+        #     git clone "https://github.com/${{ github.repository }}.git"
+        #     echo -e "$GREEN Successfully cloned the repository $NC \n"
 
-            cd ${{ github.event.repository.name }}
+        #     cp .env ./${{ github.event.repository.name }}/.env
+        #     cp .env ./${{ github.event.repository.name }}/client/.env
+        #     echo -e "$GREEN Duplicated the .env file $NC \n"
 
-            docker-compose down
-            echo -e "$GREEN Stopped existing container $NC \n"
+        #     cd ${{ github.event.repository.name }}
 
-            docker-compose up --build -d
+        #     docker-compose down
+        #     echo -e "$GREEN Stopped existing container $NC \n"
 
-            sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
+        #     docker-compose up --build -d
 
-            echo -e "$GREEN Successfully started the docker container! $NC \n"
+        #     sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
 
-            echo -e "$GREEN EC2 deployment complete! $NC"
+        #     echo -e "$GREEN Successfully started the docker container! $NC \n"
+
+        #     echo -e "$GREEN EC2 deployment complete! $NC"
