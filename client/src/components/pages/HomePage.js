@@ -1,5 +1,6 @@
 import React from "react"
 import Swiper from "components/Swiper/Swiper"
+import SampleChat from "components/SampleChat/SampleChat"
 import withAuthRedirect from "hooks/useAuthRedirect/useAuthRedirect"
 
 const images = [
@@ -10,6 +11,8 @@ const images = [
 const HomePage = () => (
   <div className="HomePage">
     <Swiper />
+    {/* TODO  - DELETE THIS*/}
+    <SampleChat />
   </div>
 )
 

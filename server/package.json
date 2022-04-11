@@ -15,10 +15,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node src/index.js",
-    "dev:server": "nodemon src/index.js",
-    "lint": "eslint . --ext .js",
-    "test": "jest --detectOpenHandles --runInBand --forceExit",
-    "test:watch": "jest --onlyChanged --watch"
+    "dev:server": "nodemon src/index.js"
   },
   "browserslist": {
     "production": [
@@ -46,6 +43,8 @@
     "mongoose": "^6.2.5",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15",
+    "socket.io": "^4.4.1",
+    "uuid": "8.3.2",
     "winston": "^3.6.0",
     "xss-clean": "^0.1.1"
   },

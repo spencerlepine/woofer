@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const socket = require("socket.io")
 const app = require("./app")
 const config = require("../config/config")
 const logger = require("../config/logger")
@@ -12,6 +13,17 @@ if (config.NODE_ENV !== "test") {
   server = app.listen(PORT, () => {
     logger.info(`Listening to port ${PORT}`)
   })
+
+  // Socket IO configuration
+  const io = socket(server, {
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST", "PUT", "DELETE"],
+    },
+  })
+
+  const chat = require("./chat")
+  chat(io)
 }
 
 const exitHandler = () => {

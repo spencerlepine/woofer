@@ -5,11 +5,11 @@ const xss = require("xss-clean")
 const mongoSanitize = require("express-mongo-sanitize")
 const compression = require("compression")
 const cors = require("cors")
-// const passport = require("passport");
+
 const httpStatus = require("http-status")
 const config = require("../config/config")
 const morgan = require("../config/morgan")
-// const { jwtStrategy } = require("./config/passport");
+
 const { authLimiter } = require("./middlewares/rateLimiter")
 const routes = require("./routes")
 const { errorConverter, errorHandler } = require("./middlewares/error")
@@ -38,24 +38,15 @@ app.use(mongoSanitize())
 // gzip compression
 app.use(compression())
 
-// enable cors
-// const corsOptions = {
-//   origin: 'http://localhost:3000',
-//   optionsSuccessStatus: 200 // For legacy browser support
-// }
-
-// app.use(cors(corsOptions));
-
-// app.use(cors())
-
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*")
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  )
-  next()
-})
+app.use(cors())
+// app.use(function (req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*")
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   )
+//   next()
+// })
 
 const CLIENT_FRONTEND = express.static("client/build")
 app.use(CLIENT_FRONTEND)
