@@ -56,14 +56,14 @@ jobs:
             git clone "https://github.com/${{ github.repository }}.git"
             echo -e "$GREEN Successfully cloned the repository $NC \n"
 
-            docker-compose down
-            echo -e "$GREEN Stopped existing container $NC \n"
-
             cp .env ./${{ github.event.repository.name }}/.env
             cp .env ./${{ github.event.repository.name }}/client/.env
             echo -e "$GREEN Duplicated the .env file $NC \n"
 
             cd ${{ github.event.repository.name }}
+
+            docker-compose down
+            echo -e "$GREEN Stopped existing container $NC \n"
 
             docker-compose up --build -d
 
