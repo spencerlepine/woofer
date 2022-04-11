@@ -2,6 +2,9 @@ name: build
 
 on:
   workflow_call:
+    secrets:
+      SUB_FOLDER:
+        required: true
 
 jobs:
 
@@ -10,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./client
+        working-directory: "./${{ secrets.SUB_FOLDER_CLIENT }}"
 
     steps:
       - name: ♻️ Check out Git Repository
