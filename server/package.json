@@ -46,6 +46,8 @@
     "mongoose": "^6.2.5",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15",
+    "socket.io": "4.4.0",
+    "uuid": "8.3.2",
     "winston": "^3.6.0",
     "xss-clean": "^0.1.1"
   },

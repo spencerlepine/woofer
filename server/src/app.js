@@ -5,17 +5,29 @@ const xss = require("xss-clean")
 const mongoSanitize = require("express-mongo-sanitize")
 const compression = require("compression")
 const cors = require("cors")
-// const passport = require("passport");
+
 const httpStatus = require("http-status")
 const config = require("../config/config")
 const morgan = require("../config/morgan")
-// const { jwtStrategy } = require("./config/passport");
+
 const { authLimiter } = require("./middlewares/rateLimiter")
 const routes = require("./routes")
 const { errorConverter, errorHandler } = require("./middlewares/error")
 const ApiError = require("./utils/ApiError")
 
 const app = express()
+
+// Socket IO configuration
+const chat = require("./chat")
+const socketio = require("socket.io")
+const server = http.createServer(app)
+const io = socketio(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  },
+})
+chat(io)
 
 if (config.env !== "test") {
   app.use(morgan.successHandler)
@@ -37,16 +49,6 @@ app.use(mongoSanitize())
 
 // gzip compression
 app.use(compression())
-
-// enable cors
-// const corsOptions = {
-//   origin: 'http://localhost:3000',
-//   optionsSuccessStatus: 200 // For legacy browser support
-// }
-
-// app.use(cors(corsOptions));
-
-// app.use(cors())
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
