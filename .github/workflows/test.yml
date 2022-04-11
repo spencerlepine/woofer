@@ -45,15 +45,15 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: Cache node modules
-        uses: actions/cache@v2
-        id: npm_cache_id
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-cache-
-            ${{ runner.os }}-
+      # - name: Cache node modules
+      #   uses: actions/cache@v2
+      #   id: npm_cache_id
+      #   with:
+      #     path: node_modules
+      #     key: ${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-npm-cache-
+      #       ${{ runner.os }}-
 
       - name: ⬇️  Install testing packages
         # if: steps.npm_cache_id.outputs.cache-hit != 'true'

@@ -7,7 +7,7 @@ RUN mkdir -p /usr/src/nodejs/
 WORKDIR /usr/src/nodejs/
 
 # install app dependencies
-COPY package.json .
+COPY package*.json .
 RUN npm install
 
 # copy app source to destination container
