@@ -50,7 +50,8 @@ jobs:
             echo -e "Is there a .env file in the root directory?"
             test -e ~/.env && echo -e "$GREEN env file exists" || echo -e "$RED env file not found $NC && exit 1"
 
-            rm -rf /${{ github.event.repository.name }}
+            # rm -rf /${{ github.event.repository.name }}
+            rm -rf woofer
             echo -e "$GREEN Deleted old repository folder $NC \n"
 
             git clone "https://github.com/${{ github.repository }}.git"
