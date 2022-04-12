@@ -59,6 +59,9 @@ jobs:
         working-directory: ${{ env.working-directory }}
         run: npm run build --if-present
 
+      - name: "Enter ${{ env.working-directory }} folder"
+        run: cd ${{ env.working-directory }}
+
       - name: "📁 Save Coveralls Test Coverage (Parallel)"
         uses: coverallsapp/github-action@master
         with:
@@ -118,6 +121,9 @@ jobs:
       - name: "✅  Run tests"
         working-directory: ${{ env.working-directory }}
         run: npm run test --if-present -- --coverage
+
+      - name: "Enter ${{ env.working-directory }} folder"
+        run: cd ${{ env.working-directory }}
 
       - name: "📁 Save Coveralls Test Coverage (Parallel)"
         uses: coverallsapp/github-action@master
