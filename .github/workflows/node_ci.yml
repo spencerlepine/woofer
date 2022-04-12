@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        node: 16
 
     steps:
       - name: "☁️ Check out Git Repository"
@@ -20,7 +18,7 @@ jobs:
       - name: "🔧 Set up Node"
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 16
 
       - name: "⚡ Cache node modules"
         uses: actions/cache@v2
