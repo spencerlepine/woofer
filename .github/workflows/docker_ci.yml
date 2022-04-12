@@ -32,7 +32,6 @@ jobs:
 
       - name: "⚡ Cache (testing) node modules"
         uses: actions/cache@v2
-        working-directory: ${{ env.working-directory }}
         id: npm_cache_id
         with:
           path: node_modules
