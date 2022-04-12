@@ -38,7 +38,7 @@ jobs:
         run: npm run lint --if-present
 
   client_ci:
-    needs: [repo-lint]
+    needs: [repo_lint]
     name: Client CI
     runs-on: ${{ matrix.os }}
     env:
@@ -96,7 +96,7 @@ jobs:
           parallel: true
 
   server_ci:
-    needs: [repo-lint]
+    needs: [repo_lint]
     name: Server CI
     runs-on: ${{ matrix.os }}
     env:
