@@ -36,5 +36,59 @@
     "husky": "^7.0.4",
     "lint-staged": "^12.3.7",
     "prettier": "^2.6.2"
+  },
+  "prettier": {
+    "printWidth": 85,
+    "arrowParens": "always",
+    "semi": false,
+    "tabWidth": 2
+  },
+  "lint-staged": {
+    "*.{js,json,md}": [
+      "prettier --write"
+    ],
+    "*.js": "eslint --cache --fix",
+    "*.{js,md}": "prettier --write"
+  },
+  "eslintIgnore": [
+    "resources",
+    "constants",
+    "build"
+  ],
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended"
+    ],
+    "env": {
+      "es6": true,
+      "node": true,
+      "jest": true
+    },
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true
+      },
+      "ecmaVersion": 12,
+      "requireConfigFile": false,
+      "sourceType": "module"
+    },
+    "rules": {
+      "no-undef": "off",
+      "no-console": "off",
+      "no-unused-vars": "off",
+      "react/prop-types": "off",
+      "quotes": [
+        2,
+        "double",
+        {
+          "avoidEscape": true
+        }
+      ]
+    },
+    "plugins": [
+      "prettier",
+      "react"
+    ]
   }
 }
