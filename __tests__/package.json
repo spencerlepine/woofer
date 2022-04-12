@@ -10,8 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-jest": "^27.5.1",
     "jest": "^27.5.1",
     "jest-puppeteer": "^6.1.0",
     "puppeteer": "^13.5.2"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.16.11"
   }
 }
