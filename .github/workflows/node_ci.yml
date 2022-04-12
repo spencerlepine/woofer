@@ -32,6 +32,9 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
+      - name: "Enter ${{ env.working-directory }} folder"
+        run: cd ${{ env.working-directory }}
+
       - name: "⚡ Cache node modules"
         uses: actions/cache@v2
         id: npm_cache_id
@@ -43,24 +46,17 @@ jobs:
             client-${{ runner.os }}-
 
       - name: "📦 Install dependencies"
-        working-directory: ${{ env.working-directory }}
         if: steps.npm_cache_id.outputs.cache-hit != 'true'
         run: npm install
 
       - name: "🧽 Lint all files"
-        working-directory: ${{ env.working-directory }}
         run: npm run lint --if-present
 
       - name: "✅  Run tests"
-        working-directory: ${{ env.working-directory }}
         run: npm run test --if-present -- --coverage
 
       - name: "🏗 Build client"
-        working-directory: ${{ env.working-directory }}
         run: npm run build --if-present
-
-      - name: "Enter ${{ env.working-directory }} folder"
-        run: cd ${{ env.working-directory }}
 
       - name: "📁 Save Coveralls Test Coverage (Parallel)"
         uses: coverallsapp/github-action@master
@@ -99,6 +95,9 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
+      - name: "Enter ${{ env.working-directory }} folder"
+        run: cd ${{ env.working-directory }}
+
       - name: "⚡ Cache node modules"
         uses: actions/cache@v2
         id: npm_cache_id
@@ -110,20 +109,14 @@ jobs:
             server-${{ runner.os }}-
 
       - name: "📦 Install dependencies"
-        working-directory: ${{ env.working-directory }}
         if: steps.npm_cache_id.outputs.cache-hit != 'true'
         run: npm install
 
       - name: "🧽 Lint all files"
-        working-directory: ${{ env.working-directory }}
         run: npm run lint --if-present
 
       - name: "✅  Run tests"
-        working-directory: ${{ env.working-directory }}
         run: npm run test --if-present -- --coverage
-
-      - name: "Enter ${{ env.working-directory }} folder"
-        run: cd ${{ env.working-directory }}
 
       - name: "📁 Save Coveralls Test Coverage (Parallel)"
         uses: coverallsapp/github-action@master
