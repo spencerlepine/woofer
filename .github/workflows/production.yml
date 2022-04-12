@@ -1,0 +1,28 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  node_ci:
+    uses: ./.github/workflows/reuasable_steps/node_ci.yml
+
+  docker_ci:
+    uses: ./.github/workflows/reuasable_steps/docker_ci.yml
+
+  deploy:
+    needs: [node_ci, docker_ci]
+    uses: ./.github/workflows/reuasable_steps/deploy.yml
+    secrets:
+      ENV_PRODUCTION: ${{ secrets.EC2_PORT }}
+      DOCKERHUB_USERNAME: ${{ secrets.EC2_PORT }}
+      DOCKERHUB_PASSWORD: ${{ secrets.EC2_PORT }}
+      DOCKERHUB_REPO_SERVER: ${{ secrets.EC2_PORT }}
+      DOCKERHUB_REPO_CLIENT: ${{ secrets.EC2_PORT }}
+      EC2_REMOTE_HOST: ${{ secrets.EC2_PORT }}
+      EC2_REMOTE_USER: ${{ secrets.EC2_PORT }}
+      EC2_SSH_KEY: ${{ secrets.EC2_PORT }}
+      EC2_PASSPHRASE: ${{ secrets.EC2_PORT }}

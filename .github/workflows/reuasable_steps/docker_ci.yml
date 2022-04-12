@@ -1,0 +1,43 @@
+name: Docker CI
+
+on:
+  workflow_call:
+
+jobs:
+
+  docker-build:
+    name: Docker CI
+    runs-on: ubuntu-latest
+    env:
+      testing-directory: ./__tests__
+
+    steps:
+      - name: "☁️ Check out Git Repository"
+        uses: actions/checkout@v2
+                
+      - name: "🔧 Set up Node"
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+
+      - name: "🏗 Build w/ Docker Compose"
+        run: |
+          cp .env.sample .env
+          cp .env ./client/.env
+          docker-compose up --build -d
+
+      - name: "🧪 Running on localhost"
+        run: |
+          curl http://localhost
+
+      - name: "⚡ Cache testing node modules"
+        working-directory: ${{ env.working-directory }}
+
+      - name: "📦 Install testing dependencies"
+        working-directory: ${{ env.working-directory }}
+        run: npm install
+
+      - name: "✅ Run End-to-end tests"
+        working-directory: ${{ env.working-directory }}
+        run: npm test --if-present
+  

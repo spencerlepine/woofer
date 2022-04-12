@@ -1,0 +1,16 @@
+name: branch_check
+
+on:
+  push:
+    branches:
+      - '*'
+      - '!main'
+
+jobs:
+
+  node_ci:
+    uses: ./.github/workflows/reuasable_steps/node_ci.yml
+
+  docker_ci:
+    needs: [node_ci]
+    uses: ./.github/workflows/reuasable_steps/docker_ci.yml

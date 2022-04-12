@@ -1,0 +1,143 @@
+name: Node CI
+
+on:
+  workflow_call:
+
+jobs:
+
+  client_ci:
+    name: Client CI
+    runs-on: ${{ matrix.os }}
+    env:
+      working-directory: ./client
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['12', '14', '16']
+        os: [ubuntu-latest]
+
+    steps:
+      - name: "🎯 Print OS and Node version"
+        run: echo "Running on ${{ matrix.os }} with Node v${{ matrix.node }}"
+
+      - name: "☁️ Check out Git Repository"
+        uses: actions/checkout@v2
+
+      - name: "⚙️ Generate .env file"
+        run: |
+          mv .env.sample ${{ env.working-directory }}.env
+        
+      - name: "🔧 Set up Node"
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+        
+      - name: "⚡ Cache node modules"
+        working-directory: ${{ env.working-directory }}
+        uses: actions/cache@v2
+        id: npm_cache_id
+        with:
+          path: node_modules
+          key: client-${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            client-${{ runner.os }}-npm-cache-
+            client-${{ runner.os }}-
+        
+      - name: "📦 Install dependencies"
+        working-directory: ${{ env.working-directory }}
+        if: steps.npm_cache_id.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: "🧽 Lint all files"
+        working-directory: ${{ env.working-directory }}
+        run: npm run lint --if-present
+
+      - name: "✅  Run tests"
+        working-directory: ${{ env.working-directory }}
+        run: npm run test --if-present -- --coverage
+
+      - name: "🏗 Build client"
+        working-directory: ${{ env.working-directory }}
+        run: npm run build --if-present
+
+      - name: "📁 Save Coveralls Test Coverage (Parallel)"
+        working-directory: ${{ env.working-directory }}
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          flag-name: client-test
+          parallel: true
+
+  server_ci:
+    name: Server CI
+    runs-on: ${{ matrix.os }}
+    env:
+      working-directory: ./server
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['12', '14', '16']
+        os: [ubuntu-latest]
+
+    steps:
+      - name: "🎯 Print OS and Node version"
+        run: echo "Running on ${{ matrix.os }} with Node v${{ matrix.node }}"
+
+      - name: "🍃 Create mongoDB Docker container"
+        run: sudo docker run -d -p 27017:27017 mongo:latest
+
+      - name: "☁️ Check out Git Repository"
+        uses: actions/checkout@v2
+
+      - name: "⚙️ Generate .env file"
+        run: |
+          mv .env.sample ${{ env.working-directory }}.env
+        
+      - name: "🔧 Set up Node"
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+        
+      - name: "⚡ Cache node modules"
+        working-directory: ${{ env.working-directory }}
+        uses: actions/cache@v2
+        id: npm_cache_id
+        with:
+          path: node_modules
+          key: client-${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            server-${{ runner.os }}-npm-cache-
+            server-${{ runner.os }}-
+        
+      - name: "📦 Install dependencies"
+        working-directory: ${{ env.working-directory }}
+        if: steps.npm_cache_id.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: "🧽 Lint all files"
+        working-directory: ${{ env.working-directory }}
+        run: npm run lint --if-present
+
+      - name: "✅  Run tests"
+        working-directory: ${{ env.working-directory }}
+        run: npm run test --if-present -- --coverage
+
+      - name: "📁 Save Coveralls Test Coverage (Parallel)"
+        working-directory: ${{ env.working-directory }}
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          flag-name: server-test
+          parallel: true
+
+  finish:
+    name: Coverage Upload
+    needs: [client_ci, server_ci]
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: "🌪️ Publish to coveralls.io"
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.github_token }}
+        parallel-finished: true

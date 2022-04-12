@@ -1,0 +1,199 @@
+name: deploy
+
+on:
+  workflow_call:
+    secrets:
+      ENV_PRODUCTION:
+        required: true
+      DOCKERHUB_USERNAME:
+        required: true
+      DOCKERHUB_PASSWORD:
+        required: true
+      DOCKERHUB_REPO_SERVER:
+        required: true
+      DOCKERHUB_REPO_CLIENT:
+        required: true
+      EC2_REMOTE_HOST:
+        required: true
+      EC2_REMOTE_USER:
+        required: true
+      EC2_SSH_KEY:
+        required: true
+      EC2_PASSPHRASE:
+        required: true
+
+env:
+  NODE_VERSION: 16
+
+jobs:
+
+  publish_server:
+    name: 🐳 DockerHub Server Publish
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./server
+
+    steps:
+      - name: "☁️ Check out Git Repository"
+        uses: actions/checkout@v2
+
+      - name: "🔧 Set up Node"
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: "⚡ Cache node modules"
+        working-directory: ${{ env.working-directory }}
+        uses: actions/cache@v2
+        id: npm_cache_id
+        with:
+          path: node_modules
+          key: server-${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            server-${{ runner.os }}-npm-cache-
+            server-${{ runner.os }}-
+
+      - name: "📦 Install dependencies"
+        working-directory: ${{ env.working-directory }}
+        if: steps.npm_cache_id.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: "🔒 Login to DockerHub"
+        working-directory: ${{ env.working-directory }}
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: "🔧 Set up Docker Buildx"
+        uses: docker/setup-buildx-action@v1
+
+      - name: "🐳 Publish to DockerHub Registry"
+        working-directory: ${{ env.working-directory }}
+        uses: docker/build-push-action@v2
+        env:
+          DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO_SERVER }}
+        with:
+          context: ./
+          file: ./Dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags: ${{ env.DOCKERHUB_REPO }}:latest
+          cache-from: type=registry,ref=${{ env.DOCKERHUB_REPO }}:buildcache
+          cache-to: type=registry,ref=${{ env.DOCKERHUB_REPO }}:buildcache,mode=max
+
+  publish_client:
+    needs: [publish_server]
+    name: 🐳 DockerHub Client Publish
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./client
+      
+    steps:
+      - name: "☁️ Check out Git Repository"
+        uses: actions/checkout@v2
+        
+      - name: "🔧 Set up Node"
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+        
+      - name: "⚡ Cache node modules"
+        working-directory: ${{ env.working-directory }}
+        uses: actions/cache@v2
+        id: npm_cache_id
+        with:
+          path: node_modules
+          key: client-${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            client-${{ runner.os }}-npm-cache-
+            client-${{ runner.os }}-
+        
+      - name: "📦 Install dependencies"
+        working-directory: ${{ env.working-directory }}
+        if: steps.npm_cache_id.outputs.cache-hit != 'true'
+        run: npm install
+        
+      - name: "⚙️ Generate .env file for Client"
+        working-directory: ${{ env.working-directory }}
+        run: |
+          echo ${{ secrets.ENV_PRODUCTION }} > .env
+      
+      - name: "🔒 Login to DockerHub"
+        working-directory: ${{ env.working-directory }}
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+        
+      - name: "🔧 Set up Docker Buildx"
+        working-directory: ${{ env.working-directory }}
+        uses: docker/setup-buildx-action@v1
+        
+      - name: "🐳 Publish to DockerHub Registry"
+        working-directory: ${{ env.working-directory }}
+        uses: docker/build-push-action@v2
+        env:
+          DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO_CLIENT }}
+        with:
+          context: ./
+          file: ./Dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags: ${{ env.DOCKERHUB_REPO }}:latest
+          cache-from: type=registry,ref=${{ env.DOCKERHUB_REPO }}:buildcache
+          cache-to: type=registry,ref=${{ env.DOCKERHUB_REPO }}:buildcache,mode=max
+
+
+  deploy_ec2:
+    name: 🚀 EC2 Depoyment
+    runs-on: ubuntu-latest
+      
+    steps:
+      - name: "🧪 Test EC2 SSH Connection"
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_REMOTE_HOST }}
+          username: ${{ secrets.EC2_REMOTE_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          passphrase: ${{ secrets.EC2_PASSPHRASE }}
+          port: 22
+          script_stop: true
+          script: |
+            GREEN='\033[0;32m'
+            NC='\033[0m' # No Color
+            echo -e "$GREEN Connected to the EC2 Instance! $NC"
+            exit 0
+
+      - name: "♻️ Deploy Docker Containers"
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_REMOTE_HOST }}
+          username: ${{ secrets.EC2_REMOTE_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          passphrase: ${{ secrets.EC2_PASSPHRASE }}
+          port: 22
+          script_stop: true
+          script: |
+            RED='\033[0;31'
+            BLUE='\033[34m'
+            GREEN='\033[0;32m'
+            NC='\033[0m' # No Color
+            echo -e "$BLUE Starting EC2 deployment script $NC"
+
+            rm -f .env
+            echo ${{ secrets.ENV_PRODUCTION }} > .env
+            echo -e "$GREEN Created the production .env file $NC"
+
+            docker system prune -a --volumes -f
+            echo -e "$RED Removed existing Docker containers $NC"
+
+            docker run -d -p 5000:5000 ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }}:latest --env-file ./env --name ${{ secrets.DOCKERHUB_SERVER_REPO }}
+            echo -e "$BLUE Started up latest Server image $NC"
+
+            docker run -d -p 80:80 ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }}:latest --env-file ./env --name ${{ secrets.DOCKERHUB_CLIENT_REPO }}
+            echo -e "$BLUE Started up latest Server image $NC"
+            
+            docker curl http:localhost
+           
+            echo -e "$GREEN EC2 deployment complete! $NC"
