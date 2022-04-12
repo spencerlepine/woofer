@@ -60,8 +60,8 @@ jobs:
         run: npm run build --if-present
 
       - name: "📁 Save Coveralls Test Coverage (Parallel)"
-        working-directory: ${{ env.working-directory }}
         uses: coverallsapp/github-action@master
+        working-directory: ${{ env.working-directory }}
         with:
           github-token: ${{ secrets.github_token }}
           flag-name: client-test
@@ -121,8 +121,8 @@ jobs:
         run: npm run test --if-present -- --coverage
 
       - name: "📁 Save Coveralls Test Coverage (Parallel)"
-        working-directory: ${{ env.working-directory }}
         uses: coverallsapp/github-action@master
+        working-directory: ${{ env.working-directory }}
         with:
           github-token: ${{ secrets.github_token }}
           flag-name: server-test
