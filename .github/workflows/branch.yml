@@ -9,8 +9,8 @@ on:
 jobs:
 
   node_ci:
-    uses: ./.github/workflows/reuasable_steps/node_ci.yml
+    uses: ./.github/workflows/node_ci.yml
 
   docker_ci:
     needs: [node_ci]
-    uses: ./.github/workflows/reuasable_steps/docker_ci.yml
+    uses: ./.github/workflows/docker_ci.yml
