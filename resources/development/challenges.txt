@@ -69,6 +69,49 @@ Context: Building on M1 Mac chip and pushing to DockerHub
 Problem: building different architectures, could not run on EC2 ubuntu
 Solution: qemu emulator on EC2 to run anything, OR build specific architecture before pushing to DockerHub
 
+
+Challenge: Deployment Stragety, Continuous Delivery with GitHub Actions to EC2 Instance
+Context:
+  Docker can be run locally for development. Docker-compose could also be used to run on the EC2, given the entire repository has been cloned.
+  Current Deployment Strategy (Git > GitHub > EC2): 
+	- Development locally (git, GitHub)
+	- Push code to Repository (to run GitHub Actions)
+	- Trigger the GitHub Actions, run the following steps:
+	- Node CI, lint, test, and build server/client.
+	- Test `docker-compose up --build` works
+	- If everything builds, move on to deployment
+	- Connect to EC2 via SSH
+	- Note: EC2 instance has node, git, and docker installed
+	- `git clone` the repository
+	- Install node modules
+	- Remove all currently running Docker containers
+	- Run `docker-compose up --build` to BUILD the images on the remote machine
+	- App is now running, visit EC2 public domain to view production build
+Problem:
+   EC2 Instance has very limited resources. Cloning the ENTIRE GitHub repository is not practical.
+   BUILDING the docker images takes a lot of resources. Must find another way to deploy this.
+Solution:
+  Use Docker Hub. If Continuous Integration passes, build and publish the Docker images to DockerHub in the GitHub Actions.
+  Then, with working images published, SSH into the EC2, and manually download the images to start containers.
+  This avoids the BUILDING step on the EC2. Just download the build files and run.
+  New Deployment Strategy (Git > Github > DockerHub > EC2): 
+	- Development locally (git, GitHub)
+	- Push code to Repository (to run GitHub Actions)
+	- Trigger the GitHub Actions, run the following steps:
+	- Node CI, lint, test, and build server/client.
+	- Test `docker-compose up --build` works
+	- Build and Public Docker CLIENT image to DockerHub
+	- Build and Publish Docker SERVER image to DockerHub
+	- Connect to EC2 via SSH
+	- Note: EC2 instance has only docker installed
+	- Remove all currently running Docker containers
+ 	- Download/Run latest SERVER image from DockerHub
+	- Download/Run latest CLIENT image from DockerHub
+	- App is now running, visit EC2 public domain to view production build
+
+
+
+
 Docker Image and Enviroment Variables
 Context: docker image unable to access enviroment variables
 Problem: have file for enviroment variables, it is pushing env files into images to DockerHub
@@ -103,3 +146,4 @@ Managing multiple DockerHub repositories
 **Context:** Docker compose can build images easily, and referencing backend/frontend ports works. HOWEVER, with a `client`, `server`, and `nginx` folder and Dockerfile, that is 3 different images.
 **Problem:** Need to PUSH 3 different docker images to DockerHub, and pull all 3 images again on EC2
 **Solution:** Don't go through DockerHub, just clone the GitHub repository and use `docker-compose` on the EC2
+

@@ -1,6 +1,6 @@
 ### Overview
 
-What did you add/change/fix?
+Describe the change/feature
 
 ## Ticket
 
@@ -8,8 +8,7 @@ Trello Ticket: [#1](CHANGE_ME)
 
 ## Checklist
 
-- [ ] created a file?
-- [ ] did something cool :D
+- [ ] did something
 
 ## Relevant Resources
 

@@ -1,11 +1,18 @@
-Database Schema:
-Overview: every user (a dog) has a document with personal information (birthday, name, zip code). Users can be a part of zip code pools of other users in the same area they could meet. Users can match/reject users, and these interactions must be recorded. Users can chat with each other and view message history.
+# Database Schema:
 
-Database Relationships:
+### Overview:
+
+every user (a dog) has a document with personal information (birthday, name, zip code). Users can be a part of zip code pools of other users in the same area they could meet. Users can match/reject users, and these interactions must be recorded. Users can chat with each other and view message history.
+
+### Database Relationships:
+
 ONE DogDoc can be in MANY ZipCodePool zip codes
 ONE DogDoc has ONE MatchQueue doc
 ONE DogDoc has ONE RecordedMatches doc
 
+# Schema
+
+```json
 ZipcodePoolDB: [
     <zipCodeDocId>: {
         <dogDocId>: 1,
@@ -66,3 +73,4 @@ Chat: {
     "message": "blah blah",
     "timestamp": "09/09/2009",
 }
+```
