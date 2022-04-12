@@ -31,8 +31,8 @@ jobs:
           curl http://localhost
 
       - name: "⚡ Cache (testing) node modules"
-        working-directory: ${{ env.working-directory }}
         uses: actions/cache@v2
+        working-directory: ${{ env.working-directory }}
         id: npm_cache_id
         with:
           path: node_modules

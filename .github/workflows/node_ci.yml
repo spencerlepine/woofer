@@ -26,15 +26,15 @@ jobs:
       - name: "⚙️ Generate .env file"
         run: |
           mv .env.sample ${{ env.working-directory }}.env
-        
+
       - name: "🔧 Set up Node"
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
-        
+
       - name: "⚡ Cache node modules"
-        working-directory: ${{ env.working-directory }}
         uses: actions/cache@v2
+        working-directory: ${{ env.working-directory }}
         id: npm_cache_id
         with:
           path: node_modules
@@ -42,7 +42,7 @@ jobs:
           restore-keys: |
             client-${{ runner.os }}-npm-cache-
             client-${{ runner.os }}-
-        
+
       - name: "📦 Install dependencies"
         working-directory: ${{ env.working-directory }}
         if: steps.npm_cache_id.outputs.cache-hit != 'true'
@@ -92,15 +92,15 @@ jobs:
       - name: "⚙️ Generate .env file"
         run: |
           mv .env.sample ${{ env.working-directory }}.env
-        
+
       - name: "🔧 Set up Node"
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
-        
+
       - name: "⚡ Cache node modules"
-        working-directory: ${{ env.working-directory }}
         uses: actions/cache@v2
+        working-directory: ${{ env.working-directory }}
         id: npm_cache_id
         with:
           path: node_modules
@@ -108,7 +108,7 @@ jobs:
           restore-keys: |
             server-${{ runner.os }}-npm-cache-
             server-${{ runner.os }}-
-        
+
       - name: "📦 Install dependencies"
         working-directory: ${{ env.working-directory }}
         if: steps.npm_cache_id.outputs.cache-hit != 'true'
