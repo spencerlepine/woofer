@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: "☁️ Check out Git Repository"
         uses: actions/checkout@v2
-                
+
       - name: "🔧 Set up Node"
         uses: actions/setup-node@v1
         with:
@@ -30,14 +30,23 @@ jobs:
         run: |
           curl http://localhost
 
-      - name: "⚡ Cache testing node modules"
+      - name: "⚡ Cache (testing) node modules"
         working-directory: ${{ env.working-directory }}
+        uses: actions/cache@v2
+        id: npm_cache_id
+        with:
+          path: node_modules
+          key: test-${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            test-${{ runner.os }}-npm-cache-
+            test-${{ runner.os }}-
 
       - name: "📦 Install testing dependencies"
         working-directory: ${{ env.working-directory }}
+        if: steps.npm_cache_id.outputs.cache-hit != 'true'
         run: npm install
 
       - name: "✅ Run End-to-end tests"
         working-directory: ${{ env.working-directory }}
         run: npm test --if-present
-  
+

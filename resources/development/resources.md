@@ -11,6 +11,8 @@ A collection of all useful resources that helped me build this project.
 
 E2E Testing w/ Puppeteer [Blog Article](https://blog.logrocket.com/react-end-to-end-testing-jest-puppeteer/)
 
+Jest Puppetter Set up [Digital Ocean Article](https://www.digitalocean.com/community/tutorials/how-to-write-end-to-end-tests-in-node-js-using-puppeteer-and-jest)
+
 ### Socket.io Setup
 
 Socket.io Getting Started - [Documentation](https://socket.io/get-started/chat)
