@@ -13,10 +13,11 @@
   ],
   "license": "MIT",
   "scripts": {
+    "start": "npm run dev:client",
+    "build": "webpack --config ./webpack.prod.config.js --mode production",
     "dev:client": "webpack serve --config ./webpack.dev.config.js --env development --mode development",
     "test": "jest --detectOpenHandles --runInBand --forceExit",
-    "start": "npm run dev:client",
-    "build": "webpack --config ./webpack.prod.config.js --mode production"
+    "test:watch": "jest --onlyChanged --watch"
   },
   "browserslist": {
     "production": [
@@ -31,12 +32,7 @@
     ]
   },
   "dependencies": {
-    "@babel/preset-react": "^7.16.7",
-    "@testing-library/jest-dom": "^5.16.2",
-    "@testing-library/react": "^12.1.4",
-    "@testing-library/user-event": "^13.5.0",
     "axios": "^0.21.4",
-    "babel-loader": "^8.2.4",
     "bulma": "^0.9.3",
     "compression": "^1.7.4",
     "compression-webpack-plugin": "^9.2.0",
@@ -57,19 +53,28 @@
     "socket.io-client": "4.4.0",
     "style-loader": "^3.3.1",
     "web-vitals": "^2.1.4",
-    "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.7.4"
+    "webpack-cli": "^4.9.2"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.17.0",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/plugin-transform-runtime": "^7.17.0",
     "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "@shelf/jest-mongodb": "^2.2.1",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^12.1.5",
+    "@testing-library/user-event": "^13.5.0",
     "babel-eslint": "^10.1.0",
+    "babel-jest": "^27.5.1",
+    "babel-loader": "^8.2.4",
     "dotenv": "^10.0.0",
     "html-loader": "^2.1.2",
     "interpolate-html-plugin": "^4.0.0",
+    "jest": "^26.6.3",
+    "jest-watch-typeahead": "^0.6.5",
     "joi": "^17.6.0",
+    "mongoose": "^6.2.10",
     "supertest": "^6.2.2"
   }
 }
