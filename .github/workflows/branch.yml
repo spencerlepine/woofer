@@ -11,21 +11,21 @@ jobs:
   # node_ci:
   #   uses: ./.github/workflows/node_ci.yml
 
-  docker_ci:
+  # docker_ci:
     # needs: [node_ci]
-    uses: ./.github/workflows/docker_ci.yml
+    # uses: ./.github/workflows/docker_ci.yml
 
   # temporary TODO delete this
-  # deploy:
-  #   # needs: [node_ci, docker_ci]
-  #   uses: ./.github/workflows/deploy.yml
-  #   secrets:
-  #     ENV_PRODUCTION: ${{ secrets.ENV_PRODUCTION }}
-  #     DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-  #     DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-  #     DOCKERHUB_REPO_SERVER: ${{ secrets.DOCKERHUB_REPO_SERVER }}
-  #     DOCKERHUB_REPO_CLIENT: ${{ secrets.DOCKERHUB_REPO_CLIENT }}
-  #     EC2_REMOTE_HOST: ${{ secrets.EC2_REMOTE_HOST }}
-  #     EC2_REMOTE_USER: ${{ secrets.EC2_REMOTE_USER }}
-  #     EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
-  #     EC2_PASSPHRASE: ${{ secrets.EC2_PASSPHRASE }}
+  deploy:
+    # needs: [node_ci, docker_ci]
+    uses: ./.github/workflows/deploy.yml
+    secrets:
+      ENV_PRODUCTION: ${{ secrets.ENV_PRODUCTION }}
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+      DOCKERHUB_REPO_SERVER: ${{ secrets.DOCKERHUB_REPO_SERVER }}
+      DOCKERHUB_REPO_CLIENT: ${{ secrets.DOCKERHUB_REPO_CLIENT }}
+      EC2_REMOTE_HOST: ${{ secrets.EC2_REMOTE_HOST }}
+      EC2_REMOTE_USER: ${{ secrets.EC2_REMOTE_USER }}
+      EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+      EC2_PASSPHRASE: ${{ secrets.EC2_PASSPHRASE }}
