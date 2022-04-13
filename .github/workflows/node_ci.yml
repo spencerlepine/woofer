@@ -164,10 +164,20 @@ jobs:
         with:
           name: client-coverage
 
+      - name: "📜 Copy the client coverage file"
+        run: |
+          run: echo "$(<coverage-final.json )"
+          mv coverage-final.json client-coverage-final.json
+
       - name: "⬇️ Download the server test coverage report"
         uses: actions/download-artifact@v3
         with:
           name: server-coverage
+
+      - name: "📜 Copy the server coverage file"
+        run: |
+          run: echo "$(<coverage-final.json )"
+          mv coverage-final.json server-coverage-final.json
 
       - name: "🔧 Set up Node"
         uses: actions/setup-node@v1
@@ -175,7 +185,7 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: "🔀 Merge the coverage reports"
-        run: npx istanbul-merge --out coverage-final.json ./client-coverage-final.json ./server-coverage-final.json -y
+        run: npx istanbul-merge --out coverage-final.json ./client-coverage-final.json ./server-coverage-final.json
 
       - name: "📜 Display file contents"
         run: echo "$(<coverage-final.json )"
