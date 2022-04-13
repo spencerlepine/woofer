@@ -85,7 +85,7 @@ jobs:
         run: npm install
 
       - name: "✅  Run tests"
-       working-directory: ${{ env.working-directory }}
+        working-directory: ${{ env.working-directory }}
         run: npm run test -- --coverage
 
       - name: "📁 Upload test coverage artifact"
