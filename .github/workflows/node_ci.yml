@@ -104,6 +104,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       working-directory: ./server
+      PORT: 5000
     strategy:
       fail-fast: false
       matrix:
@@ -120,20 +121,6 @@ jobs:
 
       - name: "☁️ Check out Git Repository"
         uses: actions/checkout@v2
-
-      - name: "[DEBUGGIN] List all files"
-        run: |
-          ls -a
-
-      - name: "[DEBUGGIN] List all files"
-        working-directory: ${{ env.working-directory }}
-        run: |
-          ls -a
-
-      - name: "⚙️ Generate .env file"
-        run: |
-          mv ./.env.sample ./.env
-          mv ./.env.sample ${{ env.working-directory }}/.env
 
       - name: "🔧 Set up Node"
         uses: actions/setup-node@v1
