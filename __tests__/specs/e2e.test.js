@@ -10,7 +10,7 @@ describe("Woofer Homepage", () => {
   })
 
   it("Connects to localhost", async () => {
-    await page.goto("http://localhost")
+    await page.goto("http://localhost:3000")
     expect(true).toBeTruthy()
   })
 
