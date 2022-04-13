@@ -91,10 +91,10 @@ jobs:
 
       - name: "📁 Upload test coverage artifact"
         uses: actions/upload-artifact@v3
-          with:
-            name: ${{ env.SERVER_COVERAGE_OUTPUT }}
-            path: coverage/coverage-final.json
-            retention-days: 3
+        with:
+          name: ${{ env.SERVER_COVERAGE_OUTPUT }}
+          path: coverage/coverage-final.json
+          retention-days: 3
 
       - name: "🏗 Build client"
         run: npm run build --if-present
@@ -152,10 +152,10 @@ jobs:
 
       - name: "📁 Upload test coverage artifact"
         uses: actions/upload-artifact@v3
-          with:
-            name: ${{ env.SERVER_COVERAGE_OUTPUT }}
-            path: coverage/coverage-final.json
-            retention-days: 3
+        with:
+          name: ${{ env.SERVER_COVERAGE_OUTPUT }}
+          path: coverage/coverage-final.json
+          retention-days: 3
 
   coverage:
     name: Coverage Upload
