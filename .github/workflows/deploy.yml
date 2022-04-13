@@ -27,7 +27,7 @@ env:
 
 jobs:
 
-  docker-publish:
+  docker_publish:
     name: 🐳 DockerHub Publish
     runs-on: ubuntu-latest
 
