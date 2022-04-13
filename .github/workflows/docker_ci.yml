@@ -3,13 +3,80 @@ name: Docker CI
 on:
   workflow_call:
 
+env:
+  CACHE_NAME: docker-image-cache
+
 jobs:
 
-  docker-build:
-    name: Docker CI
+  docker_build:
+    name: Docker Build
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./__tests__
+
+    steps:
+      - name: "☁️ Check out Git Repository"
+        uses: actions/checkout@v2
+
+      - name: "🔧 Set up Node"
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+
+      - name: "⚡ Cache [CLIENT] node modules"
+        uses: actions/cache@v2
+        id: npm_client_cache_id
+        with:
+          path: ./client/node_modules
+          key: client-${{ runner.os }}-npm-cache-${{ hashFiles('./client/package-lock.json') }}
+          restore-keys: |
+            client-${{ runner.os }}-npm-cache-
+            client-${{ runner.os }}-
+
+      - name: "📦 Install [CLIENT] dependencies"
+        working-directory: ./client
+        if: steps.npm_client_cache_id.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: "⚡ Cache [SERVER] node modules"
+        uses: actions/cache@v2
+        id: npm_server_cache_id
+        with:
+          path: ./server/node_modules
+          key: server-${{ runner.os }}-npm-cache-${{ hashFiles('./server/package-lock.json') }}
+          restore-keys: |
+            server-${{ runner.os }}-npm-cache-
+            server-${{ runner.os }}-
+      - name: "📦 Install [SERVER] dependencies"
+        working-directory: ./server
+        if: steps.npm_server_cache_id.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: "⚡ Cache Docker Build"
+        uses: actions/cache@v2
+         id: docker_cache_id
+        with:
+          path: docker-cache-action
+          key: ${{ runner.os }}-build-${{ env.CACHE_NAME }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.CACHE_NAME }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: "🔧 Create .env file"
+        if: steps.docker_cache_id.outputs.cache-hit != 'true'
+        run: |
+          rm -f .env
+          echo ${{ secrets.ENV_PRODUCTION }} > .env
+          cp .env ./client/.env
+
+      - name: "🏗 Build w/ Docker Compose"
+        if: steps.docker_cache_id.outputs.cache-hit != 'true'
+        run: |
+          docker-compose build
+
+   docker_test:
+    needs: [docker_build]
+    name: Docker Test
+    runs-on: ubuntu-latest
 
     steps:
       - name: "☁️ Check out Git Repository"
@@ -50,11 +117,32 @@ jobs:
         if: steps.npm_server_cache_id.outputs.cache-hit != 'true'
         run: npm install
 
-      - name: "🏗 Build w/ Docker Compose"
+      - name: "⚡ Cache Docker Build"
+        uses: actions/cache@v2
+         id: docker_cache_id
+        with:
+          path: docker-cache-action
+          key: ${{ runner.os }}-build-${{ env.CACHE_NAME }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.CACHE_NAME }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: "🔧 Create .env file"
+        if: steps.docker_cache_id.outputs.cache-hit != 'true'
         run: |
-          cp .env.sample .env
+          rm -f .env
+          echo ${{ secrets.ENV_PRODUCTION }} > .env
           cp .env ./client/.env
-          docker-compose up --build -d
+
+      - name: "🏗 Build w/ Docker Compose"
+        if: steps.docker_cache_id.outputs.cache-hit != 'true'
+        run: |
+          docker-compose build
+
+       - name: "🧱 Start Docker Containers"
+        run: |
+          docker-compose up -d
 
       - name: "⚡ Cache (testing) node modules"
         uses: actions/cache@v2
@@ -74,4 +162,3 @@ jobs:
       - name: "✅ Run End-to-end tests"
         working-directory: ./__tests__
         run: npm test --if-present
-
