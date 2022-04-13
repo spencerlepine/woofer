@@ -157,6 +157,6 @@ jobs:
             # docker run --env-file ./.env -d -p 80:80 ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }}:latest --name ${{ secrets.DOCKERHUB_CLIENT_REPO }}
             echo -e "$BLUE Started up latest Server image $NC"
 
-            docker curl http:localhost
+            curl http:localhost
 
             echo -e "$GREEN EC2 deployment complete! $NC"
