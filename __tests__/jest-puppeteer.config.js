@@ -1,7 +1,8 @@
 module.exports = {
   launch: {
-    headless: false,
-    args: ["--window-size=1366,768"],
+    headless: true,
+    args: ["--no-sandbox"],
+    // args: ["--window-size=1366,768"],
   },
-  browser: "chromium",
+  // "launch.product": "chromium",
 }
