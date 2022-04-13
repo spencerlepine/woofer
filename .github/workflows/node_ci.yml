@@ -89,11 +89,10 @@ jobs:
         run: npm run test -- --coverage
 
       - name: "📁 Upload test coverage artifact"
-        working-directory: ${{ env.working-directory }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.SERVER_COVERAGE_OUTPUT }}
-          path: coverage/coverage-final.json
+          path: ${{ env.working-directory }}coverage/coverage-final.json
           retention-days: 3
 
       - name: "🏗 Build client"
@@ -155,7 +154,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.SERVER_COVERAGE_OUTPUT }}
-          path: coverage/coverage-final.json
+          path: ${{ env.working-directory }}coverage/coverage-final.json
           retention-days: 3
 
   coverage:
