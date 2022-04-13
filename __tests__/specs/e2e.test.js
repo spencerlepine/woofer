@@ -9,7 +9,7 @@ describe("Woofer Homepage", () => {
     page = await browser.newPage()
   })
 
-  it("Connects to localhost", async () => {
+  it("Connects to localhost on PORT 3000", async () => {
     await page.goto("http://localhost:3000")
     expect(true).toBeTruthy()
   })
