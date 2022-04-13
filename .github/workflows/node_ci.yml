@@ -83,7 +83,7 @@ jobs:
         run: npm install
 
       - name: "✅  Run tests"
-        run: npm run test --if-present -- --coverage
+        run: npm test -- --coverage
 
       - name: "🏗 Build client"
         run: npm run build --if-present
@@ -144,7 +144,7 @@ jobs:
         run: npm install
 
       - name: "✅  Run tests"
-        run: npm run test --if-present -- --coverage
+        run: npm test -- --coverage
 
       - name: "📁 Save Coveralls Test Coverage (Parallel)"
         uses: coverallsapp/github-action@master

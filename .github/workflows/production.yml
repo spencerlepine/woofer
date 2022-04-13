@@ -13,7 +13,6 @@ jobs:
   docker_ci:
     uses: ./.github/workflows/docker_ci.yml
 
-  # temporary TODO delete this
   deploy:
     needs: [node_ci, docker_ci]
     uses: ./.github/workflows/deploy.yml
