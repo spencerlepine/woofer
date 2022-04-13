@@ -28,7 +28,7 @@ jobs:
         uses: actions/cache@v2
         id: npm_cache_id
         with:
-          path: node_modules
+          path: ${{ env.working-directory }}node_modules
           key: lint-${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             lint-${{ runner.os }}-npm-cache-
@@ -134,7 +134,7 @@ jobs:
         uses: actions/cache@v2
         id: npm_cache_id
         with:
-          path: node_modules
+          path: ${{ env.working-directory }}node_modules
           key: client-${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             server-${{ runner.os }}-npm-cache-
