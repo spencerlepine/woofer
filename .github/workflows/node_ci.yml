@@ -178,7 +178,7 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: "🔀 Merge the coverage reports"
-        run: npx istanbul-merge --out coverage.json ./client-coverage-final.json ./server-coverage-final.json
+        run: npx istanbul-merge --out coverage-final.json ./client-coverage-final.json ./server-coverage-final.json
 
       - name: "⬆️ Comment test coverage report"
         uses: ArtiomTr/jest-coverage-report-action@v2
