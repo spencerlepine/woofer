@@ -121,6 +121,15 @@ jobs:
       - name: "☁️ Check out Git Repository"
         uses: actions/checkout@v2
 
+      - name: "[DEBUGGIN] List all files"
+        run: |
+          ls -a
+
+      - name: "[DEBUGGIN] List all files"
+        working-directory: ${{ env.working-directory }}
+        run: |
+          ls -a
+
       - name: "⚙️ Generate .env file"
         run: |
           mv ./.env.sample ./.env
@@ -145,11 +154,6 @@ jobs:
         working-directory: ${{ env.working-directory }}
         if: steps.npm_cache_id.outputs.cache-hit != 'true'
         run: npm install
-
-      - name: "[DEBUGGIN] List all files"
-        working-directory: ${{ env.working-directory }}
-        run: |
-          ls -a
 
       - name: "✅  Run tests"
         working-directory: ${{ env.working-directory }}
