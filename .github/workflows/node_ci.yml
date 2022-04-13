@@ -254,8 +254,7 @@ jobs:
         run: npm i lcov-result-merger
 
       - name: "🔀 Merge the coverage reports"
-        run: ./node_modules/.bin/lcov-result-merger
-        ./node_modules/.bin/lcov-result-merger '*-report.lcov' 'lcov.info'
+        run:  ./node_modules/.bin/lcov-result-merger '*-report.lcov' 'lcov.info'
 
       - name: "📜 Display file contents"
         run: echo "$(<lcov.info )"
