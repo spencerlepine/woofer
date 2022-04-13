@@ -43,7 +43,7 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
 
       - name: "📦 Install dependencies"
-        run: npm install --ignore-scripts
+        run: npm install
 
       - name: "🔒 Login to DockerHub"
         uses: docker/login-action@v1

@@ -24,7 +24,7 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
 
       - name: "📦 Install dependencies"
-        run: npm install --ignore-scripts
+        run: npm install
 
       - name: "⚡ Cache Docker Build"
         uses: actions/cache@v2
@@ -63,7 +63,7 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
 
       - name: "📦 Install dependencies"
-        run: npm install --ignore-scripts
+        run: npm install
 
       - name: "⚡ Cache Docker Build"
         uses: actions/cache@v2
