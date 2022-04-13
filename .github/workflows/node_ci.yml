@@ -166,13 +166,13 @@ jobs:
       - name: "⬇️ Download the client test coverage report"
         uses: actions/download-artifact@v3
         with:
-          name: ${{ env.CLIENT_COVERAGE_OUTPUT }}
+          name: ./server/coverage/coverage-final.json
           path: ~/client-coverage/
 
       - name: "⬇️ Download the server test coverage report"
         uses: actions/download-artifact@v3
         with:
-          name: ${{ env.SERVER_COVERAGE_OUTPUT }}
+          name: ./server/coverage/coverage-final.json
           path: ~/server-coverage/
 
       - name: "📜 Display structure of downloaded files"
