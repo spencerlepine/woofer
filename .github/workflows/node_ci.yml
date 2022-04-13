@@ -87,7 +87,7 @@ jobs:
       - name: "📁 Upload test coverage artifact"
         uses: actions/upload-artifact@v3
         with:
-          name: client-coverage-final.json
+          name: client-coverage
           path: ${{ env.working-directory }}/coverage/coverage-final.json
           retention-days: 3
 
@@ -146,7 +146,7 @@ jobs:
       - name: "📁 Upload test coverage artifact"
         uses: actions/upload-artifact@v3
         with:
-          name: server-coverage-final.json
+          name: server-coverage
           path: ${{ env.working-directory }}/coverage/coverage-final.json
           retention-days: 3
 
@@ -162,12 +162,18 @@ jobs:
       - name: "⬇️ Download the client test coverage report"
         uses: actions/download-artifact@v3
         with:
-          name: server-coverage-final.json
+          name: client-coverage
+
+      - name: "📜 Copy the client coverage file"
+        run: mv coverage-final.json client-coverage-final.json
 
       - name: "⬇️ Download the server test coverage report"
         uses: actions/download-artifact@v3
         with:
-          name: client-coverage-final.json
+          name: server-coverage
+
+      - name: "📜 Copy the server coverage file"
+        run: mv coverage-final.json server-coverage-final.json
 
       - name: "📜 Display structure of downloaded files"
         run: ls -R
