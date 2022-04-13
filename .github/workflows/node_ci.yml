@@ -123,7 +123,7 @@ jobs:
 
       - name: "⚙️ Generate .env file"
         run: |
-          mv .env.sample ${{ env.working-directory }}/.env
+          mv .env.sample .env
 
       - name: "🔧 Set up Node"
         uses: actions/setup-node@v1
