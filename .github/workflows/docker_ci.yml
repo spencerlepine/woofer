@@ -34,7 +34,7 @@ jobs:
         uses: actions/cache@v2
         id: npm_cache_id
         with:
-          path: ${{ env.working-directory }}node_modules
+          path: ${{ env.working-directory }}/node_modules
           key: test-${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             test-${{ runner.os }}-npm-cache-
