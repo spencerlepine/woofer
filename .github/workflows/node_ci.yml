@@ -23,7 +23,7 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
 
       - name: "📦 Install dependencies"
-        run: npm run install --ignore-scripts
+        run: npm install --ignore-scripts
 
       - name: "🧽 Lint all files"
         run: npm run lint --if-present
@@ -59,7 +59,7 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
 
       - name: "📦 Install dependencies"
-        run: npm run install --ignore-scripts
+        run: npm install --ignore-scripts
 
       - name: "✅  Run tests"
         working-directory: ${{ env.working-directory }}
@@ -107,7 +107,7 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
 
       - name: "📦 Install dependencies"
-        run: npm run install --ignore-scripts
+        run: npm install --ignore-scripts
 
       - name: "🏗 Build client"
         working-directory: ${{ env.working-directory }}
@@ -145,7 +145,7 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
 
       - name: "📦 Install dependencies"
-        run: npm run install --ignore-scripts
+        run: npm install --ignore-scripts
 
       - name: "✅  Run tests"
         working-directory: ${{ env.working-directory }}
