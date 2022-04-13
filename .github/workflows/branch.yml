@@ -8,15 +8,15 @@ on:
 
 jobs:
 
-  node_ci:
-    uses: ./.github/workflows/node_ci.yml
+  # node_ci:
+  #   uses: ./.github/workflows/node_ci.yml
 
   docker_ci:
-    needs: [node_ci]
+    # needs: [node_ci]
     uses: ./.github/workflows/docker_ci.yml
 
   deploy:
-    needs: [node_ci, docker_ci]
+    # needs: [node_ci, docker_ci]
     uses: ./.github/workflows/deploy.yml
     secrets:
       ENV_PRODUCTION: ${{ secrets.ENV_PRODUCTION }}
