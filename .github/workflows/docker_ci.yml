@@ -33,7 +33,7 @@ jobs:
 
       - name: "📦 Install [CLIENT] dependencies"
         working-directory: ./client
-        # if: steps.npm_client_cache_id.outputs.cache-hit != 'true'
+        if: steps.npm_client_cache_id.outputs.cache-hit != 'true'
         run: npm install
 
       - name: "⚡ Cache [SERVER] node modules"
@@ -48,7 +48,7 @@ jobs:
 
       - name: "📦 Install [SERVER] dependencies"
         working-directory: ./server
-        # if: steps.npm_server_cache_id.outputs.cache-hit != 'true'
+        if: steps.npm_server_cache_id.outputs.cache-hit != 'true'
         run: npm install
 
       - name: "⚡ Cache Docker Build"
@@ -100,7 +100,7 @@ jobs:
 
       - name: "📦 Install [CLIENT] dependencies"
         working-directory: ./client
-        # if: steps.npm_client_cache_id.outputs.cache-hit != 'true'
+        if: steps.npm_client_cache_id.outputs.cache-hit != 'true'
         run: npm install
 
       - name: "⚡ Cache [SERVER] node modules"
@@ -115,7 +115,7 @@ jobs:
 
       - name: "📦 Install [SERVER] dependencies"
         working-directory: ./server
-        # npm_server_cache_id.outputs.cache-hit != 'true'
+        if: steps.npm_server_cache_id.outputs.cache-hit != 'true'
         run: npm install
 
       - name: "⚡ Cache Docker Build"
@@ -130,7 +130,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: "🔧 Create .env file"
-        # if: steps.docker_cache_id.outputs.cache-hit != 'true'
+        if: steps.docker_cache_id.outputs.cache-hit != 'true'
         run: |
           rm -f .env
           echo ${{ secrets.ENV_PRODUCTION }} > .env
