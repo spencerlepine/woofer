@@ -190,6 +190,10 @@ jobs:
       - name: "📜 Display file contents"
         run: echo "$(<coverage-final.json )"
 
+      - name: "📜 Create jest.config.js with threshold"
+        run: |
+          echo "module.exports = { coverageThreshold: { global: { lines: 60 }  } }" > jest.config.js
+
       - name: "⬆️ Comment test coverage report"
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
