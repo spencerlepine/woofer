@@ -15,7 +15,9 @@
   "license": "MIT",
   "scripts": {
     "start": "node src/index.js",
-    "dev:server": "nodemon src/index.js"
+    "dev:server": "nodemon src/index.js",
+    "test": "jest --detectOpenHandles --runInBand --forceExit",
+    "test:watch": "jest --onlyChanged --watch"
   },
   "browserslist": {
     "production": [
@@ -40,7 +42,7 @@
     "helmet": "^5.0.2",
     "http-status": "^1.5.0",
     "mongodb-memory-server": "^8.4.2",
-    "mongoose": "^6.2.5",
+    "mongoose": "^6.2.10",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15",
     "socket.io": "^4.4.1",
@@ -49,7 +51,16 @@
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.17.0",
+    "@babel/plugin-transform-runtime": "^7.17.0",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "@shelf/jest-mongodb": "^2.2.1",
+    "babel-jest": "^27.5.1",
+    "babel-loader": "^8.2.4",
     "dotenv": "^10.0.0",
+    "jest": "^26.6.3",
+    "jest-watch-typeahead": "^0.6.5",
     "joi": "^17.6.0",
     "supertest": "^6.2.2"
   }

@@ -3,45 +3,11 @@
   "version": "1.0.0",
   "description": "Dating app for dogs. Customize a dating profile, update preferences, and match/chat with nearby users.",
   "main": "index.js",
-  "dependencies": {
-    "@babel/eslint-parser": "^7.17.0",
-    "@babel/plugin-transform-runtime": "^7.17.0",
-    "@babel/preset-env": "^7.16.11",
-    "@babel/preset-react": "^7.16.7",
-    "@shelf/jest-mongodb": "^2.2.1",
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^12.1.4",
-    "@testing-library/user-event": "^13.5.0",
-    "babel-eslint": "^10.1.0",
-    "babel-jest": "^27.5.1",
-    "babel-loader": "^8.2.4",
-    "coveralls": "^3.1.1",
-    "dotenv": "^10.0.0",
-    "eslint": "^8.13.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-config-react-app": "^7.0.0",
-    "eslint-plugin-flowtype": "^8.0.3",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jest": "^26.1.4",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.29.4",
-    "eslint-plugin-react-hooks": "^4.4.0",
-    "eslint-plugin-testing-library": "^5.2.1",
-    "husky": "^7.0.4",
-    "jest": "^26.6.3",
-    "jest-watch-typeahead": "^0.6.5",
-    "lint-staged": "^11.2.6",
-    "mongoose": "^6.2.10",
-    "prettier": "^2.6.2"
-  },
   "scripts": {
     "dev:client": "cd client && npm start",
     "dev:server": "cd server && npm run dev:server",
     "build": "cd client && npm run build",
     "lint": "eslint . --ext .js",
-    "test": "jest --detectOpenHandles --runInBand --forceExit",
-    "test:watch": "jest --onlyChanged --watch",
     "prepare": "cd client && npm i && cd ../server && npm i"
   },
   "repository": {
@@ -54,5 +20,84 @@
   "bugs": {
     "url": "https://github.com/spencerlepine/woofer/issues"
   },
-  "homepage": "https://github.com/spencerlepine/woofer#readme"
+  "homepage": "https://github.com/spencerlepine/woofer#readme",
+  "devDependencies": {
+    "eslint": "^8.13.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-flowtype": "^8.0.3",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^26.1.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-react-hooks": "^4.4.0",
+    "eslint-plugin-testing-library": "^5.3.1",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.7",
+    "prettier": "^2.6.2"
+  },
+  "prettier": {
+    "printWidth": 85,
+    "arrowParens": "always",
+    "semi": false,
+    "tabWidth": 2
+  },
+  "lint-staged": {
+    "*.{js,json,md}": [
+      "prettier --write"
+    ],
+    "*.js": "eslint --cache --fix",
+    "*.{js,md}": "prettier --write"
+  },
+  "eslintIgnore": [
+    "resources",
+    "constants",
+    "build"
+  ],
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended"
+    ],
+    "env": {
+      "es6": true,
+      "node": true,
+      "jest": true
+    },
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+      "requireConfigFile": false,
+      "babelOptions": {
+        "presets": [
+          "@babel/preset-react"
+        ]
+      },
+      "ecmaFeatures": {
+        "jsx": true
+      },
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    },
+    "rules": {
+      "no-undef": "off",
+      "no-console": "off",
+      "no-unused-vars": "off",
+      "react/prop-types": "off",
+      "quotes": [
+        2,
+        "double",
+        {
+          "avoidEscape": true
+        }
+      ]
+    },
+    "plugins": [
+      "prettier",
+      "react"
+    ]
+  },
+  "dependencies": {
+    "@babel/eslint-parser": "^7.17.0",
+    "@babel/preset-react": "^7.16.7"
+  }
 }

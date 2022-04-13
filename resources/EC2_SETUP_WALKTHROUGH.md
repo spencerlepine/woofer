@@ -3,7 +3,7 @@
 1.  Visit [aws.amazon.com/ec2](https://aws.amazon.com/ec2/)
     2 Launch an `Amazon Linux 2 AMI (HVM) - Kernel 4.14, SSD Volume Type (64 bit)` instance
 2.  Add `HTTP port 80 forwarding` rule to Secuirity Group
-3.  Add `HTTPS port 80 forwarding` rule to Secuirity Group
+3.  Add `HTTPS port 443 forwarding` rule to Secuirity Group
 4.  Wait for the instance to boot up
 5.  SSH into EC2 instance
 

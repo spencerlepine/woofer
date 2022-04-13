@@ -7,9 +7,16 @@ A collection of all useful resources that helped me build this project.
 [Excalidraw](https://excalidraw.com/) - for drawing simple diagrams
 [Trello](https://trello.com/) - boards for ticket system
 
+### Code Coverage and GitHub Actions
+
+Merge Jest Test coverage - [Stack Overflow](https://stackoverflow.com/questions/62560224/jest-how-to-merge-coverage-reports-from-different-jest-test-runs)
+Upload Artifacts - [Article](https://github.com/actions/upload-artifact)
+
 ### End-to-end (E2E) Testing
 
 E2E Testing w/ Puppeteer [Blog Article](https://blog.logrocket.com/react-end-to-end-testing-jest-puppeteer/)
+
+Jest Puppetter Set up [Digital Ocean Article](https://www.digitalocean.com/community/tutorials/how-to-write-end-to-end-tests-in-node-js-using-puppeteer-and-jest)
 
 ### Socket.io Setup
 
@@ -46,3 +53,11 @@ MERN Docker Deploy EC2 Example Repo: [GitHub Repository](https://github.com/kama
 
 Docker Refactor Article
 Setting up docker from scratch](https://mherman.org/blog/dockerizing-a-react-app/)
+
+## Repo File Visualizer Feature:
+
+Visualizer - [GitHub Action](https://github.com/githubocto/repo-visualizer)
+
+## PoniCode Unit Test Generator GitHub Action
+
+https://github.com/marketplace/actions/ponicode-unit-test
