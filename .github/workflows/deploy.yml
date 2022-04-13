@@ -140,7 +140,8 @@ jobs:
             echo -e "$BLUE Starting EC2 deployment script $NC"
 
             rm -f .env
-            echo ${{ secrets.ENV_PRODUCTION }} > .env
+            echo "${{ secrets.ENV_PRODUCTION }}" > .env
+            ls -a
             echo -e "$GREEN Created the production .env file $NC"
 
             docker system prune -a --volumes -f
