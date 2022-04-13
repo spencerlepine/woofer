@@ -78,7 +78,7 @@ jobs:
 
       - name: "⚡ Cache Docker Build"
         uses: actions/cache@v2
-         id: docker_cache_id
+        id: docker_cache_id
         with:
           path: docker-cache-action
           key: ${{ runner.os }}-build-${{ env.CACHE_NAME }}-${{ github.sha }}
@@ -99,7 +99,7 @@ jobs:
         run: |
           docker-compose build
 
-       - name: "🐳 DockerHub Publish"
+      - name: "🐳 DockerHub Publish"
         run: |
           docker-compose push
 
