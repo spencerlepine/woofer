@@ -28,6 +28,9 @@ env:
 jobs:
 
   docker-publish:
+    name: 🐳 DockerHub Publish
+    runs-on: ubuntu-latest
+
     steps:
       - name: "☁️ Check out Git Repository"
         uses: actions/checkout@v2
