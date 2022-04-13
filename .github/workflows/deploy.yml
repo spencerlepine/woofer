@@ -157,8 +157,7 @@ jobs:
             docker run --env-file ./.env -d -p 5000:5000 ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }}:latest --name ${{ secrets.DOCKERHUB_SERVER_REPO }}
             echo -e "$BLUE Started up latest Server image $NC"
 
-            docker run --env-file ./.env -d -p 3000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }}:latest
-            # docker run --env-file ./.env -d -p 3001:3001 ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }}:latest --name ${{ secrets.DOCKERHUB_CLIENT_REPO }}
+            docker run --env-file ./.env -d -p 80:3000 ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }}:latest
             echo -e "$BLUE Started up latest Server image $NC"
 
             sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
