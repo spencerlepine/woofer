@@ -123,9 +123,6 @@ jobs:
             echo -e "$GREEN Connected to the EC2 Instance! $NC"
             exit 0
 
-      - name: debug
-        run: echo "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }}:latest --env-file ./env --name ${{ secrets.DOCKERHUB_SERVER_REPO }}"
-
       - name: "♻️ Deploy Docker Containers"
         uses: appleboy/ssh-action@master
         with:
