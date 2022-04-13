@@ -166,19 +166,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: " Download the client test coverage report"
-        uses: actions/download-artifact@v3
-        with:
-          name: ${{ env.CLIENT_COVERAGE_OUTPUT }}
-          path: ~/client-coverage/
+      - name: "⬇️ Download the client test coverage report"
+      uses: actions/download-artifact@v3
+      with:
+        name: ${{ env.CLIENT_COVERAGE_OUTPUT }}
+        path: ~/client-coverage/
 
-      - name: " Download the server test coverage report"
+      - name: "⬇️ Download the server test coverage report"
         uses: actions/download-artifact@v3
         with:
           name: ${{ env.SERVER_COVERAGE_OUTPUT }}
           path: ~/server-coverage/
 
-      - name: Display structure of downloaded files
+      - name: "📜 Display structure of downloaded files"
         run: ls -R
 
       - name: "🔧 Set up Node"
@@ -186,11 +186,11 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: " Merge the coverage reports"
+      - name: "🔀 Merge the coverage reports"
         run: npx istanbul-merge --out coverage.json ./client-coverage/coverage-final.json ./server-coverage/coverage-final.json
 
-      steps:
-        - uses: ArtiomTr/jest-coverage-report-action@v2
+      - name: "⬆️ Comment test coverage report"
+        uses: ArtiomTr/jest-coverage-report-action@v2
 
       # - name: "🌪️ Publish to coveralls.io"
       #   uses: coverallsapp/github-action@master
