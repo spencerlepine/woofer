@@ -122,20 +122,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
-
-      # - name: "⚡ Cache node modules"
-      #   uses: actions/cache@v2
-      #   id: npm_cache_id
-      #   with:
-      #     path: ./client/node_modules
-      #     key: client-${{ runner.os }}-npm-cache-${{ hashFiles('./client/package-lock.json') }}
-      #     restore-keys: |
-      #       client-${{ runner.os }}-npm-cache-
-      #       client-${{ runner.os }}-
+          cache: 'npm'
+          cache-dependency-path: client/package-lock.json
 
       - name: "📦 Install dependencies"
         working-directory: ${{ env.working-directory }}
-        # if: steps.npm_cache_id.outputs.cache-hit != 'true'
+        run: npm run install --ignore-scripts
 
       - name: "🏗 Build client"
         working-directory: ${{ env.working-directory }}
@@ -169,21 +161,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
-
-      # - name: "⚡ Cache node modules"
-      #   uses: actions/cache@v2
-      #   id: npm_cache_id
-      #   with:
-      #     path: ./server/node_modules
-      #     key: server-${{ runner.os }}-npm-cache-${{ hashFiles('./server/package-lock.json') }}
-      #     restore-keys: |
-      #       server-${{ runner.os }}-npm-cache-
-      #       server-${{ runner.os }}-
+          cache: 'npm'
+          cache-dependency-path: server/package-lock.json
 
       - name: "📦 Install dependencies"
         working-directory: ${{ env.working-directory }}
-        # if: steps.npm_cache_id.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm run install --ignore-scripts
 
       - name: "✅  Run tests"
         working-directory: ${{ env.working-directory }}
