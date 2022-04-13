@@ -90,7 +90,7 @@ jobs:
         run: npm test -- --coverage
 
       - name: "📁 Upload test coverage artifact"
-        - uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3
           with:
             name: ${{ env.SERVER_COVERAGE_OUTPUT }}
             path: coverage/coverage-final.json
@@ -151,7 +151,7 @@ jobs:
         run: npm test -- --coverage
 
       - name: "📁 Upload test coverage artifact"
-        - uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3
           with:
             name: ${{ env.SERVER_COVERAGE_OUTPUT }}
             path: coverage/coverage-final.json
