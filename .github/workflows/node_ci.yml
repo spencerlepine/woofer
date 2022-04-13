@@ -124,6 +124,7 @@ jobs:
       - name: "⚙️ Generate .env file"
         run: |
           mv .env.sample .env
+          mv .env.sample ${{ env.working-directory }}/.env
 
       - name: "🔧 Set up Node"
         uses: actions/setup-node@v1
@@ -145,7 +146,8 @@ jobs:
         if: steps.npm_cache_id.outputs.cache-hit != 'true'
         run: npm install
 
-      - name: "List files"
+      - name: "[DEBUGGIN] List all files"
+        working-directory: ${{ env.working-directory }}
         run: |
           ls -a
 
