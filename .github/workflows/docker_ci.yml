@@ -33,7 +33,7 @@ jobs:
 
       - name: "📦 Install [CLIENT] dependencies"
         working-directory: ./client
-        if: steps.npm_client_cache_id.outputs.cache-hit != 'true'
+        # if: steps.npm_client_cache_id.outputs.cache-hit != 'true'
         run: npm install
 
       - name: "⚡ Cache [SERVER] node modules"
@@ -46,7 +46,7 @@ jobs:
             server-${{ runner.os }}-npm-cache-
             server-${{ runner.os }}-
       - name: "📦 Install [SERVER] dependencies"
-        working-directory: ./server
+        # working-directory: ./server
         if: steps.npm_server_cache_id.outputs.cache-hit != 'true'
         run: npm install
 
