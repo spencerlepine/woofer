@@ -58,7 +58,7 @@ jobs:
 
       - name: "🧪 Running on localhost"
         run: |
-          curl http://localhost
+          curl http://localhost:3000
 
       - name: "⚡ Cache (testing) node modules"
         uses: actions/cache@v2
