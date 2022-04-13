@@ -3,6 +3,9 @@ name: Node CI
 on:
   workflow_call:
 
+env:
+  COVERAGE_THRESHOLD: 60
+
 jobs:
 
   # repo_lint:
@@ -192,12 +195,13 @@ jobs:
 
       - name: "📜 Create jest.config.js with threshold"
         run: |
-          echo "module.exports = { coverageThreshold: { global: { lines: 60 }  } }" > jest.config.js
+          echo "module.exports = { coverageThreshold: { global: { lines: ${{ env.COVERAGE_THRESHOLD }} }  } }" > jest.config.js
 
       - name: "⬆️ Comment test coverage report"
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
           coverage-file: ./coverage-final.json
+          base-coverage-file:: ./coverage-final.json
 
       # - name: "🌪️ Publish to coveralls.io"
       #   uses: coverallsapp/github-action@master
