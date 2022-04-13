@@ -137,7 +137,7 @@ jobs:
         id: npm_cache_id
         with:
           path: ${{ env.working-directory }}/node_modules
-          key: client-${{ runner.os }}-npm-cache-${{ hashFiles('${{ env.working-directory }}/package-lock.json') }}
+          key: server-${{ runner.os }}-npm-cache-${{ hashFiles('${{ env.working-directory }}/package-lock.json') }}
           restore-keys: |
             server-${{ runner.os }}-npm-cache-
             server-${{ runner.os }}-

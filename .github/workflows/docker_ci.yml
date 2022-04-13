@@ -20,6 +20,36 @@ jobs:
         with:
           node-version: 16
 
+      - name: "⚡ Cache [CLIENT] node modules"
+        uses: actions/cache@v2
+        id: npm_client_cache_id
+        with:
+          path: ./client/node_modules
+          key: client-${{ runner.os }}-npm-cache-${{ hashFiles('./client/package-lock.json') }}
+          restore-keys: |
+            client-${{ runner.os }}-npm-cache-
+            client-${{ runner.os }}-
+
+      - name: "📦 Install [CLIENT] dependencies"
+        working-directory: ./client
+        if: steps.npm_client_cache_id.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: "⚡ Cache [SERVER] node modules"
+        uses: actions/cache@v2
+        id: npm_server_cache_id
+        with:
+          path: ./server/node_modules
+          key: server-${{ runner.os }}-npm-cache-${{ hashFiles('./server/package-lock.json') }}
+          restore-keys: |
+            server-${{ runner.os }}-npm-cache-
+            server-${{ runner.os }}-
+
+      - name: "📦 Install [SERVER] dependencies"
+        working-directory: ./server
+        if: steps.npm_server_cache_id.outputs.cache-hit != 'true'
+        run: npm install
+
       - name: "🏗 Build w/ Docker Compose"
         run: |
           cp .env.sample .env
