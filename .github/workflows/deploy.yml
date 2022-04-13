@@ -41,15 +41,16 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      # - name: "⚡ Cache [CLIENT] node modules"
-      #   uses: actions/cache@v2
-      #   id: npm_client_cache_id
-      #   with:
-      #     path: ./client/node_modules
-      #     key: client-${{ runner.os }}-npm-cache-${{ hashFiles('./client/package-lock.json') }}
-      #     restore-keys: |
-      #       client-${{ runner.os }}-npm-cache-
-      #       client-${{ runner.os }}-
+
+      - name: "⚡ Cache [CLIENT] node modules"
+        uses: actions/cache@v2
+        id: npm_client_cache_id
+        with:
+          path: ./client/node_modules
+          key: npm-${{ runner.os }}-npm-cache-${{ hashFiles('./client/package-lock.json') }}
+          restore-keys: |
+            npm-${{ runner.os }}-npm-cache-
+            npm-${{ runner.os }}-
 
       - name: "📦 Install [CLIENT] dependencies"
         working-directory: ./client
