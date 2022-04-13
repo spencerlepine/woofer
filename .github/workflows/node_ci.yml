@@ -94,6 +94,13 @@ jobs:
           path: ${{ env.working-directory }}/coverage/coverage-final.json
           retention-days: 3
 
+      - name: "📁 Upload test LCOV coverage artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: client-coverage-lcov
+          path: ${{ env.working-directory }}/coverage/lcov.info
+          retention-days: 3
+
       - name: "🏗 Build client"
         working-directory: ${{ env.working-directory }}
         run: npm run build --if-present
@@ -153,7 +160,14 @@ jobs:
           path: ${{ env.working-directory }}/coverage/coverage-final.json
           retention-days: 3
 
-  coverage:
+      - name: "📁 Upload test LCOV coverage artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: server-coverage-lcov
+          path: ${{ env.working-directory }}/coverage/lcov.info
+          retention-days: 3
+
+  coverage_comment:
     name: Coverage Upload
     permissions:
       checks: write
@@ -202,10 +216,53 @@ jobs:
         with:
           skip-step: all
           coverage-file: ./coverage-final.json
-          base-coverage-file:: ./coverage-final.json
+          base-coverage-file: ./coverage-final.json
 
-      # - name: "🌪️ Publish to coveralls.io"
-      #   uses: coverallsapp/github-action@master
-      #   with:
-      #     github-token: ${{ secrets.github_token }}
-      #     parallel-finished: true
+  coverage_upload:
+    needs: [coverage_comment]
+    name: Coverage Coveralls.io Upload
+    needs: [client_ci, server_ci]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "⬇️ Download the client test coverage lcov report"
+        uses: actions/download-artifact@v3
+        with:
+          name: client-coverage-lcov
+
+      - name: "📜 Copy the client coverage file"
+        run: |
+          echo "$(<lcov.info )"
+          mv lcov.info client-report.lcov
+
+      - name: "⬇️ Download the server test coverage lcov report"
+        uses: actions/download-artifact@v3
+        with:
+          name: server-coverage-lcov
+
+      - name: "📜 Copy the server coverage file"
+        run: |
+          echo "$(<lcov.info )"
+          mv lcov.info server-report.lcov
+
+      - name: "🔧 Set up Node"
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: "Install lcov report merger package"
+        run: npm i lcov-result-merger
+
+      - name: "🔀 Merge the coverage reports"
+        run: ./node_modules/.bin/lcov-result-merger
+        ./node_modules/.bin/lcov-result-merger '*-report.lcov' 'lcov.info'
+
+      - name: "📜 Display file contents"
+        run: echo "$(<lcov.info )"
+
+      - name: "🌪️ Publish to coveralls.io"
+        uses: coverallsapp/github-action@master
+        with:
+          path-to-lcov: ./lcov.info
+          github-token: ${{ secrets.github_token }}
+          parallel-finished: true
