@@ -64,18 +64,18 @@ jobs:
         uses: actions/cache@v2
         id: npm_cache_id
         with:
-          path: ${{ env.working-directory }}/node_modules
-          key: test-${{ runner.os }}-npm-cache-${{ hashFiles('${{ env.working-directory }}/package-lock.json') }}
+          path: ./__tests__/node_modules
+          key: test-${{ runner.os }}-npm-cache-${{ hashFiles('__tests__/package-lock.json') }}
           restore-keys: |
             test-${{ runner.os }}-npm-cache-
             test-${{ runner.os }}-
 
       - name: "📦 Install testing dependencies"
-        working-directory: ${{ env.working-directory }}
+        working-directory: ./__tests__
         if: steps.npm_cache_id.outputs.cache-hit != 'true'
         run: npm install
 
       - name: "✅ Run End-to-end tests"
-        working-directory: ${{ env.working-directory }}
+        working-directory: ./__tests__
         run: npm test --if-present
 
