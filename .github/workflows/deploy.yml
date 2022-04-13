@@ -41,33 +41,34 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: "⚡ Cache [CLIENT] node modules"
-        uses: actions/cache@v2
-        id: npm_client_cache_id
-        with:
-          path: ./client/node_modules
-          key: client-${{ runner.os }}-npm-cache-${{ hashFiles('./client/package-lock.json') }}
-          restore-keys: |
-            client-${{ runner.os }}-npm-cache-
-            client-${{ runner.os }}-
+      # - name: "⚡ Cache [CLIENT] node modules"
+      #   uses: actions/cache@v2
+      #   id: npm_client_cache_id
+      #   with:
+      #     path: ./client/node_modules
+      #     key: client-${{ runner.os }}-npm-cache-${{ hashFiles('./client/package-lock.json') }}
+      #     restore-keys: |
+      #       client-${{ runner.os }}-npm-cache-
+      #       client-${{ runner.os }}-
+
       - name: "📦 Install [CLIENT] dependencies"
         working-directory: ./client
-        if: steps.npm_client_cache_id.outputs.cache-hit != 'true'
+        # if: steps.npm_client_cache_id.outputs.cache-hit != 'true'
         run: npm install
 
-      - name: "⚡ Cache [SERVER] node modules"
-        uses: actions/cache@v2
-        id: npm_server_cache_id
-        with:
-          path: ./server/node_modules
-          key: server-${{ runner.os }}-npm-cache-${{ hashFiles('./server/package-lock.json') }}
-          restore-keys: |
-            server-${{ runner.os }}-npm-cache-
-            server-${{ runner.os }}-
+      # - name: "⚡ Cache [SERVER] node modules"
+      #   uses: actions/cache@v2
+      #   id: npm_server_cache_id
+      #   with:
+      #     path: ./server/node_modules
+      #     key: server-${{ runner.os }}-npm-cache-${{ hashFiles('./server/package-lock.json') }}
+      #     restore-keys: |
+      #       server-${{ runner.os }}-npm-cache-
+      #       server-${{ runner.os }}-
 
       - name: "📦 Install [SERVER] dependencies"
         working-directory: ./server
-        if: steps.npm_server_cache_id.outputs.cache-hit != 'true'
+        # if: steps.npm_server_cache_id.outputs.cache-hit != 'true'
         run: npm install
 
       - name: "🔒 Login to DockerHub"
@@ -76,16 +77,16 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: "⚡ Cache Docker Build"
-        uses: actions/cache@v2
-        id: docker_cache_id
-        with:
-          path: docker-cache-action
-          key: ${{ runner.os }}-build-${{ env.CACHE_NAME }}-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.CACHE_NAME }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+      # - name: "⚡ Cache Docker Build"
+      #   uses: actions/cache@v2
+      #   id: docker_cache_id
+      #   with:
+      #     path: docker-cache-action
+      #     key: ${{ runner.os }}-build-${{ env.CACHE_NAME }}-${{ github.sha }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-build-${{ env.CACHE_NAME }}-
+      #       ${{ runner.os }}-build-
+      #       ${{ runner.os }}-
 
       - name: 🔧 Create .env file
         run: |
@@ -94,7 +95,7 @@ jobs:
           cp .env ./client/.env
 
       - name: "🏗 Build w/ Docker Compose"
-        if: steps.docker_cache_id.outputs.cache-hit != 'true'
+        # if: steps.docker_cache_id.outputs.cache-hit != 'true'
         run: |
           docker-compose build
 

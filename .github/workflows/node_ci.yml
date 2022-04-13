@@ -20,17 +20,18 @@ jobs:
         with:
           node-version: 16
 
-      - name: "⚡ Cache node modules"
-        uses: actions/cache@v2
-        id: npm_cache_id
-        with:
-          path: node_modules
-          key: lint-${{ runner.os }}-npm-cache-${{ hashFiles('./package-lock.json') }}
-          restore-keys: |
-            lint-${{ runner.os }}-npm-cache-
-            lint-${{ runner.os }}-
+      # - name: "⚡ Cache node modules"
+      #   uses: actions/cache@v2
+      #   id: npm_cache_id
+      #   with:
+      #     path: node_modules
+      #     key: lint-${{ runner.os }}-npm-cache-${{ hashFiles('./package-lock.json') }}
+      #     restore-keys: |
+      #       lint-${{ runner.os }}-npm-cache-
+      #       lint-${{ runner.os }}-
+
       - name: "📦 Install linter dependencies"
-        if: steps.npm_cache_id.outputs.cache-hit != 'true'
+        # if: steps.npm_cache_id.outputs.cache-hit != 'true'
         run: npm install
 
       - name: "🧽 Lint all files"
@@ -64,19 +65,19 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: "⚡ Cache node modules"
-        uses: actions/cache@v2
-        id: npm_cache_id
-        with:
-          path: ./client/node_modules
-          key: client-${{ runner.os }}-npm-cache-${{ hashFiles('./client/package-lock.json') }}
-          restore-keys: |
-            client-${{ runner.os }}-npm-cache-
-            client-${{ runner.os }}-
+      # - name: "⚡ Cache node modules"
+      #   uses: actions/cache@v2
+      #   id: npm_cache_id
+      #   with:
+      #     path: ./client/node_modules
+      #     key: client-${{ runner.os }}-npm-cache-${{ hashFiles('./client/package-lock.json') }}
+      #     restore-keys: |
+      #       client-${{ runner.os }}-npm-cache-
+      #       client-${{ runner.os }}-
 
       - name: "📦 Install dependencies"
         working-directory: ${{ env.working-directory }}
-        if: steps.npm_cache_id.outputs.cache-hit != 'true'
+        # if: steps.npm_cache_id.outputs.cache-hit != 'true'
         run: npm install
 
       - name: "✅  Run tests"
@@ -122,19 +123,19 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: "⚡ Cache node modules"
-        uses: actions/cache@v2
-        id: npm_cache_id
-        with:
-          path: ./client/node_modules
-          key: client-${{ runner.os }}-npm-cache-${{ hashFiles('./client/package-lock.json') }}
-          restore-keys: |
-            client-${{ runner.os }}-npm-cache-
-            client-${{ runner.os }}-
+      # - name: "⚡ Cache node modules"
+      #   uses: actions/cache@v2
+      #   id: npm_cache_id
+      #   with:
+      #     path: ./client/node_modules
+      #     key: client-${{ runner.os }}-npm-cache-${{ hashFiles('./client/package-lock.json') }}
+      #     restore-keys: |
+      #       client-${{ runner.os }}-npm-cache-
+      #       client-${{ runner.os }}-
 
       - name: "📦 Install dependencies"
         working-directory: ${{ env.working-directory }}
-        if: steps.npm_cache_id.outputs.cache-hit != 'true'
+        # if: steps.npm_cache_id.outputs.cache-hit != 'true'
 
       - name: "🏗 Build client"
         working-directory: ${{ env.working-directory }}
@@ -169,18 +170,19 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: "⚡ Cache node modules"
-        uses: actions/cache@v2
-        id: npm_cache_id
-        with:
-          path: ./server/node_modules
-          key: server-${{ runner.os }}-npm-cache-${{ hashFiles('./server/package-lock.json') }}
-          restore-keys: |
-            server-${{ runner.os }}-npm-cache-
-            server-${{ runner.os }}-
+      # - name: "⚡ Cache node modules"
+      #   uses: actions/cache@v2
+      #   id: npm_cache_id
+      #   with:
+      #     path: ./server/node_modules
+      #     key: server-${{ runner.os }}-npm-cache-${{ hashFiles('./server/package-lock.json') }}
+      #     restore-keys: |
+      #       server-${{ runner.os }}-npm-cache-
+      #       server-${{ runner.os }}-
+
       - name: "📦 Install dependencies"
         working-directory: ${{ env.working-directory }}
-        if: steps.npm_cache_id.outputs.cache-hit != 'true'
+        # if: steps.npm_cache_id.outputs.cache-hit != 'true'
         run: npm install
 
       - name: "✅  Run tests"
