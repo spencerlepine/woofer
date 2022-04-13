@@ -219,7 +219,6 @@ jobs:
           base-coverage-file: ./coverage-final.json
 
   coverage_upload:
-    needs: [coverage_comment]
     name: Coverage Coveralls.io Upload
     needs: [client_ci, server_ci]
     runs-on: ubuntu-latest
