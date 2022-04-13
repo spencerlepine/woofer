@@ -98,7 +98,7 @@ jobs:
   #         cache-to: type=registry,ref=${{ env.DOCKERHUB_REPO }}:buildcache,mode=max
 
   deploy_ec2:
-    needs: [publish_client, publish_server]
+    needs: [docker_publish]
     name: 🚀 EC2 Depoyment
     runs-on: ubuntu-latest
 
