@@ -41,63 +41,63 @@ jobs:
   #     - name: "🧽 Lint all files"
   #       run: npm run lint --if-present
 
-  # client_ci:
-  #   needs: [repo_lint]
-  #   runs-on: ${{ matrix.os }}
-  #   env:
-  #     working-directory: ./client
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       node: ['12', '14', '16']
-  #       os: [ubuntu-latest]
+  client_ci:
+    # needs: [repo_lint]
+    runs-on: ${{ matrix.os }}
+    env:
+      working-directory: ./client
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['12', '14', '16']
+        os: [ubuntu-latest]
 
-  #   name: Client CI
-  #   steps:
-  #     - name: "🎯 Print OS and Node version"
-  #       run: echo "Running on ${{ matrix.os }} with Node v${{ matrix.node }}"
+    name: Client CI
+    steps:
+      - name: "🎯 Print OS and Node version"
+        run: echo "Running on ${{ matrix.os }} with Node v${{ matrix.node }}"
 
-  #     - name: "☁️ Check out Git Repository"
-  #       uses: actions/checkout@v2
+      - name: "☁️ Check out Git Repository"
+        uses: actions/checkout@v2
 
-  #     - name: "⚙️ Generate .env file"
-  #       run: |
-  #         mv .env.sample ${{ env.working-directory }}/.env
+      - name: "⚙️ Generate .env file"
+        run: |
+          mv .env.sample ${{ env.working-directory }}/.env
 
-  #     - name: "🔧 Set up Node"
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: ${{ matrix.node }}
+      - name: "🔧 Set up Node"
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
 
-  #     - name: "⚡ Cache node modules"
-  #       uses: actions/cache@v2
-  #       id: npm_cache_id
-  #       with:
-  #         path: ${{ env.working-directory }}/node_modules
-  #         key: client-${{ runner.os }}-npm-cache-${{ hashFiles('${{ env.working-directory }}/package-lock.json') }}
-  #         restore-keys: |
-  #           client-${{ runner.os }}-npm-cache-
-  #           client-${{ runner.os }}-
+      - name: "⚡ Cache node modules"
+        uses: actions/cache@v2
+        id: npm_cache_id
+        with:
+          path: ${{ env.working-directory }}/node_modules
+          key: client-${{ runner.os }}-npm-cache-${{ hashFiles('${{ env.working-directory }}/package-lock.json') }}
+          restore-keys: |
+            client-${{ runner.os }}-npm-cache-
+            client-${{ runner.os }}-
 
-  #     - name: "📦 Install dependencies"
-  #       working-directory: ${{ env.working-directory }}
-  #       if: steps.npm_cache_id.outputs.cache-hit != 'true'
-  #       run: npm install
+      - name: "📦 Install dependencies"
+        working-directory: ${{ env.working-directory }}
+        if: steps.npm_cache_id.outputs.cache-hit != 'true'
+        run: npm install
 
-  #     - name: "✅  Run tests"
-  #       working-directory: ${{ env.working-directory }}
-  #       run: npm run test -- --coverage
+      - name: "✅  Run tests"
+        working-directory: ${{ env.working-directory }}
+        run: npm run test -- --coverage
 
-  #     - name: "📁 Upload test coverage artifact"
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: ${{ env.SERVER_COVERAGE_OUTPUT }}
-  #         path: ${{ env.working-directory }}coverage/coverage-final.json
-  #         retention-days: 3
+      - name: "📁 Upload test coverage artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.SERVER_COVERAGE_OUTPUT }}
+          path: ${{ env.working-directory }}coverage/coverage-final.json
+          retention-days: 3
 
-  #     - name: "🏗 Build client"
-  #       working-directory: ${{ env.working-directory }}
-  #       run: npm run build --if-present
+      - name: "🏗 Build client"
+        working-directory: ${{ env.working-directory }}
+        run: npm run build --if-present
 
   server_ci:
     # needs: [repo_lint]
