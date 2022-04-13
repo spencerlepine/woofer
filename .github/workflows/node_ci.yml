@@ -167,10 +167,10 @@ jobs:
 
     steps:
       - name: "⬇️ Download the client test coverage report"
-      uses: actions/download-artifact@v3
-      with:
-        name: ${{ env.CLIENT_COVERAGE_OUTPUT }}
-        path: ~/client-coverage/
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.CLIENT_COVERAGE_OUTPUT }}
+          path: ~/client-coverage/
 
       - name: "⬇️ Download the server test coverage report"
         uses: actions/download-artifact@v3
