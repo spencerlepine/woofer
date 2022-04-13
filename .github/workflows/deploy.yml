@@ -24,6 +24,7 @@ on:
 
 env:
   NODE_VERSION: 16
+  CACHE_NAME: docker-image-cache
 
 jobs:
 
@@ -49,7 +50,6 @@ jobs:
           restore-keys: |
             client-${{ runner.os }}-npm-cache-
             client-${{ runner.os }}-
-
       - name: "📦 Install [CLIENT] dependencies"
         working-directory: ./client
         if: steps.npm_client_cache_id.outputs.cache-hit != 'true'
@@ -76,31 +76,32 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+      - name: "⚡ Cache Docker Build"
+        uses: actions/cache@v2
+         id: docker_cache_id
+        with:
+          path: docker-cache-action
+          key: ${{ runner.os }}-build-${{ env.CACHE_NAME }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.CACHE_NAME }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
       - name: 🔧 Create .env file
+        if: steps.docker_cache_id.outputs.cache-hit != 'true'
         run: |
+          rm -f .env
           echo ${{ secrets.ENV_PRODUCTION }} > .env
           cp .env ./client/.env
 
-      - name: 🐳 DockerHub Publish
-        run:
-          docker-compose build &&
+      - name: "🏗 Build w/ Docker Compose"
+        if: steps.docker_cache_id.outputs.cache-hit != 'true'
+        run: |
+          docker-compose build
+
+       - name: "🐳 DockerHub Publish"
+        run: |
           docker-compose push
-
-      # - name: "🔧 Set up Docker Buildx"
-      #   uses: docker/setup-buildx-action@v1
-
-      # - name: "🐳 Publish to DockerHub Registry"
-      #   uses: docker/build-push-action@v2
-      #   env:
-      #     DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }}
-      #   with:
-      #     context: ${{ env.working-directory }}
-      #     file: Dockerfile
-      #     builder: ${{ steps.buildx.outputs.name }}
-      #     push: true
-      #     tags: ${{ env.DOCKERHUB_REPO }}:latest
-      #     cache-from: type=registry,ref=${{ env.DOCKERHUB_REPO }}:buildcache
-      #     cache-to: type=registry,ref=${{ env.DOCKERHUB_REPO }}:buildcache,mode=max
 
   deploy_ec2:
     needs: [docker_publish]
@@ -123,7 +124,7 @@ jobs:
             echo -e "$GREEN Connected to the EC2 Instance! $NC"
             exit 0
 
-      - name: "♻️ Deploy Docker Containers"
+      - name: "🐳 Deploy Docker Containers"
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_REMOTE_HOST }}
@@ -163,3 +164,20 @@ jobs:
             sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
 
             echo -e "$GREEN EC2 deployment complete! $NC"
+
+
+# - name: "🔧 Set up Docker Buildx"
+#   uses: docker/setup-buildx-action@v1
+
+# - name: "🐳 Publish to DockerHub Registry"
+#   uses: docker/build-push-action@v2
+#   env:
+#     DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }}
+#   with:
+#     context: ${{ env.working-directory }}
+#     file: Dockerfile
+#     builder: ${{ steps.buildx.outputs.name }}
+#     push: true
+#     tags: ${{ env.DOCKERHUB_REPO }}:latest
+#     cache-from: type=registry,ref=${{ env.DOCKERHUB_REPO }}:buildcache
+#     cache-to: type=registry,ref=${{ env.DOCKERHUB_REPO }}:buildcache,mode=max
