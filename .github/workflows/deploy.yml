@@ -149,6 +149,9 @@ jobs:
             docker system prune -a --volumes -f
             echo -e "$RED Removed existing Docker containers $NC"
 
+            echo -e "$BLUE Authenticating Docker $NC"
+            docker login -u="${{ secrets.DOCKERHUB_USERNAME }}" -p="${{ secrets.DOCKERHUB_PASSWORD }}"
+
             docker run -d -p 5000:5000 ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }}:latest --env-file ./env --name ${{ secrets.DOCKERHUB_SERVER_REPO }}
             echo -e "$BLUE Started up latest Server image $NC"
 
