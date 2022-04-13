@@ -83,7 +83,7 @@ jobs:
 
       - name: 🐳 DockerHub Publish
         run:
-          docker-compose build
+          docker-compose build &&
           docker-compose push
 
   #     - name: "🔧 Set up Docker Buildx"
