@@ -145,6 +145,10 @@ jobs:
         if: steps.npm_cache_id.outputs.cache-hit != 'true'
         run: npm install
 
+      - name: "List files"
+        run: |
+          ls -a
+
       - name: "✅  Run tests"
         working-directory: ${{ env.working-directory }}
         run: npm run test -- --coverage
