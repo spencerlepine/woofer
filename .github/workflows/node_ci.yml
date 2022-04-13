@@ -200,6 +200,7 @@ jobs:
       - name: "⬆️ Comment test coverage report"
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
+          skip-step: all
           coverage-file: ./coverage-final.json
           base-coverage-file:: ./coverage-final.json
 
