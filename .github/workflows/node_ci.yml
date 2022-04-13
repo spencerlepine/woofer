@@ -212,11 +212,11 @@ jobs:
           echo "module.exports = { coverageThreshold: { global: { lines: ${{ env.COVERAGE_THRESHOLD }} }  } }" > jest.config.js
 
       - name: "⬆️ Comment test coverage report"
-        uses: ArtiomTr/jest-coverage-report-action@v2
+        uses: AthleticNet/comment-test-coverage@1.1
         with:
-          skip-step: all
-          coverage-file: ./coverage-final.json
-          base-coverage-file: ./coverage-final.json
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: ./coverage-final.json
+          title: Woofer Test Coverage
 
   coverage_upload:
     name: Coverage Coveralls.io Upload
@@ -263,4 +263,3 @@ jobs:
         with:
           path-to-lcov: ./lcov.info
           github-token: ${{ secrets.github_token }}
-          parallel-finished: true
