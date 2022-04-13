@@ -43,7 +43,6 @@ jobs:
 
   client_ci:
     needs: [repo_lint]
-    name: Client CI
     runs-on: ${{ matrix.os }}
     env:
       working-directory: ./client
@@ -53,7 +52,7 @@ jobs:
         node: ['12', '14', '16']
         os: [ubuntu-latest]
 
-
+    name: Client CI
     steps:
       - name: "🎯 Print OS and Node version"
         run: echo "Running on ${{ matrix.os }} with Node v${{ matrix.node }}"
@@ -103,7 +102,6 @@ jobs:
 
   server_ci:
     needs: [repo_lint]
-    name: Server CI
     runs-on: ${{ matrix.os }}
     env:
       working-directory: ./server
@@ -113,7 +111,7 @@ jobs:
         node: ['12', '14', '16']
         os: [ubuntu-latest]
 
-
+    name: Server CI
     steps:
       - name: "🎯 Print OS and Node version"
         run: echo "Running on ${{ matrix.os }} with Node v${{ matrix.node }}"
