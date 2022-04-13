@@ -45,6 +45,7 @@ jobs:
           restore-keys: |
             server-${{ runner.os }}-npm-cache-
             server-${{ runner.os }}-
+
       - name: "📦 Install [SERVER] dependencies"
         working-directory: ./server
         if: steps.npm_server_cache_id.outputs.cache-hit != 'true'
@@ -52,7 +53,7 @@ jobs:
 
       - name: "⚡ Cache Docker Build"
         uses: actions/cache@v2
-         id: docker_cache_id
+        id: docker_cache_id
         with:
           path: docker-cache-action
           key: ${{ runner.os }}-build-${{ env.CACHE_NAME }}-${{ github.sha }}
@@ -73,7 +74,7 @@ jobs:
         run: |
           docker-compose build
 
-   docker_test:
+  docker_test:
     needs: [docker_build]
     name: Docker Test
     runs-on: ubuntu-latest
@@ -119,7 +120,7 @@ jobs:
 
       - name: "⚡ Cache Docker Build"
         uses: actions/cache@v2
-         id: docker_cache_id
+        id: docker_cache_id
         with:
           path: docker-cache-action
           key: ${{ runner.os }}-build-${{ env.CACHE_NAME }}-${{ github.sha }}
@@ -140,7 +141,7 @@ jobs:
         run: |
           docker-compose build
 
-       - name: "🧱 Start Docker Containers"
+      - name: "🧱 Start Docker Containers"
         run: |
           docker-compose up -d
 
