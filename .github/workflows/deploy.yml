@@ -153,7 +153,7 @@ jobs:
             docker run --env-file ./.env -d -p 5000:5000 ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }}:latest --name ${{ secrets.DOCKERHUB_SERVER_REPO }}
             echo -e "$BLUE Started up latest Server image $NC"
 
-            docker run  -d -p 80:80 ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }}:latest
+            docker run  -d -p 3000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }}:latest
             # docker run --env-file ./.env -d -p 3000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }}:latest --name ${{ secrets.DOCKERHUB_CLIENT_REPO }}
             echo -e "$BLUE Started up latest Server image $NC"
 
