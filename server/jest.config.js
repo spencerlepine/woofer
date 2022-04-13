@@ -1,5 +1,10 @@
 module.exports = {
   collectCoverage: true,
+  coverageThreshold: {
+    global: {
+      lines: 80,
+    },
+  },
   coverageReporters: ["json", "html", "lcov"],
   coveragePathIgnorePatterns: ["/node_modules/", "/*.test.js/"],
   projects: [

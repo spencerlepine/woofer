@@ -3,6 +3,10 @@ name: Node CI
 on:
   workflow_call:
 
+env:
+  SERVER_COVERAGE_OUTPUT: server-test-coverage-${{ github.head_ref }}-${{ github.sha }}
+  CLIENT_COVERAGE_OUTPUT: client-test-coverage-${{ github.head_ref }}-${{ github.sha }}
+
 jobs:
 
   repo_lint:
@@ -85,15 +89,15 @@ jobs:
       - name: "✅  Run tests"
         run: npm test -- --coverage
 
+      - name: "📁 Upload test coverage artifact"
+        - uses: actions/upload-artifact@v3
+          with:
+            name: ${{ env.SERVER_COVERAGE_OUTPUT }}
+            path: coverage/coverage-final.json
+            retention-days: 3
+
       - name: "🏗 Build client"
         run: npm run build --if-present
-
-      - name: "📁 Save Coveralls Test Coverage (Parallel)"
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.github_token }}
-          flag-name: client-test
-          parallel: true
 
   server_ci:
     needs: [repo_lint]
@@ -146,21 +150,50 @@ jobs:
       - name: "✅  Run tests"
         run: npm test -- --coverage
 
-      - name: "📁 Save Coveralls Test Coverage (Parallel)"
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.github_token }}
-          flag-name: server-test
-          parallel: true
+      - name: "📁 Upload test coverage artifact"
+        - uses: actions/upload-artifact@v3
+          with:
+            name: ${{ env.SERVER_COVERAGE_OUTPUT }}
+            path: coverage/coverage-final.json
+            retention-days: 3
 
-  finish:
+  coverage:
     name: Coverage Upload
+    permissions:
+      checks: write
+      pull-requests: write
     needs: [client_ci, server_ci]
     runs-on: ubuntu-latest
 
     steps:
-    - name: "🌪️ Publish to coveralls.io"
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.github_token }}
-        parallel-finished: true
+      - name: " Download the client test coverage report"
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.CLIENT_COVERAGE_OUTPUT }}
+          path: ~/client-coverage/
+
+      - name: " Download the server test coverage report"
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.SERVER_COVERAGE_OUTPUT }}
+          path: ~/server-coverage/
+
+      - name: Display structure of downloaded files
+        run: ls -R
+
+      - name: "🔧 Set up Node"
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: " Merge the coverage reports"
+        run: npx istanbul-merge --out coverage.json ./client-coverage/coverage-final.json ./server-coverage/coverage-final.json
+
+      steps:
+        - uses: ArtiomTr/jest-coverage-report-action@v2
+
+      # - name: "🌪️ Publish to coveralls.io"
+      #   uses: coverallsapp/github-action@master
+      #   with:
+      #     github-token: ${{ secrets.github_token }}
+      #     parallel-finished: true
