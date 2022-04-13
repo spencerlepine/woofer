@@ -9,9 +9,9 @@ on:
         required: true
       DOCKERHUB_PASSWORD:
         required: true
-      DOCKERHUB_REPO_SERVER:
+      DOCKERHUB_CLIENT_REPO:
         required: true
-      DOCKERHUB_REPO_CLIENT:
+      DOCKERHUB_SERVER_REPO:
         required: true
       EC2_REMOTE_HOST:
         required: true
