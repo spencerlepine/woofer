@@ -65,7 +65,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: "Enter ${{ env.working-directory }} folder"
+      - name: "➡️ Enter ${{ env.working-directory }} folder"
         run: cd ${{ env.working-directory }}
 
       - name: "⚡ Cache node modules"
@@ -126,7 +126,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: "Enter ${{ env.working-directory }} folder"
+      - name: "➡️ Enter ${{ env.working-directory }} folder"
         run: cd ${{ env.working-directory }}
 
       - name: "⚡ Cache node modules"
