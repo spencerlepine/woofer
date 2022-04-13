@@ -175,7 +175,7 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: "🔀 Merge the coverage reports"
-        run: npx istanbul-merge --out coverage-final.json ./client-coverage-final.json ./server-coverage-final.json
+        run: npx istanbul-merge --out coverage-final.json ./client-coverage-final.json ./server-coverage-final.json -y
 
       - name: "📜 Display file contents"
         run: echo "$(<coverage-final.json )"
