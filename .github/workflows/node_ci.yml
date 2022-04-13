@@ -1,47 +1,45 @@
 name: Node CI
 
 on:
+  pull_request:
   workflow_call:
-
-env:
-  COVERAGE_THRESHOLD: 60
 
 jobs:
 
-  # repo_lint:
-  #   name: Lint Code
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     fail-fast: false
+  repo_lint:
+    name: Lint Code
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
 
-  #   steps:
-  #     - name: "☁️ Check out Git Repository"
-  #       uses: actions/checkout@v2
+    steps:
+      - name: "☁️ Check out Git Repository"
+        uses: actions/checkout@v2
 
-  #     - name: "🔧 Set up Node"
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: 16
+      - name: "🔧 Set up Node"
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
 
-  #     - name: "⚡ Cache node modules"
-  #       uses: actions/cache@v2
-  #       id: npm_cache_id
-  #       with:
-  #         path: node_modules
-  #         key: lint-${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
-  #         restore-keys: |
-  #           lint-${{ runner.os }}-npm-cache-
-  #           lint-${{ runner.os }}-
+      - name: "⚡ Cache node modules"
+        uses: actions/cache@v2
+        id: npm_cache_id
+        with:
+          path: node_modules
+          key: lint-${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            lint-${{ runner.os }}-npm-cache-
+            lint-${{ runner.os }}-
 
-  #     - name: "📦 Install linter dependencies"
-  #       if: steps.npm_cache_id.outputs.cache-hit != 'true'
-  #       run: npm install
+      - name: "📦 Install linter dependencies"
+        if: steps.npm_cache_id.outputs.cache-hit != 'true'
+        run: npm install
 
-  #     - name: "🧽 Lint all files"
-  #       run: npm run lint --if-present
+      - name: "🧽 Lint all files"
+        run: npm run lint --if-present
 
   client_ci:
-    # needs: [repo_lint]
+    needs: [repo_lint]
     runs-on: ${{ matrix.os }}
     env:
       working-directory: ./client
@@ -106,7 +104,7 @@ jobs:
         run: npm run build --if-present
 
   server_ci:
-    # needs: [repo_lint]
+    needs: [repo_lint]
     runs-on: ${{ matrix.os }}
     env:
       working-directory: ./server
@@ -183,7 +181,6 @@ jobs:
 
       - name: "📜 Copy the client coverage file"
         run: |
-          echo "$(<coverage-final.json )"
           mv coverage-final.json client-coverage-final.json
 
       - name: "⬇️ Download the server test coverage report"
@@ -193,7 +190,6 @@ jobs:
 
       - name: "📜 Copy the server coverage file"
         run: |
-          echo "$(<coverage-final.json )"
           mv coverage-final.json server-coverage-final.json
 
       - name: "🔧 Set up Node"
@@ -203,13 +199,6 @@ jobs:
 
       - name: "🔀 Merge the coverage reports"
         run: npx istanbul-merge --out coverage-final.json ./client-coverage-final.json ./server-coverage-final.json
-
-      - name: "📜 Display file contents"
-        run: echo "$(<coverage-final.json )"
-
-      - name: "📜 Create jest.config.js with threshold"
-        run: |
-          echo "module.exports = { coverageThreshold: { global: { lines: ${{ env.COVERAGE_THRESHOLD }} }  } }" > jest.config.js
 
       - name: "⬆️ Comment test coverage report"
         uses: AthleticNet/comment-test-coverage@1.1
@@ -229,9 +218,8 @@ jobs:
         with:
           name: client-coverage-lcov
 
-      - name: "📜 Copy the client coverage file"
+      - name: "📜 Copy the client lcov coverage file"
         run: |
-          echo "$(<lcov.info )"
           mv lcov.info client-report.lcov
 
       - name: "⬇️ Download the server test coverage lcov report"
@@ -239,9 +227,8 @@ jobs:
         with:
           name: server-coverage-lcov
 
-      - name: "📜 Copy the server coverage file"
+      - name: "📜 Copy the server lcov coverage file"
         run: |
-          echo "$(<lcov.info )"
           mv lcov.info server-report.lcov
 
       - name: "🔧 Set up Node"
@@ -254,9 +241,6 @@ jobs:
 
       - name: "🔀 Merge the coverage reports"
         run:  ./node_modules/.bin/lcov-result-merger '*-report.lcov' 'lcov.info'
-
-      - name: "📜 Display file contents"
-        run: echo "$(<lcov.info )"
 
       - name: "🌪️ Publish to coveralls.io"
         uses: coverallsapp/github-action@master
