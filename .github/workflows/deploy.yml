@@ -76,6 +76,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+      - name: 🔧 Create .env file
+        run: |
+          echo ${{ secrets.ENV_PRODUCTION }} > .env
+          cp .env ./client/.env
+
       - name: 🐳 DockerHub Publish
         run:
           docker-compose build
