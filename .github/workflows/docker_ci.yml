@@ -56,10 +56,6 @@ jobs:
           cp .env ./client/.env
           docker-compose up --build -d
 
-      - name: "🧪 Running on localhost"
-        run: |
-          curl http://localhost:3000
-
       - name: "⚡ Cache (testing) node modules"
         uses: actions/cache@v2
         id: npm_cache_id
