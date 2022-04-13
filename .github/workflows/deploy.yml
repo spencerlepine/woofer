@@ -72,7 +72,7 @@ jobs:
           DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO_SERVER }}
         with:
           context: ${{ env.working-directory }}
-          file: ./Dockerfile
+          file: Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ env.DOCKERHUB_REPO }}:latest
@@ -129,7 +129,7 @@ jobs:
           DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO_CLIENT }}
         with:
           context: ${{ env.working-directory }}
-          file: ./Dockerfile
+          file: Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ env.DOCKERHUB_REPO }}:latest
