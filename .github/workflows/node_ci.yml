@@ -87,7 +87,7 @@ jobs:
         run: npm install
 
       - name: "✅  Run tests"
-        run: npm test -- --coverage
+        run: npm run test -- --coverage
 
       - name: "📁 Upload test coverage artifact"
         uses: actions/upload-artifact@v3
@@ -148,7 +148,7 @@ jobs:
         run: npm install
 
       - name: "✅  Run tests"
-        run: npm test -- --coverage
+        run: npm run test -- --coverage
 
       - name: "📁 Upload test coverage artifact"
         uses: actions/upload-artifact@v3
