@@ -150,7 +150,6 @@ jobs:
         run: npm run test -- --coverage
 
       - name: "📁 Upload test coverage artifact"
-        working-directory: ${{ env.working-directory }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.SERVER_COVERAGE_OUTPUT }}
