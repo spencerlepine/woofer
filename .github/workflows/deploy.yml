@@ -45,7 +45,7 @@ jobs:
         id: npm_client_cache_id
         with:
           path: ./client/node_modules
-          key: client-${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+          key: client-${{ runner.os }}-npm-cache-${{ hashFiles('./client/package-lock.json') }}
           restore-keys: |
             client-${{ runner.os }}-npm-cache-
             client-${{ runner.os }}-
@@ -60,7 +60,7 @@ jobs:
         id: npm_server_cache_id
         with:
           path: ./server/node_modules
-          key: server-${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+          key: server-${{ runner.os }}-npm-cache-${{ hashFiles('./server/package-lock.json') }}
           restore-keys: |
             server-${{ runner.os }}-npm-cache-
             server-${{ runner.os }}-
