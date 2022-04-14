@@ -60,3 +60,7 @@ jobs:
       - name: "✅ Run End-to-end tests"
         working-directory: ./__tests__
         run: npm test --if-present
+
+      - name: "🐳 DockerHub Publish"
+          run: |
+            docker-compose push

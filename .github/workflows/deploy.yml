@@ -22,68 +22,9 @@ on:
       EC2_PASSPHRASE:
         required: true
 
-env:
-  CACHE_NAME: docker-image-cache
-
 jobs:
 
-  docker_publish:
-    name: 🐳 DockerHub Publish
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: "☁️ Check out Git Repository"
-        uses: actions/checkout@v2
-
-      - name: "🔧 Set up Node"
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
-
-      - uses: actions/cache@v3
-        id: modules-cache
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
-
-      - name: "📦 Install dependencies"
-        if: steps.modules-cache.outputs.cache-hit != 'true'
-        run: npm install
-
-      - name: "🔒 Login to DockerHub"
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-
-      # - name: "⚡ Cache Docker Build"
-      #   uses: actions/cache@v3
-      #   id: docker_cache_id
-      #   with:
-      #     path: docker-cache-action
-      #     key: docker-${{ runner.os }}-build-${{ env.CACHE_NAME }}-${{ github.sha }}
-      #     restore-keys: |
-      #       docker-${{ runner.os }}-build-${{ env.CACHE_NAME }}-${{ github.sha }}
-
-      - name: 🔧 Create .env file
-        run: |
-          rm -f .env
-          echo ${{ secrets.ENV_PRODUCTION }} > .env
-          cp .env ./client/.env
-
-      - name: "🏗 Build w/ Docker Compose"
-        # if: steps.docker_cache_id.outputs.cache-hit != 'true'
-        run: |
-          docker-compose build
-
-      - name: "🐳 DockerHub Publish"
-        run: |
-          docker-compose push
-
   deploy_ec2:
-    needs: [docker_publish]
     name: 🚀 EC2 Depoyment
     runs-on: ubuntu-latest
 
