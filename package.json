@@ -8,7 +8,7 @@
     "dev:server": "cd server && npm run dev:server",
     "build": "cd client && npm run build",
     "lint": "eslint . --ext .js",
-    "prepare": "cd client && npm i && cd ../server && npm i"
+    "prepare": "cd client && npm i && cd ../server && npm i && cd ../__tests__ && npm i"
   },
   "repository": {
     "type": "git",
