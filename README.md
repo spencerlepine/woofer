@@ -1,8 +1,8 @@
-# Woofer &middot; [![CI](https://github.com/spencerlepine/woofer/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/spencerlepine/woofer/actions/workflows/main.yml) [![Coverage Status](https://coveralls.io/repos/github/spencerlepine/woofer/badge.svg?branch=main)](https://coveralls.io/github/spencerlepine/woofer?branch=main)
+# Woofer &middot; [![CI/CD](https://github.com/spencerlepine/woofer/actions/workflows/production.yml/badge.svg?branch=main)](https://github.com/spencerlepine/woofer/actions/workflows/production.yml) [![Coverage Status](https://coveralls.io/repos/github/spencerlepine/woofer/badge.svg?branch=main)](https://coveralls.io/github/spencerlepine/woofer?branch=main) [![CodeQL](https://github.com/spencerlepine/woofer/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/spencerlepine/woofer/actions/workflows/codeql-analysis.yml)
 
 Dating app for dogs. Customize a dating profile, update preferences, and match/chat with nearby users.
 
-[![Demo GIF](./resources/images/demo.gif)](https://woofer-demo.herokuapp.com/)
+[![Demo GIF](./resources/assets/demo.gif)](TODO)
 
 # 🎯 Overview
 
@@ -12,9 +12,17 @@ Dating app for dogs. Customize a dating profile, update preferences, and match/c
 - Integrated CI/CD pipeline with Git, Jest, GitHub Actions, Docker, and AWS EC2.
 - Developed with a ticket system and feature branches, while following schemas and UI designs.
 
+# 🏗️ Application Architecture
+
+![Deployment Architecture](./resources/assets/Project_Deployment.png)
+
+# 🤖 CI/CD Pipeline
+
+![CI/CD Pipeline Diagram](./resources/assets/CI_CD_PIPELINE.png)
+
 # 🌟 Features
 
-See the [Whitepaper](./WOOFER_WHITEPAPER.pdf).
+See the [Whitepaper](./resources/WOOFER_WHITEPAPER.pdf).
 
 # 📦 Technologies:
 
@@ -24,21 +32,20 @@ See the [Whitepaper](./WOOFER_WHITEPAPER.pdf).
 
 **Testing:** [Jest](https://jestjs.io/) , [supertest](https://github.com/visionmedia/supertest), [Testing Library](https://testing-library.com/docs/react-testing-library/intro/), [Puppeteer](https://pptr.dev/), [Coveralls.io](https://coveralls.io/)
 
-**CI/CD:** [Docker](https://docs.docker.com/), [GitHub Actions](https://docs.github.com/en/actions), [AWS EC2](https://aws.amazon.com/ec2/)
+**CI/CD:** [Docker](https://docs.docker.com/), [GitHub Actions](https://docs.github.com/en/actions), [DockerHub](https://hub.docker.com/), [AWS EC2](https://aws.amazon.com/ec2/)
 
-**Modules:** [Firebase](https://firebase.google.com/) (Authentication), [Joi](https://github.com/sideway/joi) (Input verification), [Socket.io](https://socket.io/) (Chat API)
+**Modules:** [Firebase](https://firebase.google.com/) (Authentication), [Socket.io](https://socket.io/) (Chat API)
 
-# ⚙️ Setup:
+# ⚙️ Development Setup:
 
 > ### Prerequisites
-
+>
 > - [.env](./.env.sample) file (see [`.env.sample`](./.env.sample))
-> - [Firebase](https://firebase.google.com/) project
+> - [Firebase](https://firebase.google.com/) Project
 > - [MongoDB Atlas](https://www.mongodb.com/atlas/database) Database
 
 ```sh
-cp .env.sample .env
-cp .env ./client/.env
+cp .env.sample .env && cp .env ./client/.env
 npm install
 ```
 
@@ -51,33 +58,28 @@ npm run dev:server
 npm run dev:client
 ```
 
-# 🐳 Deploy with Docker
+# 🐳 Run with Docker
 
 > ### Prerequisites
-
-> - [Docker](https://www.docker.com/) installed locally
-> - AWS [EC2](https://aws.amazon.com/ec2/) instance running (see [EC2 > Setup Walkthrough](./resources/EC2_SETUP_WALKTHROUGH.md))
-> - Update the **GitHub Repository Secrets** (see [EXAMPLE_SECRETS](./resources/EXAMPLE_SECRETS.md))
+>
+> - [Docker](https://www.docker.com/) (installed locally)
+> - [DockerHub](https://hub.docker.com/) Account
+> - AWS [EC2](https://aws.amazon.com/ec2/) Instance (see [EC2 Setup Walkthrough](./resources/EC2_SETUP_WALKTHROUGH.md))
+> - Updated **GitHub Repository Secrets** (see [EXAMPLE_SECRETS](./resources/REPOSITORY_SECRETS.md))
 
 ```sh
-cp .env.sample .env
-cp .env ./client/.env
-git clone https://github.com/spencerlepine/woofer.git
+cp .env.sample .env && cp .env ./client/.env
 docker-compose up --build
-# visit http://localhost
+# visit http://localhost:3000
 ```
 
 # 🌐API Schema
 
 See [Endpoint Schema](./resources/WOOFER_API.md).
 
-# 🏗️ Application Architecture
+# 🗄 Database Design
 
-![Deployment Architecture](./resources/images/Project_Deployment.png)
-
-# 🗄Database Design
-
-![Database Design](./resources/images/Database_Design.png)
+![Database Design](./resources/assets/Database_Design.png)
 
 # 🗃️ Ticket System
 
