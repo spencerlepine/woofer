@@ -2,13 +2,13 @@ name: Docker CI
 
 on:
   workflow_call:
-  secrets:
-    ENV_PRODUCTION:
-      required: true
-    DOCKERHUB_USERNAME:
-      required: true
-    DOCKERHUB_PASSWORD:
-      required: true
+    secrets:
+      ENV_PRODUCTION:
+        required: true
+      DOCKERHUB_USERNAME:
+        required: true
+      DOCKERHUB_PASSWORD:
+        required: true
 
 jobs:
 
