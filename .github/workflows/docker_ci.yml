@@ -24,8 +24,9 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
 
       - uses: actions/cache@v2
-        with: path: '**/node_modules'
-        key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: "📦 Install dependencies"
         run: npm install
@@ -67,8 +68,9 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
 
       - uses: actions/cache@v2
-        with: path: '**/node_modules'
-        key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: "📦 Install dependencies"
         run: npm install
