@@ -22,13 +22,16 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
+        id: modules-cache
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: "📦 Install dependencies"
+        if: steps.modules-cache.outputs.cache-hit != 'true'
         run: npm install
+
       - name: "🧽 Lint all files"
         run: npm run lint --if-present
 
@@ -62,12 +65,14 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
+        id: modules-cache
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: "📦 Install dependencies"
+        if: steps.modules-cache.outputs.cache-hit != 'true'
         run: npm install
 
       - name: "✅  Run tests"
@@ -115,12 +120,14 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
+        id: modules-cache
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: "📦 Install dependencies"
+        if: steps.modules-cache.outputs.cache-hit != 'true'
         run: npm install
 
       - name: "🏗 Build client"
@@ -158,12 +165,14 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
+        id: modules-cache
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: "📦 Install dependencies"
+        if: steps.modules-cache.outputs.cache-hit != 'true'
         run: npm install
 
       - name: "✅  Run tests"

@@ -23,16 +23,18 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
+        id: modules-cache
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: "📦 Install dependencies"
+        if: steps.modules-cache.outputs.cache-hit != 'true'
         run: npm install
 
       # - name: "⚡ Cache Docker Build"
-      #   uses: actions/cache@v2
+      #   uses: actions/cache@v3
       #   id: docker_cache_id
       #   with:
       #     path: docker-cache-action
@@ -67,16 +69,18 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
+        id: modules-cache
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: "📦 Install dependencies"
+        if: steps.modules-cache.outputs.cache-hit != 'true'
         run: npm install
 
       # - name: "⚡ Cache Docker Build"
-      #   uses: actions/cache@v2
+      #   uses: actions/cache@v3
       #   id: docker_cache_id
       #   with:
       #     path: docker-cache-action
