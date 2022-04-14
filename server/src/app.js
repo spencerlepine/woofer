@@ -48,6 +48,8 @@ app.use(cors())
 //   next()
 // })
 
+app.use(authLimiter)
+
 const CLIENT_FRONTEND = express.static("client/build")
 app.use(CLIENT_FRONTEND)
 app.use("/static", express.static(path.join(__dirname, "../../client/public")))

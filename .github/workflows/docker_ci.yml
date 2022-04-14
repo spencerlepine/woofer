@@ -2,76 +2,75 @@ name: Docker CI
 
 on:
   workflow_call:
+    secrets:
+      ENV_PRODUCTION:
+        required: true
+      DOCKERHUB_USERNAME:
+        required: true
+      DOCKERHUB_PASSWORD:
+        required: true
 
 jobs:
 
-  docker-build:
-    name: Docker CI
+  docker_build:
+    name: Docker Build
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./__tests__
 
     steps:
       - name: "☁️ Check out Git Repository"
         uses: actions/checkout@v2
 
       - name: "🔧 Set up Node"
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: 16
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
 
-      - name: "⚡ Cache [CLIENT] node modules"
-        uses: actions/cache@v2
-        id: npm_client_cache_id
+      - uses: actions/cache@v3
+        id: modules-cache
         with:
-          path: ./client/node_modules
-          key: client-${{ runner.os }}-npm-cache-${{ hashFiles('./client/package-lock.json') }}
-          restore-keys: |
-            client-${{ runner.os }}-npm-cache-
-            client-${{ runner.os }}-
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
-      - name: "📦 Install [CLIENT] dependencies"
-        working-directory: ./client
-        if: steps.npm_client_cache_id.outputs.cache-hit != 'true'
+      - name: "📦 Install dependencies"
+        if: steps.modules-cache.outputs.cache-hit != 'true'
         run: npm install
 
-      - name: "⚡ Cache [SERVER] node modules"
-        uses: actions/cache@v2
-        id: npm_server_cache_id
-        with:
-          path: ./server/node_modules
-          key: server-${{ runner.os }}-npm-cache-${{ hashFiles('./server/package-lock.json') }}
-          restore-keys: |
-            server-${{ runner.os }}-npm-cache-
-            server-${{ runner.os }}-
+      # - name: "⚡ Cache Docker Build"
+      #   uses: actions/cache@v3
+      #   id: docker_cache_id
+      #   with:
+      #     path: docker-cache-action
+      #     key: docker-${{ runner.os }}-build-${{ env.CACHE_NAME }}-${{ github.sha }}
+      #     restore-keys: |
+      #       docker-${{ runner.os }}-build-${{ env.CACHE_NAME }}-${{ github.sha }}
 
-      - name: "📦 Install [SERVER] dependencies"
-        working-directory: ./server
-        if: steps.npm_server_cache_id.outputs.cache-hit != 'true'
-        run: npm install
+      - name: "🔧 Create .env file"
+        run: |
+          rm -f .env
+          echo ${{ secrets.ENV_PRODUCTION }} > .env
+          cp .env ./client/.env
 
       - name: "🏗 Build w/ Docker Compose"
+        # if: steps.docker_cache_id.outputs.cache-hit != 'true'
         run: |
-          cp .env.sample .env
-          cp .env ./client/.env
-          docker-compose up --build -d
+          docker-compose build
 
-      - name: "⚡ Cache (testing) node modules"
-        uses: actions/cache@v2
-        id: npm_cache_id
-        with:
-          path: ./__tests__/node_modules
-          key: test-${{ runner.os }}-npm-cache-${{ hashFiles('__tests__/package-lock.json') }}
-          restore-keys: |
-            test-${{ runner.os }}-npm-cache-
-            test-${{ runner.os }}-
-
-      - name: "📦 Install testing dependencies"
-        working-directory: ./__tests__
-        if: steps.npm_cache_id.outputs.cache-hit != 'true'
-        run: npm install
+      - name: "🧱 Start Docker Containers"
+        run: |
+          docker-compose up -d
 
       - name: "✅ Run End-to-end tests"
         working-directory: ./__tests__
         run: npm test --if-present
 
+      - name: "🔒 Login to DockerHub"
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: "🐳 DockerHub Publish"
+        run: |
+          docker-compose push
