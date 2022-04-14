@@ -11,15 +11,14 @@ jobs:
   # node_ci:
     # uses: ./.github/workflows/node_ci.yml
 
-  docker_ci:
-    uses: ./.github/workflows/docker_ci.yml
-    secrets:
-      ENV_PRODUCTION: ${{ secrets.ENV_PRODUCTION }}
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-      DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+  # docker_ci:
+  #   uses: ./.github/workflows/docker_ci.yml
+  #   secrets:
+  #     ENV_PRODUCTION: ${{ secrets.ENV_PRODUCTION }}
+  #     DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  #     DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
 
   deploy:
-    needs: [docker_ci]
     # needs: [node_ci, docker_ci]
     uses: ./.github/workflows/deploy.yml
     secrets:

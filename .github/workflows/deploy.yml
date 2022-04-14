@@ -67,6 +67,7 @@ jobs:
             # ls -a
             echo -e "$GREEN Created the production .env file $NC"
 
+            docker kill $(docker ps -q)
             docker system prune -a --volumes -f
             echo -e "$RED Removed existing Docker containers $NC"
 
