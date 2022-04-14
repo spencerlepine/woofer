@@ -2,10 +2,13 @@ name: Docker CI
 
 on:
   workflow_call:
-    secrets:
-      ENV_PRODUCTION: ${{ secrets.ENV_PRODUCTION }}
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-      DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+  secrets:
+    ENV_PRODUCTION:
+      required: true
+    DOCKERHUB_USERNAME:
+      required: true
+    DOCKERHUB_PASSWORD:
+      required: true
 
 jobs:
 
