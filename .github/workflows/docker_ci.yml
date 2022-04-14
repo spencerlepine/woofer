@@ -62,5 +62,5 @@ jobs:
         run: npm test --if-present
 
       - name: "🐳 DockerHub Publish"
-          run: |
-            docker-compose push
+        run: |
+          docker-compose push
