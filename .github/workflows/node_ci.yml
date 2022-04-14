@@ -193,45 +193,45 @@ jobs:
           path: ${{ env.working-directory }}/coverage/lcov.info
           retention-days: 3
 
-  coverage_comment:
-    name: Coverage Upload
-    permissions:
-      checks: write
-      pull-requests: write
-    needs: [client_test, server_test]
-    runs-on: ubuntu-latest
+  # coverage_comment:
+  #   name: Coverage Upload
+  #   permissions:
+  #     checks: write
+  #     pull-requests: write
+  #   needs: [client_test, server_test]
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: "⬇️ Download the client test coverage report"
-        uses: actions/download-artifact@v3
-        with:
-          name: client-coverage
+  #   steps:
+  #     - name: "⬇️ Download the client test coverage report"
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: client-coverage
 
-      - name: "📜 Copy the client coverage file"
-        run: |
-          mv coverage-final.json client-coverage-final.json
-      - name: "⬇️ Download the server test coverage report"
-        uses: actions/download-artifact@v3
-        with:
-          name: server-coverage
+  #     - name: "📜 Copy the client coverage file"
+  #       run: |
+  #         mv coverage-final.json client-coverage-final.json
+  #     - name: "⬇️ Download the server test coverage report"
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: server-coverage
 
-      - name: "📜 Copy the server coverage file"
-        run: |
-          mv coverage-final.json server-coverage-final.json
-      - name: "🔧 Set up Node"
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node }}
+  #     - name: "📜 Copy the server coverage file"
+  #       run: |
+  #         mv coverage-final.json server-coverage-final.json
+  #     - name: "🔧 Set up Node"
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: ${{ matrix.node }}
 
-      - name: "🔀 Merge the coverage reports"
-        run: npx istanbul-merge --out coverage-final.json ./client-coverage-final.json ./server-coverage-final.json
+  #     - name: "🔀 Merge the coverage reports"
+  #       run: npx istanbul-merge --out coverage-final.json ./client-coverage-final.json ./server-coverage-final.json
 
-      - name: "⬆️ Comment test coverage report"
-        uses: AthleticNet/comment-test-coverage@1.1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          path: ./coverage-final.json
-          title: Woofer Test Coverage
+  #     - name: "⬆️ Comment test coverage report"
+  #       uses: AthleticNet/comment-test-coverage@1.1
+  #       with:
+  #         token: ${{ secrets.GITHUB_TOKEN }}
+  #         path: ./coverage-final.json
+  #         title: Woofer Test Coverage
 
   coverage_upload:
     name: Coverage Coveralls.io Upload
