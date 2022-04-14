@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: "🔧 Set up Node"
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: 16
           cache: 'npm'
@@ -52,7 +52,7 @@ jobs:
           mv .env.sample ${{ env.working-directory }}/.env
 
       - name: "🔧 Set up Node"
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           cache: 'npm'
@@ -100,7 +100,7 @@ jobs:
           mv .env.sample ${{ env.working-directory }}/.env
 
       - name: "🔧 Set up Node"
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           cache: 'npm'
@@ -138,7 +138,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: "🔧 Set up Node"
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           cache: 'npm'
@@ -191,7 +191,7 @@ jobs:
         run: |
           mv coverage-final.json server-coverage-final.json
       - name: "🔧 Set up Node"
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
 
@@ -228,7 +228,7 @@ jobs:
         run: |
           mv lcov.info server-report.lcov
       - name: "🔧 Set up Node"
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
 
