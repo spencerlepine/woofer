@@ -74,13 +74,13 @@ jobs:
           echo ${{ secrets.ENV_PRODUCTION }} > .env
           cp .env ./${{ env.working-directory }}/.env
 
-    - name: "🔒 Login to DockerHub"
+      - name: "🔒 Login to DockerHub"
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-     - name: "🐋 Publish to DockerHub Registry"
+      - name: "🐋 Publish to DockerHub Registry"
         uses: docker/build-push-action@v2
         env:
           DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }}
