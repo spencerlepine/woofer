@@ -15,7 +15,200 @@ jobs:
     name: Docker CI
     uses: ./.github/workflows/docker_ci.yml
 
-  continuous_delivery:
-    name: CD
+  build_docker_client:
     needs: [node_ci, docker_ci]
-    uses: ./.github/workflows/deploy.yml
+    name: "🐳 Build/Publish Docker (CLIENT) Image"
+    environment: production
+    runs-on: ubuntu-latest
+    env:
+     working-directory: client
+
+    steps:
+      - name: "☁️ Check out Git Repository"
+        uses: actions/checkout@v2
+
+      - name: "🔧 Set up Node"
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
+      - name: "⚡ Cache dependencies"
+        uses: actions/cache@v3
+        id: modules-cache
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+
+      - name: "📦 Install dependencies"
+        if: steps.modules-cache.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache-${{ env.working-directory }}
+          key: ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: "🔧 Create .env file"
+        run: |
+          rm -f .env
+          echo ${{ secrets.ENV_PRODUCTION }} > .env
+          cp .env ./${{ env.working-directory }}/.env
+
+      - name: "🔒 Login to DockerHub"
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: "🐋 Publish to DockerHub Registry"
+        uses: docker/build-push-action@v2
+        env:
+          DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }}
+        with:
+          context: ./${{ env.working-directory }}
+          file: Dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags: ${{ env.DOCKERHUB_REPO }}:latest
+          cache-from: type=local,src=/tmp/.buildx-cache-${{ env.working-directory }}
+          cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
+
+  build_docker_server:
+    needs: [node_ci, docker_ci]
+    name: "🐳 Build/Publish Docker (SERVER) Image"
+    environment: production
+    runs-on: ubuntu-latest
+    env:
+     working-directory: server
+
+    steps:
+      - name: "☁️ Check out Git Repository"
+        uses: actions/checkout@v2
+
+      - name: "🔧 Set up Node"
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
+      - name: "⚡ Cache dependencies"
+        uses: actions/cache@v3
+        id: modules-cache
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+
+      - name: "📦 Install dependencies"
+        if: steps.modules-cache.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      # So now you can use Actions' own caching!
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache-${{ env.working-directory }}
+          key: ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: "🔧 Create .env file"
+        run: |
+          rm -f .env
+          echo ${{ secrets.ENV_PRODUCTION }} > .env
+          cp .env ./${{ env.working-directory }}/.env
+
+      - name: "🔒 Login to DockerHub"
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: "🐋 Publish to DockerHub Registry"
+        uses: docker/build-push-action@v2
+        env:
+          DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }}
+        with:
+          context: ./${{ env.working-directory }}
+          file: Dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags: ${{ env.DOCKERHUB_REPO }}:latest
+          cache-from: type=local,src=/tmp/.buildx-cache-${{ env.working-directory }}
+          cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
+
+  deploy_ec2:
+    needs: [build_docker_server, build_docker_client]
+    name: 🚀 EC2 Depoyment
+    environment: production
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "🧪 Test EC2 SSH Connection"
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_REMOTE_HOST }}
+          username: ${{ secrets.EC2_REMOTE_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          passphrase: ${{ secrets.EC2_PASSPHRASE }}
+          port: 22
+          script_stop: true
+          script: |
+            GREEN='\033[0;32m'
+            NC='\033[0m' # No Color
+            echo -e "$GREEN Connected to the EC2 Instance! $NC"
+            exit 0
+      - name: "🐳 Deploy Docker Containers"
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_REMOTE_HOST }}
+          username: ${{ secrets.EC2_REMOTE_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          passphrase: ${{ secrets.EC2_PASSPHRASE }}
+          port: 22
+          script_stop: true
+          script: |
+            RED='\033[0;31'
+            BLUE='\033[34m'
+            GREEN='\033[0;32m'
+            NC='\033[0m' # No Color
+            echo -e "$BLUE Starting EC2 deployment script $NC"
+            sudo service docker stop
+            rm -f .env
+            echo "${{ secrets.ENV_PRODUCTION }}" > .env
+            # ls -a
+            echo -e "$GREEN Created the production .env file $NC"
+            docker kill $(docker ps -q) || true
+            docker system prune -a --volumes -f
+            echo -e "$RED Removed existing Docker containers $NC"
+            sudo service docker start
+            echo -e "$BLUE Authenticating Docker $NC"
+            docker login -u="${{ secrets.DOCKERHUB_USERNAME }}" -p="${{ secrets.DOCKERHUB_PASSWORD }}"
+            docker run --env-file ./.env -d -p 5000:5000 ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }}:latest
+            echo -e "$BLUE Started up latest Server image $NC"
+            docker run --env-file ./.env -d -p 3000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }}:latest
+            echo -e "$BLUE Started up latest Server image $NC"
+            sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
+            echo -e "$GREEN EC2 deployment complete! $NC"
