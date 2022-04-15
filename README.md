@@ -1,8 +1,8 @@
-# Woofer &middot; [![CI/CD](https://github.com/spencerlepine/woofer/actions/workflows/production.yml/badge.svg?branch=main)](https://github.com/spencerlepine/woofer/actions/workflows/production.yml) [![Coverage Status](https://coveralls.io/repos/github/spencerlepine/woofer/badge.svg?branch=main)](https://coveralls.io/github/spencerlepine/woofer?branch=main) [![CodeQL](https://github.com/spencerlepine/woofer/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/spencerlepine/woofer/actions/workflows/codeql-analysis.yml)
+# Woofer &middot; ![CI/CD](https://github.com/spencerlepine/woofer/actions/workflows/production.yml/badge.svg?branch=main&event=push)](https://github.com/spencerlepine/woofer/actions/workflows/production.yml) [![codecov](https://codecov.io/gh/spencerlepine/woofer/branch/main/graph/badge.svg?token=FF54XVIFGP)](https://codecov.io/gh/spencerlepine/woofer) [![Code Analysis](https://github.com/spencerlepine/woofer/actions/workflows/code_analysis.yml/badge.svg?branch=main&event=push)](https://github.com/spencerlepine/woofer/actions/workflows/code_analysis.yml)
 
-Dating app for dogs. Customize a dating profile, update preferences, and match/chat with nearby users.
+Dating app for dogs. Customize a dating profile, update preferences, and match/chat with nearby users. View the [DEMO](https://ec2-18-237-220-78.us-west-2.compute.amazonaws.com)
 
-[![Demo GIF](./resources/assets/demo.gif)](TODO)
+[![Demo GIF](./resources/assets/demo.gif)](https://ec2-18-237-220-78.us-west-2.compute.amazonaws.com)
 
 # 🎯 Overview
 
@@ -84,6 +84,8 @@ See [Endpoint Schema](./resources/WOOFER_API.md).
 # 🗃️ Ticket System
 
 - Project Tickets: [Trello Board](https://trello.com/b/tYtdHAT5/woofer-project)
+
+![Trello Tickets Screenshot](./resources/assets/Trello_Board_Tickets.png)
 
 # 🚀 Contributors
 
