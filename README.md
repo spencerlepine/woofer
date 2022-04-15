@@ -85,6 +85,8 @@ See [Endpoint Schema](./resources/WOOFER_API.md).
 
 - Project Tickets: [Trello Board](https://trello.com/b/tYtdHAT5/woofer-project)
 
+![Trello Tickets Screenshot](./resources/assets/Trello_Board_Tickets.png)
+
 # 🚀 Contributors
 
 - [Spencer Lepine](https://github.com/spencerlepine)
