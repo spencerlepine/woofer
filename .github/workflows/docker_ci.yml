@@ -60,7 +60,7 @@ jobs:
         run: docker tag ${{ env.working-directory }} localhost:5000/${{ env.working-directory }} && docker push localhost:5000/${{ env.working-directory }} || true
 
 
-  build_docker_client:
+  build_docker_server:
     name: "🐳 Build/Publish Docker (SERVER) Image"
     runs-on: ubuntu-latest
     env:
