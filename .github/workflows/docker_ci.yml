@@ -117,7 +117,6 @@ jobs:
         run: docker tag ${{ env.working-directory }} localhost:5000/${{ env.working-directory }} && docker push localhost:5000/${{ env.working-directory }} || true
 
   test_docker:
-    needs: [build_docker_client, build_docker_server]
     name: "🐳 Test Docker Image Builds"
     runs-on: ubuntu-latest
 
@@ -150,48 +149,57 @@ jobs:
           cp .env ./client/.env
           cp .env ./server/.env
 
-      - name: "⚡ Cache/Build Docker Client layers"
-        id: docker-cache-client
-        uses: actions/cache@v2
-        with:
-          path: /tmp/docker-registry-client
-          key: client-${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            docker-registry-no-buildkit-client-${{ github.sha }}
+      # - name: "⚡ Cache/Build Docker Client layers"
+      #   id: docker-cache-client
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: /tmp/docker-registry-client
+      #     key: client-${{ runner.os }}-buildx-${{ github.sha }}
+      #     restore-keys: |
+      #       docker-registry-no-buildkit-client-${{ github.sha }}
 
-      - name: "🧪 Run local Docker registry"
-        run: docker run -d -p 5000:5000 --restart=always --name registry -v /tmp/docker-registry:/var/lib/registry registry:2 && npx wait-on tcp:5000
+      # - name: "🧪 Run local Docker registry"
+      #   run: docker run -d -p 5000:5000 --restart=always --name registry -v /tmp/docker-registry:/var/lib/registry registry:2 && npx wait-on tcp:5000
 
-      - name: "🏗 Build Docker Client image"
-        if: steps.docker-cache-client.outputs.cache-hit != 'true'
-        working-directory: ./client
-        run: docker build . -t client --cache-from=localhost:5000/client --build-arg BUILDKIT_INLINE_CACHE=1
+      # - name: "🏗 Build Docker Client image"
+      #   # if: steps.docker-cache-client.outputs.cache-hit != 'true'
+      #   working-directory: ./client
+      #   # run: docker build . -t client --cache-from=localhost:5000/client --build-arg BUILDKIT_INLINE_CACHE=1
+      #   run: docker build . -t client
 
-      - name: "🏷️ Tag Docker Client image"
-        run: docker tag client localhost:5000/client
+      # - name: "🏷️ Tag Docker Client image"
+      #   run: docker tag client localhost:5000/client
 
-      - name: "📦 Cache/Build Docker Server layers"
-        id: docker-cache-server
-        uses: actions/cache@v2
-        with:
-          path: /tmp/docker-registry-server
-          key: server-${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            docker-registry-no-buildkit-server-${{ github.sha }}
+      # - name: "📦 Cache/Build Docker Server layers"
+      #   id: docker-cache-server
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: /tmp/docker-registry-server
+      #     key: server-${{ runner.os }}-buildx-${{ github.sha }}
+      #     restore-keys: |
+      #       docker-registry-no-buildkit-server-${{ github.sha }}
 
-      - name: "🏗 Build Docker Server image"
-        if: steps.docker-cache-server.outputs.cache-hit != 'true'
-        working-directory: ./server
-        run: docker build . -t server --cache-from=localhost:5000/server --build-arg BUILDKIT_INLINE_CACHE=1
+      # - name: "🏗 Build Docker Server image"
+      #   # if: steps.docker-cache-server.outputs.cache-hit != 'true'
+      #   working-directory: ./server
+      #   run: docker build . -t server --cache-from=localhost:5000/server --build-arg BUILDKIT_INLINE_CACHE=1
 
-      - name: "🏷️ Tag Docker Server image"
-        run: docker tag localhost:5000/server && docker push localhost:5000/server || true
+      # - name: "🏷️ Tag Docker Server image"
+      #   run: docker tag localhost:5000/server && docker push localhost:5000/server || true
 
-      - name: "🚀 Run Server Docker Container"
-        run: docker run --env-file ./.env -d -p 5000:5000 localhost:5000/server:latest
+      # - name: "🚀 Run Server Docker Container"
+      #   run: docker run --env-file ./.env -d -p 5000:5000 docker-server:latest
 
-      - name: "🚀 Run Client Docker Container"
-        run: docker run --env-file ./.env -d -p 3000:3000 localhost:5000/client:latest
+      # - name: "🚀 Run Client Docker Container"
+      #   run: docker run --env-file ./.env -d -p 3000:3000  docker-client/client:latest
+
+      - name: "🏗 Build w/ Docker Compose"
+        run: |
+          docker-compose build
+
+      - name: "🧱 Start Docker Containers"
+        run: |
+          docker-compose up -d
 
       - name: "✅ Run End-to-end tests"
         working-directory: ./__tests__
