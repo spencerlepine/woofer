@@ -52,6 +52,7 @@ jobs:
         run: docker run -d -p 5000:5000 --restart=always --name registry -v /tmp/docker-registry:/var/lib/registry registry:2 && npx wait-on tcp:5000
 
       - name: "Build Docker image"
+        working-directory: ${{ env.working-directory }}
         if: steps.cache.outputs.cache-hit != 'true'
         run: docker build . -t ${{ env.working-directory }} --cache-from=localhost:5000/${{ env.working-directory }} --build-arg BUILDKIT_INLINE_CACHE=1
 
@@ -107,6 +108,7 @@ jobs:
         run: docker run -d -p 5000:5000 --restart=always --name registry -v /tmp/docker-registry:/var/lib/registry registry:2 && npx wait-on tcp:5000
 
       - name: "Build Docker image"
+        working-directory: ${{ env.working-directory }}
         if: steps.cache.outputs.cache-hit != 'true'
         run: docker build . -t ${{ env.working-directory }} --cache-from=localhost:5000/${{ env.working-directory }} --build-arg BUILDKIT_INLINE_CACHE=1
 
