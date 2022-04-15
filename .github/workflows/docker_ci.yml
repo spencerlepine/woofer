@@ -6,7 +6,7 @@ on:
 jobs:
 
   build_docker_client:
-    name: "🐳 Build/Publish Docker (CLIENT) Image"
+    name: "🐳 Build Docker (CLIENT) Image"
     runs-on: ubuntu-latest
     env:
      working-directory: client
@@ -62,7 +62,7 @@ jobs:
 
 
   build_docker_server:
-    name: "🐳 Build/Publish Docker (SERVER) Image"
+    name: "🐳 Build Docker (SERVER) Image"
     runs-on: ubuntu-latest
     env:
      working-directory: server

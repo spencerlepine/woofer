@@ -1,10 +1,12 @@
 #### Settings > Secrets > Actions > New repository secret
 
 ```yml
+enviroment:
+  production
 secrets:
   ENV_PRODUCTION: *.env file contents*
   DOCKERHUB_USERNAME: spencerlepine
-  DOCKERHUB_PASSWORD
+  DOCKERHUB_PASSWORD: abc12345
   DOCKERHUB_CLIENT_REPO: woofer-client
   DOCKERHUB_SERVER_REPO: woofer-server
   EC2_PASSPHRASE: "the fox jumped over the moon"

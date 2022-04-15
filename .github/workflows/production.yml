@@ -18,9 +18,9 @@ jobs:
   continuous_delivery:
     name: CD
     needs: [node_ci, docker_ci]
+    uses: ./.github/workflows/deploy.yml
     environment:
       name: production
-    uses: ./.github/workflows/deploy.yml
     secrets:
       ENV_PRODUCTION: ${{ secrets.ENV_PRODUCTION }}
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
