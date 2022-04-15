@@ -164,11 +164,9 @@ jobs:
 
       - name: "Build Docker client image"
         working-directory: ./client
-        if: steps.docker-cache.outputs.cache-hit != 'true'
         run: docker build . -t client--cache-from=localhost:5000/client--build-arg BUILDKIT_INLINE_CACHE=1
 
       - name: "Tag local Docker client image build"
-        if: steps.docker-cache.outputs.cache-hit != 'true'
         run: docker tag clientlocalhost:5000/client&& docker push localhost:5000/client|| true
 
       - name: "Cache/Build Docker server layers"
@@ -182,11 +180,9 @@ jobs:
 
       - name: "Build Docker server image"
         working-directory: ./server
-        if: steps.docker-cache-b.outputs.cache-hit != 'true'
         run: docker build . -t server--cache-from=localhost:5000/server--build-arg BUILDKIT_INLINE_CACHE=1
 
       - name: "Tag local Docker server image build"
-        if: steps.docker-cache-b.outputs.cache-hit != 'true'
         run: docker tag server:5000/server&& docker push localhost:5000/server|| true
 
       - name: Run Server Container
