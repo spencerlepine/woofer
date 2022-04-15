@@ -2,30 +2,13 @@ name: Deploy
 
 on:
   workflow_call:
-    secrets:
-      ENV_PRODUCTION:
-        required: true
-      DOCKERHUB_USERNAME:
-        required: true
-      DOCKERHUB_PASSWORD:
-        required: true
-      DOCKERHUB_CLIENT_REPO:
-        required: true
-      DOCKERHUB_SERVER_REPO:
-        required: true
-      EC2_REMOTE_HOST:
-        required: true
-      EC2_REMOTE_USER:
-        required: true
-      EC2_SSH_KEY:
-        required: true
-      EC2_PASSPHRASE:
-        required: true
+
 
 jobs:
 
   build_docker_client:
     name: "🐳 Build/Publish Docker (CLIENT) Image"
+    environment: production
     runs-on: ubuntu-latest
     env:
      working-directory: client
@@ -96,6 +79,7 @@ jobs:
 
   build_docker_server:
     name: "🐳 Build/Publish Docker (SERVER) Image"
+    environment: production
     runs-on: ubuntu-latest
     env:
      working-directory: server
@@ -167,6 +151,7 @@ jobs:
   deploy_ec2:
     needs: [build_docker_server, build_docker_client]
     name: 🚀 EC2 Depoyment
+    environment: production
     runs-on: ubuntu-latest
 
     steps:
