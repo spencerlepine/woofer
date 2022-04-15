@@ -34,7 +34,8 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
-      - uses: actions/cache@v3
+      - name: "⚡ Cache dependencies"
+        uses: actions/cache@v3
         id: modules-cache
         with:
           path: '**/node_modules'
@@ -87,8 +88,8 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
-
-      - uses: actions/cache@v3
+      - name: "⚡ Cache dependencies"
+        uses: actions/cache@v3
         id: modules-cache
         with:
           path: '**/node_modules'
@@ -132,7 +133,8 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
-      - uses: actions/cache@v3
+      - name: "⚡ Cache dependencies"
+        uses: actions/cache@v3
         id: modules-cache
         with:
           path: '**/node_modules'

@@ -23,6 +23,7 @@ on:
         required: true
 
 jobs:
+
   build_docker_client:
     name: "🐳 Build/Publish Docker (CLIENT) Image"
     runs-on: ubuntu-latest
@@ -40,7 +41,8 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
-      - uses: actions/cache@v3
+      - name: "⚡ Cache dependencies"
+        uses: actions/cache@v3
         id: modules-cache
         with:
           path: '**/node_modules'
@@ -53,7 +55,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      # So now you can use Actions' own caching!
       - name: Cache Docker layers
         uses: actions/cache@v2
         with:
@@ -110,7 +111,8 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
-      - uses: actions/cache@v3
+      - name: "⚡ Cache dependencies"
+        uses: actions/cache@v3
         id: modules-cache
         with:
           path: '**/node_modules'

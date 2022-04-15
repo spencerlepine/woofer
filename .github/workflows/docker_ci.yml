@@ -2,18 +2,106 @@ name: Docker CI
 
 on:
   workflow_call:
-    secrets:
-      ENV_PRODUCTION:
-        required: true
-      DOCKERHUB_USERNAME:
-        required: true
-      DOCKERHUB_PASSWORD:
-        required: true
 
 jobs:
 
-  docker_build:
-    name: Docker Build
+  build_docker_client:
+    name: "🐳 Build/Publish Docker (CLIENT) Image"
+    runs-on: ubuntu-latest
+    env:
+     working-directory: client
+
+    steps:
+      - name: "☁️ Check out Git Repository"
+        uses: actions/checkout@v2
+
+      - name: "🔧 Set up Node"
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
+      - name: "⚡ Cache dependencies"
+        uses: actions/cache@v3
+        id: modules-cache
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+
+      - name: "📦 Install dependencies"
+        if: steps.modules-cache.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: "🔧 Create .env file"
+        run: |
+          rm -f .env
+          echo .env.sample > .env
+          cp .env ./${{ env.working-directory }}/.env
+
+      - name: "Cache/Build Docker ${{ env.working-directory }} layers"
+        id: docker-cache-a
+        uses: actions/cache@v2
+        with:
+          path: /tmp/docker-registry-${{ env.working-directory }}
+          key: ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            docker-registry-no-buildkit-${{ env.working-directory }}-${{ github.sha }}
+      - run: docker run -d -p 5000:5000 --restart=always --name registry -v /tmp/docker-registry:/var/lib/registry registry:2 && npx wait-on tcp:5000
+      - run: docker build . -t ${{ env.working-directory }} --cache-from=localhost:5000/${{ env.working-directory }} --build-arg BUILDKIT_INLINE_CACHE=1
+      - run: docker tag ${{ env.working-directory }} localhost:5000/${{ env.working-directory }} && docker push localhost:5000/${{ env.working-directory }} || true
+        if: steps.cache.outputs.cache-hit != 'true'
+
+  build_docker_client:
+    name: "🐳 Build/Publish Docker (SERVER) Image"
+    runs-on: ubuntu-latest
+    env:
+     working-directory: server
+
+    steps:
+      - name: "☁️ Check out Git Repository"
+        uses: actions/checkout@v2
+
+      - name: "🔧 Set up Node"
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
+      - name: "⚡ Cache dependencies"
+        uses: actions/cache@v3
+        id: modules-cache
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+
+      - name: "📦 Install dependencies"
+        if: steps.modules-cache.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: "🔧 Create .env file"
+        run: |
+          rm -f .env
+          echo .env.sample > .env
+          cp .env ./${{ env.working-directory }}/.env
+
+      - name: "Cache/Build Docker ${{ env.working-directory }} layers"
+        id: docker-cache-a
+        uses: actions/cache@v2
+        with:
+          path: /tmp/docker-registry-${{ env.working-directory }}
+          key: ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            docker-registry-no-buildkit-${{ env.working-directory }}-${{ github.sha }}
+      - run: docker run -d -p 5000:5000 --restart=always --name registry -v /tmp/docker-registry:/var/lib/registry registry:2 && npx wait-on tcp:5000
+      - run: docker build . -t ${{ env.working-directory }} --cache-from=localhost:5000/${{ env.working-directory }} --build-arg BUILDKIT_INLINE_CACHE=1
+      - run: docker tag ${{ env.working-directory }} localhost:5000/${{ env.working-directory }} && docker push localhost:5000/${{ env.working-directory }} || true
+        if: steps.cache.outputs.cache-hit != 'true'
+
+  test_docker:
+    needs: [build_docker_client, build_docker_server]
+    name: "🐳 Test Docker Image Builds"
     runs-on: ubuntu-latest
 
     steps:
@@ -27,7 +115,8 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
-      - uses: actions/cache@v3
+      - name: "⚡ Cache dependencies"
+        uses: actions/cache@v3
         id: modules-cache
         with:
           path: '**/node_modules'
@@ -37,40 +126,32 @@ jobs:
         if: steps.modules-cache.outputs.cache-hit != 'true'
         run: npm install
 
-      # - name: "⚡ Cache Docker Build"
-      #   uses: actions/cache@v3
-      #   id: docker_cache_id
-      #   with:
-      #     path: docker-cache-action
-      #     key: docker-${{ runner.os }}-build-${{ env.CACHE_NAME }}-${{ github.sha }}
-      #     restore-keys: |
-      #       docker-${{ runner.os }}-build-${{ env.CACHE_NAME }}-${{ github.sha }}
-
       - name: "🔧 Create .env file"
         run: |
           rm -f .env
-          echo ${{ secrets.ENV_PRODUCTION }} > .env
+          echo .env.sample > .env
           cp .env ./client/.env
+          cp .env ./server/.env
 
-      - name: "🏗 Build w/ Docker Compose"
-        # if: steps.docker_cache_id.outputs.cache-hit != 'true'
-        run: |
-          docker-compose build
+      - name: "Cache/Build Docker client layers"
+        id: docker-cache-a
+        uses: actions/cache@v2
+        with:
+          path: /tmp/docker-registry-client
+          key: client-${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            docker-registry-no-buildkit-client-${{ github.sha }}
+      - run: docker run -d -p 5000:5000 --restart=always --name registry -v /tmp/docker-registry:/var/lib/registry registry:2 && npx wait-on tcp:5000
+      - run: docker build . -t client --cache-from=localhost:5000/client --build-arg BUILDKIT_INLINE_CACHE=1
+      - run: docker tag client localhost:5000/client && docker push localhost:5000/${{ env.working-directory }} || true
+        if: steps.cache.outputs.cache-hit != 'true'
 
-      - name: "🧱 Start Docker Containers"
-        run: |
-          docker-compose up -d
+      - name: Run Server Container
+        run: docker run --env-file ./.env -d -p 5000:5000 localhost:5000/server:latest
+
+      - name: Run Client Container
+        run: docker run --env-file ./.env -d -p 3000:3000 localhost:5000/client:latest
 
       - name: "✅ Run End-to-end tests"
         working-directory: ./__tests__
         run: npm test --if-present
-
-      - name: "🔒 Login to DockerHub"
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-
-      - name: "🐳 DockerHub Publish"
-        run: |
-          docker-compose push
