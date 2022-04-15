@@ -1,0 +1,62 @@
+name: Code Analysis
+
+on:
+push:
+branches: [main]
+pull_request:
+branches: [main]
+
+jobs:
+seciurity_analysis:
+name: CodeQL
+runs-on: ubuntu-latest
+strategy:
+fail-fast: false
+matrix:
+language: - javascript
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: ${{ matrix.language }}
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v1
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
+
+
+    repo_lint:
+      name: Lint Code
+      runs-on: ubuntu-latest
+      strategy:
+        fail-fast: false
+
+    steps:
+      - name: "☁️ Check out Git Repository"
+        uses: actions/checkout@v2
+
+      - name: "🔧 Set up Node"
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
+      - uses: actions/cache@v3
+        id: modules-cache
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+
+      - name: "📦 Install dependencies"
+        if: steps.modules-cache.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: "🧽 Lint all files"
+        run: npm run lint --if-present
