@@ -40,17 +40,25 @@ jobs:
           cp .env ./${{ env.working-directory }}/.env
 
       - name: "Cache/Build Docker ${{ env.working-directory }} layers"
-        id: docker-cache-a
+        id: docker-cache
         uses: actions/cache@v2
         with:
           path: /tmp/docker-registry-${{ env.working-directory }}
           key: ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             docker-registry-no-buildkit-${{ env.working-directory }}-${{ github.sha }}
-      - run: docker run -d -p 5000:5000 --restart=always --name registry -v /tmp/docker-registry:/var/lib/registry registry:2 && npx wait-on tcp:5000
-      - run: docker build . -t ${{ env.working-directory }} --cache-from=localhost:5000/${{ env.working-directory }} --build-arg BUILDKIT_INLINE_CACHE=1
-      - run: docker tag ${{ env.working-directory }} localhost:5000/${{ env.working-directory }} && docker push localhost:5000/${{ env.working-directory }} || true
+
+      - name: "Run local Docker registry"
+        run: docker run -d -p 5000:5000 --restart=always --name registry -v /tmp/docker-registry:/var/lib/registry registry:2 && npx wait-on tcp:5000
+
+      - name: "Build Docker image"
         if: steps.cache.outputs.cache-hit != 'true'
+        run: docker build . -t ${{ env.working-directory }} --cache-from=localhost:5000/${{ env.working-directory }} --build-arg BUILDKIT_INLINE_CACHE=1
+
+      - name: "Tag local Docker image build"
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: docker tag ${{ env.working-directory }} localhost:5000/${{ env.working-directory }} && docker push localhost:5000/${{ env.working-directory }} || true
+
 
   build_docker_client:
     name: "🐳 Build/Publish Docker (SERVER) Image"
@@ -94,10 +102,17 @@ jobs:
           key: ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             docker-registry-no-buildkit-${{ env.working-directory }}-${{ github.sha }}
-      - run: docker run -d -p 5000:5000 --restart=always --name registry -v /tmp/docker-registry:/var/lib/registry registry:2 && npx wait-on tcp:5000
-      - run: docker build . -t ${{ env.working-directory }} --cache-from=localhost:5000/${{ env.working-directory }} --build-arg BUILDKIT_INLINE_CACHE=1
-      - run: docker tag ${{ env.working-directory }} localhost:5000/${{ env.working-directory }} && docker push localhost:5000/${{ env.working-directory }} || true
+
+      - name: "Run local Docker registry"
+        run: docker run -d -p 5000:5000 --restart=always --name registry -v /tmp/docker-registry:/var/lib/registry registry:2 && npx wait-on tcp:5000
+
+      - name: "Build Docker image"
         if: steps.cache.outputs.cache-hit != 'true'
+        run: docker build . -t ${{ env.working-directory }} --cache-from=localhost:5000/${{ env.working-directory }} --build-arg BUILDKIT_INLINE_CACHE=1
+
+      - name: "Tag local Docker image build"
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: docker tag ${{ env.working-directory }} localhost:5000/${{ env.working-directory }} && docker push localhost:5000/${{ env.working-directory }} || true
 
   test_docker:
     needs: [build_docker_client, build_docker_server]
@@ -133,18 +148,6 @@ jobs:
           cp .env ./client/.env
           cp .env ./server/.env
 
-      - name: "Cache/Build Docker client layers"
-        id: docker-cache-a
-        uses: actions/cache@v2
-        with:
-          path: /tmp/docker-registry-client
-          key: client-${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            docker-registry-no-buildkit-client-${{ github.sha }}
-      - run: docker run -d -p 5000:5000 --restart=always --name registry -v /tmp/docker-registry:/var/lib/registry registry:2 && npx wait-on tcp:5000
-      - run: docker build . -t client --cache-from=localhost:5000/client --build-arg BUILDKIT_INLINE_CACHE=1
-      - run: docker tag client localhost:5000/client && docker push localhost:5000/${{ env.working-directory }} || true
-        if: steps.cache.outputs.cache-hit != 'true'
 
       - name: Run Server Container
         run: docker run --env-file ./.env -d -p 5000:5000 localhost:5000/server:latest
