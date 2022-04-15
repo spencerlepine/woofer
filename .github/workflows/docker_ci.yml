@@ -172,7 +172,7 @@ jobs:
         run: docker tag clientlocalhost:5000/client&& docker push localhost:5000/client|| true
 
       - name: "Cache/Build Docker server layers"
-        id: docker-cache
+        id: docker-cache-b
         uses: actions/cache@v2
         with:
           path: /tmp/docker-registry-server
