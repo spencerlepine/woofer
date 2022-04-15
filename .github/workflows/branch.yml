@@ -8,6 +8,10 @@ on:
 
 jobs:
 
-  continuous_integration:
-    name: CI
-    uses: ./.github/workflows/continuous_integration.yml
+  node_ci:
+    name: Node CI
+    uses: ./.github/workflows/node_ci.yml
+
+  docker_ci:
+    name: Docker CI
+    uses: ./.github/workflows/docker_ci.yml
