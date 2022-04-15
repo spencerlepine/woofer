@@ -39,7 +39,7 @@ jobs:
           echo .env.sample > .env
           cp .env ./${{ env.working-directory }}/.env
 
-      - name: "Cache Docker ${{ env.working-directory }} layers"
+      - name: "⚡ Cache Docker ${{ env.working-directory }} layers"
         id: docker-cache
         uses: actions/cache@v2
         with:
@@ -48,15 +48,15 @@ jobs:
           restore-keys: |
             docker-registry-no-buildkit-${{ env.working-directory }}-${{ github.sha }}
 
-      - name: "Run local Docker registry"
+      - name: "🧪 Run local Docker registry"
         run: docker run -d -p 5000:5000 --restart=always --name registry -v /tmp/docker-registry:/var/lib/registry registry:2 && npx wait-on tcp:5000
 
-      - name: "Build Docker image"
+      - name: "🏗 Build Docker image"
         working-directory: ${{ env.working-directory }}
         if: steps.docker-cache.outputs.cache-hit != 'true'
         run: docker build . -t ${{ env.working-directory }} --cache-from=localhost:5000/${{ env.working-directory }} --build-arg BUILDKIT_INLINE_CACHE=1
 
-      - name: "Tag local Docker image build"
+      - name: "🏷️ Tag local Docker image build"
         if: steps.docker-cache.outputs.cache-hit != 'true'
         run: docker tag ${{ env.working-directory }} localhost:5000/${{ env.working-directory }} && docker push localhost:5000/${{ env.working-directory }} || true
 
@@ -95,7 +95,7 @@ jobs:
           echo .env.sample > .env
           cp .env ./${{ env.working-directory }}/.env
 
-      - name: "Cache Docker ${{ env.working-directory }} layers"
+      - name: "⚡ Cache Docker ${{ env.working-directory }} layers"
         id: docker-cache-a
         uses: actions/cache@v2
         with:
@@ -104,15 +104,15 @@ jobs:
           restore-keys: |
             docker-registry-no-buildkit-${{ env.working-directory }}-${{ github.sha }}
 
-      - name: "Run local Docker registry"
+      - name: "🧪 Run local Docker registry"
         run: docker run -d -p 5000:5000 --restart=always --name registry -v /tmp/docker-registry:/var/lib/registry registry:2 && npx wait-on tcp:5000
 
-      - name: "Build Docker image"
+      - name: "🏗 Build Docker image"
         working-directory: ${{ env.working-directory }}
         if: steps.docker-cache.outputs.cache-hit != 'true'
         run: docker build . -t ${{ env.working-directory }} --cache-from=localhost:5000/${{ env.working-directory }} --build-arg BUILDKIT_INLINE_CACHE=1
 
-      - name: "Tag local Docker image build"
+      - name: "🏷️ Tag Docker image"
         if: steps.docker-cache.outputs.cache-hit != 'true'
         run: docker tag ${{ env.working-directory }} localhost:5000/${{ env.working-directory }} && docker push localhost:5000/${{ env.working-directory }} || true
 
@@ -150,7 +150,7 @@ jobs:
           cp .env ./client/.env
           cp .env ./server/.env
 
-      - name: "Cache/Build Docker client layers"
+      - name: "⚡ Cache/Build Docker Client layers"
         id: docker-cache
         uses: actions/cache@v2
         with:
@@ -159,17 +159,17 @@ jobs:
           restore-keys: |
             docker-registry-no-buildkit-client-${{ github.sha }}
 
-      - name: "Run local Docker registry"
+      - name: "🧪 Run local Docker registry"
         run: docker run -d -p 5000:5000 --restart=always --name registry -v /tmp/docker-registry:/var/lib/registry registry:2 && npx wait-on tcp:5000
 
-      - name: "Build Docker client image"
+      - name: "🏗 Build Docker Client image"
         working-directory: ./client
         run: docker build . --tag client --cache-from=localhost:5000/client--build-arg BUILDKIT_INLINE_CACHE=1
 
-      - name: "Tag local Docker client image build"
+      - name: "🏷️ Tag Docker Client image"
         run: docker tag clientlocalhost:5000/client && docker push localhost:5000/client|| true
 
-      - name: "Cache/Build Docker server layers"
+      - name: "📦 Cache/Build Docker Server layers"
         id: docker-cache-b
         uses: actions/cache@v2
         with:
@@ -178,17 +178,17 @@ jobs:
           restore-keys: |
             docker-registry-no-buildkit-server-${{ github.sha }}
 
-      - name: "Build Docker server image"
+      - name: "🏗 Build Docker Server image"
         working-directory: ./server
         run: docker build . --tag server --cache-from=localhost:5000/server--build-arg BUILDKIT_INLINE_CACHE=1
 
-      - name: "Tag local Docker server image build"
+      - name: "🏷️ Tag Docker Server image"
         run: docker tag server:5000/server && docker push localhost:5000/server|| true
 
-      - name: Run Server Container
+      - name: "🚀 Run Server Docker Container"
         run: docker run --env-file ./.env -d -p 5000:5000 localhost:5000/server:latest
 
-      - name: Run Client Container
+      - name: "🚀 Run Client Docker Container"
         run: docker run --env-file ./.env -d -p 3000:3000 localhost:5000/client:latest
 
       - name: "✅ Run End-to-end tests"
