@@ -19,10 +19,11 @@ module.exports = {
     }
 
     verifyEndpointRequest(req, res, endpointObj, () => {
-      const userId = req.query[DATA_KEYS["USER_ID"]]
+      const userId = req.query[DATA_KEYS["USER_ID"]] + ""
+      const query = { [idKey]: userId }
 
       // Extract details about this user
-      fetchUserDocument(res, { [idKey]: userId })
+      fetchUserDocument(res, query)
         .then((userProfile) => {
           const {
             [DATA_KEYS["USER_ZIPCODES"]]: userZipcodes,
