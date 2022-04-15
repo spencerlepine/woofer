@@ -56,13 +56,6 @@ jobs:
           path: ${{ env.working-directory }}/coverage/coverage-final.json
           retention-days: 3
 
-      - name: "📁 Upload test LCOV coverage artifact"
-        uses: actions/upload-artifact@v3
-        with:
-          name: client-coverage-lcov
-          path: ${{ env.working-directory }}/coverage/lcov.info
-          retention-days: 3
-
   client_build:
     runs-on: ${{ matrix.os }}
     env:
@@ -147,13 +140,6 @@ jobs:
       - name: "✅  Run tests"
         working-directory: ${{ env.working-directory }}
         run: npm run test -- --coverage
-
-      - name: "📁 Upload test coverage artifact"
-        uses: actions/upload-artifact@v3
-        with:
-          name: server-coverage
-          path: ${{ env.working-directory }}/coverage/coverage-final.json
-          retention-days: 3
 
       - name: "📁 Upload server test coverage artifact"
         uses: actions/upload-artifact@v3
