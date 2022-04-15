@@ -164,10 +164,10 @@ jobs:
 
       - name: "Build Docker client image"
         working-directory: ./client
-        run: docker build . -t client --cache-from=localhost:5000/client--build-arg BUILDKIT_INLINE_CACHE=1
+        run: docker build . --tag client --cache-from=localhost:5000/client--build-arg BUILDKIT_INLINE_CACHE=1
 
       - name: "Tag local Docker client image build"
-        run: docker tag clientlocalhost:5000/client&& docker push localhost:5000/client|| true
+        run: docker tag clientlocalhost:5000/client && docker push localhost:5000/client|| true
 
       - name: "Cache/Build Docker server layers"
         id: docker-cache-b
@@ -180,10 +180,10 @@ jobs:
 
       - name: "Build Docker server image"
         working-directory: ./server
-        run: docker build . -t server --cache-from=localhost:5000/server--build-arg BUILDKIT_INLINE_CACHE=1
+        run: docker build . --tag server --cache-from=localhost:5000/server--build-arg BUILDKIT_INLINE_CACHE=1
 
       - name: "Tag local Docker server image build"
-        run: docker tag server:5000/server&& docker push localhost:5000/server|| true
+        run: docker tag server:5000/server && docker push localhost:5000/server|| true
 
       - name: Run Server Container
         run: docker run --env-file ./.env -d -p 5000:5000 localhost:5000/server:latest
