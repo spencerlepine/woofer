@@ -5,38 +5,7 @@ on:
 
 jobs:
 
-  repo_lint:
-    name: Lint Code
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-
-    steps:
-      - name: "☁️ Check out Git Repository"
-        uses: actions/checkout@v2
-
-      - name: "🔧 Set up Node"
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
-
-      - uses: actions/cache@v3
-        id: modules-cache
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
-
-      - name: "📦 Install dependencies"
-        if: steps.modules-cache.outputs.cache-hit != 'true'
-        run: npm install
-
-      - name: "🧽 Lint all files"
-        run: npm run lint --if-present
-
   client_test:
-    needs: [repo_lint]
     runs-on: ${{ matrix.os }}
     env:
       working-directory: ./client
@@ -79,10 +48,10 @@ jobs:
         working-directory: ${{ env.working-directory }}
         run: npm run test -- --coverage
 
-      - name: "📁 Upload test coverage artifact"
+      - name: "📁 Upload client test coverage artifact"
         uses: actions/upload-artifact@v3
         with:
-          name: client-coverage
+          name: client-coverage-file
           path: ${{ env.working-directory }}/coverage/coverage-final.json
           retention-days: 3
 
@@ -94,7 +63,6 @@ jobs:
           retention-days: 3
 
   client_build:
-    needs: [repo_lint]
     runs-on: ${{ matrix.os }}
     env:
       working-directory: ./client
@@ -135,7 +103,6 @@ jobs:
         run: npm run build --if-present
 
   server_test:
-    needs: [repo_lint]
     runs-on: ${{ matrix.os }}
     env:
       working-directory: ./server
@@ -186,88 +153,42 @@ jobs:
           path: ${{ env.working-directory }}/coverage/coverage-final.json
           retention-days: 3
 
-      - name: "📁 Upload test LCOV coverage artifact"
+      - name: "📁 Upload server test coverage artifact"
         uses: actions/upload-artifact@v3
         with:
-          name: server-coverage-lcov
-          path: ${{ env.working-directory }}/coverage/lcov.info
+          name: server-coverage-file
+          path: ${{ env.working-directory }}/coverage/coverage-final.json
           retention-days: 3
 
-  # coverage_comment:
-  #   name: Coverage Upload
-  #   permissions:
-  #     checks: write
-  #     pull-requests: write
-  #   needs: [client_test, server_test]
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: "⬇️ Download the client test coverage report"
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: client-coverage
-
-  #     - name: "📜 Copy the client coverage file"
-  #       run: |
-  #         mv coverage-final.json client-coverage-final.json
-  #     - name: "⬇️ Download the server test coverage report"
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: server-coverage
-
-  #     - name: "📜 Copy the server coverage file"
-  #       run: |
-  #         mv coverage-final.json server-coverage-final.json
-  #     - name: "🔧 Set up Node"
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: ${{ matrix.node }}
-
-  #     - name: "🔀 Merge the coverage reports"
-  #       run: npx istanbul-merge --out coverage-final.json ./client-coverage-final.json ./server-coverage-final.json
-
-  #     - name: "⬆️ Comment test coverage report"
-  #       uses: AthleticNet/comment-test-coverage@1.1
-  #       with:
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-  #         path: ./coverage-final.json
-  #         title: Woofer Test Coverage
-
   coverage_upload:
-    name: Coverage Coveralls.io Upload
+    name: Test Coverage Upload (CodeCov)
     needs: [client_test, server_test]
     runs-on: ubuntu-latest
 
     steps:
-      - name: "⬇️ Download the client test coverage lcov report"
+      - name: "⬇️ Download the client test coverage report"
         uses: actions/download-artifact@v3
         with:
-          name: client-coverage-lcov
+          name: client-coverage-file
 
-      - name: "📜 Copy the client lcov coverage file"
+      - name: "📜 Copy the client coverage file"
         run: |
-          mv lcov.info client-report.lcov
-      - name: "⬇️ Download the server test coverage lcov report"
+          mv coverage-final.json coverage-final-client.json
+
+      - name: "⬇️ Download the server test coverage report"
         uses: actions/download-artifact@v3
         with:
-          name: server-coverage-lcov
+          name: server-coverage-file
 
-      - name: "📜 Copy the server lcov coverage file"
+      - name: "📜 Copy the server coverage file"
         run: |
-          mv lcov.info server-report.lcov
-      - name: "🔧 Set up Node"
-        uses: actions/setup-node@v3
+          mv coverage-final.json coverage-final-server.json
+
+      - name: "🌪️ Publish to CodeCov"
+        uses: codecov/codecov-action@v2
         with:
-          node-version: ${{ matrix.node }}
-
-      - name: "Install lcov report merger package"
-        run: npm i lcov-result-merger
-
-      - name: "🔀 Merge the coverage reports"
-        run:  ./node_modules/.bin/lcov-result-merger '*-report.lcov' 'lcov.info'
-
-      - name: "🌪️ Publish to coveralls.io"
-        uses: coverallsapp/github-action@master
-        with:
-          path-to-lcov: ./lcov.info
-          github-token: ${{ secrets.github_token }}
+          # token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          files: ./coverage-final-client.json,./coverage-final-server.json
+          name: codecov-umbrella # optional
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)
