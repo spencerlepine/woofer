@@ -1,17 +1,33 @@
-name: Branch CI
+coverage_upload:
+    needs: [node_ci]
+    environment: CI
+    name: CodeCov upload
 
-on:
-  push:
-    branches:
-      - '*'
-      - '!main'
+    steps:
+      - name: "⬇️ Download the client test coverage report"
+        uses: actions/download-artifact@v3
+        with:
+          name: client-coverage-file
 
-jobs:
+      - name: "📜 Copy the client coverage file"
+        run: |
+          mv coverage-final.json coverage-final-client.json
 
-  node_ci:
-    name: Node CI
-    uses: ./.github/workflows/node_ci.yml
+      - name: "⬇️ Download the server test coverage report"
+        uses: actions/download-artifact@v3
+        with:
+          name: server-coverage-file
 
-  docker_ci:
-    name: Docker CI
-    uses: ./.github/workflows/docker_ci.yml
+      - name: "📜 Copy the server coverage file"
+        run: |
+          mv coverage-final.json coverage-final-server.json
+
+      - name: "🌪️ Publish to CodeCov"
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          flags: unittests
+          files: ./coverage-final-client.json,./coverage-final-server.json
+          name: codecov-umbrella # optional
+          fail_ci_if_error: true # optional (default = false)
+          # verbose: true # optional (default = false)
