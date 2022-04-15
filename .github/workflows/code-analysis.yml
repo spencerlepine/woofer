@@ -1,19 +1,20 @@
 name: Code Analysis
 
 on:
-push:
-branches: [main]
-pull_request:
-branches: [main]
+  push:
+      branches: [main]
+  pull_request:
+      branches: [main]
 
 jobs:
-seciurity_analysis:
-name: CodeQL
-runs-on: ubuntu-latest
-strategy:
-fail-fast: false
-matrix:
-language: - javascript
+  seciurity_analysis:
+    name: CodeQL
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        language:
+          - javascript
 
     steps:
       - name: Checkout repository
@@ -31,11 +32,11 @@ language: - javascript
         uses: github/codeql-action/analyze@v1
 
 
-    repo_lint:
-      name: Lint Code
-      runs-on: ubuntu-latest
-      strategy:
-        fail-fast: false
+  repo_lint:
+    name: Lint Code
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
 
     steps:
       - name: "☁️ Check out Git Repository"
@@ -48,7 +49,8 @@ language: - javascript
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
-      - uses: actions/cache@v3
+      - name: "⚡ Cache dependencies"
+        uses: actions/cache@v3
         id: modules-cache
         with:
           path: '**/node_modules'

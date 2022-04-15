@@ -8,17 +8,18 @@ on:
 jobs:
 
   node_ci:
+    name: Node CI
     uses: ./.github/workflows/node_ci.yml
 
   docker_ci:
+    name: Docker CI
     uses: ./.github/workflows/docker_ci.yml
-    secrets:
-      ENV_PRODUCTION: ${{ secrets.ENV_PRODUCTION }}
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-      DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-  deploy:
+  continuous_delivery:
+    name: CD
     needs: [node_ci, docker_ci]
+    environment:
+      name: production
     uses: ./.github/workflows/deploy.yml
     secrets:
       ENV_PRODUCTION: ${{ secrets.ENV_PRODUCTION }}

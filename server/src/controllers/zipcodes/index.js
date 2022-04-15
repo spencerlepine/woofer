@@ -98,7 +98,7 @@ module.exports = {
     }
 
     verifyEndpointRequest(req, res, endpointObj, () => {
-      const zipcodeID = req.body[DATA_KEYS["ZIPCODE_ID"]]
+      const zipcodeID = req.body[DATA_KEYS["ZIPCODE_ID"]] + ""
 
       const query = { [DATA_KEYS["ZIPCODE_ID"]]: zipcodeID }
       ZipcodePool.findOne(query)

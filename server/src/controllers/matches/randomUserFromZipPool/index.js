@@ -15,7 +15,9 @@ const randomUserFromZipPool = (res, userId, userZipcodes, genderPreference) => {
     return failPromise
   }
 
-  const userQuery = { [DATA_KEYS["USER_ID"]]: userId }
+  const userQuery = {
+    [DATA_KEYS["USER_ID"]]: userId + "",
+  }
 
   return ZipcodePool.findOne(userQuery)
     .then((result) => {
