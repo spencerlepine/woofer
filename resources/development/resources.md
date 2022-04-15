@@ -61,3 +61,106 @@ Visualizer - [GitHub Action](https://github.com/githubocto/repo-visualizer)
 ## PoniCode Unit Test Generator GitHub Action
 
 https://github.com/marketplace/actions/ponicode-unit-test
+
+Create `scorecards.yml` to test code vulnerabilities:
+
+Reusable GitHub Actions Tutorial: [YouTube Video](https://www.youtube.com/watch?v=lRypYtmbKMs)
+
+Scorecards workflow - Code Scanning
+
+```yml
+name: Scorecards supply-chain security
+on:
+  # Only the default branch is supported.
+  branch_protection_rule:
+  schedule:
+    # Weekly on Saturdays.
+    - cron: "30 1 * * 6"
+  push:
+    branches: [main, master]
+
+# Declare default permissions as read only.
+permissions: read-all
+
+jobs:
+  analysis:
+    name: Scorecards analysis
+    runs-on: ubuntu-latest
+    permissions:
+      # Needed to upload the results to code-scanning dashboard.
+      security-events: write
+      actions: read
+      contents: read
+
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # v2.4.0
+        with:
+          persist-credentials: false
+
+      - name: "Run analysis"
+        uses: ossf/scorecard-action@c1aec4ac820532bab364f02a81873c555a0ba3a1 # v1.0.4
+        with:
+          results_file: results.sarif
+          results_format: sarif
+          # Read-only PAT token. To create it,
+          # follow the steps in https://github.com/ossf/scorecard-action#pat-token-creation.
+          repo_token: ${{ secrets.SCORECARD_READ_TOKEN }}
+          # Publish the results for public repositories to enable scorecard badges. For more details, see
+          # https://github.com/ossf/scorecard-action#publishing-results.
+          # For private repositories, `publish_results` will automatically be set to `false`, regardless
+          # of the value entered here.
+          publish_results: true
+
+      # Upload the results as artifacts (optional). Commenting out will disable uploads of run results in SARIF
+      # format to the repository Actions tab.
+      - name: "Upload artifact"
+        uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2 # v2.3.1
+        with:
+          name: SARIF file
+          path: results.sarif
+          retention-days: 5
+
+      # Upload the results to GitHub's code scanning dashboard.
+      - name: "Upload to code-scanning"
+        uses: github/codeql-action/upload-sarif@5f532563584d71fdef14ee64d17bafb34f751ce5 # v1.0.26
+        with:
+          sarif_file: results.sarif
+```
+
+### GitHub Actions Docker CI
+
+GitHub Actions Docker Build/Push Layer Caching - [Article](https://evilmartians.com/chronicles/build-images-on-github-actions-with-docker-layer-caching)
+
+### USING GIT FLOW:
+
+RND:
+Intro to git flow command - [`git flow` cheatsheet](https://danielkummer.github.io/git-flow-cheatsheet/)
+Git flow usage example - [Article](https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/init-Gitflow-example-workflow-tutorial)
+
+### GitHub Actions Vulnerabilities
+
+> TOREAD: Keeping your GitHub Actions and workflows secure Part 1: Preventing pwn requests - [Article](https://securitylab.github.com/research/github-actions-preventing-pwn-requests/)
+> TOREAD: Keeping your GitHub Actions and workflows secure Part 2: Untrusted input - [Article](https://securitylab.github.com/research/github-actions-untrusted-input/)
+
+> TOREAD: How to Hide Sensitive Things in GitHub Actions Logs - [Article](https://www.tutorialworks.com/github-actions-mask-url/)
+
+> TOREAD: How We Discovered Vulnerabilities in CI/CD Pipelines of Popular Open-Source Projects - [Article](https://cycode.com/blog/github-actions-vulnerabilities/)
+
+> TOCHECKOUT: Project Vulnerabilites Check w/ Synk - [GitHub Action](https://github.com/snyk/actions)
+
+> GitHub Repository + Actions Encrypted Secrets - [Documentation](https://docs.github.com/en/enterprise-cloud@latest/actions/security-guides/encrypted-secrets)
+> Accessing Enviroments in workflows: - [Stack Overflow](https://stackoverflow.com/questions/66521958/how-to-access-environment-secrets-from-a-github-workflow)
+
+> Using environments for deployment - [GitHub Article](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment)
+> Use GitHub Actions Encrypted-secrets, production and CI, store secrets in
+> environment instead
+
+### Code Analysis for GitHub Actions:
+
+- Code Scanning Action Setup - [GitHub Article](https://docs.github.com/en/github-ae@latest/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning)
+- Code QL [GitHub Action](https://github.com/github/codeql-action/actions)
+
+### GitHub Rebasing
+
+- TO WATCH: GitHub Rebase Walkthrough - [Video](https://www.youtube.com/watch?v=KUal3Lh-xuE)
