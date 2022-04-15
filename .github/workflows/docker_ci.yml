@@ -39,7 +39,7 @@ jobs:
           echo .env.sample > .env
           cp .env ./${{ env.working-directory }}/.env
 
-      - name: "Cache/Build Docker ${{ env.working-directory }} layers"
+      - name: "Cache Docker ${{ env.working-directory }} layers"
         id: docker-cache
         uses: actions/cache@v2
         with:
@@ -53,11 +53,11 @@ jobs:
 
       - name: "Build Docker image"
         working-directory: ${{ env.working-directory }}
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.docker-cache.outputs.cache-hit != 'true'
         run: docker build . -t ${{ env.working-directory }} --cache-from=localhost:5000/${{ env.working-directory }} --build-arg BUILDKIT_INLINE_CACHE=1
 
       - name: "Tag local Docker image build"
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.docker-cache.outputs.cache-hit != 'true'
         run: docker tag ${{ env.working-directory }} localhost:5000/${{ env.working-directory }} && docker push localhost:5000/${{ env.working-directory }} || true
 
 
@@ -95,7 +95,7 @@ jobs:
           echo .env.sample > .env
           cp .env ./${{ env.working-directory }}/.env
 
-      - name: "Cache/Build Docker ${{ env.working-directory }} layers"
+      - name: "Cache Docker ${{ env.working-directory }} layers"
         id: docker-cache-a
         uses: actions/cache@v2
         with:
@@ -109,11 +109,11 @@ jobs:
 
       - name: "Build Docker image"
         working-directory: ${{ env.working-directory }}
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.docker-cache.outputs.cache-hit != 'true'
         run: docker build . -t ${{ env.working-directory }} --cache-from=localhost:5000/${{ env.working-directory }} --build-arg BUILDKIT_INLINE_CACHE=1
 
       - name: "Tag local Docker image build"
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.docker-cache.outputs.cache-hit != 'true'
         run: docker tag ${{ env.working-directory }} localhost:5000/${{ env.working-directory }} && docker push localhost:5000/${{ env.working-directory }} || true
 
   test_docker:
@@ -150,6 +150,44 @@ jobs:
           cp .env ./client/.env
           cp .env ./server/.env
 
+      - name: "Cache/Build Docker client layers"
+        id: docker-cache
+        uses: actions/cache@v2
+        with:
+          path: /tmp/docker-registry-client
+          key: client-${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            docker-registry-no-buildkit-client-${{ github.sha }}
+
+      - name: "Run local Docker registry"
+        run: docker run -d -p 5000:5000 --restart=always --name registry -v /tmp/docker-registry:/var/lib/registry registry:2 && npx wait-on tcp:5000
+
+      - name: "Build Docker client image"
+        working-directory: ./client
+        if: steps.docker-cache.outputs.cache-hit != 'true'
+        run: docker build . -t client--cache-from=localhost:5000/client--build-arg BUILDKIT_INLINE_CACHE=1
+
+      - name: "Tag local Docker client image build"
+        if: steps.docker-cache.outputs.cache-hit != 'true'
+        run: docker tag clientlocalhost:5000/client&& docker push localhost:5000/client|| true
+
+      - name: "Cache/Build Docker server layers"
+        id: docker-cache
+        uses: actions/cache@v2
+        with:
+          path: /tmp/docker-registry-server
+          key: server-${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            docker-registry-no-buildkit-server-${{ github.sha }}
+
+      - name: "Build Docker server image"
+        working-directory: ./server
+        if: steps.docker-cache-b.outputs.cache-hit != 'true'
+        run: docker build . -t server--cache-from=localhost:5000/server--build-arg BUILDKIT_INLINE_CACHE=1
+
+      - name: "Tag local Docker server image build"
+        if: steps.docker-cache-b.outputs.cache-hit != 'true'
+        run: docker tag server:5000/server&& docker push localhost:5000/server|| true
 
       - name: Run Server Container
         run: docker run --env-file ./.env -d -p 5000:5000 localhost:5000/server:latest
