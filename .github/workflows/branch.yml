@@ -15,3 +15,38 @@ jobs:
   docker_ci:
     name: Docker CI
     uses: ./.github/workflows/docker_ci.yml
+
+  coverage_upload:
+    needs: [node_ci]
+    environment: CI
+    runs-on: ubuntu-latest
+    name: CodeCov upload
+
+    steps:
+      - name: "⬇️ Download the client test coverage report"
+        uses: actions/download-artifact@v3
+        with:
+          name: client-coverage-file
+
+      - name: "📜 Copy the client coverage file"
+        run: |
+          mv coverage-final.json coverage-final-client.json
+
+      - name: "⬇️ Download the server test coverage report"
+        uses: actions/download-artifact@v3
+        with:
+          name: server-coverage-file
+
+      - name: "📜 Copy the server coverage file"
+        run: |
+          mv coverage-final.json coverage-final-server.json
+
+      - name: "🌪️ Publish to CodeCov"
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          flags: unittests
+          files: ./coverage-final-client.json,./coverage-final-server.json
+          name: codecov-umbrella # optional
+          fail_ci_if_error: true # optional (default = false)
+          # verbose: true # optional (default = false)
