@@ -1,4 +1,22 @@
-coverage_upload:
+name: Branch CI
+
+on:
+  push:
+    branches:
+      - '*'
+      - '!main'
+
+jobs:
+
+  node_ci:
+    name: Node CI
+    uses: ./.github/workflows/node_ci.yml
+
+  docker_ci:
+    name: Docker CI
+    uses: ./.github/workflows/docker_ci.yml
+
+  coverage_upload:
     needs: [node_ci]
     environment: CI
     name: CodeCov upload
