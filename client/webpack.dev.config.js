@@ -35,11 +35,6 @@ module.exports = {
       prefix: "process.env.",
     }),
 
-    new webpack.DefinePlugin({
-      "process.env.REACT_APP_FIREBASE_API_KEY": JSON.stringify(process.env.REACT_APP_FIREBASE_API_KEY),
-      "process.env.NODE_ENV": JSON.stringify("development"),
-    }),
-
     new InterpolateHtmlPlugin({ PUBLIC_URL: "static" }),
   ],
   devServer: {
