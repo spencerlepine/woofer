@@ -53,7 +53,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: client-coverage-file-${{ github.sha }}
-          path: ${{ env.working-directory }}/coverage/coverage-final.json
+          path: ${{ env.working-directory }}/coverage/lcov.info
           retention-days: 3
 
   client_build:
@@ -145,7 +145,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: server-coverage-file-${{ github.sha }}
-          path: ${{ env.working-directory }}/coverage/coverage-final.json
+          path: ${{ env.working-directory }}/coverage/lcov.info
           retention-days: 3
 
   coverage_upload:
