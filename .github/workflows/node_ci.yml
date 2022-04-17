@@ -174,5 +174,5 @@ jobs:
 
       - name: "🌪️ Publish to Codacy"
         run: |
-          export CODACY_PROJECT_TOKEN="${{ secrets.CODACY_PROJECT_TOKEN }}"
+          export CODACY_PROJECT_TOKEN=${{ secrets.CODACY_PROJECT_TOKEN }}
           bash <(curl -Ls https://coverage.codacy.com/get.sh) report -l Javascript -r client-lcov.info -r server-lcov.info
