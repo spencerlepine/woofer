@@ -16,6 +16,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev:server": "nodemon src/index.js",
+    "report-coverage": "npm run test -- --coverage && codecov",
     "test": "jest --detectOpenHandles --runInBand --forceExit",
     "test:watch": "jest --onlyChanged --watch"
   },

@@ -2,6 +2,13 @@ name: Node CI
 
 on:
   workflow_call:
+    inputs:
+      ENVIRONMENT:
+        required: true
+        type: string
+    secrets:
+      CODACY_PROJECT_TOKEN:
+        required: true
 
 jobs:
 
@@ -53,7 +60,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: client-coverage-file-${{ github.sha }}
-          path: ${{ env.working-directory }}/coverage/coverage-final.json
+          path: ${{ env.working-directory }}/coverage/lcov.info
           retention-days: 3
 
   client_build:
@@ -145,46 +152,34 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: server-coverage-file-${{ github.sha }}
-          path: ${{ env.working-directory }}/coverage/coverage-final.json
+          path: ${{ env.working-directory }}/coverage/lcov.info
           retention-days: 3
 
   coverage_upload:
     needs: [server_test, client_test]
     runs-on: ubuntu-latest
-    environment: CI
-    name: CodeCov upload
+    environment: ${{ inputs.ENVIRONMENT }}
+    name: Codacy Upload
 
     steps:
-      - name: "⬇️ Download the client test coverage report"
+      - name: "⬇️ Download the client test coverage lcov report"
         uses: actions/download-artifact@v3
         with:
           name: client-coverage-file-${{ github.sha }}
 
-      - name: "📜 Copy the client coverage file"
+      - name: "📜 Copy the client lcov coverage file"
         run: |
-          mv coverage-final.json coverage-final-client.json
-
-      - name: "⬇️ Download the server test coverage report"
+          mv lcov.info client-lcov.info
+      - name: "⬇️ Download the server test coverage lcov report"
         uses: actions/download-artifact@v3
         with:
           name: server-coverage-file-${{ github.sha }}
 
-      - name: "📜 Copy the server coverage file"
+      - name: "📜 Copy the server lcov coverage file"
         run: |
-          mv coverage-final.json coverage-final-server.json
+          mv lcov.info server-lcov.info
 
-      - name: "🔀 Merge the coverage reports"
-        run: npx istanbul-merge --out coverage-final.json ./coverage-final-server.json ./coverage-final-client.json
-
-      - name: "👀 OUTPUT coverage json file"
-        run: echo "$(<coverage-final.json )"
-
-      - name: "🌪️ Publish to CodeCov"
-        uses: codecov/codecov-action@v2
-        # with:
-        #   token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-        #   flags: unittests
-        #   files: ./coverage-final.json
-        #   name: codecov-umbrella # optional
-        #   fail_ci_if_error: true # optional (default = false)
-        #   # verbose: true # optional (default = false)
+      - name: "🌪️ Publish to Codacy"
+        run: |
+          export CODACY_PROJECT_TOKEN=${{ secrets.CODACY_PROJECT_TOKEN }}
+          bash <(curl -Ls https://coverage.codacy.com/get.sh) report -l Javascript -r client-lcov.info -r server-lcov.info

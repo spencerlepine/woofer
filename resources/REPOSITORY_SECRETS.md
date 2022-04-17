@@ -4,7 +4,7 @@
 enviroment:
   name: CI
   secrets:
-    CODECOV_TOKEN: <https://codecov.io/>
+    CODACY_PROJECT_TOKEN: <https://docs.codacy.com/>
 
 enviroment:
   name: staging
