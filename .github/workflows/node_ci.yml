@@ -52,7 +52,7 @@ jobs:
       - name: "📁 Upload client test coverage artifact"
         uses: actions/upload-artifact@v3
         with:
-          name: client-coverage-file
+          name: client-coverage-file-${{ github.sha }}
           path: ${{ env.working-directory }}/coverage/coverage-final.json
           retention-days: 3
 
@@ -144,6 +144,6 @@ jobs:
       - name: "📁 Upload server test coverage artifact"
         uses: actions/upload-artifact@v3
         with:
-          name: server-coverage-file
+          name: server-coverage-file-${{ github.sha }}
           path: ${{ env.working-directory }}/coverage/coverage-final.json
           retention-days: 3

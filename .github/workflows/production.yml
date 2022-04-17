@@ -21,7 +21,7 @@ jobs:
       - name: "⬇️ Download the client test coverage report"
         uses: actions/download-artifact@v3
         with:
-          name: client-coverage-file
+          name: client-coverage-file-${{ github.sha }}
 
       - name: "📜 Copy the client coverage file"
         run: |
@@ -30,18 +30,28 @@ jobs:
       - name: "⬇️ Download the server test coverage report"
         uses: actions/download-artifact@v3
         with:
-          name: server-coverage-file
+          name: server-coverage-file-${{ github.sha }}
 
       - name: "📜 Copy the server coverage file"
         run: |
           mv coverage-final.json coverage-final-server.json
+
+      - name: "🔀 Merge the coverage reports"
+        run: npx istanbul-merge --out coverage-final.json ./coverage-final-server.json ./coverage-final-client.json
+
+      - name: "⬆️ Comment test coverage report"
+        uses: AthleticNet/comment-test-coverage@1.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: ./coverage-final.json
+          title: Woofer Test Coverage
 
       - name: "🌪️ Publish to CodeCov"
         uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
           flags: unittests
-          files: ./coverage-final-client.json,./coverage-final-server.json
+          files: ./coverage-final.json
           name: codecov-umbrella # optional
           fail_ci_if_error: true # optional (default = false)
           # verbose: true # optional (default = false)
@@ -102,7 +112,6 @@ jobs:
         run: |
           rm -f .env
           echo ${{ secrets.ENV_PRODUCTION }} > .env
-          cp .env ./${{ env.working-directory }}/.env
 
       - name: "🔒 Login to DockerHub"
         uses: docker/login-action@v1
@@ -174,7 +183,6 @@ jobs:
         run: |
           rm -f .env
           echo ${{ secrets.ENV_PRODUCTION }} > .env
-          cp .env ./${{ env.working-directory }}/.env
 
       - name: "🔒 Login to DockerHub"
         uses: docker/login-action@v1

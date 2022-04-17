@@ -45,7 +45,7 @@ See the [Whitepaper](./resources/WOOFER_WHITEPAPER.pdf).
 > - [MongoDB Atlas](https://www.mongodb.com/atlas/database) Database
 
 ```sh
-cp .env.sample .env && cp .env ./client/.env
+cp .env.sample .env
 npm install
 ```
 
@@ -68,7 +68,7 @@ npm run dev:client
 > - Updated **GitHub Repository Secrets** (see [EXAMPLE_SECRETS](./resources/REPOSITORY_SECRETS.md))
 
 ```sh
-cp .env.sample .env && cp .env ./client/.env
+cp .env.sample .env
 docker-compose up --build
 # visit http://localhost:3000
 ```

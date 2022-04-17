@@ -26,7 +26,7 @@ jobs:
       - name: "⬇️ Download the client test coverage report"
         uses: actions/download-artifact@v3
         with:
-          name: client-coverage-file
+          name: client-coverage-file-${{ github.sha }}
 
       - name: "📜 Copy the client coverage file"
         run: |
@@ -35,7 +35,7 @@ jobs:
       - name: "⬇️ Download the server test coverage report"
         uses: actions/download-artifact@v3
         with:
-          name: server-coverage-file
+          name: server-coverage-file-${{ github.sha }}
 
       - name: "📜 Copy the server coverage file"
         run: |

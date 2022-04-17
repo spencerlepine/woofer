@@ -55,8 +55,13 @@ module.exports = {
     }),
 
     new Dotenv({
-      path: "./.env",
+      path: "../.env",
       prefix: "process.env.",
+    }),
+
+    new webpack.DefinePlugin({
+      "process.env.REACT_APP_FIREBASE_API_KEY": JSON.stringify(process.env.REACT_APP_FIREBASE_API_KEY),
+      "process.env.NODE_ENV": JSON.stringify("production"),
     }),
 
     new HtmlWebPackPlugin({

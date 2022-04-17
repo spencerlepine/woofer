@@ -7,7 +7,6 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 COPY package.json .
 COPY package-lock.json .
-COPY .env .
 RUN npm install
 
 COPY . .

@@ -37,7 +37,6 @@ jobs:
         run: |
           rm -f .env
           echo .env.sample > .env
-          cp .env ./${{ env.working-directory }}/.env
 
       - name: "⚡ Cache Docker ${{ env.working-directory }} layers"
         id: docker-cache
@@ -93,7 +92,6 @@ jobs:
         run: |
           rm -f .env
           echo .env.sample > .env
-          cp .env ./${{ env.working-directory }}/.env
 
       - name: "⚡ Cache Docker ${{ env.working-directory }} layers"
         id: docker-cache-a
@@ -146,8 +144,6 @@ jobs:
         run: |
           rm -f .env
           echo .env.sample > .env
-          cp .env ./client/.env
-          cp .env ./server/.env
 
       # - name: "⚡ Cache/Build Docker Client layers"
       #   id: docker-cache-client
