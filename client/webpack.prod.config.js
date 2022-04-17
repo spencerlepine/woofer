@@ -59,7 +59,18 @@ module.exports = {
       process: "process/browser",
     }),
 
+    new webpack.EnvironmentPlugin(["NODE_ENV"]),
+    new webpack.EnvironmentPlugin(["SERVER_URL"]),
+    new webpack.EnvironmentPlugin(["PORT"]),
+    new webpack.EnvironmentPlugin(["MONGODB_URL"]),
+    new webpack.EnvironmentPlugin(["SKIP_PREFLIGHT_CHECK"]),
     new webpack.EnvironmentPlugin(["REACT_APP_FIREBASE_API_KEY"]),
+    new webpack.EnvironmentPlugin(["REACT_APP_FIREBASE_AUTH_DOMAIN"]),
+    new webpack.EnvironmentPlugin(["REACT_APP_FIREBASE_PROJECT_ID"]),
+    new webpack.EnvironmentPlugin(["REACT_APP_FIREBASE_STORAGE_BUCKET"]),
+    new webpack.EnvironmentPlugin(["REACT_APP_FIREBASE_MESSAGING_SENDER_ID"]),
+    new webpack.EnvironmentPlugin(["REACT_APP_FIREBASE_APP_ID"]),
+    new webpack.EnvironmentPlugin(["REACT_APP_FIREBASE_MEASUREMENT_ID"]),
 
     // new webpack.DefinePlugin({
     //   "process.env.REACT_APP_FIREBASE_API_KEY": JSON.stringify(

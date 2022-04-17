@@ -14,7 +14,7 @@
   "license": "MIT",
   "scripts": {
     "start": "npm run dev:client",
-    "build": "webpack --config ./webpack.prod.config.js --mode production",
+    "build": "dotenv -e ../.env -- webpack --config ./webpack.prod.config.js --mode production",
     "dev:client": "webpack serve --config ./webpack.dev.config.js --env development --mode development",
     "test": "jest --detectOpenHandles --runInBand --forceExit",
     "test:watch": "jest --onlyChanged --watch"
@@ -37,6 +37,7 @@
     "compression": "^1.7.4",
     "compression-webpack-plugin": "^9.2.0",
     "css-loader": "^6.7.1",
+    "dotenv-cli": "^5.1.0",
     "dotenv-webpack": "^7.1.0",
     "eslint-config-react-app": "^7.0.0",
     "eslint-plugin-react-hooks": "^4.3.0",
