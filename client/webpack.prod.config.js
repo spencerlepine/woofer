@@ -11,6 +11,9 @@ const Dotenv = require("dotenv-webpack")
 module.exports = {
   mode: "production",
   resolve: {
+    alias: {
+      process: "process/browser",
+    },
     fallback: {
       fs: false,
       https: false,
@@ -59,12 +62,20 @@ module.exports = {
     //   prefix: "process.env.",
     // }),
 
-    new webpack.DefinePlugin({
-      "process.env.REACT_APP_FIREBASE_API_KEY": JSON.stringify(
-        process.env.REACT_APP_FIREBASE_API_KEY
-      ),
-      "process.env.NODE_ENV": JSON.stringify("production"),
+    new webpack.ProvidePlugin({
+      process: "process/browser",
     }),
+
+    new webpack.DefinePlugin({
+      "process.env": JSON.stringify(process.env),
+    }),
+
+    // new webpack.DefinePlugin({
+    //   "process.env.REACT_APP_FIREBASE_API_KEY": JSON.stringify(
+    //     process.env.REACT_APP_FIREBASE_API_KEY
+    //   ),
+    //   "process.env.NODE_ENV": JSON.stringify("production"),
+    // }),
 
     new HtmlWebPackPlugin({
       template: path.resolve(__dirname, "public", "index.html"),
