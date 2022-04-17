@@ -7,20 +7,20 @@ on:
 
 jobs:
 
-  node_ci:
-    name: Node CI
-    uses: ./.github/workflows/node_ci.yml
-    with:
-      ENVIRONMENT: CI
-    secrets:
-      CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+  # node_ci:
+  #   name: Node CI
+  #   uses: ./.github/workflows/node_ci.yml
+  #   with:
+  #     ENVIRONMENT: CI
+  #   secrets:
+  #     CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
-  docker_ci:
-    name: Docker CI
-    uses: ./.github/workflows/docker_ci.yml
+  # docker_ci:
+  #   name: Docker CI
+  #   uses: ./.github/workflows/docker_ci.yml
 
   build_docker_client:
-    needs: [node_ci, docker_ci]
+    # needs: [node_ci, docker_ci]
     name: "🐳 Build/Publish Docker (CLIENT) Image"
     environment: production
     runs-on: ubuntu-latest
@@ -60,12 +60,6 @@ jobs:
           restore-keys: |
             ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-
       - name: "🔧 Create .env file"
         run: |
           rm -f .env
@@ -91,7 +85,7 @@ jobs:
           # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
   build_docker_server:
-    needs: [node_ci, docker_ci]
+    # needs: [node_ci, docker_ci]
     name: "🐳 Build/Publish Docker (SERVER) Image"
     environment: production
     runs-on: ubuntu-latest
@@ -131,11 +125,6 @@ jobs:
           key: ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: "🔧 Create .env file"
         run: |
