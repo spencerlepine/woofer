@@ -6,11 +6,12 @@ const CompressionPlugin = require("compression-webpack-plugin")
 const InterpolateHtmlPlugin = require("interpolate-html-plugin")
 const webpack = require("webpack")
 
-const Dotenv = require("dotenv-webpack")
-
 module.exports = {
   mode: "production",
   resolve: {
+    alias: {
+      process: "process/browser",
+    },
     fallback: {
       fs: false,
       https: false,
@@ -54,10 +55,29 @@ module.exports = {
       test: /\.js(\?.*)?$/i,
     }),
 
-    new Dotenv({
-      path: "./.env",
-      prefix: "process.env.",
+    new webpack.ProvidePlugin({
+      process: "process/browser",
     }),
+
+    new webpack.EnvironmentPlugin(["NODE_ENV"]),
+    new webpack.EnvironmentPlugin(["SERVER_URL"]),
+    new webpack.EnvironmentPlugin(["PORT"]),
+    new webpack.EnvironmentPlugin(["MONGODB_URL"]),
+    new webpack.EnvironmentPlugin(["SKIP_PREFLIGHT_CHECK"]),
+    new webpack.EnvironmentPlugin(["REACT_APP_FIREBASE_API_KEY"]),
+    new webpack.EnvironmentPlugin(["REACT_APP_FIREBASE_AUTH_DOMAIN"]),
+    new webpack.EnvironmentPlugin(["REACT_APP_FIREBASE_PROJECT_ID"]),
+    new webpack.EnvironmentPlugin(["REACT_APP_FIREBASE_STORAGE_BUCKET"]),
+    new webpack.EnvironmentPlugin(["REACT_APP_FIREBASE_MESSAGING_SENDER_ID"]),
+    new webpack.EnvironmentPlugin(["REACT_APP_FIREBASE_APP_ID"]),
+    new webpack.EnvironmentPlugin(["REACT_APP_FIREBASE_MEASUREMENT_ID"]),
+
+    // new webpack.DefinePlugin({
+    //   "process.env.REACT_APP_FIREBASE_API_KEY": JSON.stringify(
+    //     process.env.REACT_APP_FIREBASE_API_KEY
+    //   ),
+    //   "process.env.NODE_ENV": JSON.stringify("production"),
+    // }),
 
     new HtmlWebPackPlugin({
       template: path.resolve(__dirname, "public", "index.html"),

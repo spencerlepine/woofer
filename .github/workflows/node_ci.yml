@@ -25,7 +25,7 @@ jobs:
 
       - name: "⚙️ Generate .env file"
         run: |
-          mv .env.sample ${{ env.working-directory }}/.env
+          cp .env.sample .env
 
       - name: "🔧 Set up Node"
         uses: actions/setup-node@v3
@@ -52,7 +52,7 @@ jobs:
       - name: "📁 Upload client test coverage artifact"
         uses: actions/upload-artifact@v3
         with:
-          name: client-coverage-file
+          name: client-coverage-file-${{ github.sha }}
           path: ${{ env.working-directory }}/coverage/coverage-final.json
           retention-days: 3
 
@@ -73,7 +73,7 @@ jobs:
 
       - name: "⚙️ Generate .env file"
         run: |
-          mv .env.sample ${{ env.working-directory }}/.env
+          cp .env.sample .env
 
       - name: "🔧 Set up Node"
         uses: actions/setup-node@v3
@@ -144,6 +144,47 @@ jobs:
       - name: "📁 Upload server test coverage artifact"
         uses: actions/upload-artifact@v3
         with:
-          name: server-coverage-file
+          name: server-coverage-file-${{ github.sha }}
           path: ${{ env.working-directory }}/coverage/coverage-final.json
           retention-days: 3
+
+  coverage_upload:
+    needs: [server_test, client_test]
+    runs-on: ubuntu-latest
+    environment: CI
+    name: CodeCov upload
+
+    steps:
+      - name: "⬇️ Download the client test coverage report"
+        uses: actions/download-artifact@v3
+        with:
+          name: client-coverage-file-${{ github.sha }}
+
+      - name: "📜 Copy the client coverage file"
+        run: |
+          mv coverage-final.json coverage-final-client.json
+
+      - name: "⬇️ Download the server test coverage report"
+        uses: actions/download-artifact@v3
+        with:
+          name: server-coverage-file-${{ github.sha }}
+
+      - name: "📜 Copy the server coverage file"
+        run: |
+          mv coverage-final.json coverage-final-server.json
+
+      - name: "🔀 Merge the coverage reports"
+        run: npx istanbul-merge --out coverage-final.json ./coverage-final-server.json ./coverage-final-client.json
+
+      - name: "👀 OUTPUT coverage json file"
+        run: echo "$(<coverage-final.json )"
+
+      - name: "🌪️ Publish to CodeCov"
+        uses: codecov/codecov-action@v2
+        # with:
+        #   token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+        #   flags: unittests
+        #   files: ./coverage-final.json
+        #   name: codecov-umbrella # optional
+        #   fail_ci_if_error: true # optional (default = false)
+        #   # verbose: true # optional (default = false)

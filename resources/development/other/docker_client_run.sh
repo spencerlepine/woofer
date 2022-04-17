@@ -1,0 +1,24 @@
+
+# LOAD THE .env into memory
+if [ -f .env ]; then
+  export $(echo $(cat .env | sed 's/#.*//g'| xargs) | envsubst)
+fi
+
+# Build the client image
+docker build -t client \
+--build-arg NODE_ENV=$NODE_ENV \
+--build-arg SERVER_URL=$SERVER_URL \
+--build-arg PORT=$PORT \
+--build-arg MONGODB_URL=$MONGODB_URL \
+--build-arg SKIP_PREFLIGHT_CHECK=$SKIP_PREFLIGHT_CHECK \
+--build-arg REACT_APP_FIREBASE_API_KEY=$REACT_APP_FIREBASE_API_KEY \
+--build-arg REACT_APP_FIREBASE_AUTH_DOMAIN=$REACT_APP_FIREBASE_AUTH_DOMAIN \
+--build-arg REACT_APP_FIREBASE_PROJECT_ID=$REACT_APP_FIREBASE_PROJECT_ID \
+--build-arg REACT_APP_FIREBASE_STORAGE_BUCKET=$REACT_APP_FIREBASE_STORAGE_BUCKET \
+--build-arg REACT_APP_FIREBASE_MESSAGING_SENDER_ID=$REACT_APP_FIREBASE_MESSAGING_SENDER_ID \
+--build-arg REACT_APP_FIREBASE_APP_ID=$REACT_APP_FIREBASE_APP_ID \
+--build-arg REACT_APP_FIREBASE_MEASUREMENT_ID=$REACT_APP_FIREBASE_MEASUREMENT_ID \
+.
+
+# Run the container!
+docker run -it -p 3000:3000 client

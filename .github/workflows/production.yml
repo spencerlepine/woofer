@@ -11,42 +11,6 @@ jobs:
     name: Node CI
     uses: ./.github/workflows/node_ci.yml
 
-  coverage_upload:
-    needs: [node_ci]
-    runs-on: ubuntu-latest
-    environment: CI
-    name: CodeCov upload
-
-    steps:
-      - name: "⬇️ Download the client test coverage report"
-        uses: actions/download-artifact@v3
-        with:
-          name: client-coverage-file
-
-      - name: "📜 Copy the client coverage file"
-        run: |
-          mv coverage-final.json coverage-final-client.json
-
-      - name: "⬇️ Download the server test coverage report"
-        uses: actions/download-artifact@v3
-        with:
-          name: server-coverage-file
-
-      - name: "📜 Copy the server coverage file"
-        run: |
-          mv coverage-final.json coverage-final-server.json
-
-      - name: "🌪️ Publish to CodeCov"
-        uses: codecov/codecov-action@v2
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-          flags: unittests
-          files: ./coverage-final-client.json,./coverage-final-server.json
-          name: codecov-umbrella # optional
-          fail_ci_if_error: true # optional (default = false)
-          # verbose: true # optional (default = false)
-
-
   docker_ci:
     name: Docker CI
     uses: ./.github/workflows/docker_ci.yml
@@ -96,13 +60,12 @@ jobs:
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: "🔧 Create .env file"
         run: |
           rm -f .env
           echo ${{ secrets.ENV_PRODUCTION }} > .env
-          cp .env ./${{ env.working-directory }}/.env
 
       - name: "🔒 Login to DockerHub"
         uses: docker/login-action@v1
@@ -174,7 +137,6 @@ jobs:
         run: |
           rm -f .env
           echo ${{ secrets.ENV_PRODUCTION }} > .env
-          cp .env ./${{ env.working-directory }}/.env
 
       - name: "🔒 Login to DockerHub"
         uses: docker/login-action@v1
@@ -195,10 +157,10 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache-${{ env.working-directory }}
           cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
-  deploy_ec2:
+  verify_ec2:
     needs: [build_docker_server, build_docker_client]
-    name: 🚀 EC2 Depoyment
-    environment: production
+    name: ✅ EC2 Verification
+    environment: staging
     runs-on: ubuntu-latest
 
     steps:
@@ -208,14 +170,49 @@ jobs:
           host: ${{ secrets.EC2_REMOTE_HOST }}
           username: ${{ secrets.EC2_REMOTE_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          passphrase: ${{ secrets.EC2_PASSPHRASE }}
+          # passphrase: ${{ secrets.EC2_PASSPHRASE }}
           port: 22
           script_stop: true
           script: |
+            RED='\033[0;31'
+            BLUE='\033[34m'
             GREEN='\033[0;32m'
             NC='\033[0m' # No Color
             echo -e "$GREEN Connected to the EC2 Instance! $NC"
+
+            echo -e "$BLUE Verifying Docker in intalled $NC"
+            if [ -x "$(command -v docker)" ]; then
+                echo -e "$GREEN ✅ Connected to the EC2 Instance! $NC"
+                # command
+            else
+                echo "❌ Docker is not installed!"
+                exit 1
+            fi
+
+            echo -e "$BLUE Verifying DockerHub Repositories exist $NC"
+            UNAME="${{ secrets.DOCKERHUB_USERNAME }}"
+            UPASS="${{ secrets.DOCKERHUB_PASSWORD }}"
+
+            function docker_tag_exists() {
+                TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "'${UNAME}'", "password": "'${UPASS}'"}' https://hub.docker.com/v2/users/login/ | jq -r .token)
+                curl --silent -f --head -lL https://hub.docker.com/v2/repositories/$1/tags/$2/ > /dev/null
+            }
+
+            if docker_tag_exists ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }} latest; then
+                echo "✅ Found Docker Image on DockerHub"
+            else
+                (echo "❌ Unable to find ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }} on DockerHub" && exit 1)
+            fi
+
             exit 0
+
+  deploy_ec2:
+    needs: [verify_ec2]
+    name: 🚀 EC2 Depoyment
+    environment: production
+    runs-on: ubuntu-latest
+
+    steps:
       - name: "🐳 Deploy Docker Containers"
         uses: appleboy/ssh-action@master
         with:

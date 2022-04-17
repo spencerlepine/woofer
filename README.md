@@ -1,8 +1,8 @@
-# Woofer &middot; [![CI/CD](https://github.com/spencerlepine/woofer/actions/workflows/production.yml/badge.svg?branch=main&event=push)](https://github.com/spencerlepine/woofer/actions/workflows/production.yml) [![codecov](https://codecov.io/gh/spencerlepine/woofer/branch/main/graph/badge.svg?token=FF54XVIFGP)](https://codecov.io/gh/spencerlepine/woofer) [![Code Analysis](https://github.com/spencerlepine/woofer/actions/workflows/code-analysis.yml/badge.svg?branch=main)](https://github.com/spencerlepine/woofer/actions/workflows/code-analysis.yml)
+# Woofer &middot; [![CI/CD](https://github.com/spencerlepine/woofer/workflows/CI%2FCD/badge.svg)](https://github.com/spencerlepine/woofer/actions/workflows/production.yml) [![codecov](https://codecov.io/gh/spencerlepine/woofer/branch/main/graph/badge.svg?token=FF54XVIFGP)](https://codecov.io/gh/spencerlepine/woofer) [![Code Analysis](https://github.com/spencerlepine/woofer/workflows/Code%20Analysis/badge.svg)](https://github.com/spencerlepine/woofer/actions/workflows/code-analysis.yml)
 
-Dating app for dogs. Customize a dating profile, update preferences, and match/chat with nearby users. View the [DEMO](https://ec2-18-237-220-78.us-west-2.compute.amazonaws.com)
+Dating app for dogs. Customize a dating profile, update preferences, and match/chat with nearby users. View the [DEMO](http://34.203.190.56)
 
-[![Demo GIF](./resources/assets/demo.gif)](https://ec2-18-237-220-78.us-west-2.compute.amazonaws.com)
+[![Demo GIF](./resources/assets/demo.gif)](http://34.203.190.56)
 
 # 🎯 Overview
 
@@ -45,7 +45,7 @@ See the [Whitepaper](./resources/WOOFER_WHITEPAPER.pdf).
 > - [MongoDB Atlas](https://www.mongodb.com/atlas/database) Database
 
 ```sh
-cp .env.sample .env && cp .env ./client/.env
+cp .env.sample .env
 npm install
 ```
 
@@ -68,7 +68,7 @@ npm run dev:client
 > - Updated **GitHub Repository Secrets** (see [EXAMPLE_SECRETS](./resources/REPOSITORY_SECRETS.md))
 
 ```sh
-cp .env.sample .env && cp .env ./client/.env
+cp .env.sample .env
 docker-compose up --build
 # visit http://localhost:3000
 ```

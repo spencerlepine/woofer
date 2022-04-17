@@ -2,6 +2,21 @@
 
 ```yml
 enviroment:
+  name: CI
+  secrets:
+    CODECOV_TOKEN: <https://codecov.io/>
+
+enviroment:
+  name: staging
+  secrets:
+      DOCKERHUB_CLIENT_REPO: woofer-client
+      DOCKERHUB_SERVER_REPO: woofer-server
+      # EC2_PASSPHRASE: "the fox jumped over the moon"
+      EC2_SSH_KEY: # .pem file contents
+      EC2_REMOTE_HOST: ec2-xx-xxx-xxx-xxx.us-west-2.compute.amazonaws.com
+      EC2_REMOTE_USER: ec2-user
+
+enviroment:
   production
 secrets:
   ENV_PRODUCTION: *.env file contents*

@@ -10,6 +10,9 @@ const Dotenv = require("dotenv-webpack")
 module.exports = {
   mode: "development",
   resolve: {
+    alias: {
+      process: "process/browser",
+    },
     fallback: {
       fs: false,
       https: false,
@@ -31,12 +34,8 @@ module.exports = {
     }),
 
     new Dotenv({
-      path: "./.env",
+      path: "../.env",
       prefix: "process.env.",
-    }),
-
-    new webpack.DefinePlugin({
-      "process.env.NODE_ENV": JSON.stringify("development"),
     }),
 
     new InterpolateHtmlPlugin({ PUBLIC_URL: "static" }),
