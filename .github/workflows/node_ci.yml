@@ -152,35 +152,44 @@ jobs:
     needs: [server_test, client_test]
     runs-on: ubuntu-latest
     environment: CI
-    name: CodeCov upload
+    name: Codacy Upload
 
     steps:
-      - name: "⬇️ Download the client test coverage report"
+      - name: "⬇️ Download the client test coverage lcov report"
         uses: actions/download-artifact@v3
         with:
           name: client-coverage-file-${{ github.sha }}
 
-      - name: "📜 Copy the client coverage file"
+      - name: "📜 Copy the client lcov coverage file"
         run: |
-          mv coverage-final.json coverage-final-client.json
-
-      - name: "⬇️ Download the server test coverage report"
+          mv lcov.info client-lcov.info
+      - name: "⬇️ Download the server test coverage lcov report"
         uses: actions/download-artifact@v3
         with:
           name: server-coverage-file-${{ github.sha }}
 
-      - name: "📜 Copy the server coverage file"
+      - name: "📜 Copy the server lcov coverage file"
         run: |
-          mv coverage-final.json coverage-final-server.json
+          mv lcov.info server-lcov.info
 
-      - name: "🔀 Merge the coverage reports"
-        run: npx istanbul-merge --out coverage-final.json ./coverage-final-server.json ./coverage-final-client.json
+      # - name: "🔧 Set up Node"
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: ${{ matrix.node }}
 
-      - name: "👀 OUTPUT coverage json file"
-        run: echo "$(<coverage-final.json )"
+      # - name: "Install lcov report merger package"
+      #   run: npm i lcov-result-merger
 
-      - name: "🌪️ Publish to CodeCov"
-        uses: codecov/codecov-action@v2
+      # - name: "🔀 Merge the coverage reports"
+      #   run:  ./node_modules/.bin/lcov-result-merger '*-report.lcov' 'lcov.info'
+
+      - name: "🌪️ Publish to Codacy"
+        run: |
+          export CODACY_PROJECT_TOKEN="${{ secrets.CODACY_PROJECT_TOKEN }}"
+          bash <(curl -Ls https://coverage.codacy.com/get.sh) report -l Javascript -r client-lcov.info -r server-lcov.info
+
+      # - name: "🌪️ Publish to CodeCov"
+      #   uses: codecov/codecov-action@v2
         # with:
         #   token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
         #   flags: unittests

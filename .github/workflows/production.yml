@@ -83,8 +83,8 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ env.DOCKERHUB_REPO }}:latest
-          cache-from: type=local,src=/tmp/.buildx-cache-${{ env.working-directory }}
-          cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
+          # cache-from: type=local,src=/tmp/.buildx-cache-${{ env.working-directory }}
+          # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
   build_docker_server:
     needs: [node_ci, docker_ci]
@@ -154,8 +154,8 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ env.DOCKERHUB_REPO }}:latest
-          cache-from: type=local,src=/tmp/.buildx-cache-${{ env.working-directory }}
-          cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
+          # cache-from: type=local,src=/tmp/.buildx-cache-${{ env.working-directory }}
+          # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
   verify_ec2:
     needs: [build_docker_server, build_docker_client]
