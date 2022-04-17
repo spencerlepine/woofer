@@ -6,8 +6,6 @@ const CompressionPlugin = require("compression-webpack-plugin")
 const InterpolateHtmlPlugin = require("interpolate-html-plugin")
 const webpack = require("webpack")
 
-const Dotenv = require("dotenv-webpack")
-
 module.exports = {
   mode: "production",
   resolve: {
@@ -57,18 +55,11 @@ module.exports = {
       test: /\.js(\?.*)?$/i,
     }),
 
-    // new Dotenv({
-    //   path: "../.env",
-    //   prefix: "process.env.",
-    // }),
-
     new webpack.ProvidePlugin({
       process: "process/browser",
     }),
 
-    new webpack.DefinePlugin({
-      "process.env": JSON.stringify(process.env),
-    }),
+    new webpack.EnvironmentPlugin(["REACT_APP_FIREBASE_API_KEY"]),
 
     // new webpack.DefinePlugin({
     //   "process.env.REACT_APP_FIREBASE_API_KEY": JSON.stringify(

@@ -176,19 +176,15 @@ jobs:
       - name: "🔀 Merge the coverage reports"
         run: npx istanbul-merge --out coverage-final.json ./coverage-final-server.json ./coverage-final-client.json
 
-      - name: "⬆️ Comment test coverage report"
-        uses: AthleticNet/comment-test-coverage@1.1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          path: ./coverage-final.json
-          title: Woofer Test Coverage
+      - name: "👀 OUTPUT coverage json file"
+        run: echo "$(<coverage-final.json )"
 
       - name: "🌪️ Publish to CodeCov"
         uses: codecov/codecov-action@v2
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-          flags: unittests
-          files: ./coverage-final.json
-          name: codecov-umbrella # optional
-          fail_ci_if_error: true # optional (default = false)
-          # verbose: true # optional (default = false)
+        # with:
+        #   token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+        #   flags: unittests
+        #   files: ./coverage-final.json
+        #   name: codecov-umbrella # optional
+        #   fail_ci_if_error: true # optional (default = false)
+        #   # verbose: true # optional (default = false)

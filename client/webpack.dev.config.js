@@ -33,19 +33,10 @@ module.exports = {
       filename: "./index.html",
     }),
 
-    // new Dotenv({
-    //   path: "../.env",
-    //   prefix: "process.env.",
-    // }),
-    new webpack.ProvidePlugin({
-      process: "process/browser",
+    new Dotenv({
+      path: "../.env",
+      prefix: "process.env.",
     }),
-
-    new webpack.DefinePlugin({
-      "process.env": JSON.stringify(process.env),
-    }),
-
-    new webpack.EnvironmentPlugin(["REACT_APP_FIREBASE_API_KEY"]),
 
     new InterpolateHtmlPlugin({ PUBLIC_URL: "static" }),
   ],
