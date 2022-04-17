@@ -2,6 +2,13 @@ name: Node CI
 
 on:
   workflow_call:
+    inputs:
+      ENVIRONMENT:
+        required: true
+        type: string
+    secrets:
+      CODACY_PROJECT_TOKEN:
+        required: true
 
 jobs:
 
@@ -151,7 +158,7 @@ jobs:
   coverage_upload:
     needs: [server_test, client_test]
     runs-on: ubuntu-latest
-    environment: CI
+    environment: ${{ inputs.ENVIRONMENT }}
     name: Codacy Upload
 
     steps:
