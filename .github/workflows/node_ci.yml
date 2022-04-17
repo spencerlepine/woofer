@@ -172,28 +172,7 @@ jobs:
         run: |
           mv lcov.info server-lcov.info
 
-      # - name: "🔧 Set up Node"
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: ${{ matrix.node }}
-
-      # - name: "Install lcov report merger package"
-      #   run: npm i lcov-result-merger
-
-      # - name: "🔀 Merge the coverage reports"
-      #   run:  ./node_modules/.bin/lcov-result-merger '*-report.lcov' 'lcov.info'
-
       - name: "🌪️ Publish to Codacy"
         run: |
           export CODACY_PROJECT_TOKEN="${{ secrets.CODACY_PROJECT_TOKEN }}"
           bash <(curl -Ls https://coverage.codacy.com/get.sh) report -l Javascript -r client-lcov.info -r server-lcov.info
-
-      # - name: "🌪️ Publish to CodeCov"
-      #   uses: codecov/codecov-action@v2
-        # with:
-        #   token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-        #   flags: unittests
-        #   files: ./coverage-final.json
-        #   name: codecov-umbrella # optional
-        #   fail_ci_if_error: true # optional (default = false)
-        #   # verbose: true # optional (default = false)
