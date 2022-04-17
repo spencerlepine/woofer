@@ -1,8 +1,8 @@
 # Woofer &middot; [![CI/CD](https://github.com/spencerlepine/woofer/workflows/CI%2FCD/badge.svg)](https://github.com/spencerlepine/woofer/actions/workflows/production.yml) [![codecov](https://codecov.io/gh/spencerlepine/woofer/branch/main/graph/badge.svg?token=FF54XVIFGP)](https://codecov.io/gh/spencerlepine/woofer) [![Code Analysis](https://github.com/spencerlepine/woofer/workflows/Code%20Analysis/badge.svg)](https://github.com/spencerlepine/woofer/actions/workflows/code-analysis.yml)
 
-Dating app for dogs. Customize a dating profile, update preferences, and match/chat with nearby users. View the [DEMO](https://ec2-18-237-220-78.us-west-2.compute.amazonaws.com)
+Dating app for dogs. Customize a dating profile, update preferences, and match/chat with nearby users. View the [DEMO](http://34.203.190.56)
 
-[![Demo GIF](./resources/assets/demo.gif)](https://ec2-18-237-220-78.us-west-2.compute.amazonaws.com)
+[![Demo GIF](./resources/assets/demo.gif)](http://34.203.190.56)
 
 # 🎯 Overview
 
