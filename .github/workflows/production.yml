@@ -3,7 +3,7 @@ name: CI/CD
 on:
   push:
     branches:
-      - 'main'
+      - '*'
 
 jobs:
 
@@ -83,7 +83,7 @@ jobs:
           DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }}
         with:
           context: ./${{ env.working-directory }}
-          file: Dockerfile
+          file: ./${{ env.working-directory }}/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ env.DOCKERHUB_REPO }}:latest
@@ -154,7 +154,7 @@ jobs:
           DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }}
         with:
           context: ./${{ env.working-directory }}
-          file: Dockerfile
+          file: ./${{ env.working-directory }}/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ env.DOCKERHUB_REPO }}:latest
