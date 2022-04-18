@@ -3,155 +3,155 @@ name: CI/CD
 on:
   push:
     branches:
-      - '*'
+      - 'main'
 
 jobs:
 
-  # node_ci:
-  #   name: Node CI
-  #   uses: ./.github/workflows/node_ci.yml
-  #   with:
-  #     ENVIRONMENT: CI
-  #   secrets:
-  #     CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+  node_ci:
+    name: Node CI
+    uses: ./.github/workflows/node_ci.yml
+    with:
+      ENVIRONMENT: CI
+    secrets:
+      CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
-  # docker_ci:
-  #   name: Docker CI
-  #   uses: ./.github/workflows/docker_ci.yml
+  docker_ci:
+    name: Docker CI
+    uses: ./.github/workflows/docker_ci.yml
 
-  # build_docker_client:
-  #   # needs: [node_ci, docker_ci]
-  #   name: "🐳 Build/Publish Docker (CLIENT) Image"
-  #   environment: production
-  #   runs-on: ubuntu-latest
-  #   env:
-  #    working-directory: client
+  build_docker_client:
+    needs: [node_ci, docker_ci]
+    name: "🐳 Build/Publish Docker (CLIENT) Image"
+    environment: production
+    runs-on: ubuntu-latest
+    env:
+     working-directory: client
 
-  #   steps:
-  #     - name: "☁️ Check out Git Repository"
-  #       uses: actions/checkout@v2
+    steps:
+      - name: "☁️ Check out Git Repository"
+        uses: actions/checkout@v2
 
-  #     - name: "🔧 Set up Node"
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 16
-  #         cache: 'npm'
-  #         cache-dependency-path: '**/package-lock.json'
+      - name: "🔧 Set up Node"
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
 
-  #     - name: "⚡ Cache dependencies"
-  #       uses: actions/cache@v3
-  #       id: modules-cache
-  #       with:
-  #         path: '**/node_modules'
-  #         key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: "⚡ Cache dependencies"
+        uses: actions/cache@v3
+        id: modules-cache
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
-  #     - name: "📦 Install dependencies"
-  #       if: steps.modules-cache.outputs.cache-hit != 'true'
-  #       run: npm install
+      - name: "📦 Install dependencies"
+        if: steps.modules-cache.outputs.cache-hit != 'true'
+        run: npm install
 
-  #     - name: Set up Docker Buildx
-  #       uses: docker/setup-buildx-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
-  #     - name: Cache Docker layers
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: /tmp/.buildx-cache-${{ env.working-directory }}
-  #         key: ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
-  #         restore-keys: |
-  #           ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache-${{ env.working-directory }}
+          key: ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
 
-  #     - name: "🔧 Create .env file"
-  #       run: |
-  #         rm -f .env
-  #         echo ${{ secrets.ENV_PRODUCTION }} > .env
+      - name: "🔧 Create .env file"
+        run: |
+          rm -f .env
+          echo ${{ secrets.ENV_PRODUCTION }} > .env
 
-  #     - name: "🔒 Login to DockerHub"
-  #       uses: docker/login-action@v1
-  #       with:
-  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
-  #         password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: "🔒 Login to DockerHub"
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-  #     - name: "🐋 Publish to DockerHub Registry"
-  #       uses: docker/build-push-action@v2
-  #       env:
-  #         DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }}
-  #       with:
-  #         context: ./${{ env.working-directory }}
-  #         file: ./${{ env.working-directory }}/Dockerfile
-  #         builder: ${{ steps.buildx.outputs.name }}
-  #         push: true
-  #         tags: ${{ env.DOCKERHUB_REPO }}:latest
-  #         # cache-from: type=local,src=/tmp/.buildx-cache-${{ env.working-directory }}
-  #         # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
+      - name: "🐋 Publish to DockerHub Registry"
+        uses: docker/build-push-action@v2
+        env:
+          DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }}
+        with:
+          context: ./${{ env.working-directory }}
+          file: ./${{ env.working-directory }}/Dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags: ${{ env.DOCKERHUB_REPO }}:latest
+          # cache-from: type=local,src=/tmp/.buildx-cache-${{ env.working-directory }}
+          # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
-  # build_docker_server:
-  #   # needs: [node_ci, docker_ci]
-  #   name: "🐳 Build/Publish Docker (SERVER) Image"
-  #   environment: production
-  #   runs-on: ubuntu-latest
-  #   env:
-  #    working-directory: server
+  build_docker_server:
+    needs: [node_ci, docker_ci]
+    name: "🐳 Build/Publish Docker (SERVER) Image"
+    environment: production
+    runs-on: ubuntu-latest
+    env:
+     working-directory: server
 
-  #   steps:
-  #     - name: "☁️ Check out Git Repository"
-  #       uses: actions/checkout@v2
+    steps:
+      - name: "☁️ Check out Git Repository"
+        uses: actions/checkout@v2
 
-  #     - name: "🔧 Set up Node"
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 16
-  #         cache: 'npm'
-  #         cache-dependency-path: '**/package-lock.json'
+      - name: "🔧 Set up Node"
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
 
-  #     - name: "⚡ Cache dependencies"
-  #       uses: actions/cache@v3
-  #       id: modules-cache
-  #       with:
-  #         path: '**/node_modules'
-  #         key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: "⚡ Cache dependencies"
+        uses: actions/cache@v3
+        id: modules-cache
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
-  #     - name: "📦 Install dependencies"
-  #       if: steps.modules-cache.outputs.cache-hit != 'true'
-  #       run: npm install
+      - name: "📦 Install dependencies"
+        if: steps.modules-cache.outputs.cache-hit != 'true'
+        run: npm install
 
-  #     - name: Set up Docker Buildx
-  #       uses: docker/setup-buildx-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
-  #     # So now you can use Actions' own caching!
-  #     - name: Cache Docker layers
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: /tmp/.buildx-cache-${{ env.working-directory }}
-  #         key: ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
-  #         restore-keys: |
-  #           ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
+      # So now you can use Actions' own caching!
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache-${{ env.working-directory }}
+          key: ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
 
-  #     - name: "🔧 Create .env file"
-  #       run: |
-  #         rm -f .env
-  #         echo ${{ secrets.ENV_PRODUCTION }} > .env
+      - name: "🔧 Create .env file"
+        run: |
+          rm -f .env
+          echo ${{ secrets.ENV_PRODUCTION }} > .env
 
-  #     - name: "🔒 Login to DockerHub"
-  #       uses: docker/login-action@v1
-  #       with:
-  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
-  #         password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: "🔒 Login to DockerHub"
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-  #     - name: "🐋 Publish to DockerHub Registry"
-  #       uses: docker/build-push-action@v2
-  #       env:
-  #         DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }}
-  #       with:
-  #         context: ./${{ env.working-directory }}
-  #         file: ./${{ env.working-directory }}/Dockerfile
-  #         builder: ${{ steps.buildx.outputs.name }}
-  #         push: true
-  #         tags: ${{ env.DOCKERHUB_REPO }}:latest
-  #         # cache-from: type=local,src=/tmp/.buildx-cache-${{ env.working-directory }}
-  #         # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
+      - name: "🐋 Publish to DockerHub Registry"
+        uses: docker/build-push-action@v2
+        env:
+          DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }}
+        with:
+          context: ./${{ env.working-directory }}
+          file: ./${{ env.working-directory }}/Dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags: ${{ env.DOCKERHUB_REPO }}:latest
+          # cache-from: type=local,src=/tmp/.buildx-cache-${{ env.working-directory }}
+          # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
   verify_ec2:
-    # needs: [build_docker_server, build_docker_client]
+    needs: [build_docker_server, build_docker_client]
     name: ✅ EC2 Verification
     environment: staging
     runs-on: ubuntu-latest
