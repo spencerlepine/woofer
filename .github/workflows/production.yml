@@ -3,7 +3,7 @@ name: CI/CD
 on:
   push:
     branches:
-      - 'main'
+      - '*'
 
 jobs:
 
@@ -63,7 +63,34 @@ jobs:
       - name: "🔧 Create .env file"
         run: |
           rm -f .env
-          echo .env.sample > .env && export $(grep -v '^#' .env | xargs)
+          touch .env
+          cat >/.env <<EOL
+          NODE_ENV="${{ secrets.NODE_ENV }}"
+          SERVER_URL="${{ secrets.SERVER_URL }}"
+          PORT="${{ secrets.PORT }}"
+          MONGODB_URL="${{ secrets.MONGODB_URL }}"
+          SKIP_PREFLIGHT_CHECK="${{ secrets.SKIP_PREFLIGHT_CHECK }}"
+          REACT_APP_FIREBASE_API_KEY="${{ secrets.REACT_APP_FIREBASE_API_KEY }}"
+          REACT_APP_FIREBASE_AUTH_DOMAIN="${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}"
+          REACT_APP_FIREBASE_PROJECT_ID="${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}"
+          REACT_APP_FIREBASE_STORAGE_BUCKET="${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}"
+          REACT_APP_FIREBASE_MESSAGING_SENDER_ID="${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}"
+          REACT_APP_FIREBASE_APP_ID="${{ secrets.REACT_APP_FIREBASE_APP_ID }}"
+          REACT_APP_FIREBASE_MEASUREMENT_ID="${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}"
+          EOL
+
+          NODE_ENV="${{ secrets.NODE_ENV }}"
+          SERVER_URL="${{ secrets.SERVER_URL }}"
+          PORT="${{ secrets.PORT }}"
+          MONGODB_URL="${{ secrets.MONGODB_URL }}"
+          SKIP_PREFLIGHT_CHECK="${{ secrets.SKIP_PREFLIGHT_CHECK }}"
+          REACT_APP_FIREBASE_API_KEY="${{ secrets.REACT_APP_FIREBASE_API_KEY }}"
+          REACT_APP_FIREBASE_AUTH_DOMAIN="${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}"
+          REACT_APP_FIREBASE_PROJECT_ID="${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}"
+          REACT_APP_FIREBASE_STORAGE_BUCKET="${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}"
+          REACT_APP_FIREBASE_MESSAGING_SENDER_ID="${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}"
+          REACT_APP_FIREBASE_APP_ID="${{ secrets.REACT_APP_FIREBASE_APP_ID }}"
+          REACT_APP_FIREBASE_MEASUREMENT_ID="${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}"
 
       - name: "🔒 Login to DockerHub"
         uses: docker/login-action@v1
@@ -142,7 +169,34 @@ jobs:
       - name: "🔧 Create .env file"
         run: |
           rm -f .env
-          echo .env.sample > .env && export $(grep -v '^#' .env | xargs)
+          touch .env
+          cat >/.env <<EOL
+          NODE_ENV="${{ secrets.NODE_ENV }}"
+          SERVER_URL="${{ secrets.SERVER_URL }}"
+          PORT="${{ secrets.PORT }}"
+          MONGODB_URL="${{ secrets.MONGODB_URL }}"
+          SKIP_PREFLIGHT_CHECK="${{ secrets.SKIP_PREFLIGHT_CHECK }}"
+          REACT_APP_FIREBASE_API_KEY="${{ secrets.REACT_APP_FIREBASE_API_KEY }}"
+          REACT_APP_FIREBASE_AUTH_DOMAIN="${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}"
+          REACT_APP_FIREBASE_PROJECT_ID="${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}"
+          REACT_APP_FIREBASE_STORAGE_BUCKET="${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}"
+          REACT_APP_FIREBASE_MESSAGING_SENDER_ID="${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}"
+          REACT_APP_FIREBASE_APP_ID="${{ secrets.REACT_APP_FIREBASE_APP_ID }}"
+          REACT_APP_FIREBASE_MEASUREMENT_ID="${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}"
+          EOL
+
+          NODE_ENV="${{ secrets.NODE_ENV }}"
+          SERVER_URL="${{ secrets.SERVER_URL }}"
+          PORT="${{ secrets.PORT }}"
+          MONGODB_URL="${{ secrets.MONGODB_URL }}"
+          SKIP_PREFLIGHT_CHECK="${{ secrets.SKIP_PREFLIGHT_CHECK }}"
+          REACT_APP_FIREBASE_API_KEY="${{ secrets.REACT_APP_FIREBASE_API_KEY }}"
+          REACT_APP_FIREBASE_AUTH_DOMAIN="${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}"
+          REACT_APP_FIREBASE_PROJECT_ID="${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}"
+          REACT_APP_FIREBASE_STORAGE_BUCKET="${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}"
+          REACT_APP_FIREBASE_MESSAGING_SENDER_ID="${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}"
+          REACT_APP_FIREBASE_APP_ID="${{ secrets.REACT_APP_FIREBASE_APP_ID }}"
+          REACT_APP_FIREBASE_MEASUREMENT_ID="${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}"
 
       - name: "🔒 Login to DockerHub"
         uses: docker/login-action@v1
