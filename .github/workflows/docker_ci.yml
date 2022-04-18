@@ -36,8 +36,7 @@ jobs:
       - name: "🔧 Create .env file"
         run: |
           rm -f .env
-          echo .env.sample > .env
-          export $(grep -v '^#' .env | xargs)
+          echo .env.sample > .env && export $(grep -v '^#' .env | xargs)
 
       - name: "⚡ Cache Docker ${{ env.working-directory }} layers"
         id: docker-cache
@@ -108,8 +107,7 @@ jobs:
       - name: "🔧 Create .env file"
         run: |
           rm -f .env
-          echo .env.sample > .env
-          export $(grep -v '^#' .env | xargs)
+          echo .env.sample > .env && export $(grep -v '^#' .env | xargs)
 
       - name: "⚡ Cache Docker ${{ env.working-directory }} layers"
         id: docker-cache-a
@@ -161,8 +159,7 @@ jobs:
       - name: "🔧 Create .env file"
         run: |
           rm -f .env
-          echo .env.sample > .env
-          export $(grep -v '^#' .env | xargs)
+          echo .env.sample > .env && export $(grep -v '^#' .env | xargs)
 
       # - name: "⚡ Cache/Build Docker Client layers"
       #   id: docker-cache-client

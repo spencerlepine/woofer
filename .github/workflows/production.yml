@@ -63,8 +63,7 @@ jobs:
       - name: "🔧 Create .env file"
         run: |
           rm -f .env
-          echo ${{ secrets.ENV_PRODUCTION }} > .env
-          export $(grep -v '^#' .env | xargs)
+          echo .env.sample > .env && export $(grep -v '^#' .env | xargs)
 
       - name: "🔒 Login to DockerHub"
         uses: docker/login-action@v1
@@ -143,8 +142,7 @@ jobs:
       - name: "🔧 Create .env file"
         run: |
           rm -f .env
-          echo ${{ secrets.ENV_PRODUCTION }} > .env
-          export $(grep -v '^#' .env | xargs)
+          echo .env.sample > .env && export $(grep -v '^#' .env | xargs)
 
       - name: "🔒 Login to DockerHub"
         uses: docker/login-action@v1
