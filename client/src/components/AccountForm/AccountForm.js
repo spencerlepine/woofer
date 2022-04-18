@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
-// import WooferLogo from "assets/images/Woofer-Logo.png";
+import WooferLogo from "assets/WooferLogo.png"
 
 const AccountForm = (props) => {
   const {
@@ -25,40 +25,59 @@ const AccountForm = (props) => {
   }
 
   return (
-    <form>
-      {/* <img
-        src={WooferLogo}
-        alt="Woofer Logo"
-      ></img> */}
+    <div class="hero-body">
+      <div class="container">
+        <div class="columns is-centered is-5-tablet is-4-desktop is-3-widescreen">
+          <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+            <form className="box has-text-centered">
+              <div className="field has-text-centered">
+                <img
+                  className=" has-text-centered"
+                  width="167"
+                  src={WooferLogo}
+                  alt="Woofer Logo"
+                ></img>
+              </div>
 
-      <h2>{FormTitle}</h2>
+              <h2 className="title">{FormTitle}</h2>
 
-      {FormFields.map(({ name, placeholder }, i) => (
-        <input
-          key={i}
-          onChange={handleChange}
-          type={name}
-          name={name}
-          value={formEntries[name] || ""}
-          placeholder={placeholder}
-        ></input>
-      ))}
+              {FormFields.map(({ name, placeholder }, i) => (
+                <div className="field">
+                  <label for="" class="label">
+                    {placeholder}
+                  </label>
+                  <input
+                    key={i}
+                    onChange={handleChange}
+                    type={name}
+                    name={name}
+                    className="input"
+                    value={formEntries[name] || ""}
+                    placeholder={placeholder}
+                  ></input>
+                </div>
+              ))}
 
-      <button
-        onClick={(e) => {
-          e.preventDefault()
-          handleSubmit(formEntries)
-        }}
-      >
-        {SubmitLabel}
-      </button>
-      <hr />
-      <p>{WrongFormLabel}</p>
+              <button
+                className="button is-medium is-primary"
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleSubmit(formEntries)
+                }}
+              >
+                {SubmitLabel}
+              </button>
+              <hr />
+              <p>{WrongFormLabel}</p>
 
-      <div>
-        <Link to={CorrectionFormLink}>{CorrectionFormName}</Link>
+              <div>
+                <Link to={CorrectionFormLink}>{CorrectionFormName}</Link>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
-    </form>
+    </div>
   )
 }
 
