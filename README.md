@@ -24,6 +24,10 @@ Dating app for dogs. Customize a dating profile, update preferences, and match/c
 
 See the [Whitepaper](./resources/WOOFER_WHITEPAPER.pdf).
 
+# 🤔 Challenges
+
+See the [Challenges](./resources/challenges.txt) file.
+
 # 📦 Technologies:
 
 **Front-end:** [React](https://github.com/facebook/react/), [Burma](https://github.com/jgthms/bulma)
@@ -58,7 +62,7 @@ npm run dev:server
 npm run dev:client
 ```
 
-# 🐳 Run with Docker
+# 🐳 Running Docker
 
 > ### Prerequisites
 >
