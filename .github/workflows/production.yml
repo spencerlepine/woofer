@@ -193,10 +193,16 @@ jobs:
                 curl --silent -f --head -lL https://hub.docker.com/v2/repositories/$1/tags/$2/ > /dev/null
             }
 
-            if docker_tag_exists ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }} latest; then
+            # if docker_tag_exists ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }} latest; then
+            #     echo "✅ Found Docker Image on DockerHub"
+            # else
+            #     (echo "❌ Unable to find ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }} on DockerHub" && exit 1)
+            # fi
+
+            if docker_tag_exists ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }} latest; then
                 echo "✅ Found Docker Image on DockerHub"
             else
-                (echo "❌ Unable to find ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }} on DockerHub" && exit 1)
+                (echo "❌ Unable to find ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }} on DockerHub" && exit 1)
             fi
 
             exit 0
