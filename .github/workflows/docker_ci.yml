@@ -36,7 +36,7 @@ jobs:
       - name: "🔧 Create .env file"
         run: |
           rm -f .env
-          cp .env.sample > .env
+          cp .env.sample .env
           export $(grep -v '^#' .env | xargs)
 
       - name: "⚡ Cache Docker [client] layers"
@@ -108,7 +108,7 @@ jobs:
       - name: "🔧 Create .env file"
         run: |
           rm -f .env
-          cp .env.sample > .env
+          cp .env.sample .env
           export $(grep -v '^#' .env | xargs)
 
       - name: "⚡ Cache Docker [server] layers"
@@ -161,7 +161,7 @@ jobs:
       - name: "🔧 Create .env file"
         run: |
           rm -f .env
-          cp .env.sample > .env
+          cp .env.sample .env
           export $(grep -v '^#' .env | xargs)
 
       # - name: "⚡ Cache/Build Docker Client layers"
