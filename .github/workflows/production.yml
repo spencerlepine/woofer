@@ -64,6 +64,7 @@ jobs:
         run: |
           rm -f .env
           echo ${{ secrets.ENV_PRODUCTION }} > .env
+          export $(grep -v '^#' .env | xargs)
 
       - name: "🔒 Login to DockerHub"
         uses: docker/login-action@v1
@@ -81,6 +82,19 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ env.DOCKERHUB_REPO }}:latest
+          build-args: |
+            NODE_ENV="${{ secrets.NODE_ENV }}"
+            SERVER_URL="${{ secrets.SERVER_URL }}"
+            PORT="${{ secrets.PORT }}"
+            MONGODB_URL="${{ secrets.MONGODB_URL }}"
+            SKIP_PREFLIGHT_CHECK="${{ secrets.SKIP_PREFLIGHT_CHECK }}"
+            REACT_APP_FIREBASE_API_KEY="${{ secrets.REACT_APP_FIREBASE_API_KEY }}"
+            REACT_APP_FIREBASE_AUTH_DOMAIN="${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}"
+            REACT_APP_FIREBASE_PROJECT_ID="${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}"
+            REACT_APP_FIREBASE_STORAGE_BUCKET="${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}"
+            REACT_APP_FIREBASE_MESSAGING_SENDER_ID="${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}"
+            REACT_APP_FIREBASE_APP_ID="${{ secrets.REACT_APP_FIREBASE_APP_ID }}"
+            REACT_APP_FIREBASE_MEASUREMENT_ID="${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}"
           # cache-from: type=local,src=/tmp/.buildx-cache-${{ env.working-directory }}
           # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
@@ -130,6 +144,7 @@ jobs:
         run: |
           rm -f .env
           echo ${{ secrets.ENV_PRODUCTION }} > .env
+          export $(grep -v '^#' .env | xargs)
 
       - name: "🔒 Login to DockerHub"
         uses: docker/login-action@v1
@@ -189,7 +204,7 @@ jobs:
             UPASS="${{ secrets.DOCKERHUB_PASSWORD }}"
 
             function docker_tag_exists() {
-                TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "'${UNAME}'", "password": "'${UPASS}'"}' https://hub.docker.com/v2/users/login/ | jq -r .token)
+                TOKEN="${{ secrets.(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "'${UNAME}'", "password": "'${UPASS}'"}' https://hub.docker.com/v2/users/login/ | jq -r .token)
                 curl --silent -f --head -lL https://hub.docker.com/v2/repositories/$1/tags/$2/ > /dev/null
             }
 
