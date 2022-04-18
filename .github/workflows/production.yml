@@ -19,261 +19,261 @@ jobs:
   #   name: Docker CI
   #   uses: ./.github/workflows/docker_ci.yml
 
-  build_docker_client:
-    # needs: [node_ci, docker_ci]
-    name: "🐳 Build/Publish Docker (CLIENT) Image"
-    environment: production
-    runs-on: ubuntu-latest
-    env:
-     working-directory: client
+  # build_docker_client:
+  #   # needs: [node_ci, docker_ci]
+  #   name: "🐳 Build/Publish Docker (CLIENT) Image"
+  #   environment: production
+  #   runs-on: ubuntu-latest
+  #   env:
+  #    working-directory: client
 
-    steps:
-      - name: "☁️ Check out Git Repository"
-        uses: actions/checkout@v2
+  #   steps:
+  #     - name: "☁️ Check out Git Repository"
+  #       uses: actions/checkout@v2
 
-      - name: "🔧 Set up Node"
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+  #     - name: "🔧 Set up Node"
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
+  #         cache: 'npm'
+  #         cache-dependency-path: '**/package-lock.json'
 
-      - name: "⚡ Cache dependencies"
-        uses: actions/cache@v3
-        id: modules-cache
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+  #     - name: "⚡ Cache dependencies"
+  #       uses: actions/cache@v3
+  #       id: modules-cache
+  #       with:
+  #         path: '**/node_modules'
+  #         key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
-      - name: "📦 Install dependencies"
-        if: steps.modules-cache.outputs.cache-hit != 'true'
-        run: npm install
+  #     - name: "📦 Install dependencies"
+  #       if: steps.modules-cache.outputs.cache-hit != 'true'
+  #       run: npm install
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v1
 
-      - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache-${{ env.working-directory }}
-          key: ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
+  #     - name: Cache Docker layers
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: /tmp/.buildx-cache-${{ env.working-directory }}
+  #         key: ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
+  #         restore-keys: |
+  #           ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
 
-      - name: "🔧 Create .env file"
-        run: |
-          rm -f .env
-          touch .env
-          printf "NODE_ENV=\"${{ secrets.NODE_ENV }}\"
-          SERVER_URL=\"${{ secrets.SERVER_URL }}\"
-          PORT=\"${{ secrets.PORT }}\"
-          MONGODB_URL=\"${{ secrets.MONGODB_URL }}\"
-          SKIP_PREFLIGHT_CHECK=\"${{ secrets.SKIP_PREFLIGHT_CHECK }}\"
-          REACT_APP_FIREBASE_API_KEY=\"${{ secrets.REACT_APP_FIREBASE_API_KEY }}\"
-          REACT_APP_FIREBASE_AUTH_DOMAIN=\"${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}\"
-          REACT_APP_FIREBASE_PROJECT_ID=\"${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}\"
-          REACT_APP_FIREBASE_STORAGE_BUCKET=\"${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}\"
-          REACT_APP_FIREBASE_MESSAGING_SENDER_ID=\"${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}\"
-          REACT_APP_FIREBASE_APP_ID=\"${{ secrets.REACT_APP_FIREBASE_APP_ID }}\"
-          REACT_APP_FIREBASE_MEASUREMENT_ID=\"${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}\"" >> .env
+  #     - name: "🔧 Create .env file"
+  #       run: |
+  #         rm -f .env
+  #         touch .env
+  #         printf "NODE_ENV=\"${{ secrets.NODE_ENV }}\"
+  #         SERVER_URL=\"${{ secrets.SERVER_URL }}\"
+  #         PORT=\"${{ secrets.PORT }}\"
+  #         MONGODB_URL=\"${{ secrets.MONGODB_URL }}\"
+  #         SKIP_PREFLIGHT_CHECK=\"${{ secrets.SKIP_PREFLIGHT_CHECK }}\"
+  #         REACT_APP_FIREBASE_API_KEY=\"${{ secrets.REACT_APP_FIREBASE_API_KEY }}\"
+  #         REACT_APP_FIREBASE_AUTH_DOMAIN=\"${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}\"
+  #         REACT_APP_FIREBASE_PROJECT_ID=\"${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}\"
+  #         REACT_APP_FIREBASE_STORAGE_BUCKET=\"${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}\"
+  #         REACT_APP_FIREBASE_MESSAGING_SENDER_ID=\"${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}\"
+  #         REACT_APP_FIREBASE_APP_ID=\"${{ secrets.REACT_APP_FIREBASE_APP_ID }}\"
+  #         REACT_APP_FIREBASE_MEASUREMENT_ID=\"${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}\"" >> .env
 
-          NODE_ENV="${{ secrets.NODE_ENV }}"
-          SERVER_URL="${{ secrets.SERVER_URL }}"
-          PORT="${{ secrets.PORT }}"
-          MONGODB_URL="${{ secrets.MONGODB_URL }}"
-          SKIP_PREFLIGHT_CHECK="${{ secrets.SKIP_PREFLIGHT_CHECK }}"
-          REACT_APP_FIREBASE_API_KEY="${{ secrets.REACT_APP_FIREBASE_API_KEY }}"
-          REACT_APP_FIREBASE_AUTH_DOMAIN="${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}"
-          REACT_APP_FIREBASE_PROJECT_ID="${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}"
-          REACT_APP_FIREBASE_STORAGE_BUCKET="${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}"
-          REACT_APP_FIREBASE_MESSAGING_SENDER_ID="${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}"
-          REACT_APP_FIREBASE_APP_ID="${{ secrets.REACT_APP_FIREBASE_APP_ID }}"
-          REACT_APP_FIREBASE_MEASUREMENT_ID="${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}"
+  #         NODE_ENV="${{ secrets.NODE_ENV }}"
+  #         SERVER_URL="${{ secrets.SERVER_URL }}"
+  #         PORT="${{ secrets.PORT }}"
+  #         MONGODB_URL="${{ secrets.MONGODB_URL }}"
+  #         SKIP_PREFLIGHT_CHECK="${{ secrets.SKIP_PREFLIGHT_CHECK }}"
+  #         REACT_APP_FIREBASE_API_KEY="${{ secrets.REACT_APP_FIREBASE_API_KEY }}"
+  #         REACT_APP_FIREBASE_AUTH_DOMAIN="${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}"
+  #         REACT_APP_FIREBASE_PROJECT_ID="${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}"
+  #         REACT_APP_FIREBASE_STORAGE_BUCKET="${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}"
+  #         REACT_APP_FIREBASE_MESSAGING_SENDER_ID="${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}"
+  #         REACT_APP_FIREBASE_APP_ID="${{ secrets.REACT_APP_FIREBASE_APP_ID }}"
+  #         REACT_APP_FIREBASE_MEASUREMENT_ID="${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}"
 
-      - name: "🔒 Login to DockerHub"
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+  #     - name: "🔒 Login to DockerHub"
+  #       uses: docker/login-action@v1
+  #       with:
+  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: "🐋 Publish to DockerHub Registry"
-        uses: docker/build-push-action@v2
-        env:
-          DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }}
-        with:
-          context: ./${{ env.working-directory }}
-          file: ./${{ env.working-directory }}/Dockerfile
-          builder: ${{ steps.buildx.outputs.name }}
-          push: true
-          tags: ${{ env.DOCKERHUB_REPO }}:latest
-          build-args: |
-            NODE_ENV="${{ secrets.NODE_ENV }}"
-            SERVER_URL="${{ secrets.SERVER_URL }}"
-            PORT="${{ secrets.PORT }}"
-            MONGODB_URL="${{ secrets.MONGODB_URL }}"
-            SKIP_PREFLIGHT_CHECK="${{ secrets.SKIP_PREFLIGHT_CHECK }}"
-            REACT_APP_FIREBASE_API_KEY="${{ secrets.REACT_APP_FIREBASE_API_KEY }}"
-            REACT_APP_FIREBASE_AUTH_DOMAIN="${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}"
-            REACT_APP_FIREBASE_PROJECT_ID="${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}"
-            REACT_APP_FIREBASE_STORAGE_BUCKET="${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}"
-            REACT_APP_FIREBASE_MESSAGING_SENDER_ID="${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}"
-            REACT_APP_FIREBASE_APP_ID="${{ secrets.REACT_APP_FIREBASE_APP_ID }}"
-            REACT_APP_FIREBASE_MEASUREMENT_ID="${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}"
-          # cache-from: type=local,src=/tmp/.buildx-cache-${{ env.working-directory }}
-          # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
+  #     - name: "🐋 Publish to DockerHub Registry"
+  #       uses: docker/build-push-action@v2
+  #       env:
+  #         DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }}
+  #       with:
+  #         context: ./${{ env.working-directory }}
+  #         file: ./${{ env.working-directory }}/Dockerfile
+  #         builder: ${{ steps.buildx.outputs.name }}
+  #         push: true
+  #         tags: ${{ env.DOCKERHUB_REPO }}:latest
+  #         build-args: |
+  #           NODE_ENV="${{ secrets.NODE_ENV }}"
+  #           SERVER_URL="${{ secrets.SERVER_URL }}"
+  #           PORT="${{ secrets.PORT }}"
+  #           MONGODB_URL="${{ secrets.MONGODB_URL }}"
+  #           SKIP_PREFLIGHT_CHECK="${{ secrets.SKIP_PREFLIGHT_CHECK }}"
+  #           REACT_APP_FIREBASE_API_KEY="${{ secrets.REACT_APP_FIREBASE_API_KEY }}"
+  #           REACT_APP_FIREBASE_AUTH_DOMAIN="${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}"
+  #           REACT_APP_FIREBASE_PROJECT_ID="${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}"
+  #           REACT_APP_FIREBASE_STORAGE_BUCKET="${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}"
+  #           REACT_APP_FIREBASE_MESSAGING_SENDER_ID="${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}"
+  #           REACT_APP_FIREBASE_APP_ID="${{ secrets.REACT_APP_FIREBASE_APP_ID }}"
+  #           REACT_APP_FIREBASE_MEASUREMENT_ID="${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}"
+  #         # cache-from: type=local,src=/tmp/.buildx-cache-${{ env.working-directory }}
+  #         # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
-  build_docker_server:
-    # needs: [node_ci, docker_ci]
-    name: "🐳 Build/Publish Docker (SERVER) Image"
-    environment: production
-    runs-on: ubuntu-latest
-    env:
-     working-directory: server
+  # build_docker_server:
+  #   # needs: [node_ci, docker_ci]
+  #   name: "🐳 Build/Publish Docker (SERVER) Image"
+  #   environment: production
+  #   runs-on: ubuntu-latest
+  #   env:
+  #    working-directory: server
 
-    steps:
-      - name: "☁️ Check out Git Repository"
-        uses: actions/checkout@v2
+  #   steps:
+  #     - name: "☁️ Check out Git Repository"
+  #       uses: actions/checkout@v2
 
-      - name: "🔧 Set up Node"
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+  #     - name: "🔧 Set up Node"
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16
+  #         cache: 'npm'
+  #         cache-dependency-path: '**/package-lock.json'
 
-      - name: "⚡ Cache dependencies"
-        uses: actions/cache@v3
-        id: modules-cache
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+  #     - name: "⚡ Cache dependencies"
+  #       uses: actions/cache@v3
+  #       id: modules-cache
+  #       with:
+  #         path: '**/node_modules'
+  #         key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
-      - name: "📦 Install dependencies"
-        if: steps.modules-cache.outputs.cache-hit != 'true'
-        run: npm install
+  #     - name: "📦 Install dependencies"
+  #       if: steps.modules-cache.outputs.cache-hit != 'true'
+  #       run: npm install
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v1
 
-      # So now you can use Actions' own caching!
-      - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache-${{ env.working-directory }}
-          key: ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
+  #     # So now you can use Actions' own caching!
+  #     - name: Cache Docker layers
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: /tmp/.buildx-cache-${{ env.working-directory }}
+  #         key: ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
+  #         restore-keys: |
+  #           ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
 
-      - name: "🔧 Create .env file"
-        run: |
-          rm -f .env
-          touch .env
-          sudo cat >.env <<EOL
-          NODE_ENV="${{ secrets.NODE_ENV }}"
-          SERVER_URL="${{ secrets.SERVER_URL }}"
-          PORT="${{ secrets.PORT }}"
-          MONGODB_URL="${{ secrets.MONGODB_URL }}"
-          SKIP_PREFLIGHT_CHECK="${{ secrets.SKIP_PREFLIGHT_CHECK }}"
-          REACT_APP_FIREBASE_API_KEY="${{ secrets.REACT_APP_FIREBASE_API_KEY }}"
-          REACT_APP_FIREBASE_AUTH_DOMAIN="${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}"
-          REACT_APP_FIREBASE_PROJECT_ID="${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}"
-          REACT_APP_FIREBASE_STORAGE_BUCKET="${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}"
-          REACT_APP_FIREBASE_MESSAGING_SENDER_ID="${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}"
-          REACT_APP_FIREBASE_APP_ID="${{ secrets.REACT_APP_FIREBASE_APP_ID }}"
-          REACT_APP_FIREBASE_MEASUREMENT_ID="${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}"
-          EOL
+  #     - name: "🔧 Create .env file"
+  #       run: |
+  #         rm -f .env
+  #         touch .env
+  #         sudo cat >.env <<EOL
+  #         NODE_ENV="${{ secrets.NODE_ENV }}"
+  #         SERVER_URL="${{ secrets.SERVER_URL }}"
+  #         PORT="${{ secrets.PORT }}"
+  #         MONGODB_URL="${{ secrets.MONGODB_URL }}"
+  #         SKIP_PREFLIGHT_CHECK="${{ secrets.SKIP_PREFLIGHT_CHECK }}"
+  #         REACT_APP_FIREBASE_API_KEY="${{ secrets.REACT_APP_FIREBASE_API_KEY }}"
+  #         REACT_APP_FIREBASE_AUTH_DOMAIN="${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}"
+  #         REACT_APP_FIREBASE_PROJECT_ID="${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}"
+  #         REACT_APP_FIREBASE_STORAGE_BUCKET="${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}"
+  #         REACT_APP_FIREBASE_MESSAGING_SENDER_ID="${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}"
+  #         REACT_APP_FIREBASE_APP_ID="${{ secrets.REACT_APP_FIREBASE_APP_ID }}"
+  #         REACT_APP_FIREBASE_MEASUREMENT_ID="${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}"
+  #         EOL
 
-          NODE_ENV="${{ secrets.NODE_ENV }}"
-          SERVER_URL="${{ secrets.SERVER_URL }}"
-          PORT="${{ secrets.PORT }}"
-          MONGODB_URL="${{ secrets.MONGODB_URL }}"
-          SKIP_PREFLIGHT_CHECK="${{ secrets.SKIP_PREFLIGHT_CHECK }}"
-          REACT_APP_FIREBASE_API_KEY="${{ secrets.REACT_APP_FIREBASE_API_KEY }}"
-          REACT_APP_FIREBASE_AUTH_DOMAIN="${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}"
-          REACT_APP_FIREBASE_PROJECT_ID="${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}"
-          REACT_APP_FIREBASE_STORAGE_BUCKET="${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}"
-          REACT_APP_FIREBASE_MESSAGING_SENDER_ID="${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}"
-          REACT_APP_FIREBASE_APP_ID="${{ secrets.REACT_APP_FIREBASE_APP_ID }}"
-          REACT_APP_FIREBASE_MEASUREMENT_ID="${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}"
+  #         NODE_ENV="${{ secrets.NODE_ENV }}"
+  #         SERVER_URL="${{ secrets.SERVER_URL }}"
+  #         PORT="${{ secrets.PORT }}"
+  #         MONGODB_URL="${{ secrets.MONGODB_URL }}"
+  #         SKIP_PREFLIGHT_CHECK="${{ secrets.SKIP_PREFLIGHT_CHECK }}"
+  #         REACT_APP_FIREBASE_API_KEY="${{ secrets.REACT_APP_FIREBASE_API_KEY }}"
+  #         REACT_APP_FIREBASE_AUTH_DOMAIN="${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}"
+  #         REACT_APP_FIREBASE_PROJECT_ID="${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}"
+  #         REACT_APP_FIREBASE_STORAGE_BUCKET="${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}"
+  #         REACT_APP_FIREBASE_MESSAGING_SENDER_ID="${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}"
+  #         REACT_APP_FIREBASE_APP_ID="${{ secrets.REACT_APP_FIREBASE_APP_ID }}"
+  #         REACT_APP_FIREBASE_MEASUREMENT_ID="${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}"
 
-      - name: "🔒 Login to DockerHub"
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+  #     - name: "🔒 Login to DockerHub"
+  #       uses: docker/login-action@v1
+  #       with:
+  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: "🐋 Publish to DockerHub Registry"
-        uses: docker/build-push-action@v2
-        env:
-          DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }}
-        with:
-          context: ./${{ env.working-directory }}
-          file: ./${{ env.working-directory }}/Dockerfile
-          builder: ${{ steps.buildx.outputs.name }}
-          push: true
-          tags: ${{ env.DOCKERHUB_REPO }}:latest
-          # cache-from: type=local,src=/tmp/.buildx-cache-${{ env.working-directory }}
-          # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
+  #     - name: "🐋 Publish to DockerHub Registry"
+  #       uses: docker/build-push-action@v2
+  #       env:
+  #         DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }}
+  #       with:
+  #         context: ./${{ env.working-directory }}
+  #         file: ./${{ env.working-directory }}/Dockerfile
+  #         builder: ${{ steps.buildx.outputs.name }}
+  #         push: true
+  #         tags: ${{ env.DOCKERHUB_REPO }}:latest
+  #         # cache-from: type=local,src=/tmp/.buildx-cache-${{ env.working-directory }}
+  #         # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
-  verify_ec2:
-    needs: [build_docker_server, build_docker_client]
-    name: ✅ EC2 Verification
-    environment: staging
-    runs-on: ubuntu-latest
+  # verify_ec2:
+  #   needs: [build_docker_server, build_docker_client]
+  #   name: ✅ EC2 Verification
+  #   environment: staging
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: "🧪 Test EC2 SSH Connection"
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_REMOTE_HOST }}
-          username: ${{ secrets.EC2_REMOTE_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          # passphrase: ${{ secrets.EC2_PASSPHRASE }}
-          port: 22
-          script_stop: true
-          script: |
-            RED='\033[0;31'
-            BLUE='\033[34m'
-            GREEN='\033[0;32m'
-            NC='\033[0m' # No Color
-            echo -e "$GREEN Connected to the EC2 Instance! $NC"
+  #   steps:
+  #     - name: "🧪 Test EC2 SSH Connection"
+  #       uses: appleboy/ssh-action@master
+  #       with:
+  #         host: ${{ secrets.EC2_REMOTE_HOST }}
+  #         username: ${{ secrets.EC2_REMOTE_USER }}
+  #         key: ${{ secrets.EC2_SSH_KEY }}
+  #         # passphrase: ${{ secrets.EC2_PASSPHRASE }}
+  #         port: 22
+  #         script_stop: true
+  #         script: |
+  #           RED='\033[0;31'
+  #           BLUE='\033[34m'
+  #           GREEN='\033[0;32m'
+  #           NC='\033[0m' # No Color
+  #           echo -e "$GREEN Connected to the EC2 Instance! $NC"
 
-            echo -e "$BLUE Verifying Docker in intalled $NC"
-            if [ -x "$(command -v docker)" ]; then
-                echo -e "$GREEN ✅ Connected to the EC2 Instance! $NC"
-                # command
-            else
-                echo "❌ Docker is not installed!"
-                exit 1
-            fi
+  #           echo -e "$BLUE Verifying Docker in intalled $NC"
+  #           if [ -x "$(command -v docker)" ]; then
+  #               echo -e "$GREEN ✅ Connected to the EC2 Instance! $NC"
+  #               # command
+  #           else
+  #               echo "❌ Docker is not installed!"
+  #               exit 1
+  #           fi
 
-            sudo yum install jq -y
+  #           sudo yum install jq -y
 
-            echo -e "$BLUE Verifying DockerHub Repositories exist $NC"
-            UNAME="${{ secrets.DOCKERHUB_USERNAME }}"
-            UPASS="${{ secrets.DOCKERHUB_PASSWORD }}"
+  #           echo -e "$BLUE Verifying DockerHub Repositories exist $NC"
+  #           UNAME="${{ secrets.DOCKERHUB_USERNAME }}"
+  #           UPASS="${{ secrets.DOCKERHUB_PASSWORD }}"
 
-            function docker_tag_exists() {
-                TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "'${UNAME}'", "password": "'${UPASS}'"}' https://hub.docker.com/v2/users/login/ | jq -r .token)
-                curl --silent -f --head -lL https://hub.docker.com/v2/repositories/$1/tags/$2/ > /dev/null
-            }
+  #           function docker_tag_exists() {
+  #               TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "'${UNAME}'", "password": "'${UPASS}'"}' https://hub.docker.com/v2/users/login/ | jq -r .token)
+  #               curl --silent -f --head -lL https://hub.docker.com/v2/repositories/$1/tags/$2/ > /dev/null
+  #           }
 
-            # if docker_tag_exists ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }} latest; then
-            #     echo "✅ Found Docker Image on DockerHub"
-            # else
-            #     (echo "❌ Unable to find ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }} on DockerHub" && exit 1)
-            # fi
+  #           # if docker_tag_exists ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }} latest; then
+  #           #     echo "✅ Found Docker Image on DockerHub"
+  #           # else
+  #           #     (echo "❌ Unable to find ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }} on DockerHub" && exit 1)
+  #           # fi
 
-            if docker_tag_exists ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }} latest; then
-                echo "✅ Found Docker Image on DockerHub"
-            else
-                (echo "❌ Unable to find ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }} on DockerHub" && exit 1)
-            fi
+  #           if docker_tag_exists ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }} latest; then
+  #               echo "✅ Found Docker Image on DockerHub"
+  #           else
+  #               (echo "❌ Unable to find ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }} on DockerHub" && exit 1)
+  #           fi
 
-            exit 0
+  #           exit 0
 
   deploy_ec2:
-    needs: [verify_ec2]
+    # needs: [verify_ec2]
     name: 🚀 EC2 Depoyment
     environment: production
     runs-on: ubuntu-latest
