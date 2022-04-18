@@ -73,7 +73,7 @@ Solution: qemu emulator on EC2 to run anything, OR build specific architecture b
 Challenge: Deployment Stragety, Continuous Delivery with GitHub Actions to EC2 Instance
 Context:
   Docker can be run locally for development. Docker-compose could also be used to run on the EC2, given the entire repository has been cloned.
-  Current Deployment Strategy (Git > GitHub > EC2): 
+  Current Deployment Strategy (Git > GitHub > EC2):
 	- Development locally (git, GitHub)
 	- Push code to Repository (to run GitHub Actions)
 	- Trigger the GitHub Actions, run the following steps:
@@ -94,7 +94,7 @@ Solution:
   Use Docker Hub. If Continuous Integration passes, build and publish the Docker images to DockerHub in the GitHub Actions.
   Then, with working images published, SSH into the EC2, and manually download the images to start containers.
   This avoids the BUILDING step on the EC2. Just download the build files and run.
-  New Deployment Strategy (Git > Github > DockerHub > EC2): 
+  New Deployment Strategy (Git > Github > DockerHub > EC2):
 	- Development locally (git, GitHub)
 	- Push code to Repository (to run GitHub Actions)
 	- Trigger the GitHub Actions, run the following steps:
@@ -145,5 +145,41 @@ Managing multiple DockerHub repositories
 ### Problem #2:
 **Context:** Docker compose can build images easily, and referencing backend/frontend ports works. HOWEVER, with a `client`, `server`, and `nginx` folder and Dockerfile, that is 3 different images.
 **Problem:** Need to PUSH 3 different docker images to DockerHub, and pull all 3 images again on EC2
-**Solution:** Don't go through DockerHub, just clone the GitHub repository and use `docker-compose` on the EC2
+**Solution:** Don't go through DockerHub, just clone the GitHub repository and use `docker-compose` on the EC2.
+
+
+
+
+# Docker + Webpack Enviroment Variables Challenge
+
+## Situation
+The client cannot bundle the files with webpack ( `npm run build`)  without having all the environment variables already defined in the Node.js runtime. Dockerfile will execute `npm run build`, and it MUST set the ENV variables when building the image.
+
+***Note:** docker can build the server image without ENV vars, and load/reference a `.env` file with `dotenv`  when running a container later.*
+
+## Task
+My setup for this project is to read directly from a `.env` file. When building Docker images, this cuases problems, since different libaries handle `process.env` differently.
+Everything in this project should reference `process.env` from the Node.js runtime, instead of depending on a literal `.env` file.
+
+The EC2 production server needed to have a .`env` file in the system, but this required me to manually SSH into the machine just create/update the values.
+
+
+## Action
+Used build arguments to pass values to Docker when building images, and set ENV variables with running containers.
+
+- [x] Refactored the Docker file for the client to refrence build ARGS and set ENV varaibles.
+- [x] Updated the Docker-compose file to pass build-args when building client image
+- [x] Updated the GitHub Action workfows to pass build-args when building the client image
+- [x] Updated the GitHub Action workfows to pass env variables when running the client container
+- [x] Removed broken refrences to .env file on the EC2 server. Only use ENV variables in the Node.js runtime, not storing a `.env` file on the EC2.
+
+## Review
+Webpack is the main problem here. Use `create-react-app` can access `.env` files like the server does.
+I was hesitant to refactor the client and remove webpack in case it broke jest.
+
+This was a valuable lesson to explore manaing ENV variables with Docker.
+I was able to thoughtfully plan how the project would access ENV vars throughout the build/testing/deployment phases.
+
+Without running into this error, I would have still used a `.env` file manually on the EC2 server.
+Now, the GitHub enviroment will store the secrets, and the GitHub Action will set the ENV vars during the deployment.
 

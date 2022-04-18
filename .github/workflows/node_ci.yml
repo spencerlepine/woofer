@@ -63,6 +63,15 @@ jobs:
           path: ${{ env.working-directory }}/coverage/lcov.info
           retention-days: 3
 
+      - name: "🌪️ Comment code coverage to PR"
+        uses: mattallty/jest-github-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # this is just an example, this could be any command that will trigger jest
+          test-command: "npm run test"
+          working-directory: ${{ env.working-directory }}
+
   client_build:
     runs-on: ${{ matrix.os }}
     env:
@@ -154,6 +163,15 @@ jobs:
           name: server-coverage-file-${{ github.sha }}
           path: ${{ env.working-directory }}/coverage/lcov.info
           retention-days: 3
+
+      - name: "🌪️ Comment code coverage to PR"
+        uses: mattallty/jest-github-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # this is just an example, this could be any command that will trigger jest
+          test-command: "npm run test"
+          working-directory: ${{ env.working-directory }}
 
   coverage_upload:
     needs: [server_test, client_test]
