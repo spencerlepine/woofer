@@ -60,12 +60,6 @@ jobs:
           restore-keys: |
             ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-
       - name: "🔧 Create .env file"
         run: |
           rm -f .env
@@ -83,7 +77,7 @@ jobs:
           DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }}
         with:
           context: ./${{ env.working-directory }}
-          file: Dockerfile
+          file: ./${{ env.working-directory }}/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ env.DOCKERHUB_REPO }}:latest
@@ -131,11 +125,6 @@ jobs:
           key: ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ env.working-directory }}-${{ runner.os }}-buildx-${{ github.sha }}
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: "🔧 Create .env file"
         run: |
@@ -154,7 +143,7 @@ jobs:
           DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }}
         with:
           context: ./${{ env.working-directory }}
-          file: Dockerfile
+          file: ./${{ env.working-directory }}/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ env.DOCKERHUB_REPO }}:latest
@@ -193,6 +182,8 @@ jobs:
                 exit 1
             fi
 
+            sudo yum install jq -y
+
             echo -e "$BLUE Verifying DockerHub Repositories exist $NC"
             UNAME="${{ secrets.DOCKERHUB_USERNAME }}"
             UPASS="${{ secrets.DOCKERHUB_PASSWORD }}"
@@ -202,10 +193,16 @@ jobs:
                 curl --silent -f --head -lL https://hub.docker.com/v2/repositories/$1/tags/$2/ > /dev/null
             }
 
-            if docker_tag_exists ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }} latest; then
+            # if docker_tag_exists ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }} latest; then
+            #     echo "✅ Found Docker Image on DockerHub"
+            # else
+            #     (echo "❌ Unable to find ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }} on DockerHub" && exit 1)
+            # fi
+
+            if docker_tag_exists ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }} latest; then
                 echo "✅ Found Docker Image on DockerHub"
             else
-                (echo "❌ Unable to find ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }} on DockerHub" && exit 1)
+                (echo "❌ Unable to find ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }} on DockerHub" && exit 1)
             fi
 
             exit 0
