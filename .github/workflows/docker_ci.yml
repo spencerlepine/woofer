@@ -36,10 +36,10 @@ jobs:
       - name: "🔧 Create .env file"
         run: |
           rm -f .env
-          echo .env.sample > .env
+          cp .env.sample > .env
           export $(grep -v '^#' .env | xargs)
 
-      - name: "⚡ Cache Docker ${{ env.working-directory }} layers"
+      - name: "⚡ Cache Docker [client] layers"
         id: docker-cache
         uses: actions/cache@v2
         with:
@@ -108,10 +108,10 @@ jobs:
       - name: "🔧 Create .env file"
         run: |
           rm -f .env
-          echo .env.sample > .env
+          cp .env.sample > .env
           export $(grep -v '^#' .env | xargs)
 
-      - name: "⚡ Cache Docker ${{ env.working-directory }} layers"
+      - name: "⚡ Cache Docker [server] layers"
         id: docker-cache-a
         uses: actions/cache@v2
         with:
@@ -161,7 +161,7 @@ jobs:
       - name: "🔧 Create .env file"
         run: |
           rm -f .env
-          echo .env.sample > .env
+          cp .env.sample > .env
           export $(grep -v '^#' .env | xargs)
 
       # - name: "⚡ Cache/Build Docker Client layers"
