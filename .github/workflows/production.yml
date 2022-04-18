@@ -7,20 +7,20 @@ on:
 
 jobs:
 
-  node_ci:
-    name: Node CI
-    uses: ./.github/workflows/node_ci.yml
-    with:
-      ENVIRONMENT: CI
-    secrets:
-      CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+  # node_ci:
+  #   name: Node CI
+  #   uses: ./.github/workflows/node_ci.yml
+  #   with:
+  #     ENVIRONMENT: CI
+  #   secrets:
+  #     CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
-  docker_ci:
-    name: Docker CI
-    uses: ./.github/workflows/docker_ci.yml
+  # docker_ci:
+  #   name: Docker CI
+  #   uses: ./.github/workflows/docker_ci.yml
 
   build_docker_client:
-    needs: [node_ci, docker_ci]
+    # needs: [node_ci, docker_ci]
     name: "🐳 Build/Publish Docker (CLIENT) Image"
     environment: production
     runs-on: ubuntu-latest
@@ -64,7 +64,7 @@ jobs:
         run: |
           rm -f .env
           touch .env
-          cat >/.env <<EOL
+          sudo cat >.env <<EOL
           NODE_ENV="${{ secrets.NODE_ENV }}"
           SERVER_URL="${{ secrets.SERVER_URL }}"
           PORT="${{ secrets.PORT }}"
@@ -125,7 +125,7 @@ jobs:
           # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
   build_docker_server:
-    needs: [node_ci, docker_ci]
+    # needs: [node_ci, docker_ci]
     name: "🐳 Build/Publish Docker (SERVER) Image"
     environment: production
     runs-on: ubuntu-latest
@@ -170,7 +170,7 @@ jobs:
         run: |
           rm -f .env
           touch .env
-          cat >/.env <<EOL
+          sudo cat >.env <<EOL
           NODE_ENV="${{ secrets.NODE_ENV }}"
           SERVER_URL="${{ secrets.SERVER_URL }}"
           PORT="${{ secrets.PORT }}"
@@ -218,7 +218,7 @@ jobs:
           # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
   verify_ec2:
-    needs: [build_docker_server, build_docker_client]
+    # needs: [build_docker_server, build_docker_client]
     name: ✅ EC2 Verification
     environment: staging
     runs-on: ubuntu-latest
