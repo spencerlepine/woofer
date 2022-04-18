@@ -218,7 +218,7 @@ jobs:
           # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
   verify_ec2:
-    # needs: [build_docker_server, build_docker_client]
+    needs: [build_docker_server, build_docker_client]
     name: ✅ EC2 Verification
     environment: staging
     runs-on: ubuntu-latest
@@ -300,7 +300,7 @@ jobs:
 
             rm -f .env
             touch .env
-            cat >/.env <<EOL
+            sudo cat >.env <<EOL
             NODE_ENV="${{ secrets.NODE_ENV }}"
             SERVER_URL="${{ secrets.SERVER_URL }}"
             PORT="${{ secrets.PORT }}"
