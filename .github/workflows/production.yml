@@ -245,8 +245,22 @@ jobs:
             NC='\033[0m' # No Color
             echo -e "$BLUE Starting EC2 deployment script $NC"
             sudo service docker stop
-            rm -f .env
-            echo "${{ secrets.ENV_PRODUCTION }}" > .env
+            # rm -f .env
+            # echo "${{ secrets.ENV_PRODUCTION }}" > .env
+
+            NODE_ENV="${{ secrets.NODE_ENV }}"
+            SERVER_URL="${{ secrets.SERVER_URL }}"
+            PORT="${{ secrets.PORT }}"
+            MONGODB_URL="${{ secrets.MONGODB_URL }}"
+            SKIP_PREFLIGHT_CHECK="${{ secrets.SKIP_PREFLIGHT_CHECK }}"
+            REACT_APP_FIREBASE_API_KEY="${{ secrets.REACT_APP_FIREBASE_API_KEY }}"
+            REACT_APP_FIREBASE_AUTH_DOMAIN="${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}"
+            REACT_APP_FIREBASE_PROJECT_ID="${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}"
+            REACT_APP_FIREBASE_STORAGE_BUCKET="${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}"
+            REACT_APP_FIREBASE_MESSAGING_SENDER_ID="${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}"
+            REACT_APP_FIREBASE_APP_ID="${{ secrets.REACT_APP_FIREBASE_APP_ID }}"
+            REACT_APP_FIREBASE_MEASUREMENT_ID="${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}"
+
             # ls -a
             echo -e "$GREEN Created the production .env file $NC"
             docker kill $(docker ps -q) || true
@@ -257,7 +271,22 @@ jobs:
             docker login -u="${{ secrets.DOCKERHUB_USERNAME }}" -p="${{ secrets.DOCKERHUB_PASSWORD }}"
             docker run --env-file ./.env -d -p 5000:5000 ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }}:latest
             echo -e "$BLUE Started up latest Server image $NC"
-            docker run --env-file ./.env -d -p 3000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }}:latest
+
+            docker run -id -p 3000:3000 --env NODE_ENV=$NODE_ENV \
+            --env SERVER_URL=$SERVER_URL \
+            --env PORT=$PORT \
+            --env MONGODB_URL=$MONGODB_URL \
+            --env SKIP_PREFLIGHT_CHECK=$SKIP_PREFLIGHT_CHECK \
+            --env REACT_APP_FIREBASE_API_KEY=$REACT_APP_FIREBASE_API_KEY \
+            --env REACT_APP_FIREBASE_AUTH_DOMAIN=$REACT_APP_FIREBASE_AUTH_DOMAIN \
+            --env REACT_APP_FIREBASE_PROJECT_ID=$REACT_APP_FIREBASE_PROJECT_ID \
+            --env REACT_APP_FIREBASE_STORAGE_BUCKET=$REACT_APP_FIREBASE_STORAGE_BUCKET \
+            --env REACT_APP_FIREBASE_MESSAGING_SENDER_ID=$REACT_APP_FIREBASE_MESSAGING_SENDER_ID \
+            --env REACT_APP_FIREBASE_APP_ID=$REACT_APP_FIREBASE_APP_ID \
+            --env REACT_APP_FIREBASE_MEASUREMENT_ID=$REACT_APP_FIREBASE_MEASUREMENT_ID \
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_REPO }}:latest
+
+
             echo -e "$BLUE Started up latest Server image $NC"
             sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
             echo -e "$GREEN EC2 deployment complete! $NC"
