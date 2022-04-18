@@ -65,12 +65,12 @@ jobs:
 
       - name: "🌪️ Comment code coverage to PR"
         uses: mattallty/jest-github-action@v1
+        working-directory: ${{ env.working-directory }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           # this is just an example, this could be any command that will trigger jest
           test-command: "npm run test"
-        working-directory: ${{ env.working-directory }}
 
   client_build:
     runs-on: ${{ matrix.os }}
@@ -166,12 +166,12 @@ jobs:
 
       - name: "🌪️ Comment code coverage to PR"
         uses: mattallty/jest-github-action@v1
+        working-directory: ${{ env.working-directory }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           # this is just an example, this could be any command that will trigger jest
           test-command: "npm run test"
-        working-directory: ${{ env.working-directory }}
 
   coverage_upload:
     needs: [server_test, client_test]
