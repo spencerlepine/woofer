@@ -36,9 +36,10 @@ jobs:
       - name: "🔧 Create .env file"
         run: |
           rm -f .env
-          echo .env.sample > .env
+          cp .env.sample .env
+          export $(grep -v '^#' .env | xargs)
 
-      - name: "⚡ Cache Docker ${{ env.working-directory }} layers"
+      - name: "⚡ Cache Docker [client] layers"
         id: docker-cache
         uses: actions/cache@v2
         with:
@@ -53,7 +54,23 @@ jobs:
       - name: "🏗 Build Docker image"
         working-directory: ${{ env.working-directory }}
         if: steps.docker-cache.outputs.cache-hit != 'true'
-        run: docker build . -t ${{ env.working-directory }} --cache-from=localhost:5000/${{ env.working-directory }} --build-arg BUILDKIT_INLINE_CACHE=1
+        run: |
+          docker build . \
+          -t ${{ env.working-directory }} \
+          --cache-from=localhost:5000/${{ env.working-directory }} \
+          --build-arg BUILDKIT_INLINE_CACHE=1 \
+          --build-arg NODE_ENV=$NODE_ENV \
+          --build-arg SERVER_URL=$SERVER_URL \
+          --build-arg PORT=$PORT \
+          --build-arg MONGODB_URL=$MONGODB_URL \
+          --build-arg SKIP_PREFLIGHT_CHECK=$SKIP_PREFLIGHT_CHECK \
+          --build-arg REACT_APP_FIREBASE_API_KEY=$REACT_APP_FIREBASE_API_KEY \
+          --build-arg REACT_APP_FIREBASE_AUTH_DOMAIN=$REACT_APP_FIREBASE_AUTH_DOMAIN \
+          --build-arg REACT_APP_FIREBASE_PROJECT_ID=$REACT_APP_FIREBASE_PROJECT_ID \
+          --build-arg REACT_APP_FIREBASE_STORAGE_BUCKET=$REACT_APP_FIREBASE_STORAGE_BUCKET \
+          --build-arg REACT_APP_FIREBASE_MESSAGING_SENDER_ID=$REACT_APP_FIREBASE_MESSAGING_SENDER_ID \
+          --build-arg REACT_APP_FIREBASE_APP_ID=$REACT_APP_FIREBASE_APP_ID \
+          --build-arg REACT_APP_FIREBASE_MEASUREMENT_ID=$REACT_APP_FIREBASE_MEASUREMENT_ID \
 
       - name: "🏷️ Tag local Docker image build"
         if: steps.docker-cache.outputs.cache-hit != 'true'
@@ -91,9 +108,10 @@ jobs:
       - name: "🔧 Create .env file"
         run: |
           rm -f .env
-          echo .env.sample > .env
+          cp .env.sample .env
+          export $(grep -v '^#' .env | xargs)
 
-      - name: "⚡ Cache Docker ${{ env.working-directory }} layers"
+      - name: "⚡ Cache Docker [server] layers"
         id: docker-cache-a
         uses: actions/cache@v2
         with:
@@ -143,7 +161,8 @@ jobs:
       - name: "🔧 Create .env file"
         run: |
           rm -f .env
-          echo .env.sample > .env
+          cp .env.sample .env
+          export $(grep -v '^#' .env | xargs)
 
       # - name: "⚡ Cache/Build Docker Client layers"
       #   id: docker-cache-client

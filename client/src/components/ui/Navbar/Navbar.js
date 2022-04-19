@@ -5,17 +5,17 @@ import { IoMdSettings as SettingsIcon } from "react-icons/io"
 import { BiMessageSquare as MessagesIcon } from "react-icons/bi"
 import * as ROUTES from "config/routeConstants"
 import useAuth from "context/AuthContext/AuthContext"
+import WooferIcon from "assets/WooferIcon.png"
 
 const Navbar = () => {
   const { logoutUser, currentUser } = useAuth()
-  // TODO import woofer logo
 
   return (
     <nav className="navbar is-primary pr-3 pl-3" role="navigation">
       <div className="navbar-start">
         <Link to={ROUTES.HOME} className="navbar-item">
-          Woofer
-          {/* <img src={WooferLogo} alt='Woofer Logo' className={classes.logoLink}></img> */}
+          <img className="image is-36x36" src={WooferIcon} alt="Woofer Logo"></img>
+          <p className="is-size-3">Woofer</p>
         </Link>
       </div>
 

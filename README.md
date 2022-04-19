@@ -1,10 +1,10 @@
 # Woofer &middot; [![CI/CD](https://github.com/spencerlepine/woofer/workflows/CI%2FCD/badge.svg)](https://github.com/spencerlepine/woofer/actions/workflows/production.yml) [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/345a8ceb0a7d404a841395b125cb4c41)](https://www.codacy.com/gh/spencerlepine/woofer/dashboard?utm_source=github.com&utm_medium=referral&utm_content=spencerlepine/woofer&utm_campaign=Badge_Coverage) [![Code Analysis](https://github.com/spencerlepine/woofer/workflows/Code%20Analysis/badge.svg)](https://github.com/spencerlepine/woofer/actions/workflows/code-analysis.yml)
 
-Dating app for dogs. Customize a dating profile, update preferences, and match/chat with nearby users. View the [DEMO](http://34.203.190.56)
+Dating app for dogs. Customize a dating profile, update preferences, and match/chat with nearby users. View the [DEMO](https://bit.ly/woofer-demo)
 
-[![Demo GIF](./resources/assets/demo.gif)](http://34.203.190.56)
+[![Demo GIF](./resources/assets/demo.gif)](https://bit.ly/woofer-demo)
 
-# 🎯 Overview
+## 🎯 Overview
 
 - Designed a MongoDB atlas NoSQL database managing user profile records, zip code groups, and yes/no match records
 - Built real-time chat feature with Socket.io with persistent message history stored in the database.
@@ -12,19 +12,23 @@ Dating app for dogs. Customize a dating profile, update preferences, and match/c
 - Integrated CI/CD pipeline with Git, Jest, GitHub Actions, Docker, and AWS EC2.
 - Developed with a ticket system and feature branches, while following schemas and UI designs.
 
-# 🏗️ Application Architecture
+## 🏗️ Application Architecture
 
 ![Deployment Architecture](./resources/assets/Project_Deployment.png)
 
-# 🤖 CI/CD Pipeline
+## 🤖 CI/CD Pipeline
 
 ![CI/CD Pipeline Diagram](./resources/assets/CI_CD_PIPELINE.png)
 
-# 🌟 Features
+## 🌟 Features
 
 See the [Whitepaper](./resources/WOOFER_WHITEPAPER.pdf).
 
-# 📦 Technologies:
+## 🤔 Challenges
+
+See the [Challenges](./resources/challenges.txt) file.
+
+## 📦 Technologies
 
 **Front-end:** [React](https://github.com/facebook/react/), [Burma](https://github.com/jgthms/bulma)
 
@@ -36,7 +40,7 @@ See the [Whitepaper](./resources/WOOFER_WHITEPAPER.pdf).
 
 **Modules:** [Firebase](https://firebase.google.com/) (Authentication), [Socket.io](https://socket.io/) (Chat API)
 
-# ⚙️ Development Setup:
+## ⚙️ Development Setup
 
 > ### Prerequisites
 >
@@ -58,7 +62,7 @@ npm run dev:server
 npm run dev:client
 ```
 
-# 🐳 Run with Docker
+## 🐳 Running Docker
 
 > ### Prerequisites
 >
@@ -73,21 +77,21 @@ docker-compose up --build
 # visit http://localhost:3000
 ```
 
-# 🌐API Schema
+## 🌐API Schema
 
 See [Endpoint Schema](./resources/WOOFER_API.md).
 
-# 🗄 Database Design
+## 🗄 Database Design
 
 ![Database Design](./resources/assets/Database_Design.png)
 
-# 🗃️ Ticket System
+## 🗃️ Ticket System
 
 - Project Tickets: [Trello Board](https://trello.com/b/tYtdHAT5/woofer-project)
 
 ![Trello Tickets Screenshot](./resources/assets/Trello_Board_Tickets.png)
 
-# 🚀 Contributors
+## 🚀 Contributors
 
 - [Spencer Lepine](https://github.com/spencerlepine)
   - 🏠 Blog [spencerlepine.com](https://www.spencerlepine.com)
