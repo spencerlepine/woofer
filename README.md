@@ -28,7 +28,7 @@ See the [Whitepaper](./resources/WOOFER_WHITEPAPER.pdf).
 
 See the [Challenges](./resources/challenges.txt) file.
 
-## 📦 Technologies:
+## 📦 Technologies
 
 **Front-end:** [React](https://github.com/facebook/react/), [Burma](https://github.com/jgthms/bulma)
 
@@ -40,7 +40,7 @@ See the [Challenges](./resources/challenges.txt) file.
 
 **Modules:** [Firebase](https://firebase.google.com/) (Authentication), [Socket.io](https://socket.io/) (Chat API)
 
-## ⚙️ Development Setup:
+## ⚙️ Development Setup
 
 > ### Prerequisites
 >
