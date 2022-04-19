@@ -24,6 +24,11 @@ const AccountForm = (props) => {
     }))
   }
 
+  const handleClick = (e) => {
+    e.preventDefault()
+    handleSubmit(formEntries)
+  }
+
   return (
     <div class="hero-body">
       <div class="container">
@@ -58,13 +63,7 @@ const AccountForm = (props) => {
                 </div>
               ))}
 
-              <button
-                className="button is-medium is-primary"
-                onClick={(e) => {
-                  e.preventDefault()
-                  handleSubmit(formEntries)
-                }}
-              >
+              <button className="button is-medium is-primary" onClick={handleClick}>
                 {SubmitLabel}
               </button>
               <hr />
