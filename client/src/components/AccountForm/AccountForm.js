@@ -24,6 +24,7 @@ const AccountForm = (props) => {
     }))
   }
 
+  const submitClass = "button is-medium is-primary"
   const handleClick = (e) => {
     e.preventDefault()
     handleSubmit(formEntries)
@@ -63,7 +64,7 @@ const AccountForm = (props) => {
                 </div>
               ))}
 
-              <button className="button is-medium is-primary" onClick={handleClick}>
+              <button className={submitClass} onClick={handleClick}>
                 {SubmitLabel}
               </button>
               <hr />
