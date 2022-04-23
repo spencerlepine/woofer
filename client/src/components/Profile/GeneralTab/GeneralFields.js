@@ -53,16 +53,17 @@ export const BioField = ({ handleChange, formEntries }) => (
 )
 
 export const GenderButton = ({ formEntries, setFormEntries, madeAChange }) => {
-  const isMale = formEntries[DATA_KEYS["USER_PREFERENCE"]] === "Male"
-  const isFemale = formEntries[DATA_KEYS["USER_PREFERENCE"]] === "Female"
+  const isMale = formEntries[DATA_KEYS["USER_GENDER"]] === "Male"
+  const isFemale = formEntries[DATA_KEYS["USER_GENDER"]] === "Female"
 
   return (
     <div className="control">
+      <h3 className="label level-center">Gender</h3>
       <button
         onClick={() => {
           setFormEntries((prevEntries) => ({
             ...prevEntries,
-            [DATA_KEYS["USER_PREFERENCE"]]: "Male",
+            [DATA_KEYS["USER_GENDER"]]: "Male",
           }))
           madeAChange()
         }}
@@ -77,7 +78,7 @@ export const GenderButton = ({ formEntries, setFormEntries, madeAChange }) => {
         onClick={() => {
           setFormEntries((prevEntries) => ({
             ...prevEntries,
-            [DATA_KEYS["USER_PREFERENCE"]]: "Female",
+            [DATA_KEYS["USER_GENDER"]]: "Female",
           }))
           madeAChange()
         }}

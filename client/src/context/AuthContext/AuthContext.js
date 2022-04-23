@@ -1,11 +1,14 @@
 import React, { useState, useContext, useEffect } from "react"
 import PropTypes from "prop-types"
 import * as authUser from "api/account"
+import mockUser from "./mockUser"
 
 export const AuthContext = React.createContext()
 
+const startUser = process.env.NODE_ENV === "development" ? mockUser : null
+
 export const AuthProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null)
+  const [currentUser, setCurrentUser] = useState(startUser)
   const [accountDetails, setAccountDetails] = useState({})
   const [loading, setLoading] = useState(true)
 

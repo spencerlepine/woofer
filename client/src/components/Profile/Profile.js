@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react"
-import useAuth, { AuthProvider } from "context/AuthContext/AuthContext"
+import React, { useState } from "react"
 import Tabs from "./Tabs"
 import GeneralTab from "./GeneralTab/GeneralTab"
+import PreferenceTab from "./PreferenceTab/PreferenceTab"
 
 import constants from "config/constants"
 const { DATA_KEYS } = constants
@@ -24,20 +24,9 @@ const tabs = {
 const Profile = () => {
   const [currentTab, setCurrentTab] = useState("general")
 
-  const { currentUser, accountDetails, updateAccountDetails } = useAuth()
-  const [formEntries, setFormEntries] = useState({})
-
-  const images = extractUserImages(accountDetails)
-
-  useEffect(() => {
-    setFormEntries((prevEntries) => ({
-      ...prevEntries,
-      ...accountDetails,
-    }))
-  }, [accountDetails])
+  // const images = extractUserImages(accountDetails
 
   const ImagesTab = () => <></>
-  const PreferencesTab = () => <></>
 
   return (
     <div className="hero-body general-settings">
@@ -45,29 +34,15 @@ const Profile = () => {
         <div className="profile">
           <Tabs tabs={tabs} currentTab={currentTab} setCurrentTab={setCurrentTab} />
 
-          {currentTab === "general" && (
-            <GeneralTab
-              updateAccountDetails={updateAccountDetails}
-              accountDetails={accountDetails}
-              currentUser={currentUser}
-              formEntries={formEntries}
-              setFormEntries={setFormEntries}
-            />
-          )}
+          {currentTab === "general" && <GeneralTab />}
 
           {currentTab === "images" && <ImagesTab />}
 
-          {currentTab === "preferences" && <PreferencesTab />}
+          {currentTab === "preferences" && <PreferenceTab />}
         </div>
       </div>
     </div>
   )
 }
 
-const WrappedSwiper = (props) => (
-  <AuthProvider>
-    <Profile {...props} />
-  </AuthProvider>
-)
-
-export default WrappedSwiper
+export default Profile
