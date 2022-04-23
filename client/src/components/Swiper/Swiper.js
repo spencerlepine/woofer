@@ -13,7 +13,7 @@ const { DATA_KEYS } = constants
 const idKey = DATA_KEYS["USER_ID"]
 
 const extractUserImages = (userObj) => {
-  const imageKey = DATA_KEYS["USER_IMAGES"]
+  const imageKey = DATA_KEYS["USER_PICTURES"]
   if (userObj && typeof userObj === "object" && userObj[imageKey]) {
     return userObj[imageKey]
   }

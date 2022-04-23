@@ -98,6 +98,7 @@
   },
   "dependencies": {
     "@babel/eslint-parser": "^7.17.0",
-    "@babel/preset-react": "^7.16.7"
+    "@babel/preset-react": "^7.16.7",
+    "string-random": "^0.1.3"
   }
 }
