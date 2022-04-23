@@ -13,8 +13,9 @@ const idKey = DATA_KEYS["USER_ID"]
 const handleZipcodePoolUpdate =
   (req, res) => (endpointObj, filterZipcodes, addOrRemoveFunc) => {
     verifyEndpointRequest(req, res, endpointObj, () => {
-      const userId = req.body[idKey]
-      const thisZipcode = req.body[DATA_KEYS["ZIPCODE"]]
+      const userId = req.body[idKey] || req.query[idKey]
+      const thisZipcode =
+        req.body[DATA_KEYS["ZIPCODE"]] || req.query[DATA_KEYS["ZIPCODE"]]
 
       // Add this zipcode to thisUser document under USER_ZIPCODES array
       addUserToZipcodePool(res, userId, thisZipcode)

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import * as Fields from "./PreferenceFields"
-import FormWrapper from "components/ui/AccountFormWrapper"
+import FormWrapper from "components/ui/AccountFormWrapper/AccountFormWrapper"
 
 const PreferenceTab = ({
   updateAccountDetails,
@@ -22,9 +22,9 @@ const PreferenceTab = ({
       />
 
       <Fields.ZipCodeList
-        madeAChange={() => setMadeChange(true)}
         formEntries={formEntries}
         setFormEntries={setFormEntries}
+        handleSubmit={handleSubmit}
       />
     </>
   )

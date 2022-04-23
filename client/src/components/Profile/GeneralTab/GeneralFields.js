@@ -16,8 +16,6 @@ const formFields = [
 ]
 
 export const MainFields = ({ handleChange, formEntries }) => {
-  console.log("Main Details:", formEntries)
-
   return formFields.map(({ name, type, placeholder }, i) => (
     <div className="field" key={i}>
       <label htmlFor="" className="label level-left">

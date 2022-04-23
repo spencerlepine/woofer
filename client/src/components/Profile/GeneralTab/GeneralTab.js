@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import * as Fields from "./GeneralFields"
-import FormWrapper from "components/ui/AccountFormWrapper"
+import FormWrapper from "components/ui/AccountFormWrapper/AccountFormWrapper"
 
 const GeneralTab = ({
   updateAccountDetails,

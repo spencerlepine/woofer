@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import constants from "config/constants"
+import useAuth, { AuthProvider } from "context/AuthContext/AuthContext"
 const { DATA_KEYS } = constants
 
 export const GenderButton = ({ formEntries, setFormEntries, madeAChange }) => {
@@ -43,45 +44,55 @@ export const GenderButton = ({ formEntries, setFormEntries, madeAChange }) => {
   )
 }
 
-export const ZipCodeList = ({ formEntries, setFormEntries, madeAChange }) => {
+export const ZipCodeList = ({ formEntries, setFormEntries, handleSubmit }) => {
   const allUserZipCodes = formEntries[DATA_KEYS["USER_ZIPCODES"]] || []
   const [zipcodeInput, setZipcodeInput] = useState("")
 
+  const { addUserToZipPool, removeUserFromZipPool } = useAuth()
+
   const handleChange = (e) => {
+    e.preventDefault()
     setZipcodeInput(e.target.value)
   }
 
   const handleAddZipCode = (e) => {
     e.preventDefault()
     const newZipCode = zipcodeInput
+    const zipRegex = new RegExp(/(^\d{5}$)|(^\d{5}-\d{4}$)/)
 
-    if (newZipCode) {
-      let updatedZips = new Set(allUserZipCodes)
-      updatedZips.add(newZipCode)
-      const filteredZips = Array.from(updatedZips)
-
-      madeAChange()
-      setFormEntries((prevEntries) => ({
-        ...prevEntries,
-        [DATA_KEYS["USER_ZIPCODES"]]: filteredZips,
-      }))
+    if (newZipCode && zipRegex.test(newZipCode)) {
       setZipcodeInput("")
+
+      addUserToZipPool(newZipCode, () => {
+        let updatedZips = new Set(allUserZipCodes)
+        updatedZips.add(newZipCode)
+        const filteredZips = Array.from(updatedZips)
+
+        setFormEntries((prevEntries) => ({
+          ...prevEntries,
+          [DATA_KEYS["USER_ZIPCODES"]]: filteredZips,
+        }))
+        handleSubmit()
+      })
     }
   }
 
   const handleDeleteZipCode = (e, oldZipCode) => {
     e.preventDefault()
 
-    let updatedZips = new Set(allUserZipCodes)
-    updatedZips.delete(oldZipCode)
-    const filteredZips = Array.from(updatedZips)
+    removeUserFromZipPool(oldZipCode, () => {
+      setZipcodeInput("")
 
-    madeAChange()
-    setFormEntries((prevEntries) => ({
-      ...prevEntries,
-      [DATA_KEYS["USER_ZIPCODES"]]: filteredZips,
-    }))
-    setZipcodeInput("")
+      let updatedZips = new Set(allUserZipCodes)
+      updatedZips.delete(oldZipCode)
+      const filteredZips = Array.from(updatedZips)
+
+      setFormEntries((prevEntries) => ({
+        ...prevEntries,
+        [DATA_KEYS["USER_ZIPCODES"]]: filteredZips,
+      }))
+      handleSubmit()
+    })
   }
 
   return (
@@ -90,8 +101,8 @@ export const ZipCodeList = ({ formEntries, setFormEntries, madeAChange }) => {
 
       <div className="list">
         <ul>
-          {allUserZipCodes.map((zipcodeStr) => (
-            <div className="list-item">
+          {allUserZipCodes.map((zipcodeStr, i) => (
+            <div className="list-item" key={i}>
               <li className="is-left is-inline">{zipcodeStr}</li>
               <button
                 className="delete is-medium is-right"
@@ -102,7 +113,7 @@ export const ZipCodeList = ({ formEntries, setFormEntries, madeAChange }) => {
         </ul>
       </div>
 
-      <form>
+      <div>
         <div className="field">
           <input
             onChange={handleChange}
@@ -116,7 +127,7 @@ export const ZipCodeList = ({ formEntries, setFormEntries, madeAChange }) => {
         <button onClick={handleAddZipCode} className="button is-primary p-2">
           ADD
         </button>
-      </form>
+      </div>
     </div>
   )
 }

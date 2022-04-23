@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react"
 import PropTypes from "prop-types"
 import * as authUser from "api/account"
+import * as zipCodes from "api/zipcodes"
 import mockUser from "./mockUser"
 
 export const AuthContext = React.createContext()
@@ -117,7 +118,25 @@ export const AuthProvider = ({ children }) => {
     // })
   }
 
+  const addUserToZipPool = (newZipCode, successCallback) => {
+    setLoading(true)
+    zipCodes.addUserToZipcode(newZipCode, () => {
+      successCallback()
+      setLoading(false)
+    })
+  }
+
+  const removeUserFromZipPool = (oldZipCode, successCallback) => {
+    setLoading(true)
+    zipCodes.removeUserFromZipcode(oldZipCode, () => {
+      successCallback()
+      setLoading(false)
+    })
+  }
+
   const value = {
+    addUserToZipPool,
+    removeUserFromZipPool,
     loading,
     accountDetails,
     resetPassword,
