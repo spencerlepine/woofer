@@ -122,36 +122,37 @@ const options = [
   "Aquarius",
   "Pisces",
 ]
-export const ZodiacDropDown = ({ formEntries, setFormEntries, setMadeChange }) => (
-  <div className="field">
-    <label className="label">Group</label>
-    <div className="control">
-      <div className="select">
-        <select
-          defaultValue="Choose One"
-          value={formEntries[DATA_KEYS["USER_ZODIAC"]]}
-        >
-          <option value="Choose One">Choose One</option>
-          {options.map((optionName, i) => (
-            <option
-              key={i}
-              onChange={(e) => {
-                setMadeChange(true)
-                setFormEntries((prevEntries) => ({
-                  ...prevEntries,
-                  [DATA_KEYS["USER_ZODIAC"]]: optionName,
-                }))
-              }}
-              value={optionName}
-            >
-              {optionName}
-            </option>
-          ))}
-        </select>
+export const ZodiacDropDown = ({ formEntries, setFormEntries, setMadeChange }) => {
+  const [selectedVal, setSelectedVal] = useState(
+    formEntries[DATA_KEYS["USER_ZODIAC"]] || "Choose One"
+  )
+
+  return (
+    <div className="field">
+      <label className="label">Zodiac</label>
+      <div className="control">
+        <div className="select">
+          <select
+            value={selectedVal}
+            onChange={(e) => {
+              setMadeChange(true)
+              setFormEntries((prevEntries) => ({
+                ...prevEntries,
+                [DATA_KEYS["USER_ZODIAC"]]: e.target.value,
+              }))
+            }}
+          >
+            {options.map((optionName, i) => (
+              <option key={i} value={optionName}>
+                {optionName}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
     </div>
-  </div>
-)
+  )
+}
 
 const groupOptions = [
   "Herding",
@@ -163,33 +164,34 @@ const groupOptions = [
   "Hound",
 ]
 
-export const GroupDropDown = ({ formEntries, setFormEntries, setMadeChange }) => (
-  <div className="field">
-    <label className="label">Group</label>
-    <div className="control">
-      <div className="select">
-        <select
-          defaultValue="Choose One"
-          value={formEntries[DATA_KEYS["USER_GROUP"]]}
-        >
-          <option value="Choose One">Choose One</option>
-          {options.map((optionName, i) => (
-            <option
-              key={i}
-              onChange={(e) => {
-                setMadeChange(true)
-                setFormEntries((prevEntries) => ({
-                  ...prevEntries,
-                  [DATA_KEYS["USER_GROUP"]]: optionName,
-                }))
-              }}
-              value={optionName}
-            >
-              {optionName}
-            </option>
-          ))}
-        </select>
+export const GroupDropDown = ({ formEntries, setFormEntries, setMadeChange }) => {
+  const [selectedVal, setSelectedVal] = useState(
+    formEntries[DATA_KEYS["USER_GROUP"]] || "Choose One"
+  )
+
+  return (
+    <div className="field">
+      <label className="label">Group</label>
+      <div className="control">
+        <div className="select">
+          <select
+            value={selectedVal}
+            onChange={(e) => {
+              setMadeChange(true)
+              setFormEntries((prevEntries) => ({
+                ...prevEntries,
+                [DATA_KEYS["USER_GROUP"]]: e.target.value,
+              }))
+            }}
+          >
+            {groupOptions.map((optionName, i) => (
+              <option key={i} value={optionName}>
+                {optionName}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
     </div>
-  </div>
-)
+  )
+}
