@@ -30,7 +30,7 @@ See the [Challenges](./resources/challenges.txt) file.
 
 ## 📦 Technologies
 
-**Front-end:** [React](https://github.com/facebook/react/), [Burma](https://github.com/jgthms/bulma)
+**Front-end:** [React](https://github.com/facebook/react/), [Bulma](https://github.com/jgthms/bulma)
 
 **Backend:** [Node](https://nodejs.org/), [Express.js](http://expressjs.com/), [MongoDB](https://docs.mongodb.com/)
 

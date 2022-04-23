@@ -9,6 +9,8 @@ const Routes = () => (
     <Route exact path={ROUTES.LOGIN} component={PAGES.LoginPage} />
     <Route exact path={ROUTES.SIGNUP} component={PAGES.SignupPage} />
     <Route exact path={ROUTES.WELCOME} component={PAGES.WelcomePage} />
+    <Route exact path={ROUTES.CHATS} component={PAGES.ChatPage} />
+    <Route exact path={ROUTES.PROFILE} component={PAGES.ProfilePage} />
     <Route path={"/"} component={PAGES.MissingPage} />
   </Switch>
 )

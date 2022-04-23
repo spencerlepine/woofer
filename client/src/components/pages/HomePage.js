@@ -11,8 +11,6 @@ const images = [
 const HomePage = () => (
   <div className="HomePage">
     <Swiper />
-    {/* TODO  - DELETE THIS*/}
-    <SampleChat />
   </div>
 )
 

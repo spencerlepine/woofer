@@ -11,9 +11,14 @@ export const AuthProvider = ({ children }) => {
 
   const getAccountDetails = () => {
     setLoading(true)
-    authUser.fetchUserProfileRecord(({ userProfile }) => {
-      setCurrentUser((currentUser) => ({
-        ...currentUser,
+    authUser.fetchUserProfileRecord((userProfile) => {
+      setCurrentUser((prevCurrentUser) => ({
+        ...prevCurrentUser,
+        ...userProfile,
+      }))
+
+      setAccountDetails((prevDetails) => ({
+        ...prevDetails,
         ...userProfile,
       }))
       setLoading(false)
@@ -41,8 +46,8 @@ export const AuthProvider = ({ children }) => {
     const accountDetails = {
       email,
       username,
-      first_name: firstName,
-      last_name: lastName,
+      firstName,
+      lastName,
     }
     const displayName = `${firstName} ${lastName}`
 
@@ -57,6 +62,18 @@ export const AuthProvider = ({ children }) => {
         setLoading(false)
       }
     )
+  }
+
+  const updateAccountDetails = (newDetails, successCallback) => {
+    setLoading(true)
+    authUser.updateUserProfileRecord(newDetails, ({ userProfile }) => {
+      setCurrentUser((currentUser) => ({
+        ...currentUser,
+        ...userProfile,
+      }))
+      successCallback(userProfile)
+      setLoading(false)
+    })
   }
 
   function updateProfilePic(newFile) {
@@ -108,6 +125,7 @@ export const AuthProvider = ({ children }) => {
     logoutUser,
     signupUser,
     getAccountDetails,
+    updateAccountDetails,
     updateProfilePic,
   }
 

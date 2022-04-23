@@ -15,6 +15,7 @@ const AccountForm = (props) => {
   } = props
 
   const [formEntries, setFormEntries] = useState({})
+  const [formCompleted, setFormCompleted] = useState(false)
 
   const handleChange = (event) => {
     const { name, value } = event.target
@@ -27,14 +28,21 @@ const AccountForm = (props) => {
   const submitClass = "button is-medium is-primary"
   const handleClick = (e) => {
     e.preventDefault()
-    handleSubmit(formEntries)
+
+    const completionStatus =
+      Object.values(formEntries).length === Object.keys(FormFields).length
+    setFormCompleted(completionStatus)
+
+    if (completionStatus === true) {
+      handleSubmit(formEntries)
+    }
   }
 
   return (
-    <div class="hero-body">
-      <div class="container">
-        <div class="columns is-centered is-5-tablet is-4-desktop is-3-widescreen">
-          <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+    <div className="hero-body">
+      <div className="container">
+        <div className="columns is-centered is-5-tablet is-4-desktop is-3-widescreen">
+          <div className="column is-5-tablet is-4-desktop is-3-widescreen">
             <form className="box has-text-centered">
               <div className="field has-text-centered">
                 <img
@@ -49,7 +57,7 @@ const AccountForm = (props) => {
 
               {FormFields.map(({ name, placeholder }, i) => (
                 <div className="field">
-                  <label for="" class="label">
+                  <label for="" className="label">
                     {placeholder}
                   </label>
                   <input
