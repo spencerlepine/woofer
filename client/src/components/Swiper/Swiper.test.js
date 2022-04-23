@@ -42,7 +42,6 @@ describe("Swiper", () => {
       act(() => {
         fireEvent.click(refreshBtn)
       })
-      console.log(screen.debug())
       const loadingIndicator = screen.getByText(/Loading/i)
       expect(loadingIndicator).toBeInTheDocument()
       done()

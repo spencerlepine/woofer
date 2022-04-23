@@ -4,11 +4,20 @@ import GeneralTab from "./GeneralTab/GeneralTab"
 import ImagesTab from "./ImagesTab/ImagesTab"
 import PreferenceTab from "./PreferenceTab/PreferenceTab"
 
-const tabs = {
-  general: "General",
-  images: "Images",
-  preferences: "Preferences",
-}
+const tabs = [
+  {
+    value: "general",
+    title: "General",
+  },
+  {
+    value: "images",
+    title: "Images",
+  },
+  {
+    value: "peferences",
+    title: "Preferences",
+  },
+]
 
 const Profile = () => {
   const [currentTab, setCurrentTab] = useState("general")

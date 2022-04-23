@@ -6,7 +6,9 @@ import mockUser from "./mockUser"
 
 export const AuthContext = React.createContext()
 
-const startUser = process.env.NODE_ENV === "development" ? mockUser : null
+const isDevMode =
+  process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test"
+const startUser = isDevMode ? mockUser : null
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(startUser)
