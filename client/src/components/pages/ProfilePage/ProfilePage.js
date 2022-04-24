@@ -1,5 +1,5 @@
 import React from "react"
-import Profile from "components/Profile/Profile"
+import Profile from "./Profile/Profile"
 import withAuthRedirect from "hooks/useAuthRedirect/useAuthRedirect"
 
 const ProfilePage = () => (

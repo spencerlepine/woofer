@@ -1,5 +1,5 @@
 import React from "react"
-import SampleChat from "components/SampleChat/SampleChat"
+import SampleChat from "./SampleChat/SampleChat"
 import withAuthRedirect from "hooks/useAuthRedirect/useAuthRedirect"
 
 const ChatPage = () => <SampleChat />
