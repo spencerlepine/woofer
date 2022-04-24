@@ -6,8 +6,7 @@ import mockUser from "./mockUser"
 
 export const AuthContext = React.createContext()
 
-const isDevMode =
-  process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test"
+const isDevMode = process.env.NODE_ENV === "test"
 const startUser = isDevMode ? mockUser : null
 
 export const AuthProvider = ({ children }) => {
@@ -64,7 +63,7 @@ export const AuthProvider = ({ children }) => {
       password,
       accountDetails,
       (user) => {
-        setCurrentUser(user)
+        setCurrentUser(accountDetails)
         setLoading(false)
       }
     )
@@ -90,13 +89,12 @@ export const AuthProvider = ({ children }) => {
     // })
   }
 
-  function logoutUser() {
+  const logoutUser = () => {
     setLoading(true)
-    authUser.signOut(() => {
-      setCurrentUser(null)
-      window.location.reload()
-      setLoading(false)
-    })
+    authUser.signOut()
+    setCurrentUser(null)
+    window.location.reload()
+    setLoading(false)
   }
 
   function resetPassword(email) {

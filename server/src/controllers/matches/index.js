@@ -22,34 +22,11 @@ module.exports = {
       const userId = req.query[DATA_KEYS["USER_ID"]] + ""
       const query = { [idKey]: userId }
 
-      // Extract details about this user
-      fetchUserDocument(res, query)
-        .then((userProfile) => {
-          const {
-            [DATA_KEYS["USER_ZIPCODES"]]: userZipcodes,
-            [DATA_KEYS["USER_PREFERENCE"]]: genderPreference,
-          } = userProfile
-
-          return randomUserFromZipPool(res, userId, userZipcodes, genderPreference)
+      return randomUserFromZipPool(res, userId).then((responseObj) => {
+        verifyEndpointResponse(responseObj, res, endpointObj, () => {
+          res.status(200).json(responseObj)
         })
-        .then((result) => {
-          const { [DATA_KEYS["USER_PROFILE"]]: possibleMatch } = result
-
-          if (possibleMatch) {
-            const responseObj = {
-              [DATA_KEYS["USER_PROFILE"]]: possibleMatch,
-            }
-
-            verifyEndpointResponse(responseObj, res, endpointObj, () => {
-              res.status(200).json(responseObj)
-            })
-          } else {
-            res.status(422).json("Unable to find a user in this zipcode")
-          }
-        })
-        .catch((err) => {
-          handleErrorResponse(res, `Error generating user match => ${err}`, 409)
-        })
+      })
     })
   },
   saveUserSwipeChoice: (req, res) => {

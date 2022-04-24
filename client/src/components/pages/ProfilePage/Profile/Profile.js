@@ -14,7 +14,7 @@ const tabs = [
     title: "Images",
   },
   {
-    value: "peferences",
+    value: "preferences",
     title: "Preferences",
   },
 ]

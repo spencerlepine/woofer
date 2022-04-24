@@ -56,4 +56,25 @@ module.exports = (DATA_KEYS) => ({
         })
     })
   },
+  addUserToZip: (userId, zipcode, done) => {
+    const method = "POST"
+    const endpointPaths = ["ZIPCODES", "ADD"]
+    const endpointObj = { endpointPathKeys: endpointPaths, method }
+    const url = endpointURLStr(endpointPaths, method)
+
+    const body = {
+      [DATA_KEYS["USER_ID"]]: userId,
+      [DATA_KEYS["ZIPCODE"]]: zipcode,
+    }
+
+    return new Promise((resolve, reject) => {
+      request(app)
+        .post(url)
+        .send(body)
+        .end((err, res) => {
+          resolve()
+          if (err) reject(err)
+        })
+    })
+  },
 })

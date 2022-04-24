@@ -1,5 +1,5 @@
 import React from "react"
-import Swiper from "components/Swiper/Swiper"
+import Swiper from "./Swiper/Swiper"
 import withAuthRedirect from "hooks/useAuthRedirect/useAuthRedirect"
 
 const HomePage = () => (

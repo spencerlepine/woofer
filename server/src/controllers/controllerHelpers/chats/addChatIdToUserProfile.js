@@ -5,12 +5,12 @@ const controllerHelpers = require("../helpers")
 
 const addChatIdToUserProfile =
   ({ DATA_KEYS, handleErrorResponse }) =>
-  (res, thisUserID, chatId, idKey) => {
+  (res, thisUserID, chatObj, idKey) => {
     return fetchUserDocument(res, { [idKey]: thisUserID }).then((userProfile) => {
       // Pull the current list of chats from the user profile
       const { [DATA_KEYS["USER_CHATS"]]: userChats } = userProfile
 
-      const extendedChats = [...userChats, chatId]
+      const extendedChats = [...userChats, chatObj]
       const newChatList = Array.from(new Set(extendedChats))
 
       const query = {
@@ -21,6 +21,7 @@ const addChatIdToUserProfile =
           [DATA_KEYS["USER_CHATS"]]: newChatList,
         },
       }
+      console.log(newChatList)
       const options = {}
 
       return updateUserDocument(res, query, update, options)

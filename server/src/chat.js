@@ -1,18 +1,22 @@
 const uuidv4 = require("uuid").v4
+// const { MongoClient } = require("mongodb");
+// const { createAdapter } = require("@socket.io/mongo-adapter");
+// const config = require("../config/config")
+const logger = require("../config/logger")
+// const MONGO_CONFIG = config.MONGOOSE
 
+// const mongoClient = new MongoClient(MONGO_CONFIG.url, MONGO_CONFIG.options);
+
+/******** */
 const messages = new Set()
 const users = new Map()
-
-const defaultUser = {
-  id: "anon",
-  name: "Anonymous",
-}
 
 const messageExpirationTimeMS = 5 * 60 * 1000
 
 class Connection {
-  constructor(io, socket) {
+  constructor(io, socket, user) {
     this.socket = socket
+    this.defaultUser = user
     this.io = io
 
     socket.on("getMessages", () => this.getMessages())
@@ -34,7 +38,7 @@ class Connection {
   handleMessage(value) {
     const message = {
       id: uuidv4(),
-      user: users.get(this.socket) || defaultUser,
+      user: this.defaultUser,
       value,
       time: Date.now(),
     }
@@ -55,9 +59,29 @@ class Connection {
   }
 }
 
-function chat(io) {
-  io.on("connection", (socket) => {
-    new Connection(io, socket)
+const getUserFromSocket = (socket) => {
+  try {
+    const id = socket.handshake.query.userId
+    const name = socket.handshake.query.userName
+
+    return {
+      id,
+      name,
+    }
+  } catch (e) {
+    return "anonymous"
+  }
+}
+
+const chat = async (io) => {
+  io.sockets.on("connection", function (socket) {
+    logger.info("Connected to Socket.io!")
+
+    socket.on("create", function (roomId) {
+      logger.info(`Joined room: ${roomId}`)
+      socket.join(roomId)
+      new Connection(io, socket, getUserFromSocket(socket))
+    })
   })
 }
 

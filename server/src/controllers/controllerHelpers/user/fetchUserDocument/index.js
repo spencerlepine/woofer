@@ -15,9 +15,10 @@ const fetchUserDocument =
       (result) => {
         if (result) {
           return result
-        } else {
-          res.status(409).json("Profile not found")
         }
+
+        res.status(409).json("Profile not found")
+        return {}
       },
       (err) =>
         handleErrorResponse(res, `Unable to find user document => ${err}`, 500)

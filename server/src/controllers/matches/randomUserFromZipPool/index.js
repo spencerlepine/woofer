@@ -3,11 +3,17 @@ const { DATA_KEYS } = require("../../../../config/constants")
 const handleErrorResponse = require("../../../utils/handleErrorResponse")
 const fetchUserDocument = require("../../controllerHelpers/user/fetchUserDocument")
 
-const verifyUserMatchStatuses = require("./verifyUserMatchStatuses")
+const {
+  fetchZipPoolUsers,
+  pickRandomUserFromPool,
+  validateUserPreferences,
+  validateUserMatchRecords,
+} = require("./helpers")
 
-const randomUserFromZipPool = (res, userId, userZipcodes, genderPreference) => {
+const randomUserFromZipPool = (res, userId) => {
+  // Validate the function parameters
   const invalidRes = typeof res !== "object" || Object.keys(res).length === 0
-  if (invalidRes || !userId || !userZipcodes || !genderPreference) {
+  if (invalidRes || !userId) {
     const err = "randomUserFromZipPool called with invalid arguments"
     const failPromise = new Promise((resolve, reject) => {
       reject(err)
@@ -15,59 +21,46 @@ const randomUserFromZipPool = (res, userId, userZipcodes, genderPreference) => {
     return failPromise
   }
 
-  const userQuery = {
-    [DATA_KEYS["USER_ID"]]: userId + "",
-  }
+  let thisUserProfile = {}
+  let thatUserProfile = {}
 
-  return ZipcodePool.findOne(userQuery)
-    .then((result) => {
-      if (result) {
-        // Get the zipcode pool
-        const { [DATA_KEYS["POOL_USERS"]]: poolUsers } = result
-        return poolUsers || {}
-      } else {
-        return {}
-      }
+  return fetchUserDocument(res, { [DATA_KEYS["USER_ID"]]: userId })
+    .then((userProfile) => {
+      thisUserProfile = userProfile
+
+      const { [DATA_KEYS["USER_ZIPCODES"]]: userZipcodes } = userProfile
+
+      return fetchZipPoolUsers((userZipcodes || [])[0])
     })
     .then((poolUsers) => {
-      // Pick a random userId from the ZipcodePool
-      const userIdKeys = Object.keys(poolUsers)
-
-      if (userIdKeys.length === 0) {
-        return
-      } else {
-        let validUserId = null
-        while (!validUserId) {
-          const tempId = userIdKeys[Math.floor(Math.random() * userIdKeys.length)]
-          if (tempId !== userId) {
-            validUserId = tempId
-          }
-        }
-
-        return fetchUserDocument(res, userQuery)
+      return pickRandomUserFromPool(poolUsers, userId)
+    })
+    .then((possibleUserId) => {
+      if (possibleUserId) {
+        return fetchUserDocument(res, { [DATA_KEYS["USER_ID"]]: possibleUserId })
       }
     })
     .then((possibleUser) => {
-      if (!possibleUser) {
-        return { possibleUser: {}, matchIsValid: false }
-      } else {
-        // Verify this is the preferrred gender
-        const { [DATA_KEYS["USER_GENDER"]]: theirGender } = possibleUser
-        const thatUserId = possibleUser[DATA_KEYS["USER_ID"]]
-
-        const validGender = theirGender !== genderPreference
-        if (validGender) {
-          return verifyUserMatchStatuses(res, userId, thatUserId)
-        }
-        return { [DATA_KEYS["USER_PROFILE"]]: {}, matchIsValid: false }
+      if (possibleUser) {
+        thatUserProfile = possibleUser
+      }
+      return possibleUser
+    })
+    .then((possibleUser) => {
+      if (possibleUser) {
+        return validateUserPreferences(thisUserProfile, thatUserProfile)
       }
     })
-    .then((result) => {
-      const { [DATA_KEYS["USER_PROFILE"]]: possibleUser, matchIsValid } = result
-
-      // Verify there hasn't been a match between these users previously
+    .then((preferencesValid) => {
+      if (preferencesValid) {
+        return validateUserMatchRecords(thisUserProfile, thatUserProfile).then(
+          (matchIsValid) => preferencesValid && matchIsValid
+        )
+      }
+    })
+    .then((matchIsValid) => {
       return {
-        [DATA_KEYS["USER_PROFILE"]]: matchIsValid ? possibleUser : null,
+        [DATA_KEYS["USER_PROFILE"]]: matchIsValid ? thatUserProfile : null,
         matchIsValid,
       }
     })

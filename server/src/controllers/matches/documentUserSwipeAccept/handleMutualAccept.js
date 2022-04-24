@@ -12,12 +12,27 @@ const handleMutualAccept = (res, thisUserID, thatUserID) => {
       return generateTwoUserChat(res, thisUserID, thatUserID)
     })
     .then((chatId) => {
-      return addChatIdToUserProfile(res, thisUserID, chatId, DATA_KEYS["USER_ID"])
+      const thisChatObj = {
+        [DATA_KEYS["CHAT_ID"]]: chatId,
+        otherUserId: thatUserID,
+      }
+
+      const thatChatObj = {
+        [DATA_KEYS["CHAT_ID"]]: chatId,
+        otherUserId: thisUserID,
+      }
+
+      return addChatIdToUserProfile(
+        res,
+        thisUserID,
+        thisChatObj,
+        DATA_KEYS["USER_ID"]
+      )
         .then(() => {
           return addChatIdToUserProfile(
             res,
             thatUserID,
-            chatId,
+            thatChatObj,
             DATA_KEYS["USER_ID"]
           )
         })
