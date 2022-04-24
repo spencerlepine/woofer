@@ -9,15 +9,17 @@ const validateUserMatchRecords =
     const thisUserId = thisUserProfile[idKey]
     const thatUserId = thatUserProfile[idKey]
 
-    return fetchBothUserMatchRecords().then(([matchRecordsA, matchRecordsB]) => {
-      const existingMatchA = matchRecordsA[thatUserId]
-      const existingMatchB = matchRecordsB[thisUserId]
+    return fetchBothUserMatchRecords(thisUserProfile, thatUserProfile).then(
+      ([matchRecordsA, matchRecordsB]) => {
+        const existingMatchA = matchRecordsA[thatUserId]
+        const existingMatchB = matchRecordsB[thisUserId]
 
-      if (existingMatchA || existingMatchB) {
-        return false
+        if (existingMatchA || existingMatchB) {
+          return false
+        }
+        return true
       }
-      return true
-    })
+    )
   }
 
 module.exports = validateUserMatchRecords(controllerHelpers)

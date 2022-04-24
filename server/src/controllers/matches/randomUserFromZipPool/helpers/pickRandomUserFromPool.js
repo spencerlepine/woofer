@@ -1,4 +1,13 @@
-const pickRandomUserFromPool = (poolUsers) => {
+const pickRandomUserFromPool = (poolUsers, thisUserId) => {
+  const invalidArgs = !(typeof poolUsers === "object" && thisUserId)
+  if (invalidArgs) {
+    const err = "fetchUsersInZipCodePool called with invalid arguments"
+    const failPromise = new Promise((resolve, reject) => {
+      reject(err)
+    })
+    return failPromise
+  }
+
   let validUserId = null
 
   if (poolUsers.length === 0) {
@@ -6,13 +15,15 @@ const pickRandomUserFromPool = (poolUsers) => {
   } else {
     while (!validUserId) {
       const tempId = poolUsers[Math.floor(Math.random() * poolUsers.length)]
-      if (tempId !== userId) {
+      if (tempId !== thisUserId) {
         validUserId = tempId
       }
     }
   }
 
-  return Promise.resolve(validUserId)
+  return new Promise((resolve, reject) => {
+    resolve(validUserId)
+  })
 }
 
 module.exports = pickRandomUserFromPool

@@ -3,8 +3,22 @@ const controllerHelpers = require("../../../controllerHelpers/helpers")
 const fetchBothUserMatchRecords =
   ({ DATA_KEYS, models: { MatchRecords } }) =>
   (thisUserProfile, thatUserProfile) => {
-    const fetchRecordPromise = (query) =>
-      MatchRecords.findOne(query).then((matchRecordDoc) => {
+    const invalidUserA =
+      typeof thisUserProfile !== "object" ||
+      Object.keys(thisUserProfile).length === 0
+    const invalidUserB =
+      typeof thatUserProfile !== "object" ||
+      Object.keys(thatUserProfile).length === 0
+    if (invalidUserA || invalidUserB) {
+      const err = "fetchBothUserMatchRecords called with invalid arguments"
+      const failPromise = new Promise((resolve, reject) => {
+        reject(err)
+      })
+      return failPromise
+    }
+
+    const fetchRecordPromise = (query) => {
+      return MatchRecords.findOne(query).then((matchRecordDoc) => {
         if (matchRecordDoc && matchRecordDoc[DATA_KEYS["USER_MATCHES"]]) {
           const { [DATA_KEYS["USER_MATCHES"]]: userMatchRecords } = matchRecordDoc
           return userMatchRecords
@@ -12,6 +26,7 @@ const fetchBothUserMatchRecords =
           return {}
         }
       })
+    }
 
     const idKey = DATA_KEYS["USER_ID"]
     const thisUserQuery = { [idKey]: thisUserProfile[idKey] }

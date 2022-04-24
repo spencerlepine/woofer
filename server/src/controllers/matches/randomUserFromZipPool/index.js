@@ -10,10 +10,10 @@ const {
   validateUserMatchRecords,
 } = require("./helpers")
 
-const randomUserFromZipPool = (res, userId, userZipcodes, genderPreference) => {
+const randomUserFromZipPool = (res, userId) => {
   // Validate the function parameters
   const invalidRes = typeof res !== "object" || Object.keys(res).length === 0
-  if (invalidRes || !userId || !userZipcodes || !genderPreference) {
+  if (invalidRes || !userId) {
     const err = "randomUserFromZipPool called with invalid arguments"
     const failPromise = new Promise((resolve, reject) => {
       reject(err)
@@ -24,12 +24,15 @@ const randomUserFromZipPool = (res, userId, userZipcodes, genderPreference) => {
   let thisUserProfile = {}
   let thatUserProfile = {}
 
-  fetchUserDocument(res, { [DATA_KEYS["USER_ID"]]: userId })
+  return fetchUserDocument(res, { [DATA_KEYS["USER_ID"]]: userId })
     .then((userProfile) => {
       thisUserProfile = userProfile
+
+      const { [DATA_KEYS["USER_ZIPCODES"]]: userZipcodes } = userProfile
+
+      return fetchZipPoolUsers((userZipcodes || [])[0])
     })
-    .then(() => fetchZipPoolUsers(userZipcodes[0]))
-    .then((poolUsers) => pickRandomUserFromPool(poolUsers))
+    .then((poolUsers) => pickRandomUserFromPool(poolUsers, userId))
     .then((possibleUserId) =>
       fetchUserDocument(res, { [DATA_KEYS["USER_ID"]]: possibleUserId })
     )

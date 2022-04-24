@@ -18,8 +18,6 @@ const thatUserGender = mockUserB[DATA_KEYS["USER_GENDER"]]
 
 describe("randomUserFromZipcodePool helper", () => {
   test("should return a promise", () => {
-    const query = { idKey: thisUserId }
-
     const result = randomUserFromZipcodePool().catch((err) => {}) // ignore the error
     expect(result.constructor).toBe(Promise)
   })
