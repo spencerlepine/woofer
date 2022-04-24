@@ -77,18 +77,18 @@ jobs:
           REACT_APP_FIREBASE_APP_ID=\"${{ secrets.REACT_APP_FIREBASE_APP_ID }}\"
           REACT_APP_FIREBASE_MEASUREMENT_ID=\"${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}\"" >> .env
 
-          NODE_ENV="${{ secrets.NODE_ENV }}"
-          SERVER_URL="${{ secrets.SERVER_URL }}"
-          PORT="${{ secrets.PORT }}"
-          MONGODB_URL="${{ secrets.MONGODB_URL }}"
-          SKIP_PREFLIGHT_CHECK="${{ secrets.SKIP_PREFLIGHT_CHECK }}"
-          REACT_APP_FIREBASE_API_KEY="${{ secrets.REACT_APP_FIREBASE_API_KEY }}"
-          REACT_APP_FIREBASE_AUTH_DOMAIN="${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}"
-          REACT_APP_FIREBASE_PROJECT_ID="${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}"
-          REACT_APP_FIREBASE_STORAGE_BUCKET="${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}"
-          REACT_APP_FIREBASE_MESSAGING_SENDER_ID="${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}"
-          REACT_APP_FIREBASE_APP_ID="${{ secrets.REACT_APP_FIREBASE_APP_ID }}"
-          REACT_APP_FIREBASE_MEASUREMENT_ID="${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}"
+          NODE_ENV=${{ secrets.NODE_ENV }}
+          SERVER_URL=${{ secrets.SERVER_URL }}
+          PORT=${{ secrets.PORT }}
+          MONGODB_URL=${{ secrets.MONGODB_URL }}
+          SKIP_PREFLIGHT_CHECK=${{ secrets.SKIP_PREFLIGHT_CHECK }}
+          REACT_APP_FIREBASE_API_KEY=${{ secrets.REACT_APP_FIREBASE_API_KEY }}
+          REACT_APP_FIREBASE_AUTH_DOMAIN=${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}
+          REACT_APP_FIREBASE_PROJECT_ID=${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}
+          REACT_APP_FIREBASE_STORAGE_BUCKET=${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}
+          REACT_APP_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}
+          REACT_APP_FIREBASE_APP_ID=${{ secrets.REACT_APP_FIREBASE_APP_ID }}
+          REACT_APP_FIREBASE_MEASUREMENT_ID=${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}
 
       - name: "🔒 Login to DockerHub"
         uses: docker/login-action@v1
@@ -107,18 +107,18 @@ jobs:
           push: true
           tags: ${{ env.DOCKERHUB_REPO }}:latest
           build-args: |
-            NODE_ENV="${{ secrets.NODE_ENV }}"
-            SERVER_URL="${{ secrets.SERVER_URL }}"
-            PORT="${{ secrets.PORT }}"
-            MONGODB_URL="${{ secrets.MONGODB_URL }}"
-            SKIP_PREFLIGHT_CHECK="${{ secrets.SKIP_PREFLIGHT_CHECK }}"
-            REACT_APP_FIREBASE_API_KEY="${{ secrets.REACT_APP_FIREBASE_API_KEY }}"
-            REACT_APP_FIREBASE_AUTH_DOMAIN="${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}"
-            REACT_APP_FIREBASE_PROJECT_ID="${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}"
-            REACT_APP_FIREBASE_STORAGE_BUCKET="${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}"
-            REACT_APP_FIREBASE_MESSAGING_SENDER_ID="${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}"
-            REACT_APP_FIREBASE_APP_ID="${{ secrets.REACT_APP_FIREBASE_APP_ID }}"
-            REACT_APP_FIREBASE_MEASUREMENT_ID="${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}"
+            NODE_ENV=${{ secrets.NODE_ENV }}
+            SERVER_URL=${{ secrets.SERVER_URL }}
+            PORT=${{ secrets.PORT }}
+            MONGODB_URL=${{ secrets.MONGODB_URL }}
+            SKIP_PREFLIGHT_CHECK=${{ secrets.SKIP_PREFLIGHT_CHECK }}
+            REACT_APP_FIREBASE_API_KEY=${{ secrets.REACT_APP_FIREBASE_API_KEY }}
+            REACT_APP_FIREBASE_AUTH_DOMAIN=${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}
+            REACT_APP_FIREBASE_PROJECT_ID=${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}
+            REACT_APP_FIREBASE_STORAGE_BUCKET=${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}
+            REACT_APP_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}
+            REACT_APP_FIREBASE_APP_ID=${{ secrets.REACT_APP_FIREBASE_APP_ID }}
+            REACT_APP_FIREBASE_MEASUREMENT_ID=${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}
           # cache-from: type=local,src=/tmp/.buildx-cache-${{ env.working-directory }}
           # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
@@ -181,32 +181,32 @@ jobs:
           REACT_APP_FIREBASE_APP_ID=\"${{ secrets.REACT_APP_FIREBASE_APP_ID }}\"
           REACT_APP_FIREBASE_MEASUREMENT_ID=\"${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}\"" >> .env
 
-          NODE_ENV="${{ secrets.NODE_ENV }}"
-          SERVER_URL="${{ secrets.SERVER_URL }}"
-          PORT="${{ secrets.PORT }}"
-          MONGODB_URL="${{ secrets.MONGODB_URL }}"
-          SKIP_PREFLIGHT_CHECK="${{ secrets.SKIP_PREFLIGHT_CHECK }}"
-          REACT_APP_FIREBASE_API_KEY="${{ secrets.REACT_APP_FIREBASE_API_KEY }}"
-          REACT_APP_FIREBASE_AUTH_DOMAIN="${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}"
-          REACT_APP_FIREBASE_PROJECT_ID="${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}"
-          REACT_APP_FIREBASE_STORAGE_BUCKET="${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}"
-          REACT_APP_FIREBASE_MESSAGING_SENDER_ID="${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}"
-          REACT_APP_FIREBASE_APP_ID="${{ secrets.REACT_APP_FIREBASE_APP_ID }}"
-          REACT_APP_FIREBASE_MEASUREMENT_ID="${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}"
+          NODE_ENV=${{ secrets.NODE_ENV }}
+          SERVER_URL=${{ secrets.SERVER_URL }}
+          PORT=${{ secrets.PORT }}
+          MONGODB_URL=${{ secrets.MONGODB_URL }}
+          SKIP_PREFLIGHT_CHECK=${{ secrets.SKIP_PREFLIGHT_CHECK }}
+          REACT_APP_FIREBASE_API_KEY=${{ secrets.REACT_APP_FIREBASE_API_KEY }}
+          REACT_APP_FIREBASE_AUTH_DOMAIN=${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}
+          REACT_APP_FIREBASE_PROJECT_ID=${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}
+          REACT_APP_FIREBASE_STORAGE_BUCKET=${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}
+          REACT_APP_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}
+          REACT_APP_FIREBASE_APP_ID=${{ secrets.REACT_APP_FIREBASE_APP_ID }}
+          REACT_APP_FIREBASE_MEASUREMENT_ID=${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}
 
 
-          NODE_ENV="${{ secrets.NODE_ENV }}"
-          SERVER_URL="${{ secrets.SERVER_URL }}"
-          PORT="${{ secrets.PORT }}"
-          MONGODB_URL="${{ secrets.MONGODB_URL }}"
-          SKIP_PREFLIGHT_CHECK="${{ secrets.SKIP_PREFLIGHT_CHECK }}"
-          REACT_APP_FIREBASE_API_KEY="${{ secrets.REACT_APP_FIREBASE_API_KEY }}"
-          REACT_APP_FIREBASE_AUTH_DOMAIN="${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}"
-          REACT_APP_FIREBASE_PROJECT_ID="${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}"
-          REACT_APP_FIREBASE_STORAGE_BUCKET="${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}"
-          REACT_APP_FIREBASE_MESSAGING_SENDER_ID="${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}"
-          REACT_APP_FIREBASE_APP_ID="${{ secrets.REACT_APP_FIREBASE_APP_ID }}"
-          REACT_APP_FIREBASE_MEASUREMENT_ID="${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}"
+          NODE_ENV=${{ secrets.NODE_ENV }}
+          SERVER_URL=${{ secrets.SERVER_URL }}
+          PORT=${{ secrets.PORT }}
+          MONGODB_URL=${{ secrets.MONGODB_URL }}
+          SKIP_PREFLIGHT_CHECK=${{ secrets.SKIP_PREFLIGHT_CHECK }}
+          REACT_APP_FIREBASE_API_KEY=${{ secrets.REACT_APP_FIREBASE_API_KEY }}
+          REACT_APP_FIREBASE_AUTH_DOMAIN=${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}
+          REACT_APP_FIREBASE_PROJECT_ID=${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}
+          REACT_APP_FIREBASE_STORAGE_BUCKET=${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}
+          REACT_APP_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}
+          REACT_APP_FIREBASE_APP_ID=${{ secrets.REACT_APP_FIREBASE_APP_ID }}
+          REACT_APP_FIREBASE_MEASUREMENT_ID=${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}
 
       - name: "🔒 Login to DockerHub"
         uses: docker/login-action@v1
@@ -310,31 +310,31 @@ jobs:
 
             rm -f .env
             touch .env
-            printf "NODE_ENV=\"${{ secrets.NODE_ENV }}\"
-            SERVER_URL=\"${{ secrets.SERVER_URL }}\"
-            PORT=\"${{ secrets.PORT }}\"
-            MONGODB_URL=\"${{ secrets.MONGODB_URL }}\"
-            SKIP_PREFLIGHT_CHECK=\"${{ secrets.SKIP_PREFLIGHT_CHECK }}\"
-            REACT_APP_FIREBASE_API_KEY=\"${{ secrets.REACT_APP_FIREBASE_API_KEY }}\"
-            REACT_APP_FIREBASE_AUTH_DOMAIN=\"${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}\"
-            REACT_APP_FIREBASE_PROJECT_ID=\"${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}\"
-            REACT_APP_FIREBASE_STORAGE_BUCKET=\"${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}\"
-            REACT_APP_FIREBASE_MESSAGING_SENDER_ID=\"${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}\"
-            REACT_APP_FIREBASE_APP_ID=\"${{ secrets.REACT_APP_FIREBASE_APP_ID }}\"
-            REACT_APP_FIREBASE_MEASUREMENT_ID=\"${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}\"" >> .env
+            printf "NODE_ENV=${{ secrets.NODE_ENV }}
+            SERVER_URL=${{ secrets.SERVER_URL }}
+            PORT=${{ secrets.PORT }}
+            MONGODB_URL=${{ secrets.MONGODB_URL }}
+            SKIP_PREFLIGHT_CHECK=${{ secrets.SKIP_PREFLIGHT_CHECK }}
+            REACT_APP_FIREBASE_API_KEY=${{ secrets.REACT_APP_FIREBASE_API_KEY }}
+            REACT_APP_FIREBASE_AUTH_DOMAIN=${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}
+            REACT_APP_FIREBASE_PROJECT_ID=${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}
+            REACT_APP_FIREBASE_STORAGE_BUCKET=${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}
+            REACT_APP_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}
+            REACT_APP_FIREBASE_APP_ID=${{ secrets.REACT_APP_FIREBASE_APP_ID }}
+            REACT_APP_FIREBASE_MEASUREMENT_ID=${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}" >> .env
 
-            NODE_ENV="${{ secrets.NODE_ENV }}"
-            SERVER_URL="${{ secrets.SERVER_URL }}"
-            PORT="${{ secrets.PORT }}"
-            MONGODB_URL="${{ secrets.MONGODB_URL }}"
-            SKIP_PREFLIGHT_CHECK="${{ secrets.SKIP_PREFLIGHT_CHECK }}"
-            REACT_APP_FIREBASE_API_KEY="${{ secrets.REACT_APP_FIREBASE_API_KEY }}"
-            REACT_APP_FIREBASE_AUTH_DOMAIN="${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}"
-            REACT_APP_FIREBASE_PROJECT_ID="${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}"
-            REACT_APP_FIREBASE_STORAGE_BUCKET="${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}"
-            REACT_APP_FIREBASE_MESSAGING_SENDER_ID="${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}"
-            REACT_APP_FIREBASE_APP_ID="${{ secrets.REACT_APP_FIREBASE_APP_ID }}"
-            REACT_APP_FIREBASE_MEASUREMENT_ID="${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}"
+            NODE_ENV=${{ secrets.NODE_ENV }}
+            SERVER_URL=${{ secrets.SERVER_URL }}
+            PORT=${{ secrets.PORT }}
+            MONGODB_URL=${{ secrets.MONGODB_URL }}
+            SKIP_PREFLIGHT_CHECK=${{ secrets.SKIP_PREFLIGHT_CHECK }}
+            REACT_APP_FIREBASE_API_KEY=${{ secrets.REACT_APP_FIREBASE_API_KEY }}
+            REACT_APP_FIREBASE_AUTH_DOMAIN=${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}
+            REACT_APP_FIREBASE_PROJECT_ID=${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}
+            REACT_APP_FIREBASE_STORAGE_BUCKET=${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}
+            REACT_APP_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}
+            REACT_APP_FIREBASE_APP_ID=${{ secrets.REACT_APP_FIREBASE_APP_ID }}
+            REACT_APP_FIREBASE_MEASUREMENT_ID=${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}
 
             # ls -a
             echo -e "$GREEN Created the production .env file $NC"
