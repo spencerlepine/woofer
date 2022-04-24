@@ -1,6 +1,6 @@
 import React from "react"
 import withAuthRedirect from "hooks/useAuthRedirect/useAuthRedirect"
-import AccountForm from "ui/AccountForm/AccountForm"
+import AccountForm from "components/ui/AccountForm/AccountForm"
 import * as ROUTES from "config/routeConstants"
 import useAuth from "context/AuthContext/AuthContext"
 
