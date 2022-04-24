@@ -42,8 +42,8 @@ const ChatList = () => {
 
           {validChats.map(({ [DATA_KEYS["CHAT_ID"]]: chatId, otherUserId }, i) => (
             <div className="card" key={i}>
-              <header class="card-header">
-                <p class="card-header-title">Chat #{i}</p>
+              <header className="card-header">
+                <p className="card-header-title">Chat #{i}</p>
                 <Link
                   to={`${ROUTES.CHAT}?roomId=${chatId}`}
                   className="card-header-icon"

@@ -5,7 +5,7 @@ describe("ChatsContext", () => {
   const expectedExports = [
     {
       key: "availableChats",
-      targetInstance: Object,
+      targetInstance: Array,
     },
   ]
 

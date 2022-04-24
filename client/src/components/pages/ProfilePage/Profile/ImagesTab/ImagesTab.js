@@ -109,13 +109,13 @@ const ImagesTab = ({
         {images.map((imageSrc, i) => (
           <div className="tile">
             <div className="card" key={i}>
-              <div class="card-image">
-                <figure class="image is-128x128">
+              <div className="card-image">
+                <figure className="image is-128x128">
                   <img src={imageSrc} alt="User Thumbnail" />
                 </figure>
               </div>
 
-              <div class="card-content">
+              <div className="card-content">
                 <button
                   onClick={(e) => scrollImage(e, imageSrc, i, -1)}
                   disabled={i === min}

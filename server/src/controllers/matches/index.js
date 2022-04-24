@@ -13,6 +13,17 @@ const idKey = DATA_KEYS["USER_ID"]
 
 module.exports = {
   fetchPossibleMatch: (req, res) => {
+    // Check the request
+    // // isValidRequest(req)
+    // Fetch the user details
+    // fetchUserDocument()
+    // Fetch random user from zipcode
+    // // randomUserFromZipPool()
+    // Look at random user
+    // Format the response object
+    // Verify the response object
+    // // verifyEndpointResponse
+
     const endpointObj = {
       endpointPathKeys: ["MATCHES", "GENERATE"],
       method: "GET",
