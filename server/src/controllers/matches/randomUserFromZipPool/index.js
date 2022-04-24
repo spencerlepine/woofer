@@ -32,19 +32,32 @@ const randomUserFromZipPool = (res, userId) => {
 
       return fetchZipPoolUsers((userZipcodes || [])[0])
     })
-    .then((poolUsers) => pickRandomUserFromPool(poolUsers, userId))
-    .then((possibleUserId) =>
-      fetchUserDocument(res, { [DATA_KEYS["USER_ID"]]: possibleUserId })
-    )
-    .then((possibleUser) => {
-      thatUserProfile = possibleUser
+    .then((poolUsers) => {
+      return pickRandomUserFromPool(poolUsers, userId)
     })
-    .then(() => validateUserPreferences(thisUserProfile, thatUserProfile))
-    .then((preferencesValid) =>
-      validateUserMatchRecords(thisUserProfile, thatUserProfile).then(
-        (matchIsValid) => preferencesValid && matchIsValid
-      )
-    )
+    .then((possibleUserId) => {
+      if (possibleUserId) {
+        return fetchUserDocument(res, { [DATA_KEYS["USER_ID"]]: possibleUserId })
+      }
+    })
+    .then((possibleUser) => {
+      if (possibleUser) {
+        thatUserProfile = possibleUser
+      }
+      return possibleUser
+    })
+    .then((possibleUser) => {
+      if (possibleUser) {
+        return validateUserPreferences(thisUserProfile, thatUserProfile)
+      }
+    })
+    .then((preferencesValid) => {
+      if (preferencesValid) {
+        return validateUserMatchRecords(thisUserProfile, thatUserProfile).then(
+          (matchIsValid) => preferencesValid && matchIsValid
+        )
+      }
+    })
     .then((matchIsValid) => {
       return {
         [DATA_KEYS["USER_PROFILE"]]: matchIsValid ? thatUserProfile : null,

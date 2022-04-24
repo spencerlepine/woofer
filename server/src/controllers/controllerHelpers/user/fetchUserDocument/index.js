@@ -16,6 +16,7 @@ const fetchUserDocument =
         if (result) {
           return result
         }
+
         res.status(409).json("Profile not found")
         return {}
       },

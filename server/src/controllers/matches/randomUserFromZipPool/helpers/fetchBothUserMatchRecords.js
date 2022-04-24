@@ -31,6 +31,7 @@ const fetchBothUserMatchRecords =
     const idKey = DATA_KEYS["USER_ID"]
     const thisUserQuery = { [idKey]: thisUserProfile[idKey] }
     const thatUserQuery = { [idKey]: thatUserProfile[idKey] }
+
     return Promise.all([
       fetchRecordPromise(thisUserQuery),
       fetchRecordPromise(thatUserQuery),
