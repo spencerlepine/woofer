@@ -7,4 +7,16 @@ describe("SampleChat", () => {
     render(<SampleChat />)
     expect(true).toBeTruthy()
   })
+
+  test("should render send button", () => {
+    render(<SampleChat />)
+    const sendBtn = screen.getByText(/Send/i)
+    expect(sendBtn).toBeInTheDocument()
+  })
+
+  test("should render message input", () => {
+    render(<SampleChat />)
+    const messageInput = screen.getByRole("textbox")
+    expect(messageInput).toBeInTheDocument()
+  })
 })
