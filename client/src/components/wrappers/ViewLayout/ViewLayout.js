@@ -10,10 +10,10 @@ const ViewLayout = ({ children }) => {
   return (
     <React.Fragment>
       <AuthProvider>
-        <NotificationsPopup />
         <Navbar />
         <div className="container">{children}</div>
         <Footer />
+        <NotificationsPopup />
       </AuthProvider>
     </React.Fragment>
   )

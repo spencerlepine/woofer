@@ -38,7 +38,7 @@ export const ENDPOINT_ROUTES = {
     REMOVE: {
       URL: "remove",
       DELETE: {
-        [BODY_KEYS]: [DATA_KEYS["USER_ID"], DATA_KEYS["ZIPCODE"]],
+        [PARAM_KEYS]: [DATA_KEYS["USER_ID"], DATA_KEYS["ZIPCODE"]],
         [RESPONSE_KEYS]: [DATA_KEYS["USER_PROFILE"]],
       },
     },

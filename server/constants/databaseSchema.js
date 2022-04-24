@@ -64,7 +64,7 @@ const schema = (Joi) => {
       .pattern(new RegExp(/[0-9-]/)),
     [DATA_KEYS["CHAT_ID"]]: Joi.string().alphanum(),
     [DATA_KEYS["CHAT_STARTDATE"]]: Joi.string().pattern(dateRegex),
-    [DATA_KEYS["PICTURE"]]: Joi.string().uri().max(255),
+    [DATA_KEYS["PICTURE"]]: Joi.string(), //.uri().max(255),
     [DATA_KEYS["MATCH_STATUS"]]: Joi.string().valid(...["accept", "reject"]),
   }
 

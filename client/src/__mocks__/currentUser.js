@@ -3,8 +3,8 @@ jest.mock("currentUser", () => ({
     const DATA_KEYS = {
       USER_ID: "id",
       USER_NAME: "name",
-      USER_FIRST_NAME: "first_name",
-      USER_LAST_NAME: "last_name",
+      USER_FIRST_NAME: "firstName",
+      USER_LAST_NAME: "lastName",
       USER_PROFILE_PIC: "profile_picture",
       USER_ZODIAC: "zodiac_sign",
       USER_GENDER: "gender",

@@ -1,19 +1,30 @@
 import React, { useState, useContext, useEffect } from "react"
 import PropTypes from "prop-types"
 import * as authUser from "api/account"
+import * as zipCodes from "api/zipcodes"
+import mockUser from "./mockUser"
 
 export const AuthContext = React.createContext()
 
+const isDevMode =
+  process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test"
+const startUser = isDevMode ? mockUser : null
+
 export const AuthProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null)
+  const [currentUser, setCurrentUser] = useState(startUser)
   const [accountDetails, setAccountDetails] = useState({})
   const [loading, setLoading] = useState(true)
 
   const getAccountDetails = () => {
     setLoading(true)
-    authUser.fetchUserProfileRecord(({ userProfile }) => {
-      setCurrentUser((currentUser) => ({
-        ...currentUser,
+    authUser.fetchUserProfileRecord((userProfile) => {
+      setCurrentUser((prevCurrentUser) => ({
+        ...prevCurrentUser,
+        ...userProfile,
+      }))
+
+      setAccountDetails((prevDetails) => ({
+        ...prevDetails,
         ...userProfile,
       }))
       setLoading(false)
@@ -41,8 +52,8 @@ export const AuthProvider = ({ children }) => {
     const accountDetails = {
       email,
       username,
-      first_name: firstName,
-      last_name: lastName,
+      firstName,
+      lastName,
     }
     const displayName = `${firstName} ${lastName}`
 
@@ -57,6 +68,18 @@ export const AuthProvider = ({ children }) => {
         setLoading(false)
       }
     )
+  }
+
+  const updateAccountDetails = (newDetails, successCallback) => {
+    setLoading(true)
+    authUser.updateUserProfileRecord(newDetails, ({ userProfile }) => {
+      setCurrentUser((currentUser) => ({
+        ...currentUser,
+        ...userProfile,
+      }))
+      successCallback(userProfile)
+      setLoading(false)
+    })
   }
 
   function updateProfilePic(newFile) {
@@ -97,7 +120,25 @@ export const AuthProvider = ({ children }) => {
     // })
   }
 
+  const addUserToZipPool = (newZipCode, successCallback) => {
+    setLoading(true)
+    zipCodes.addUserToZipcode(newZipCode, () => {
+      successCallback()
+      setLoading(false)
+    })
+  }
+
+  const removeUserFromZipPool = (oldZipCode, successCallback) => {
+    setLoading(true)
+    zipCodes.removeUserFromZipcode(oldZipCode, () => {
+      successCallback()
+      setLoading(false)
+    })
+  }
+
   const value = {
+    addUserToZipPool,
+    removeUserFromZipPool,
     loading,
     accountDetails,
     resetPassword,
@@ -108,6 +149,7 @@ export const AuthProvider = ({ children }) => {
     logoutUser,
     signupUser,
     getAccountDetails,
+    updateAccountDetails,
     updateProfilePic,
   }
 

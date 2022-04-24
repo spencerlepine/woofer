@@ -98,7 +98,9 @@ jest.mock("firebase/app", () => {
       }),
     })),
     initializeApp: jest.fn().mockReturnThis(),
-    storage: () => ({}),
+    storage: jest.fn(() => ({
+      ref: jest.fn(() => ({})),
+    })),
     firestore: () => mockDb,
   }
 })

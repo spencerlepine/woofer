@@ -45,20 +45,21 @@ describe("ZIPCODES endpoint", () => {
     const method = "DELETE"
     const endpointPaths = ["ZIPCODES", "REMOVE"]
     const url = endpointURLStr(endpointPaths, method)
-    const body = {
+    const params = {
       [DATA_KEYS["USER_ID"]]: mockUser[DATA_KEYS["USER_ID"]],
       [DATA_KEYS["ZIPCODE"]]: "10001",
     }
 
+    console.log(params)
     test(`${method} ${url}`, (done) => {
       testAddZipCode(url, { endpointPathKeys: endpointPaths, method }, () => {
         request(app)
           .delete(url)
-          .send(body)
+          .query(params)
           .expect("Content-Type", /json/)
           .expect(201)
           .end((err, res) => {
-            if (err) return done(err.stack)
+            if (err) return done(err)
             return done()
           })
       })

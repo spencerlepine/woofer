@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 import { BrowserRouter as Router } from "react-router-dom"
 import { createBrowserHistory } from "history"
 import "./index.css"
-import "react-toastify/dist/ReactToastify.min.css"
+import "react-toastify/dist/ReactToastify.css"
 import "bulma/css/bulma.css"
 
 import App from "./components/App"
