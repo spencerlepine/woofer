@@ -1,8 +1,8 @@
 import { auth, storage } from "config/firebase"
-import randomString from "string-random"
+import uniqueString from "unique-string"
 
 export const uploadImageToFirebase = (newFile, userId, successCallback) => {
-  const randomFileName = randomString(16, { numbers: false })
+  const randomFileName = uniqueString()
 
   const imageName = `${randomFileName}.png`
   const storageRef = storage.ref(`/images/${userId}/${imageName}`)
