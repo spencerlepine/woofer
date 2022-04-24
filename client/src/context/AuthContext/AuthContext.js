@@ -94,6 +94,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(true)
     authUser.signOut(() => {
       setCurrentUser(null)
+      window.location.reload()
       setLoading(false)
     })
   }
