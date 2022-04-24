@@ -20,7 +20,7 @@ jobs:
     uses: ./.github/workflows/docker_ci.yml
 
   build_docker_client:
-    # needs: [node_ci, docker_ci]
+    needs: [node_ci, docker_ci]
     name: "🐳 Build/Publish Docker (CLIENT) Image"
     environment: production
     runs-on: ubuntu-latest
@@ -123,7 +123,7 @@ jobs:
           # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
   build_docker_server:
-    # needs: [node_ci, docker_ci]
+    needs: [node_ci, docker_ci]
     name: "🐳 Build/Publish Docker (SERVER) Image"
     environment: production
     runs-on: ubuntu-latest
