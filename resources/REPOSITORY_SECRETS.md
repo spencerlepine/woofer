@@ -19,7 +19,6 @@ enviroment:
 enviroment:
   production
 secrets:
-  ENV_PRODUCTION: *.env file contents*
   DOCKERHUB_USERNAME: spencerlepine
   DOCKERHUB_PASSWORD: abc12345
   DOCKERHUB_CLIENT_REPO: woofer-client
@@ -33,6 +32,7 @@ secrets:
   PORT: 5000
   MONGODB_URL: "mongodb://127.0.0.1:27017/test"
   SKIP_PREFLIGHT_CHECK: true
+  # Firebase Project > Project Settings > SDK setup and configuration
   REACT_APP_FIREBASE_API_KEY: ""
   REACT_APP_FIREBASE_AUTH_DOMAIN: ""
   REACT_APP_FIREBASE_PROJECT_ID: ""
