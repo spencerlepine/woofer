@@ -98,7 +98,6 @@
   },
   "dependencies": {
     "@babel/eslint-parser": "^7.17.0",
-    "@babel/preset-react": "^7.16.7",
-    "unique-string": "^3.0.0"
+    "@babel/preset-react": "^7.16.7"
   }
 }

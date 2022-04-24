@@ -1,5 +1,18 @@
 import { auth, storage } from "config/firebase"
-import uniqueString from "unique-string"
+
+const uniqueString = () => {
+  const makeId = (length) => {
+    var result = ""
+    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    var charactersLength = characters.length
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength))
+    }
+    return result
+  }
+
+  return makeId(25)
+}
 
 export const uploadImageToFirebase = (newFile, userId, successCallback) => {
   const randomFileName = uniqueString()
