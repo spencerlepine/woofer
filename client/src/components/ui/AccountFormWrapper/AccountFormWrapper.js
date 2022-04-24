@@ -9,7 +9,7 @@ import * as ROUTES from "config/routeConstants"
 const FormWrapper = ({ FieldsComponent, LargeWidth }) => {
   const { currentUser, accountDetails, updateAccountDetails } = useAuth()
   const [formEntries, setFormEntries] = useState({})
-  const [loading, setLoading] = useState(false)
+  // const [loading, setLoading] = useState(false)
   const [madeChange, setMadeChange] = useState(false)
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const FormWrapper = ({ FieldsComponent, LargeWidth }) => {
 
   const manualSubmit = (newDetails) => {
     setMadeChange(false)
-    setLoading(true)
+    // setLoading(true)
 
     const finalDetails = {
       ...accountDetails,
@@ -60,13 +60,13 @@ const FormWrapper = ({ FieldsComponent, LargeWidth }) => {
 
     updateAccountDetails(finalDetails, (updatedDetails) => {
       setFormEntries(updatedDetails)
-      setLoading(false)
+      // setLoading(false)
     })
   }
 
-  const LoadingSpinner = (props) => (
-    <>{loading ? <p>Updating...</p> : <>{props.children}</>}</>
-  )
+  // const LoadingSpinner = (props) => (
+  //   <>{loading ? <p>Updating...</p> : <>{props.children}</>}</>
+  // )
 
   const FieldProps = {
     updateAccountDetails,
@@ -85,28 +85,28 @@ const FormWrapper = ({ FieldsComponent, LargeWidth }) => {
     <section className="hero is-medium">
       <div className="columns is-centered">
         <div className={`column is-fluid ${LargeWidth ? "" : "is-half"}`}>
-          <LoadingSpinner>
-            {currentUser ? (
-              <form className="box has-text-centered">
-                <button
-                  disabled={!madeChange}
-                  onClick={handleSubmit}
-                  className="button is-primary p-2 is-pulled-right"
-                >
-                  Update
-                </button>
-                <br></br>
-                <hr></hr>
+          {/* <LoadingSpinner> */}
+          {currentUser ? (
+            <form className="box has-text-centered">
+              <button
+                disabled={!madeChange}
+                onClick={handleSubmit}
+                className="button is-primary p-2 is-pulled-right"
+              >
+                Update
+              </button>
+              <br></br>
+              <hr></hr>
 
-                <FieldsComponent {...FieldProps} />
-              </form>
-            ) : (
-              <>
-                <h4>Sign in to continue</h4>
-                <Link to={ROUTES.LOGIN}>LOG IN</Link>
-              </>
-            )}
-          </LoadingSpinner>
+              <FieldsComponent {...FieldProps} />
+            </form>
+          ) : (
+            <>
+              <h4>Sign in to continue</h4>
+              <Link to={ROUTES.LOGIN}>LOG IN</Link>
+            </>
+          )}
+          {/* </LoadingSpinner> */}
         </div>
       </div>
     </section>
