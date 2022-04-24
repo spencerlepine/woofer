@@ -19,6 +19,41 @@ describe("AccountForm", () => {
     expect(true).toBeTruthy()
   })
 
+  test("should render the woofer logo", () => {
+    render(<AccountForm {...defaultProps} />)
+    const logoElem = screen.getByAltText("Woofer Logo")
+    expect(logoElem).toBeInTheDocument()
+  })
+
+  test("should render the form title", () => {
+    render(<AccountForm {...defaultProps} />)
+    const titleElem = screen.getByText(defaultProps["FormTitle"])
+    expect(titleElem).toBeInTheDocument()
+  })
+
+  test("should render the submit button", () => {
+    render(<AccountForm {...defaultProps} />)
+    const submitBtn = screen.getByRole("button")
+    expect(submitBtn).toBeInTheDocument()
+    expect(submitBtn).toHaveTextContent(defaultProps["SubmitLabel"])
+  })
+
+  test("should invoke handleSubmit prop when clicking submit button", (done) => {
+    const submitProps = {
+      ...defaultProps,
+      handleSubmit: jest.fn(),
+    }
+
+    render(<AccountForm {...submitProps} />)
+    const submitBtn = screen.getByRole("button")
+
+    act(() => {
+      fireEvent.click(submitBtn)
+      expect(submitProps.handleSubmit.mock.calls.length).toBe(1)
+      done()
+    })
+  })
+
   // test("should render update button", () => {
   //   render(<AccountForm {...defaultProps} />)
 
