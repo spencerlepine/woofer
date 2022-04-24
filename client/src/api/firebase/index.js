@@ -7,15 +7,17 @@ export const uploadImageToFirebase = (newFile, userId, successCallback) => {
   const imageName = `${randomFileName}.png`
   const storageRef = storage.ref(`/images/${userId}/${imageName}`)
 
-  storageRef
-    .put(newFile)
-    .then(() => {
-      storageRef.getDownloadURL().then((url) => {
-        console.log(url)
-        successCallback(url)
+  if (storageRef.put) {
+    storageRef
+      .put(newFile)
+      .then(() => {
+        storageRef.getDownloadURL().then((url) => {
+          console.log(url)
+          successCallback(url)
+        })
       })
-    })
-    .catch((error) => console.log(error))
+      .catch((error) => console.log(error))
+  }
 }
 
 export const deleteImageFromFirebase = (
@@ -24,14 +26,19 @@ export const deleteImageFromFirebase = (
   successCallback = () => {}
 ) => {
   const imagePathRegex = new RegExp(/(.+)%2(.+).png/)
-  const imageFile = imageUrl.match(imagePathRegex)[2].substring(1)
+  const validImageUrl = (imageUrl.match(imagePathRegex) || []).length > 0
+  if (validImageUrl) {
+    const imageFile = imageUrl.match(imagePathRegex)[2].substring(1)
 
-  const storageRef = storage.ref(`/images/${userId}/${imageFile}.png`)
+    const storageRef = storage.ref(`/images/${userId}/${imageFile}.png`)
 
-  storageRef
-    .delete()
-    .then(() => {
-      successCallback()
-    })
-    .catch((error) => console.log(error))
+    if (storageRef.delete) {
+      storageRef
+        .delete()
+        .then(() => {
+          successCallback()
+        })
+        .catch((error) => console.log(error))
+    }
+  }
 }
