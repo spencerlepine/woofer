@@ -11,16 +11,12 @@ const logger = require("../config/logger")
 const messages = new Set()
 const users = new Map()
 
-const defaultUser = {
-  id: "anon",
-  name: "Anonymous",
-}
-
 const messageExpirationTimeMS = 5 * 60 * 1000
 
 class Connection {
-  constructor(io, socket) {
+  constructor(io, socket, user) {
     this.socket = socket
+    this.defaultUser = user
     this.io = io
 
     socket.on("getMessages", () => this.getMessages())
@@ -42,7 +38,7 @@ class Connection {
   handleMessage(value) {
     const message = {
       id: uuidv4(),
-      user: users.get(this.socket) || defaultUser,
+      user: this.defaultUser,
       value,
       time: Date.now(),
     }
@@ -63,6 +59,20 @@ class Connection {
   }
 }
 
+const getUserFromSocket = (socket) => {
+  try {
+    const id = socket.handshake.query.userId
+    const name = socket.handshake.query.userName
+
+    return {
+      id,
+      name,
+    }
+  } catch (e) {
+    return "anonymous"
+  }
+}
+
 const chat = async (io) => {
   io.sockets.on("connection", function (socket) {
     logger.info("Connected to Socket.io!")
@@ -70,7 +80,7 @@ const chat = async (io) => {
     socket.on("create", function (roomId) {
       logger.info(`Joined room: ${roomId}`)
       socket.join(roomId)
-      new Connection(io, socket)
+      new Connection(io, socket, getUserFromSocket(socket))
     })
   })
 }

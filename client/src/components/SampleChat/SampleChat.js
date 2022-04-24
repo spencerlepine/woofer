@@ -4,8 +4,17 @@ import io from "socket.io-client"
 import Messages from "./Messages/Messages"
 import MessageInput from "./MessageInput/MessageInput"
 
-function SampleChat() {
-  // const { currentUser } = useAuth()
+import useAuth, { AuthProvider } from "context/AuthContext/AuthContext"
+import constants from "config/constants"
+const { DATA_KEYS } = constants
+const idKey = DATA_KEYS["USER_ID"]
+
+const SampleChat = () => {
+  const { currentUser, accountDetails } = useAuth()
+  const userDetails = {
+    ...(currentUser || {}),
+    ...(accountDetails || {}),
+  }
 
   const [socket, setSocket] = useState(null)
   const { roomId } = useParams()
@@ -13,12 +22,17 @@ function SampleChat() {
   const validRoom = roomId || "testRoom"
 
   useEffect(() => {
-    const newSocket = io(`http://${window.location.hostname}:5000`)
+    const newSocket = io(`http://${window.location.hostname}:5000`, {
+      query: {
+        userName: userDetails[DATA_KEYS["USER_FIRST_NAME"]],
+        userId: userDetails["uid"] || userDetails[DATA_KEYS["USER_ID"]],
+      },
+    })
     newSocket.emit("create", validRoom)
 
     setSocket(newSocket)
     return () => newSocket.close()
-  }, [setSocket])
+  }, [setSocket, currentUser, accountDetails])
 
   return (
     <div id="ChatRoom">
@@ -43,4 +57,10 @@ function SampleChat() {
   )
 }
 
-export default SampleChat
+const WrappedChat = (props) => (
+  <AuthProvider>
+    <SampleChat {...props} />
+  </AuthProvider>
+)
+
+export default WrappedChat
