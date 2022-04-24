@@ -35,24 +35,30 @@ const SampleChat = () => {
   }, [setSocket, currentUser, accountDetails])
 
   return (
-    <div id="ChatRoom">
-      {socket ? (
-        <>
-          <div className="columns">
-            <div className="column is-two-thirds-mobile is-two-thirds-desktop">
-              <h1 className="title">Chatroom</h1>
-            </div>
+    <div className="hero-body">
+      <div className="container">
+        <div className="is-centered">
+          <div id="ChatRoom">
+            {socket ? (
+              <>
+                <div className="columns">
+                  <div className="column">
+                    <h1 className="title">Chatroom</h1>
+                  </div>
+                </div>
+                <div className="tile is-ancestor">
+                  <div className="tile is-vertical is-parent">
+                    <Messages socket={socket} />
+                    <MessageInput socket={socket} />
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div>Not Connected</div>
+            )}
           </div>
-          <div className="tile is-ancestor">
-            <div className="tile is-8 is-vertical is-parent">
-              <Messages socket={socket} />
-              <MessageInput socket={socket} />
-            </div>
-          </div>
-        </>
-      ) : (
-        <div>Not Connected</div>
-      )}
+        </div>
+      </div>
     </div>
   )
 }
