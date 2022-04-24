@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react"
 import ChatMessage from "./ChatMessage"
 
 function Messages({ socket }) {
-  const freind = "Test User" // TODO
-
   const [messages, setMessages] = useState({})
 
   useEffect(() => {
@@ -37,8 +35,8 @@ function Messages({ socket }) {
     <div className="tile is-child box">
       {[...Object.values(messages)]
         .sort((a, b) => a.time - b.time)
-        .map((message) => (
-          <ChatMessage message={message} />
+        .map((message, i) => (
+          <ChatMessage message={message} key={i} />
         ))}
     </div>
   )

@@ -30,7 +30,7 @@ const Navbar = () => {
             </button>
           </div>
 
-          <Link to={ROUTES.CHATS} className="navbar-item">
+          <Link to={ROUTES.CHAT_LIST} className="navbar-item">
             <MessagesIcon />
           </Link>
 
