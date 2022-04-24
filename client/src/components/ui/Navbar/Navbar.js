@@ -23,7 +23,7 @@ const Navbar = () => {
         <div className="navbar-end">
           <div className="navbar-item">
             <button
-              onClick={() => logoutUser()}
+              onClick={logoutUser}
               className="button is-secondary has-text-centered is-2"
             >
               Log Out

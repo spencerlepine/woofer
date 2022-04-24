@@ -3,9 +3,13 @@ import useAuth, { AuthProvider } from "context/AuthContext/AuthContext"
 import constants from "config/constants"
 const { DATA_KEYS } = constants
 
+import { Link } from "react-router-dom"
+import * as ROUTES from "config/routeConstants"
+
 const FormWrapper = ({ FieldsComponent, LargeWidth }) => {
   const { currentUser, accountDetails, updateAccountDetails } = useAuth()
   const [formEntries, setFormEntries] = useState({})
+  const [loading, setLoading] = useState(false)
   const [madeChange, setMadeChange] = useState(false)
 
   useEffect(() => {
@@ -46,6 +50,7 @@ const FormWrapper = ({ FieldsComponent, LargeWidth }) => {
 
   const manualSubmit = (newDetails) => {
     setMadeChange(false)
+    setLoading(true)
 
     const finalDetails = {
       ...accountDetails,
@@ -55,39 +60,53 @@ const FormWrapper = ({ FieldsComponent, LargeWidth }) => {
 
     updateAccountDetails(finalDetails, (updatedDetails) => {
       setFormEntries(updatedDetails)
+      setLoading(false)
     })
   }
 
+  const LoadingSpinner = (props) => (
+    <>{loading ? <p>Updating...</p> : <>{props.children}</>}</>
+  )
+
+  const FieldProps = {
+    updateAccountDetails,
+    accountDetails,
+    currentUser,
+    formEntries,
+    setFormEntries,
+    handleSubmit,
+    handleChange,
+    madeChange,
+    setMadeChange,
+    manualSubmit,
+  }
+
   return (
-    // <div className="columns is-centered is-5-tablet is-4-desktop is-3-widescreen">
-    //   <div className="column is-5-tablet is-4-desktop is-3-widescreen">
     <section className="hero is-medium">
       <div className="columns is-centered">
         <div className={`column is-fluid ${LargeWidth ? "" : "is-half"}`}>
-          <form className="box has-text-centered">
-            <button
-              disabled={!madeChange}
-              onClick={handleSubmit}
-              className="button is-primary p-2 is-pulled-right"
-            >
-              Update
-            </button>
-            <br></br>
-            <hr></hr>
+          <LoadingSpinner>
+            {currentUser ? (
+              <form className="box has-text-centered">
+                <button
+                  disabled={!madeChange}
+                  onClick={handleSubmit}
+                  className="button is-primary p-2 is-pulled-right"
+                >
+                  Update
+                </button>
+                <br></br>
+                <hr></hr>
 
-            <FieldsComponent
-              updateAccountDetails={updateAccountDetails}
-              accountDetails={accountDetails}
-              currentUser={currentUser}
-              formEntries={formEntries}
-              setFormEntries={setFormEntries}
-              handleSubmit={handleSubmit}
-              handleChange={handleChange}
-              madeChange={madeChange}
-              setMadeChange={setMadeChange}
-              manualSubmit={manualSubmit}
-            />
-          </form>
+                <FieldsComponent {...FieldProps} />
+              </form>
+            ) : (
+              <>
+                <h4>Sign in to continue</h4>
+                <Link to={ROUTES.LOGIN}>LOG IN</Link>
+              </>
+            )}
+          </LoadingSpinner>
         </div>
       </div>
     </section>

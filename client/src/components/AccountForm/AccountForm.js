@@ -56,8 +56,8 @@ const AccountForm = (props) => {
               <h2 className="title">{FormTitle}</h2>
 
               {FormFields.map(({ name, placeholder }, i) => (
-                <div className="field">
-                  <label for="" className="label">
+                <div className="field" key={i}>
+                  <label htmlFor="" className="label">
                     {placeholder}
                   </label>
                   <input
