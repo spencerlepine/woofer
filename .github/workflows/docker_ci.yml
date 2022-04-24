@@ -30,7 +30,7 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: "📦 Install dependencies"
-        if: steps.modules-cache.outputs.cache-hit != 'true'
+        # if: steps.modules-cache.outputs.cache-hit != 'true'
         run: npm install
 
       - name: "🔧 Create .env file"
@@ -94,12 +94,12 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
-      # - name: "⚡ Cache dependencies"
-      #   uses: actions/cache@v3
-      #   id: modules-cache
-      #   with:
-      #     path: '**/node_modules'
-      #     key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: "⚡ Cache dependencies"
+        uses: actions/cache@v3
+        id: modules-cache
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: "📦 Install dependencies"
         # if: steps.modules-cache.outputs.cache-hit != 'true'
@@ -147,12 +147,12 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
-      # - name: "⚡ Cache dependencies"
-      #   uses: actions/cache@v3
-      #   id: modules-cache
-      #   with:
-      #     path: '**/node_modules'
-      #     key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: "⚡ Cache dependencies"
+        uses: actions/cache@v3
+        id: modules-cache
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: "📦 Install dependencies"
         # if: steps.modules-cache.outputs.cache-hit != 'true'
