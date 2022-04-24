@@ -18,15 +18,14 @@ export const SwiperProvider = ({ children }) => {
   const generateNextMatchUser = (userId) => {
     setSwiperUserLoading(true)
 
+    const handleGenerate = (userProfile) => {
+      console.log(userProfile)
+      setPossibleMatchUser(userProfile)
+      setSwiperUserLoading(false)
+    }
+
     const reqParams = { [idKey]: userId }
-    generateUserSwipe(
-      reqParams,
-      ({ userProfile }) => {
-        setPossibleMatchUser(userProfile)
-        setSwiperUserLoading(false)
-      },
-      () => setSwiperUserLoading(false)
-    )
+    generateUserSwipe(reqParams, handleGenerate, () => setSwiperUserLoading(false))
   }
 
   const createMatchMadePopup = (chatId, userProfile) => "TODO"

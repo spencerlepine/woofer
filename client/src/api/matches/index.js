@@ -1,7 +1,7 @@
 import axios from "axios"
 import config from "config/config"
 import constants from "config/constants"
-const { endpointURLStr } = constants
+const { endpointURLStr, DATA_KEYS } = constants
 const { SERVER_URL } = config
 import createNotif from "components/ui/NotificationsPopup"
 
@@ -35,10 +35,10 @@ export const generateUserSwipe = (
     .get(SERVER_URL + url, { params })
     .then((response) => {
       const { [DATA_KEYS["USER_PROFILE"]]: userProfile } = response.data
-
-      successCallback({ userProfile })
+      successCallback(userProfile)
     })
     .catch((error) => {
+      console.log(error)
       createNotif(error)
       failCallback(error)
     })
