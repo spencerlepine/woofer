@@ -5,6 +5,8 @@ import Messages from "./Messages/Messages"
 import MessageInput from "./MessageInput/MessageInput"
 
 function SampleChat() {
+  // const { currentUser } = useAuth()
+
   const [socket, setSocket] = useState(null)
   const { roomId } = useParams()
 

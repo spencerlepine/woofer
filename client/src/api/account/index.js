@@ -41,12 +41,13 @@ export const createUserWithEmailAndPassword = (
       user.updateProfile({
         displayName: displayName,
       })
+      return userCredential.user
     })
-    .then(() => {
+    .then((user) => {
       const url = endpointURLStr(["SIGNUP"], "POST")
       const dataWithUid = {
         ...userData,
-        [DATA_KEYS["USER_ID"]]: auth.currentUser.uid,
+        [DATA_KEYS["USER_ID"]]: user.uid,
       }
 
       return axios.post(SERVER_URL + url, dataWithUid)

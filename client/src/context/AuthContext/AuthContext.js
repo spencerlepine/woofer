@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }) => {
       password,
       accountDetails,
       (user) => {
-        setCurrentUser(user)
+        setCurrentUser(accountDetails)
         setLoading(false)
       }
     )

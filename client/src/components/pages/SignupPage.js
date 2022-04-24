@@ -4,41 +4,50 @@ import AccountForm from "components/AccountForm/AccountForm"
 import * as ROUTES from "config/routeConstants"
 import useAuth from "context/AuthContext/AuthContext"
 
+const signupFields = [
+  {
+    name: "firstName",
+    placeholder: "First Name",
+  },
+  {
+    name: "lastName",
+    placeholder: "Last Name",
+  },
+  {
+    name: "username",
+    placeholder: "Username",
+  },
+  {
+    name: "email",
+    placeholder: "Email",
+  },
+  {
+    name: "password",
+    placeholder: "Password",
+  },
+]
+
 const SignupPage = () => {
   const { signupUser } = useAuth()
 
   const handleSignup = (formEntries) => {
-    signupUser(
-      formEntries["firstName"],
-      formEntries["lastName"],
-      formEntries["username"],
-      formEntries["email"],
-      formEntries["password"]
-    )
-  }
+    const formCompleted = signupFields.every(({ name: expectedKey }) => {
+      return formEntries[expectedKey]
+    })
 
-  const signupFields = [
-    {
-      name: "firstName",
-      placeholder: "First Name",
-    },
-    {
-      name: "lastName",
-      placeholder: "Last Name",
-    },
-    {
-      name: "username",
-      placeholder: "Username",
-    },
-    {
-      name: "email",
-      placeholder: "Email",
-    },
-    {
-      name: "password",
-      placeholder: "Password",
-    },
-  ]
+    const nameValid = formEntries["firstName"].length <= 15
+    const usernameValid = formEntries["lastName"].length <= 15
+
+    if (formCompleted) {
+      signupUser(
+        formEntries["firstName"],
+        formEntries["lastName"],
+        formEntries["username"],
+        formEntries["email"],
+        formEntries["password"]
+      )
+    }
+  }
 
   return (
     <div>
