@@ -1,47 +1,57 @@
 import React from "react"
 import { render, screen, fireEvent, within } from "utils/test-utils"
 import { act } from "@testing-library/react"
-import AcountFormWrapper from "./AcountFormWrapper"
+import AccountFormWrapper from "./AccountFormWrapper"
 
-describe("AcountFormWrapper", () => {
+describe("AccountFormWrapper", () => {
+  const defaultProps = {
+    FieldsComponent: () => <></>,
+  }
+
   test("should render without throwing an error", () => {
-    render(<AcountFormWrapper />)
+    render(<AccountFormWrapper {...defaultProps} />)
     expect(true).toBeTruthy()
   })
 
-  // test("should render general tab active by default", () => {
-  //   render(<AcountFormWrapper />)
-  //   const generalTab = screen.getByText(/General/i)
-  //   expect(generalTab).toBeInTheDocument()
+  test("should render update button", () => {
+    render(<AccountFormWrapper {...defaultProps} />)
 
-  //   const list = screen.getByRole("list")
-  //   const { getAllByRole } = within(list)
+    const updateBtn = screen.getByText(/Update/i)
+    expect(updateBtn).toBeInTheDocument()
+  })
 
-  //   const items = getAllByRole("listitem")
-  //   expect(items[0]).toHaveClass("is-active")
-  // })
+  test("should pass down controlled form props", () => {
+    const expectedProps = {
+      updateAccountDetails: "function",
+      accountDetails: "object",
+      currentUser: "object",
+      formEntries: "object",
+      setFormEntries: "function",
+      handleSubmit: "function",
+      handleChange: "function",
+      madeChange: "boolean",
+      setMadeChange: "function",
+      manualSubmit: "function",
+    }
 
-  // test("should render images tab second", () => {
-  //   render(<AcountFormWrapper />)
-  //   const imagesTab = screen.getByText(/Images/i)
-  //   expect(imagesTab).toBeInTheDocument()
+    const MockFields = (props) => (
+      <ul>
+        {Object.keys(props).map((propKey, i) => (
+          <li data-testid={propKey} key={i}>
+            {typeof props[propKey]}
+          </li>
+        ))}
+      </ul>
+    )
 
-  //   const list = screen.getByRole("list")
-  //   const { getAllByRole } = within(list)
+    render(<AccountFormWrapper FieldsComponent={MockFields} />)
 
-  //   const items = getAllByRole("listitem")
-  //   expect(items[1]).not.toHaveClass("is-active")
-  // })
+    Object.keys(expectedProps).forEach((propKey) => {
+      const propType = expectedProps[propKey]
 
-  // test("should render preferences tab third", () => {
-  //   render(<AcountFormWrapper />)
-  //   const preferencesTab = screen.getByText(/Preferences/i)
-  //   expect(preferencesTab).toBeInTheDocument()
-
-  //   const list = screen.getByRole("list")
-  //   const { getAllByRole } = within(list)
-
-  //   const items = getAllByRole("listitem")
-  //   expect(items[1]).not.toHaveClass("is-active")
-  // })
+      const propItem = screen.getByTestId(propKey)
+      expect(propItem).toBeInTheDocument()
+      expect(propItem).toHaveTextContent(propType)
+    })
+  })
 })
