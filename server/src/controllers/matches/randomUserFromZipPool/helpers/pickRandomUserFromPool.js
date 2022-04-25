@@ -13,8 +13,10 @@ const pickRandomUserFromPool = (poolUsers, thisUserId) => {
   if (poolUsers.length === 0) {
     return
   } else {
-    while (!validUserId) {
-      const tempId = poolUsers[Math.floor(Math.random() * poolUsers.length)]
+    while (validUserId === null) {
+      const randomIndex = Math.floor(Math.random() * poolUsers.length)
+      const tempId = poolUsers[randomIndex]
+
       if (tempId !== thisUserId) {
         validUserId = tempId
       }
