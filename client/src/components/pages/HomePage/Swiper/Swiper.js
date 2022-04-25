@@ -43,12 +43,27 @@ const Swiper = () => {
         </>
       ) : (
         <>
-          <p>Unable to find possible match...</p>
-          <button
-            onClick={() => generateNextMatchUser(thisUser[idKey] || thisUser["uid"])}
-          >
-            Try Again
-          </button>
+          <section className="section">
+            <div className="card">
+              <header className="card-header">
+                <h2 className="card-header-title is-centered">
+                  Unable to find possible match...
+                </h2>
+              </header>
+              <div className="card-content">
+                <div className="content">
+                  <button
+                    className="button is-danger"
+                    onClick={() =>
+                      generateNextMatchUser(thisUser[idKey] || thisUser["uid"])
+                    }
+                  >
+                    Try Again
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
         </>
       )}
     </>
