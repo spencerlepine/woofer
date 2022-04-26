@@ -128,7 +128,7 @@ const Swiper = () => {
   )
 
   return (
-    <div className="swiper">
+    <div className="swiper container m-4">
       <div className="columns is-centered">
         <div className="column is-half">
           {loading ? (
