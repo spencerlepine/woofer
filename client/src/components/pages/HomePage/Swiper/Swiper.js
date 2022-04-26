@@ -6,7 +6,7 @@ import useAuth, { AuthProvider } from "context/AuthContext/AuthContext"
 
 import SwipeButtons from "./SwipeButtons/SwipeButtons"
 import ImageCarousel from "./ImageCarousel/ImageCarousel"
-import UserInfo from "./UserInfo/UserInfo"
+import UserInfo from "components/UserInfo/UserInfo"
 
 import * as ROUTES from "config/routeConstants"
 import constants from "config/constants"

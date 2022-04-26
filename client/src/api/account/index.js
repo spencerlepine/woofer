@@ -83,6 +83,24 @@ export const fetchUserProfileRecord = (successCb, failCallback = () => {}) => {
   }
 }
 
+export const fetchProfileRecord = (userId, successCb, failCallback = () => {}) => {
+  const url = endpointURLStr(["PROFILE", "DETAILS"], "GET")
+  const params = {
+    [DATA_KEYS["USER_ID"]]: userId,
+  }
+
+  axios
+    .get(SERVER_URL + url, { params })
+    .then((response) => {
+      const { [DATA_KEYS["USER_PROFILE"]]: userProfile } = response.data
+      successCb(userProfile)
+    })
+    .catch((error) => {
+      createNotif(error)
+      failCallback(error)
+    })
+}
+
 export const updateUserProfileRecord = (
   newDetails,
   successCb,

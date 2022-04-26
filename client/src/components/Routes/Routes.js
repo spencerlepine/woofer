@@ -13,6 +13,13 @@ const Routes = () => (
     <Route exact path={ROUTES.CHAT_LIST} component={PAGES.ChatListPage} />
     <Route exact path={ROUTES.CHAT} component={PAGES.ChatPage} />
     <Route exact path={ROUTES.PROFILE} component={PAGES.ProfilePage} />
+    <Route
+      exact
+      path={`${ROUTES.MATCH}/:userId/:chatId`}
+      component={PAGES.MatchPage}
+    />
+    <Route path={`${ROUTES.MATCH}`} component={PAGES.MissingPage} />
+    <Route path={`${ROUTES.MATCH}/:userId`} component={PAGES.MissingPage} />
     <Route path={"/"} component={PAGES.MissingPage} />
   </Switch>
 )

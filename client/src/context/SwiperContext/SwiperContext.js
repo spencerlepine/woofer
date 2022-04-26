@@ -4,6 +4,7 @@ import constants from "config/constants"
 const { DATA_KEYS } = constants
 import { postUserSwipe, generateUserSwipe } from "api/matches"
 import MatchMadePopup from "components/ui/MatchMadePopup/MatchMadePopup"
+import { useHistory } from "react-router-dom"
 
 const idKey = DATA_KEYS["USER_ID"]
 
@@ -14,6 +15,9 @@ export const SwiperProvider = ({ children }) => {
   const [swiperUserLoading, setSwiperUserLoading] = useState(false)
   const [swiperButtonLoading, setSwiperButtonLoading] = useState(false)
   const [renderMatchPopup, setRenderMatchPopup] = useState(false)
+  const [matchMadeUser, setMatchMadeUser] = useState(null)
+
+  const history = useHistory()
 
   const generateNextMatchUser = (userId) => {
     setSwiperUserLoading(true)
@@ -27,7 +31,11 @@ export const SwiperProvider = ({ children }) => {
     generateUserSwipe(reqParams, handleGenerate, () => setSwiperUserLoading(false))
   }
 
-  const createMatchMadePopup = (chatId, userProfile) => "TODO"
+  const createMatchMadePopup = (chatId, userProfile) => {
+    setMatchMadeUser(userProfile)
+    const userId = userProfile[idKey]
+    history.push(`${ROUTES.MATCH}/${userId}/${chatId}`)
+  }
 
   const handleSwipe = (thisUser, thatUser, swipe) => {
     let swipeChoice =
@@ -60,6 +68,7 @@ export const SwiperProvider = ({ children }) => {
     handleSwipe,
     possibleMatchUser,
     generateNextMatchUser,
+    matchMadeUser,
   }
 
   return (
