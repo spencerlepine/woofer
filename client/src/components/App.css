@@ -36,3 +36,33 @@
     transform: rotate(360deg);
   }
 }
+
+.profileImage {
+  width: 400px;
+  height: 400px;
+}
+
+.carouselImageLeft {
+  z-index: 99;
+ position: absolute;
+  top: 90%;
+  left: 30%;
+}
+
+.carouselImageRight {
+   z-index: 99;
+  position: absolute;
+  top: 90%;
+  right: 30%;
+}
+
+.dropdown {
+  position: fixed;
+  top: 0em;
+  display: grid;
+  background: #3e3e3e87;
+  /* color: black; */
+  z-index: 101;
+  right: 4em;
+  border-radius: 1em;
+}

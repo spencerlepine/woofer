@@ -45,6 +45,7 @@ export const createUserWithEmailAndPassword = (
     })
     .then((user) => {
       const url = endpointURLStr(["SIGNUP"], "POST")
+
       const dataWithUid = {
         ...userData,
         [DATA_KEYS["USER_ID"]]: user.uid,
@@ -142,14 +143,14 @@ export const signOut = () => {
   return auth.signOut().catch((error) => console.log(error))
 }
 
-// export const sendPasswordResetEmail = (email, successCb) => {
-//   auth
-//     .sendPasswordResetEmail(email)
-//     .then(() => {
-//       successCb(true);
-//     })
-//     .catch(error => console.log(error));
-// };
+export const sendPasswordResetEmail = (email, successCb = () => {}) => {
+  auth
+    .sendPasswordResetEmail(email)
+    .then(() => {
+      successCb(true)
+    })
+    .catch((error) => console.log(error))
+}
 
 // export const updateEmail = (email, successCb) => {
 //   auth.currentUser

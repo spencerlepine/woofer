@@ -10,6 +10,10 @@ const {
   validateUserMatchRecords,
 } = require("./helpers")
 
+const pickRandomElem = (list) => {
+  return list[Math.floor(Math.random() * list.length)]
+}
+
 const randomUserFromZipPool = (res, userId) => {
   // Validate the function parameters
   const invalidRes = typeof res !== "object" || Object.keys(res).length === 0
@@ -30,7 +34,11 @@ const randomUserFromZipPool = (res, userId) => {
 
       const { [DATA_KEYS["USER_ZIPCODES"]]: userZipcodes } = userProfile
 
-      return fetchZipPoolUsers((userZipcodes || [])[0])
+      const randomZipCode = pickRandomElem(userZipcodes || [])
+      if (randomZipCode) {
+        return fetchZipPoolUsers(randomZipCode)
+      }
+      return []
     })
     .then((poolUsers) => {
       return pickRandomUserFromPool(poolUsers, userId)

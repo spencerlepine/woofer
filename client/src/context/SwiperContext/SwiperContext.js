@@ -19,7 +19,6 @@ export const SwiperProvider = ({ children }) => {
     setSwiperUserLoading(true)
 
     const handleGenerate = (userProfile) => {
-      console.log(userProfile)
       setPossibleMatchUser(userProfile)
       setSwiperUserLoading(false)
     }

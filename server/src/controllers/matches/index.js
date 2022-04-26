@@ -23,9 +23,13 @@ module.exports = {
       const query = { [idKey]: userId }
 
       return randomUserFromZipPool(res, userId).then((responseObj) => {
-        verifyEndpointResponse(responseObj, res, endpointObj, () => {
-          res.status(200).json(responseObj)
-        })
+        // Return a null user! Will not always find one
+        res.status(200).json(responseObj)
+
+        // Verify function will demand a FULL user profile with key/value pairs
+        // verifyEndpointResponse(responseObj, res, endpointObj, () => {
+
+        // })
       })
     })
   },

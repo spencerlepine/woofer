@@ -7,19 +7,23 @@ const SwipeButtons = ({ thisUser, thatUser }) => {
 
   return (
     <div className="swipeButtons">
-      <button
-        onClick={() => handleSwipe(thisUser, thatUser, "yes")}
-        disabled={loading}
-      >
-        YES
-      </button>
+      <div className="section p-3 has-text-centered">
+        <button
+          className="button is-danger"
+          onClick={() => handleSwipe(thisUser, thatUser, "no")}
+          disabled={loading}
+        >
+          NO
+        </button>
 
-      <button
-        onClick={() => handleSwipe(thisUser, thatUser, "no")}
-        disabled={loading}
-      >
-        NO
-      </button>
+        <button
+          className="button is-success"
+          onClick={() => handleSwipe(thisUser, thatUser, "yes")}
+          disabled={loading}
+        >
+          YES
+        </button>
+      </div>
     </div>
   )
 }
