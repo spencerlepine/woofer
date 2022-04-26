@@ -2,7 +2,7 @@ import React from "react"
 import withAuthRedirect from "hooks/useAuthRedirect/useAuthRedirect"
 import AccountForm from "components/ui/AccountForm/AccountForm"
 import * as ROUTES from "config/routeConstants"
-import useAuth from "context/AuthContext/AuthContext"
+import useAuth, { AuthProvider } from "context/AuthContext/AuthContext"
 
 const LoginPage = () => {
   const { loginUser } = useAuth()
@@ -37,5 +37,11 @@ const LoginPage = () => {
   )
 }
 
+const WrappedPage = (props) => (
+  <AuthProvider>
+    <LoginPage {...props} />
+  </AuthProvider>
+)
+
 const isAuthPage = true
-export default withAuthRedirect(LoginPage, isAuthPage)
+export default withAuthRedirect(WrappedPage, isAuthPage)
