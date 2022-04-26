@@ -14,7 +14,7 @@ const {
 const mockDisplayName = titleCaseDisplayName(firstName, lastName)
 
 const expectedUserDetails = [
-  mockUser[DATA_KEYS["USER_BIO"]],
+  // mockUser[DATA_KEYS["USER_BIO"]],
   mockUser[DATA_KEYS["USER_BREED"]],
   mockUser[DATA_KEYS["USER_ZODIAC"]],
   formatAgeStr(mockUser[DATA_KEYS["USER_BIRTHDATE"]]),
