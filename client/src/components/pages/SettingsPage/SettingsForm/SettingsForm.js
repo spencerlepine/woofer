@@ -2,19 +2,27 @@ import React, { useState } from "react"
 import * as Fields from "./SettingsFields"
 import FormWrapper from "components/ui/AccountFormWrapper/AccountFormWrapper"
 
-const PreferenceTab = ({
+const SettingsForm = ({
   updateAccountDetails,
   accountDetails,
   currentUser,
   formEntries,
   setFormEntries,
   handleSubmit,
+  manualSubmit,
   handleChange,
   madeChange,
   setMadeChange,
 }) => {
   return (
     <>
+      <Fields.ProfilePic
+        madeAChange={() => setMadeChange(true)}
+        formEntries={formEntries}
+        handleChange={handleChange}
+        setFormEntries={setFormEntries}
+      />
+
       <Fields.Username
         madeAChange={() => setMadeChange(true)}
         formEntries={formEntries}
@@ -42,7 +50,7 @@ const PreferenceTab = ({
 }
 
 const WrappedTab = (props) => (
-  <FormWrapper FieldsComponent={PreferenceTab} {...props} />
+  <FormWrapper FieldsComponent={SettingsForm} {...props} />
 )
 
 export default WrappedTab

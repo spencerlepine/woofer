@@ -62,6 +62,28 @@ export const Username = ({ handleChange, formEntries }) => {
   )
 }
 
+export const ProfilePic = ({ handleChange, formEntries }) => {
+  const name = DATA_KEYS["USER_PROFILE_PIC"]
+  const placeholder = "Profile Picture URL"
+  const type = "url"
+
+  return (
+    <div className="field">
+      <label htmlFor="" className="label level-left">
+        {placeholder}
+      </label>
+      <input
+        onChange={handleChange}
+        type={type}
+        name={name}
+        className={"input"}
+        value={formEntries[name] || ""}
+        placeholder={placeholder}
+      ></input>
+    </div>
+  )
+}
+
 export const Email = ({ handleChange, formEntries }) => {
   const name = DATA_KEYS["USER_EMAIL"]
   const placeholder = "Email"
