@@ -36,3 +36,22 @@
     transform: rotate(360deg);
   }
 }
+
+.profileImage {
+  width: 400px;
+  height: 400px;
+}
+
+.carouselImageLeft {
+  z-index: 99;
+ position: absolute;
+  top: 90%;
+  left: 30%;
+}
+
+.carouselImageRight {
+   z-index: 99;
+  position: absolute;
+  top: 90%;
+  right: 30%;
+}

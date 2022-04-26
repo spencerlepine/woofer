@@ -1,5 +1,6 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
+import { FaRedoAlt } from "react-icons/fa"
 import useSwiper, { SwiperProvider } from "context/SwiperContext/SwiperContext"
 import useAuth, { AuthProvider } from "context/AuthContext/AuthContext"
 
@@ -12,34 +13,77 @@ import constants from "config/constants"
 const { DATA_KEYS } = constants
 const idKey = DATA_KEYS["USER_ID"]
 
+const userSample = {
+  bio: "I love dog treats bork woof",
+  birthday: "03/01/2003",
+  breed: "corgi",
+  chats: [],
+  email: "ashtyn.ruiz116@gmail.com",
+  firstName: "Ashtyn",
+  gender: "Female",
+  id: "qIpINEMnazRkeqp6IsvNp2KlOfy2",
+  lastName: "Ruiz",
+  name: "john1234",
+  pictures: [
+    "https://images.dog.ceo/breeds/corgi-cardigan/n02113186_11037.jpg",
+    "https://images.dog.ceo/breeds/corgi-cardigan/n02113186_11334.jpg",
+    "https://images.dog.ceo/breeds/corgi-cardigan/n02113186_11741.jpg",
+    "https://images.dog.ceo/breeds/corgi-cardigan/n02113186_1612.jpg",
+    "https://images.dog.ceo/breeds/corgi-cardigan/n02113186_4591.jpg",
+    "https://images.dog.ceo/breeds/corgi-cardigan/n02113186_4628.jpg",
+    "https://images.dog.ceo/breeds/corgi-cardigan/n02113186_6775.jpg",
+    "https://images.dog.ceo/breeds/corgi-cardigan/n02113186_748.jpg",
+    "https://images.dog.ceo/breeds/corgi-cardigan/n02113186_9902.jpg",
+  ],
+  preference: "Male",
+  profile_picture:
+    "https://images.dog.ceo/breeds/corgi-cardigan/n02113186_11037.jpg",
+  zipcodes: ["10001"],
+  zodiac_sign: "Leo",
+}
+
 const extractUserImages = (userObj) => {
   const imageKey = DATA_KEYS["USER_PICTURES"]
-  if (userObj && typeof userObj === "object" && userObj[imageKey]) {
-    return userObj[imageKey]
+  try {
+    const images = userObj[DATA_KEYS["USER_PICTURES"]]
+    return images
+  } catch (e) {
+    return []
   }
-  return []
 }
 
 const Swiper = () => {
-  const { currentUser: thisUser } = useAuth()
-
+  const { currentUser: thisUser, accountDetails } = useAuth()
   const {
     swiperUserLoading: loading,
-    possibleMatchUser,
+    // possibleMatchUser,
     generateNextMatchUser,
   } = useSwiper()
+  const possibleMatchUser = userSample // DELETE
 
-  const images = extractUserImages(thisUser)
+  const [firstGenerate, setFirstGenerate] = useState(false)
+
+  useEffect(() => {
+    if (thisUser && firstGenerate === false) {
+      generateNextMatchUser(thisUser[idKey] || thisUser["uid"])
+
+      setFirstGenerate(true)
+    }
+  }, [thisUser, firstGenerate])
+
+  const images = extractUserImages(possibleMatchUser)
 
   const RenderInfoOrRetry = () => (
     <>
       {possibleMatchUser ? (
         <>
-          <SwipeButtons thisUser={thisUser} thatUser={possibleMatchUser} />
+          <div className="card">
+            <SwipeButtons thisUser={thisUser} thatUser={possibleMatchUser} />
 
-          <ImageCarousel images={images} />
+            <ImageCarousel images={images} />
 
-          <UserInfo user={possibleMatchUser} />
+            <UserInfo user={possibleMatchUser} />
+          </div>
         </>
       ) : (
         <>
@@ -58,7 +102,8 @@ const Swiper = () => {
                       generateNextMatchUser(thisUser[idKey] || thisUser["uid"])
                     }
                   >
-                    Try Again
+                    <FaRedoAlt />
+                    <p className="px-1">Try Again</p>
                   </button>
                 </div>
               </div>
@@ -84,11 +129,15 @@ const Swiper = () => {
 
   return (
     <div className="swiper">
-      {loading ? (
-        <p>Loading... {/*TODO - LOADING SPINNER*/}</p>
-      ) : (
-        <InfoOrLogInPrompt />
-      )}
+      <div className="columns is-centered">
+        <div className="column is-half">
+          {loading ? (
+            <p>Loading... {/*TODO - LOADING SPINNER*/}</p>
+          ) : (
+            <InfoOrLogInPrompt />
+          )}
+        </div>
+      </div>
     </div>
   )
 }

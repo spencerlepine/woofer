@@ -143,14 +143,14 @@ export const signOut = () => {
   return auth.signOut().catch((error) => console.log(error))
 }
 
-// export const sendPasswordResetEmail = (email, successCb) => {
-//   auth
-//     .sendPasswordResetEmail(email)
-//     .then(() => {
-//       successCb(true);
-//     })
-//     .catch(error => console.log(error));
-// };
+export const sendPasswordResetEmail = (email, successCb = () => {}) => {
+  auth
+    .sendPasswordResetEmail(email)
+    .then(() => {
+      successCb(true)
+    })
+    .catch((error) => console.log(error))
+}
 
 // export const updateEmail = (email, successCb) => {
 //   auth.currentUser

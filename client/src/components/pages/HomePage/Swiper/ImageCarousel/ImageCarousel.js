@@ -34,14 +34,26 @@ const ImageCarousel = ({ images: imagesProp }) => {
   }
 
   return (
-    <div className="ImageCarousel">
-      <button onClick={() => scrollImages(-1)} disabled={imageIndex === min}>
+    <div className="ImageCarousel card-image has-text-centered">
+      <button
+        className="button is-info is-pulled-left carouselImageLeft"
+        onClick={() => scrollImages(-1)}
+        disabled={imageIndex === min}
+      >
         {"<"}
       </button>
 
-      <img alt="Matchable User" src={images[imageIndex] || missingImage} />
+      <img
+        className="image profileImage is-inline-block"
+        alt="Matchable User"
+        src={images[imageIndex] || missingImage}
+      />
 
-      <button onClick={() => scrollImages(1)} disabled={imageIndex === max}>
+      <button
+        className="button is-info is-pulled-right carouselImageRight"
+        onClick={() => scrollImages(1)}
+        disabled={imageIndex === max}
+      >
         {">"}
       </button>
     </div>
@@ -51,5 +63,5 @@ const ImageCarousel = ({ images: imagesProp }) => {
 export default ImageCarousel
 
 ImageCarousel.propTypes = {
-  images: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
+  images: PropTypes.arrayOf(PropTypes.string).isRequired,
 }
