@@ -100,29 +100,7 @@ const Navbar = () => {
       </nav>
       {isMobile && showMobileNav && (
         <div className="dropdown navbar-dropdown is-pulled-right">
-          <Link to={ROUTES.CHAT_LIST} className="navbar-item">
-            <MessagesIcon className="icon is-medium" />
-            <p className="has-text-white">Messages</p>
-          </Link>
-
-          <Link to={ROUTES.PROFILE} className="navbar-item">
-            <ProfileIcon className="icon is-medium" />
-            <p className="has-text-white">Profile</p>
-          </Link>
-
-          <Link to={ROUTES.SETTINGS} className="navbar-item">
-            <SettingsIcon className="icon is-medium" />
-            <p className="has-text-white">Settings</p>
-          </Link>
-
-          <div className="navbar-item">
-            <button
-              onClick={logoutUser}
-              className="button is-link has-text-centered is-2"
-            >
-              Log Out
-            </button>
-          </div>
+          {currentUser ? <WhenLoggedIn /> : <PromptSignIn />}
         </div>
       )}
     </>

@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react"
 import PropTypes from "prop-types"
 import constants from "config/constants"
 const { DATA_KEYS } = constants
+import * as ROUTES from "config/routeConstants"
 import { postUserSwipe, generateUserSwipe } from "api/matches"
 import MatchMadePopup from "components/ui/MatchMadePopup/MatchMadePopup"
 import { useHistory } from "react-router-dom"
@@ -31,9 +32,7 @@ export const SwiperProvider = ({ children }) => {
     generateUserSwipe(reqParams, handleGenerate, () => setSwiperUserLoading(false))
   }
 
-  const createMatchMadePopup = (chatId, userProfile) => {
-    setMatchMadeUser(userProfile)
-    const userId = userProfile[idKey]
+  const createMatchMadePopup = (chatId, userId) => {
     history.push(`${ROUTES.MATCH}/${userId}/${chatId}`)
   }
 
@@ -52,8 +51,10 @@ export const SwiperProvider = ({ children }) => {
     postUserSwipe(
       body,
       ({ chatId, userProfile }) => {
+        console.log(chatId)
+
         if (chatId) {
-          createMatchMadePopup(chatId, userProfile)
+          createMatchMadePopup(chatId, userProfile[idKey])
         }
         generateNextMatchUser(thisUser[idKey])
         setSwiperButtonLoading(false)
