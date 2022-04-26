@@ -17,26 +17,26 @@ const ChatList = () => {
 
   const validChats = accountDetails[chatsKey] || []
 
-  const TempCreateBtn = () => {
-    const handleCreateChat = () => {
-      const thisUserId = currentUser["uid"] || currentUser[DATA_KEYS["USER_ID"]]
-      const thatUserId = "PuBuHLn9fyVfAnLQNcPgCPG7vBZ2"
-      chatsAPI.createChat(thisUserId, thatUserId)
-    }
+  // const TempCreateBtn = () => {
+  //   const handleCreateChat = () => {
+  //     const thisUserId = currentUser["uid"] || currentUser[DATA_KEYS["USER_ID"]]
+  //     const thatUserId = "PuBuHLn9fyVfAnLQNcPgCPG7vBZ2"
+  //     chatsAPI.createChat(thisUserId, thatUserId)
+  //   }
 
-    return (
-      <button className="button is-primary" onClick={handleCreateChat}>
-        Create New Chat
-      </button>
-    )
-  }
+  //   return (
+  //     <button className="button is-primary" onClick={handleCreateChat}>
+  //       Create New Chat
+  //     </button>
+  //   )
+  // }
 
   return (
     <div className="hero-body">
       <div className="container">
         <div className="is-centered">
           <header>
-            <TempCreateBtn />
+            {/* <TempCreateBtn /> */}
             <h4>All Chats:</h4>
           </header>
 

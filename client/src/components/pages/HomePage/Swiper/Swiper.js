@@ -13,35 +13,6 @@ import constants from "config/constants"
 const { DATA_KEYS } = constants
 const idKey = DATA_KEYS["USER_ID"]
 
-const userSample = {
-  bio: "I love dog treats bork woof",
-  birthday: "03/01/2003",
-  breed: "corgi",
-  chats: [],
-  email: "ashtyn.ruiz116@gmail.com",
-  firstName: "Ashtyn",
-  gender: "Female",
-  id: "qIpINEMnazRkeqp6IsvNp2KlOfy2",
-  lastName: "Ruiz",
-  name: "john1234",
-  pictures: [
-    "https://images.dog.ceo/breeds/corgi-cardigan/n02113186_11037.jpg",
-    "https://images.dog.ceo/breeds/corgi-cardigan/n02113186_11334.jpg",
-    "https://images.dog.ceo/breeds/corgi-cardigan/n02113186_11741.jpg",
-    "https://images.dog.ceo/breeds/corgi-cardigan/n02113186_1612.jpg",
-    "https://images.dog.ceo/breeds/corgi-cardigan/n02113186_4591.jpg",
-    "https://images.dog.ceo/breeds/corgi-cardigan/n02113186_4628.jpg",
-    "https://images.dog.ceo/breeds/corgi-cardigan/n02113186_6775.jpg",
-    "https://images.dog.ceo/breeds/corgi-cardigan/n02113186_748.jpg",
-    "https://images.dog.ceo/breeds/corgi-cardigan/n02113186_9902.jpg",
-  ],
-  preference: "Male",
-  profile_picture:
-    "https://images.dog.ceo/breeds/corgi-cardigan/n02113186_11037.jpg",
-  zipcodes: ["10001"],
-  zodiac_sign: "Leo",
-}
-
 const extractUserImages = (userObj) => {
   const imageKey = DATA_KEYS["USER_PICTURES"]
   try {
@@ -56,10 +27,9 @@ const Swiper = () => {
   const { currentUser: thisUser, accountDetails } = useAuth()
   const {
     swiperUserLoading: loading,
-    // possibleMatchUser,
+    possibleMatchUser,
     generateNextMatchUser,
   } = useSwiper()
-  const possibleMatchUser = userSample // DELETE
 
   const [firstGenerate, setFirstGenerate] = useState(false)
 
