@@ -5,6 +5,7 @@ const HtmlWebPackPlugin = require("html-webpack-plugin")
 const CompressionPlugin = require("compression-webpack-plugin")
 const InterpolateHtmlPlugin = require("interpolate-html-plugin")
 const webpack = require("webpack")
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
 module.exports = {
   mode: "production",
@@ -57,6 +58,10 @@ module.exports = {
 
     new webpack.ProvidePlugin({
       process: "process/browser",
+    }),
+
+    new MiniCssExtractPlugin({
+      filename: "src/main.ccss",
     }),
 
     new webpack.EnvironmentPlugin(["NODE_ENV"]),
@@ -127,7 +132,19 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: ["css-loader", "sass-loader"],
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+          },
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: true,
+              // options...
+            },
+          },
+        ],
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,

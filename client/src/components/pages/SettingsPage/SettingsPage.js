@@ -2,6 +2,7 @@ import React from "react"
 import { sendPasswordResetEmail } from "api/account"
 import withAuthRedirect from "hooks/useAuthRedirect/useAuthRedirect"
 import useAuth, { AuthProvider } from "context/AuthContext/AuthContext"
+import SettingsForm from "./SettingsForm/SettingsForm"
 
 const SettingsPage = () => {
   const { currentUser } = useAuth()
@@ -15,10 +16,12 @@ const SettingsPage = () => {
 
   return (
     <div className="SettingsPage section">
-      <p>Settings</p>
+      <h2 className="title is-2">Settings</h2>
       <button className="button is-danger" onClick={handleReset}>
         Send Password Reset Email
       </button>
+
+      <SettingsForm />
     </div>
   )
 }

@@ -25,6 +25,8 @@ const Profile = () => {
     <div className="hero-body general-settings">
       <div className="container">
         <div className="profile">
+          <h2 className="title is-2">Profile</h2>
+
           <Tabs tabs={tabs} currentTab={currentTab} setCurrentTab={setCurrentTab} />
 
           {currentTab === "general" && <GeneralTab />}

@@ -5,6 +5,7 @@ import { createBrowserHistory } from "history"
 import "./index.css"
 import "react-toastify/dist/ReactToastify.css"
 import "bulma/css/bulma.css"
+import "main.scss"
 
 import App from "./components/App"
 

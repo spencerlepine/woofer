@@ -1,7 +1,8 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import * as ROUTES from "config/routeConstants"
+import { BiError } from "react-icons/bi"
 
+import * as ROUTES from "config/routeConstants"
 import * as chatsAPI from "api/chats"
 
 import constants from "config/constants"
@@ -35,9 +36,23 @@ const ChatList = () => {
     <div className="hero-body">
       <div className="container">
         <div className="is-centered">
+          <h2 className="title is-2">Chats</h2>
+
           <header>
             {/* <TempCreateBtn /> */}
-            <h4>All Chats:</h4>
+
+            {validChats.length === 0 && (
+              <div className="container">
+                <div className="MissingPage section">
+                  <BiError className="icon is-large is-danger" />
+                  <p>No Chats available!</p>
+                  <br />
+                  <Link to={`${ROUTES.HOME}`} className="button is-warning">
+                    Find Matches
+                  </Link>
+                </div>
+              </div>
+            )}
           </header>
 
           {validChats.map(({ [DATA_KEYS["CHAT_ID"]]: chatId, otherUserId }, i) => (
