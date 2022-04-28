@@ -30,14 +30,10 @@ describe("MATCHES Swipe Choice endpoint", () => {
   const ACCEPT = DATA_KEYS["MATCH_ACCEPT"]
   const REJECT = DATA_KEYS["MATCH_REJECT"]
 
-  const signupMockUsers = () =>
-    Promise.all([signupMockUser(mockUser), signupMockUser(mockUserB)])
-
-  setTimeout(() => {}, 1000)
-
   describe("should save first time user swipe accept", () => {
     test("POST a ACCEPT Swipe", (done) => {
-      signupMockUsers()
+      signupMockUser(mockUser)
+        .then(() => signupMockUser(mockUserB))
         .then(() => {
           swipeOnUser(mockUser, mockUserB, ACCEPT)
             .expect("Content-Type", /json/)
@@ -73,7 +69,8 @@ describe("MATCHES Swipe Choice endpoint", () => {
 
   describe("should save user swipe rejection", () => {
     test("POST a REJECTION Swipe", (done) => {
-      signupMockUsers()
+      signupMockUser(mockUser)
+        .then(() => signupMockUser(mockUserB))
         .then(() => {
           // ACT => Swipe NO on the User
           swipeOnUser(mockUser, mockUserB, REJECT)
@@ -109,7 +106,8 @@ describe("MATCHES Swipe Choice endpoint", () => {
     const swipeYesB = () => swipeOnUser(mockUserB, mockUser, ACCEPT)
 
     test("POST a mutual ACCEPT Swipe", (done) => {
-      signupMockUsers()
+      signupMockUser(mockUser)
+        .then(() => signupMockUser(mockUserB))
         .then(() => swipeYesA())
         .then(() => {
           swipeYesB()
