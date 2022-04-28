@@ -110,18 +110,22 @@ module.exports = {
       method: "POST",
     }
 
-    verifyEndpointRequest(req, res, endpointObj, () => {
-      const {
-        [DATA_KEYS["THIS_USER_ID"]]: thisUserID,
-        [DATA_KEYS["THAT_USER_ID"]]: thatUserID,
-        [DATA_KEYS["MATCH_STATUS"]]: matchStatus,
-      } = req.body
+    try {
+      verifyEndpointRequest(req, res, endpointObj, () => {
+        const {
+          [DATA_KEYS["THIS_USER_ID"]]: thisUserID,
+          [DATA_KEYS["THAT_USER_ID"]]: thatUserID,
+          [DATA_KEYS["MATCH_STATUS"]]: matchStatus,
+        } = req.body
 
-      if (matchStatus === "accept") {
-        documentUserSwipeAccept(res, endpointObj, thisUserID, thatUserID)
-      } else if (matchStatus === "reject") {
-        documentUserSwipeReject(res, endpointObj, thisUserID, thatUserID)
-      }
-    })
+        if (matchStatus === "accept") {
+          documentUserSwipeAccept(res, endpointObj, thisUserID, thatUserID)
+        } else if (matchStatus === "reject") {
+          documentUserSwipeReject(res, endpointObj, thisUserID, thatUserID)
+        }
+      })
+    } catch (err) {
+      console.error(err)
+    }
   },
 }
