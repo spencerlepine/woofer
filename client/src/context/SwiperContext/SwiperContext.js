@@ -22,6 +22,7 @@ export const SwiperProvider = ({ children }) => {
 
   const generateNextMatchUser = (userId) => {
     setSwiperUserLoading(true)
+    setPossibleMatchUser(null)
 
     const handleGenerate = (userProfile) => {
       setPossibleMatchUser(userProfile)
@@ -41,6 +42,7 @@ export const SwiperProvider = ({ children }) => {
       swipe === "yes" ? DATA_KEYS["MATCH_ACCEPT"] : DATA_KEYS["MATCH_REJECT"]
 
     setSwiperButtonLoading(true)
+    setPossibleMatchUser(null)
 
     const body = {
       [DATA_KEYS["THIS_USER_ID"]]: thisUser[idKey],
@@ -51,10 +53,8 @@ export const SwiperProvider = ({ children }) => {
     postUserSwipe(
       body,
       ({ chatId, userProfile }) => {
-        console.log(chatId)
-
-        if (chatId) {
-          createMatchMadePopup(chatId, userProfile[idKey])
+        if (chatId && chatId !== "none") {
+          createMatchMadePopup(chatId, thatUser[idKey])
         }
         generateNextMatchUser(thisUser[idKey])
         setSwiperButtonLoading(false)
