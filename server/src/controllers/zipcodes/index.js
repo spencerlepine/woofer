@@ -26,7 +26,10 @@ const handleZipcodePoolUpdate =
           if (userProfile) {
             const { [DATA_KEYS["USER_ZIPCODES"]]: userZipcodes } = userProfile
 
-            const updatedZips = filterZipcodes(userZipcodes, thisZipcode)
+            let updatedZips = [thisZipcode]
+            if (Array.isArray(userZipcodes)) {
+              updatedZips = filterZipcodes(userZipcodes, thisZipcode)
+            }
 
             const query = {
               [idKey]: userId,
@@ -114,7 +117,7 @@ module.exports = {
           }
         })
         .catch((err) =>
-          handleErrorResponse(res, "Error adding user to zipcode", 500)
+          handleErrorResponse(res, "Error removing user from zipcode", 500)
         )
     })
   },
