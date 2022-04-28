@@ -2,7 +2,7 @@ import React from "react"
 import withAuthRedirect from "hooks/useAuthRedirect/useAuthRedirect"
 import AccountForm from "components/ui/AccountForm/AccountForm"
 import * as ROUTES from "config/routeConstants"
-import useAuth from "context/AuthContext/AuthContext"
+import useAuth, { AuthProvider } from "context/AuthContext/AuthContext"
 
 const signupFields = [
   {
@@ -64,5 +64,11 @@ const SignupPage = () => {
   )
 }
 
+const WrappedPage = (props) => (
+  <AuthProvider>
+    <SignupPage {...props} />
+  </AuthProvider>
+)
+
 const isAuthPage = true
-export default withAuthRedirect(SignupPage, isAuthPage)
+export default withAuthRedirect(WrappedPage, isAuthPage)

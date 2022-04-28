@@ -5,7 +5,8 @@ import { IoMdSettings as SettingsIcon } from "react-icons/io"
 import { BsFillChatSquareDotsFill as MessagesIcon } from "react-icons/bs"
 import * as ROUTES from "config/routeConstants"
 import useAuth from "context/AuthContext/AuthContext"
-import WooferIcon from "assets/WooferIcon.png"
+// import WooferIcon from "assets/WooferIcon.png"
+import WooferLogo from "assets/WooferLogo.png"
 
 const Navbar = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1000)
@@ -74,8 +75,9 @@ const Navbar = () => {
       <nav className="navbar is-primary pr-3 pl-3" role="navigation">
         <div className="navbar-brand">
           <Link to={ROUTES.HOME} className="navbar-item">
-            <img className="image is-36x36" src={WooferIcon} alt="Woofer Logo"></img>
-            <p className="is-size-3">Woofer</p>
+            {/* <img className="image is-32x32" src={WooferIcon} alt="Woofer Logo"></img> */}
+            <img className="image" src={WooferLogo} alt="Woofer Logo"></img>
+            {/* <p className="title is-2">Woofer</p> */}
           </Link>
 
           <a
@@ -98,29 +100,7 @@ const Navbar = () => {
       </nav>
       {isMobile && showMobileNav && (
         <div className="dropdown navbar-dropdown is-pulled-right">
-          <Link to={ROUTES.CHAT_LIST} className="navbar-item">
-            <MessagesIcon className="icon is-medium" />
-            <p className="has-text-white">Messages</p>
-          </Link>
-
-          <Link to={ROUTES.PROFILE} className="navbar-item">
-            <ProfileIcon className="icon is-medium" />
-            <p className="has-text-white">Profile</p>
-          </Link>
-
-          <Link to={ROUTES.SETTINGS} className="navbar-item">
-            <SettingsIcon className="icon is-medium" />
-            <p className="has-text-white">Settings</p>
-          </Link>
-
-          <div className="navbar-item">
-            <button
-              onClick={logoutUser}
-              className="button is-link has-text-centered is-2"
-            >
-              Log Out
-            </button>
-          </div>
+          {currentUser ? <WhenLoggedIn /> : <PromptSignIn />}
         </div>
       )}
     </>

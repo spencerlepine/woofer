@@ -1,6 +1,6 @@
 import React from "react"
-import ViewLayout from "components/wrappers/ViewLayout/ViewLayout"
-import Routes from "components/wrappers/Routes/Routes.js"
+import ViewLayout from "components/ui/ViewLayout/ViewLayout"
+import Routes from "components/Routes/Routes.js"
 import "./App.css"
 import accounts from "api/account"
 

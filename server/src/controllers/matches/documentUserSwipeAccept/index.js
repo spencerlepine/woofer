@@ -27,6 +27,7 @@ const documentUserSwipeAccept = (res, endpointObj, thisUserID, thatUserID) => {
     .then((matchRecord) => {
       // Get the match record
       const newRecord = Object.assign(matchRecord)
+      // Update the key value pair
       newRecord[thatUserID] = DATA_KEYS["MATCH_ACCEPT"]
       return newRecord
     })
@@ -37,8 +38,11 @@ const documentUserSwipeAccept = (res, endpointObj, thisUserID, thatUserID) => {
           [DATA_KEYS["USER_MATCHES"]]: updatedRecord,
         },
       }
-      const options = { upsert: true, multi: true }
-      return updateUserMatchRecord(res, userIdQuery, update, options)
+
+      return updateUserMatchRecord(res, userIdQuery, update, {
+        upsert: true,
+        multi: true,
+      })
     })
     .then(() => {
       // Check the match queue of thisUserID

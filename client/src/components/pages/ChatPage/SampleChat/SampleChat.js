@@ -9,6 +9,8 @@ import constants from "config/constants"
 const { DATA_KEYS } = constants
 const idKey = DATA_KEYS["USER_ID"]
 
+import { BiError } from "react-icons/bi"
+
 const SampleChat = () => {
   const { currentUser, accountDetails } = useAuth()
   const userDetails = {
@@ -54,7 +56,10 @@ const SampleChat = () => {
                 </div>
               </>
             ) : (
-              <div>Not Connected</div>
+              <div>
+                <BiError />
+                <p className="title is-3">Not Connected</p>
+              </div>
             )}
           </div>
         </div>
