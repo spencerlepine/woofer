@@ -33,6 +33,8 @@ describe("MATCHES Swipe Choice endpoint", () => {
   const signupMockUsers = () =>
     Promise.all([signupMockUser(mockUser), signupMockUser(mockUserB)])
 
+  setTimeout(() => {}, 1000)
+
   describe("should save first time user swipe accept", () => {
     test("POST a ACCEPT Swipe", (done) => {
       signupMockUsers()
