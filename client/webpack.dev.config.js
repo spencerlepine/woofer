@@ -4,7 +4,6 @@ const path = require("path")
 const HtmlWebPackPlugin = require("html-webpack-plugin")
 const InterpolateHtmlPlugin = require("interpolate-html-plugin")
 const webpack = require("webpack")
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
 const Dotenv = require("dotenv-webpack")
 
@@ -40,10 +39,6 @@ module.exports = {
     }),
 
     new InterpolateHtmlPlugin({ PUBLIC_URL: "static" }),
-
-    new MiniCssExtractPlugin({
-      filename: "src/main.ccss",
-    }),
   ],
   devServer: {
     host: "0.0.0.0",
@@ -63,16 +58,8 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [
-          MiniCssExtractPlugin.loader,
           {
             loader: "css-loader",
-          },
-          {
-            loader: "sass-loader",
-            options: {
-              sourceMap: true,
-              // options...
-            },
           },
         ],
       },
