@@ -68,12 +68,9 @@ describe("MATCHES endpoint match generation", () => {
 
             expect(matchIsValid).toBeTruthy()
           })
-          .end((err, res) => {
-            console.log(err)
-            if (err) return done(err.stack)
-            return done()
-          })
-      }).catch((err) => done(err))
+      })
+        .then(done)
+        .catch((err) => done(err))
     })
   })
 })

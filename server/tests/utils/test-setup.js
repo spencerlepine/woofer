@@ -13,6 +13,7 @@ afterEach(async () => {
   await Promise.all(
     Object.values(db.collections).map((collection) => collection.deleteMany({}))
   )
+  setTimeout(() => {}, 200)
 })
 
 afterAll(async () => {
