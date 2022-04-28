@@ -8,13 +8,26 @@ const {
   signupMockUser,
 } = require("./utils/test-helpers")
 
+const addUserToZipCode = (userId, zipcode) => {
+  const method = "POST"
+  const endpointPaths = ["ZIPCODES", "ADD"]
+  const url = endpointURLStr(endpointPaths, method)
+
+  return request(app)
+    .post(url)
+    .send({
+      [DATA_KEYS["USER_ID"]]: userId,
+      [DATA_KEYS["ZIPCODE"]]: zipcode,
+    })
+}
+
 const testAddZipCode = (url, endpointObj, done) => {
   signupMockUser(mockUser).then(() => {
     request(app)
       .post(url)
       .send({
         [DATA_KEYS["USER_ID"]]: mockUser[DATA_KEYS["USER_ID"]],
-        [DATA_KEYS["ZIPCODE"]]: "123456",
+        [DATA_KEYS["ZIPCODE"]]: "10001",
       })
       .expect("Content-Type", /json/)
       .expect(201)
@@ -22,11 +35,9 @@ const testAddZipCode = (url, endpointObj, done) => {
         const mockSuccessCallback = jest.fn()
         verifyEndpointResponse(res.body, res, endpointObj, mockSuccessCallback)
         expect(mockSuccessCallback.mock.calls.length).toBe(1)
+        done()
       })
-      .end((err, res) => {
-        if (err) return done(err.stack)
-        return done()
-      })
+      .catch((err) => done(err))
   })
 }
 
@@ -50,19 +61,20 @@ describe("ZIPCODES endpoint", () => {
       [DATA_KEYS["ZIPCODE"]]: "10001",
     }
 
-    console.log(params)
     test(`${method} ${url}`, (done) => {
-      testAddZipCode(url, { endpointPathKeys: endpointPaths, method }, () => {
-        request(app)
-          .delete(url)
-          .query(params)
-          .expect("Content-Type", /json/)
-          .expect(201)
-          .end((err, res) => {
-            if (err) return done(err)
-            return done()
-          })
-      })
+      signupMockUser(mockUser)
+        .then(() => addUserToZipCode(mockUser[DATA_KEYS["USER_ID"]], "10001"))
+        .then(() => {
+          request(app)
+            .delete(url)
+            .query(params)
+            .expect("Content-Type", /json/)
+            .expect(201)
+            .end((err, res) => {
+              if (err) return done(err)
+              return done()
+            })
+        })
     })
   })
 })
