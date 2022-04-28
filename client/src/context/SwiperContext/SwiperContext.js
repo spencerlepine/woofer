@@ -22,10 +22,12 @@ export const SwiperProvider = ({ children }) => {
 
   const generateNextMatchUser = (userId) => {
     setSwiperUserLoading(true)
-    setPossibleMatchUser(null)
+    setPossibleMatchUser(() => null)
 
     const handleGenerate = (userProfile) => {
-      setPossibleMatchUser(userProfile)
+      if (userProfile) {
+        setPossibleMatchUser(userProfile)
+      }
       setSwiperUserLoading(false)
     }
 
@@ -42,7 +44,7 @@ export const SwiperProvider = ({ children }) => {
       swipe === "yes" ? DATA_KEYS["MATCH_ACCEPT"] : DATA_KEYS["MATCH_REJECT"]
 
     setSwiperButtonLoading(true)
-    setPossibleMatchUser(null)
+    setPossibleMatchUser(() => null)
 
     const body = {
       [DATA_KEYS["THIS_USER_ID"]]: thisUser[idKey],
@@ -56,33 +58,25 @@ export const SwiperProvider = ({ children }) => {
         if (chatId && chatId !== "none") {
           createMatchMadePopup(chatId, thatUser[idKey])
         }
-        generateNextMatchUser(thisUser[idKey])
         setSwiperButtonLoading(false)
       },
       () => setSwiperButtonLoading(false)
     )
+
+    generateNextMatchUser(thisUser[idKey])
   }
 
   const value = {
     swiperUserLoading,
     swiperButtonLoading,
     handleSwipe,
+    setPossibleMatchUser,
     possibleMatchUser,
     generateNextMatchUser,
     matchMadeUser,
   }
 
-  return (
-    <SwiperContext.Provider value={value}>
-      {renderMatchPopup && (
-        <MatchMadePopup
-          closePopup={setRenderMatchPopup(false)}
-          renderMe={renderMatchPopup}
-        />
-      )}
-      {children}
-    </SwiperContext.Provider>
-  )
+  return <SwiperContext.Provider value={value}>{children}</SwiperContext.Provider>
 }
 
 const useSwiper = () => useContext(SwiperContext)

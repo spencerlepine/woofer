@@ -43,57 +43,30 @@ const Swiper = () => {
 
   const images = extractUserImages(possibleMatchUser)
 
-  const RenderInfoOrRetry = () => (
+  const GenerationFailed = () => (
     <>
-      {possibleMatchUser ? (
-        <>
-          <div className="card">
-            <SwipeButtons thisUser={thisUser} thatUser={possibleMatchUser} />
-
-            <ImageCarousel images={images} />
-
-            <UserInfo user={possibleMatchUser} />
-          </div>
-        </>
-      ) : (
-        <>
-          <section className="section">
-            <div className="card">
-              <header className="card-header">
-                <h2 className="card-header-title is-centered">
-                  Unable to find possible match...
-                </h2>
-              </header>
-              <div className="card-content">
-                <div className="content">
-                  <button
-                    className="button is-danger"
-                    onClick={() =>
-                      generateNextMatchUser(thisUser[idKey] || thisUser["uid"])
-                    }
-                  >
-                    <FaRedoAlt />
-                    <p className="px-1">Try Again</p>
-                  </button>
-                </div>
-              </div>
+      <section className="section">
+        <div className="card">
+          <header className="card-header">
+            <h2 className="card-header-title is-centered">
+              Unable to find possible match...
+            </h2>
+          </header>
+          <div className="card-content">
+            <div className="content">
+              <button
+                className="button is-danger"
+                onClick={() =>
+                  generateNextMatchUser(thisUser[idKey] || thisUser["uid"])
+                }
+              >
+                <FaRedoAlt />
+                <p className="px-1">Try Again</p>
+              </button>
             </div>
-          </section>
-        </>
-      )}
-    </>
-  )
-
-  const InfoOrLogInPrompt = () => (
-    <>
-      {thisUser ? (
-        <RenderInfoOrRetry />
-      ) : (
-        <>
-          <h4>Sign in to continue</h4>
-          <Link to={ROUTES.LOGIN}>LOG IN</Link>
-        </>
-      )}
+          </div>
+        </div>
+      </section>
     </>
   )
 
@@ -104,7 +77,33 @@ const Swiper = () => {
           {loading ? (
             <p>Loading... {/*TODO - LOADING SPINNER*/}</p>
           ) : (
-            <InfoOrLogInPrompt />
+            <>
+              {thisUser ? (
+                <>
+                  {possibleMatchUser ? (
+                    <>
+                      <div className="card">
+                        <SwipeButtons
+                          thisUser={thisUser}
+                          thatUser={possibleMatchUser}
+                        />
+
+                        <ImageCarousel images={images} />
+
+                        <UserInfo user={possibleMatchUser} />
+                      </div>
+                    </>
+                  ) : (
+                    <GenerationFailed />
+                  )}
+                </>
+              ) : (
+                <>
+                  <h4>Sign in to continue</h4>
+                  <Link to={ROUTES.LOGIN}>LOG IN</Link>
+                </>
+              )}
+            </>
           )}
         </div>
       </div>
