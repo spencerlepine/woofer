@@ -1,6 +1,6 @@
 const request = require("supertest")
 
-const addUserToZipcodePool = require("../src/controllers/controllerHelpers/zipcodes/addUserToZipcodePool")
+const addUserToZipcodePool = require("../../src/controllers/controllerHelpers/zipcodes/addUserToZipcodePool")
 
 const {
   app,
@@ -10,7 +10,7 @@ const {
   verifyEndpointResponse,
   signupMockUser,
   addUserToZip,
-} = require("./utils/test-helpers")
+} = require("../utils/test-helpers")
 
 const res = {
   status: jest.fn(() => res),
@@ -23,13 +23,13 @@ const idKey = DATA_KEYS["USER_ID"]
 const thisUserId = mockUser[idKey]
 const thatUserId = mockUserB[idKey]
 
-describe("MATCHES endpoint", () => {
-  const method = "GET"
-  const endpointPaths = ["MATCHES", "GENERATE"]
-  const endpointObj = { endpointPathKeys: endpointPaths, method }
-  const url = endpointURLStr(endpointPaths, method)
+const method = "GET"
+const endpointPaths = ["MATCHES", "GENERATE"]
+const endpointObj = { endpointPathKeys: endpointPaths, method }
+const url = endpointURLStr(endpointPaths, method)
 
-  describe("Generate a match", () => {
+describe("MATCHES endpoint match generation", () => {
+  describe("should find a possible match user", () => {
     const UserArrangeSteps = Promise.all([
       signupMockUser({
         ...mockUserB,
@@ -60,6 +60,12 @@ describe("MATCHES endpoint", () => {
               DATA_KEYS["USER_PROFILE"],
               mockUserB[DATA_KEYS["USER_PROFILE"]]
             )
+
+            expect(userProfile).toHaveProperty(
+              DATA_KEYS["USER_ID"],
+              mockUserB[DATA_KEYS["USER_ID"]]
+            )
+
             expect(matchIsValid).toBeTruthy()
           })
           .end((err, res) => {

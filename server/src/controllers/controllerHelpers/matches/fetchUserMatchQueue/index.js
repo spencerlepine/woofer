@@ -2,8 +2,8 @@ const controllerHelpers = require("../../helpers")
 
 const fetchUserMatchQueue =
   ({ DATA_KEYS, models: { MatchQueue }, handleErrorResponse }) =>
-  (res, thisUserId, thatUserId) => {
-    if (res === undefined || thisUserId === undefined || thisUserId === undefined) {
+  (res, thisUserId) => {
+    if (res === undefined || thisUserId === undefined) {
       const err = "fetchUserMatchQueue called with invalid arguments"
       const failPromise = new Promise((resolve, reject) => {
         reject(err)

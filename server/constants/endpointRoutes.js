@@ -52,6 +52,18 @@ const ENDPOINT_ROUTES = {
   },
   MATCHES: {
     URL: "matches",
+    QUEUE: {
+      URL: "queue",
+      GET: {
+        [PARAM_KEYS]: [DATA_KEYS["USER_ID"]],
+      },
+    },
+    STATUS: {
+      URL: "status",
+      GET: {
+        [PARAM_KEYS]: [DATA_KEYS["THIS_USER_ID"], DATA_KEYS["THAT_USER_ID"]],
+      },
+    },
     GENERATE: {
       URL: "generate",
       GET: {

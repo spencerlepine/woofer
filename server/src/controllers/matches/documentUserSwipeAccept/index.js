@@ -49,18 +49,15 @@ const documentUserSwipeAccept = (res, endpointObj, thisUserID, thatUserID) => {
       return fetchUserMatchQueue(res, thisUserID, thatUserID)
     })
     .then((matchQueue) => {
-      return handleMutualAccept(res, thisUserID, thatUserID)
+      if (matchQueue.includes(thatUserID)) {
+        // Means thatUserID already swiped YES
 
-      // TODO
-      // if (matchQueue.includes(thatUserID)) {
-      //   // Means thatUserID already swiped YES
-
-      //   // Generate the chat and update user profiles
-      //   return handleMutualAccept(res, thisUserID, thatUserID)
-      // } else {
-      //   // Means it is a first time swipe for either user
-      //   return handleFirstTimeAccept(res, thisUserID, thatUserID, userIdQuery)
-      // }
+        // Generate the chat and update user profiles
+        return handleMutualAccept(res, thisUserID, thatUserID)
+      } else {
+        // Means it is a first time swipe for either user
+        return handleFirstTimeAccept(res, thisUserID, thatUserID, userIdQuery)
+      }
     })
     .then(([chatId, userProfile]) => {
       const responseObj = {

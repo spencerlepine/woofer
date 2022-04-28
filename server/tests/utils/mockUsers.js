@@ -40,6 +40,20 @@ module.exports = (DATA_KEYS) => ({
     [DATA_KEYS["USER_PICTURES"]]: [],
     [DATA_KEYS["USER_CHATS"]]: [],
   },
+  swipeOnUser: (thisUser, thatUser, swipeChoice) => {
+    const idKey = DATA_KEYS["USER_ID"]
+    const thisUserId = thisUser[idKey]
+    const thatUserId = thatUser[idKey]
+    const url = endpointURLStr(["MATCHES", "SWIPE"], "POST")
+
+    const body = {
+      [DATA_KEYS["THIS_USER_ID"]]: thisUserId,
+      [DATA_KEYS["THAT_USER_ID"]]: thatUserId,
+      [DATA_KEYS["MATCH_STATUS"]]: swipeChoice,
+    }
+
+    return request(app).post(url).send(body)
+  },
   signupMockUser: (user, done) => {
     const method = "POST"
     const endpointPaths = ["SIGNUP"]
