@@ -4,8 +4,16 @@ import {
   screen,
   // fireEvent,
 } from "utils/test-utils"
-import SwipeButtons from "./SwipeButtons"
+import SwipeButtonsComponent from "./SwipeButtons"
 import mockUser from "mockUser"
+
+import { SwiperProvider } from "context/SwiperContext/SwiperContext"
+
+const SwipeButtons = (props) => (
+  <SwiperProvider>
+    <SwipeButtonsComponent {...props} />
+  </SwiperProvider>
+)
 
 describe("SwipeButtons", () => {
   const defaultProps = {
