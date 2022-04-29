@@ -40,4 +40,23 @@ module.exports = {
         res.status(201).send({ [DATA_KEYS["CHAT_ID"]]: chatId })
       })
   },
+  fetchUserChats: (req, res) => {
+    // const endpointObj = {
+    //   endpointPathKeys: ["CHATS", "FETCH"],
+    //   method: "GET",
+    // }
+
+    const { [DATA_KEYS["USER_ID"]]: userId } = req.query
+
+    fetchUserChatList(res, userId)
+      .then((chatRecord) => {
+        res.status(200).json(chatRecord)
+      })
+      .catch((err) =>
+        res.status(500).json({
+          message: "Unable to fetch user match queue!",
+          error: JSON.stringify(err),
+        })
+      )
+  },
 }

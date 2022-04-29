@@ -22,3 +22,22 @@ export const createChat = (
       failCallback(error)
     })
 }
+
+export const fetchAllUserChats = (
+  userId,
+  successCallback,
+  failCallback = () => {}
+) => {
+  const params = { [DATA_KEYS["USER_ID"]]: userId }
+
+  axios
+    .get(SERVER_URL + "/api/chats/fetch", { params })
+    .then((response) => {
+      successCallback(response.data)
+    })
+    .catch((error) => {
+      console.error(error)
+      createNotif(error)
+      failCallback(error)
+    })
+}
