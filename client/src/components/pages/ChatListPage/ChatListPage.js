@@ -4,5 +4,6 @@ import withAuthRedirect from "hooks/useAuthRedirect/useAuthRedirect"
 
 const ChatListPage = () => <ChatList />
 
+// TODO, return this
 const isAuthPage = false
-export default withAuthRedirect(ChatListPage, isAuthPage)
+export default ChatListPage //withAuthRedirect(ChatListPage, isAuthPage)

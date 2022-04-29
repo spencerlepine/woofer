@@ -75,11 +75,9 @@ const ChatList = () => {
 }
 
 const WrappedChatList = (props) => (
-  <AuthProvider>
-    <ChatsProvider>
-      <ChatList {...props} />
-    </ChatsProvider>
-  </AuthProvider>
+  <ChatsProvider>
+    <ChatList {...props} />
+  </ChatsProvider>
 )
 
 export default WrappedChatList

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { Link } from "react-router-dom"
 import { FaUserAlt as ProfileIcon } from "react-icons/fa"
 import { IoMdSettings as SettingsIcon } from "react-icons/io"
@@ -7,11 +7,15 @@ import * as ROUTES from "config/routeConstants"
 import useAuth from "context/AuthContext/AuthContext"
 // import WooferIcon from "assets/WooferIcon.png"
 import WooferLogo from "assets/WooferLogo.png"
+import useOutsideClick from "hooks/useOutsideClick/useOutsideClick"
 
 const Navbar = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1000)
   const [showMobileNav, setShowMobileNav] = useState(false)
   const { logoutUser, currentUser } = useAuth()
+  const popupRef = useRef(null)
+
+  useOutsideClick(popupRef, () => setShowMobileNav(false))
 
   const handleResize = () => {
     if (window.innerWidth < 1000) {
@@ -24,6 +28,16 @@ const Navbar = () => {
   useEffect(() => {
     window.addEventListener("resize", handleResize)
   })
+
+  const MenuPopup = () => (
+    <>
+      {isMobile && showMobileNav && (
+        <div ref={popupRef} className="dropdown navbar-dropdown is-pulled-right">
+          {currentUser ? <WhenLoggedIn /> : <PromptSignIn />}
+        </div>
+      )}
+    </>
+  )
 
   const WhenLoggedIn = () => (
     <div className="navbar-end">
@@ -98,11 +112,7 @@ const Navbar = () => {
           {currentUser ? <WhenLoggedIn /> : <PromptSignIn />}
         </div>
       </nav>
-      {isMobile && showMobileNav && (
-        <div className="dropdown navbar-dropdown is-pulled-right">
-          {currentUser ? <WhenLoggedIn /> : <PromptSignIn />}
-        </div>
-      )}
+      <MenuPopup />
     </>
   )
 }
