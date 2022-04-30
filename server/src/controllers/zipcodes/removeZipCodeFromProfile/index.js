@@ -12,20 +12,21 @@ const filterZips = (userZipcodes, oldZipcode) => {
 }
 
 const removeZipCodeFromProfile = (userId, oldZipcode) => {
-  return getModelDocumentById("DogUser", "userId", thisUserId).then(
-    (userProfile) => {
-      const { zipcodes } = userProfile
+  return getModelDocumentById("DogUser", "userId", userId).then((userProfile) => {
+    const newProfile = new Object(userProfile)
 
-      const updatedZipcodes = filterZips(zipcodes || [], oldZipcode)
-
-      const updatedProfile = {
-        ...userProfile,
-        zipcodes: updatedZipcodes,
-      }
-
-      return updateModelDocumentById("DogUser", "userId", thisUserId, updatedProfile)
+    let validZips = []
+    const { zipcodes } = newProfile
+    if (zipcodes) {
+      validZips = zipcodes
     }
-  )
+
+    const updatedZipcodes = filterZips(validZips, oldZipcode)
+
+    newProfile["zipcodes"] = updatedZipcodes
+
+    return updateModelDocumentById("DogUser", "userId", userId, newProfile)
+  })
 }
 
 module.exports = removeZipCodeFromProfile

@@ -1,7 +1,5 @@
 const request = require("supertest")
 
-const addUserToZipcodePool = require("../../src/controllers/controllerHelpers/zipcodes/addUserToZipcodePool")
-
 const {
   app,
   constants: { endpointURLStr, DATA_KEYS },

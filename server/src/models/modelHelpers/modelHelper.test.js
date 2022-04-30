@@ -49,6 +49,48 @@ describe("MongoDB Model Helper functions", () => {
         })
         .catch(done)
     })
+
+    test("should return the updated object", (done) => {
+      const newMessage = {
+        messageId: "123",
+        time: "now",
+        user: "mockUser",
+        value: "test",
+      }
+
+      const updatedMessage = new Object(newMessage)
+      const newValue = "YEET"
+      updatedMessage["value"] = newValue
+
+      createModelDocumentById("Message", "messageId", "123", newMessage)
+        .then(() =>
+          updateModelDocumentById("Message", "messageId", "123", updatedMessage)
+        )
+        .then((messageDoc) => {
+          expect(messageDoc).toBeDefined()
+          expect(messageDoc).toHaveProperty("value", newValue)
+          done()
+        })
+        .catch(done)
+    })
+
+    test("should return the updated user object", (done) => {
+      const userId = mockUser["userId"]
+      const updatedUser = new Object(mockUser)
+      updatedUser["zipcodes"] = ["10001"]
+
+      createModelDocumentById("DogUser", "userId", userId, mockUser)
+        .then(() =>
+          updateModelDocumentById("DogUser", "userId", userId, updatedUser)
+        )
+        .then((userDoc) => {
+          expect(userDoc).toBeDefined()
+          expect(userDoc).toHaveProperty("zipcodes")
+          expect(userDoc.zipcodes).toEqual(["10001"])
+          done()
+        })
+        .catch(done)
+    })
   })
 
   describe("deleteModelDocumentById helper function", () => {

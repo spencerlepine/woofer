@@ -13,20 +13,19 @@ const filterZips = (userZipcodes, newZipcode) => {
 
 const addZipCodeToProfile = (userId, newZipcode) => {
   return getModelDocumentById("DogUser", "userId", userId).then((userProfile) => {
+    const newProfile = new Object(userProfile)
+
     let validZips = []
-    const { zipcodes } = userProfile
+    const { zipcodes } = newProfile
     if (zipcodes) {
       validZips = zipcodes
     }
 
     const updatedZipcodes = filterZips(validZips, newZipcode)
 
-    const updatedProfile = {
-      ...userProfile,
-      zipcodes: updatedZipcodes,
-    }
+    newProfile["zipcodes"] = updatedZipcodes
 
-    return updateModelDocumentById("DogUser", "userId", userId, updatedProfile)
+    return updateModelDocumentById("DogUser", "userId", userId, newProfile)
   })
 }
 
