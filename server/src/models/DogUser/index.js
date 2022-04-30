@@ -53,7 +53,7 @@ const dogUserSchema = new mongoose.Schema({
     type: Array,
     required: true,
   },
-  "pictures]": {
+  pictures: {
     type: Array,
     required: true,
   },

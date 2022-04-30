@@ -1,18 +1,18 @@
 const { mockUser, mockUserB, signupMockUser, mockRes } = global.testHelpers
 
-const getUserProfile = require("./index")
+const getFullUserProfile = require("./index")
 
-describe("getUserProfile controller", () => {
+describe("getFullUserProfile controller", () => {
   describe("with invalid arguments", () => {
     const invalidReq = {}
 
     test("should return a promise", () => {
-      const result = getUserProfile(invalidReq, mockRes)
+      const result = getFullUserProfile(invalidReq, mockRes)
       expect(result.constructor).toBe(Promise)
     })
 
     test("should not throw an error with invalid arguments", (done) => {
-      getUserProfile(invalidReq, mockRes)
+      getFullUserProfile(invalidReq, mockRes)
         .catch((err) => {
           expect(err).not.toBeTruthy()
           done(err)
@@ -40,7 +40,7 @@ describe("getUserProfile controller", () => {
         },
       }
 
-      getUserProfile(invalidIdReq, mockResolve).catch(done)
+      getFullUserProfile(invalidIdReq, mockResolve).catch(done)
     })
   })
 
@@ -68,6 +68,9 @@ describe("getUserProfile controller", () => {
             expect(userProfile["bio"]).toBe(mockUser["bio"])
             expect(userProfile["birthday"]).toBe(mockUser["birthday"])
             expect(userProfile["profilePicture"]).toBe(mockUser["profilePicture"])
+            expect(userProfile["zipcodes"]).toEqual(mockUser["zipcodes"])
+            expect(userProfile["chats"]).toEqual(mockUser["chats"])
+            expect(userProfile["pictures"]).toEqual(mockUser["pictures"])
             done()
           },
         }),
@@ -75,7 +78,7 @@ describe("getUserProfile controller", () => {
 
       signupMockUser(mockUser)
         .then(() => {
-          return getUserProfile(mockReq, mockResolve)
+          return getFullUserProfile(mockReq, mockResolve)
         })
         .catch(done)
     })

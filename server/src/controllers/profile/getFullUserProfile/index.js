@@ -1,7 +1,8 @@
 const { getModelDocumentById } = require("../../../models/modelHelpers")
 
 const getFullUserProfile = (req, res) => {
-  const { userId } = req.query
+  const reqQuery = typeof req.query === "object" ? req.query : {}
+  const { userId } = reqQuery
 
   return getModelDocumentById("DogUser", "userId", userId)
     .then((userProfile) => {
@@ -11,6 +12,7 @@ const getFullUserProfile = (req, res) => {
     })
     .catch((err) =>
       res.status(500).json({
+        userProfile: {},
         message: "Unable to find user profile",
         error: JSON.stringify(err),
       })
