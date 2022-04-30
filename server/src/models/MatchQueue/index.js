@@ -1,12 +1,11 @@
 const mongoose = require("mongoose")
-const { DATA_KEYS } = require("../../../config/constants")
 
 const matchQueueSchema = new mongoose.Schema({
-  [DATA_KEYS["USER_ID"]]: {
+  userId: {
     type: String,
     required: true,
   },
-  [DATA_KEYS["USER_QUEUE"]]: {
+  matchQueue: {
     type: Object,
     required: true,
   },

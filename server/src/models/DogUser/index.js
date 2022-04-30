@@ -1,64 +1,63 @@
 const mongoose = require("mongoose")
-const { DATA_KEYS } = require("../../../config/constants")
 
 const dogUserSchema = new mongoose.Schema({
-  [DATA_KEYS["USER_ID"]]: {
+  userId: {
     type: String,
     required: true,
   },
-  [DATA_KEYS["USER_NAME"]]: {
+  username: {
     type: String,
     required: true,
   },
-  [DATA_KEYS["USER_FIRST_NAME"]]: {
+  firstName: {
     type: String,
     required: true,
   },
-  [DATA_KEYS["USER_LAST_NAME"]]: {
+  lastName: {
     type: String,
     required: true,
   },
-  [DATA_KEYS["USER_PROFILE_PIC"]]: {
+  profilePicture: {
     type: String,
     required: true,
   },
-  [DATA_KEYS["USER_EMAIL"]]: {
+  email: {
     type: String,
     required: true,
   },
-  [DATA_KEYS["USER_ZODIAC"]]: {
+  zodiac: {
     type: String,
     required: true,
   },
-  [DATA_KEYS["USER_GENDER"]]: {
+  gender: {
     type: String,
     required: true,
   },
-  [DATA_KEYS["USER_BREED"]]: {
+  breed: {
     type: String,
     required: true,
   },
-  [DATA_KEYS["USER_BIO"]]: {
+  bio: {
     type: String,
     required: true,
   },
-  [DATA_KEYS["USER_BIRTHDAY"]]: {
+  birthday: {
     type: String,
     required: true,
   },
-  [DATA_KEYS["USER_PREFERENCE"]]: {
+  preference: {
     type: String,
     required: true,
   },
-  [DATA_KEYS["USER_ZIPCODES"]]: {
+  zipcodes: {
     type: Array,
     required: true,
   },
-  [DATA_KEYS["USER_PICTURES"]]: {
+  "pictures]": {
     type: Array,
     required: true,
   },
-  [DATA_KEYS["USER_CHATS"]]: {
+  chats: {
     type: Array,
     required: true,
   },

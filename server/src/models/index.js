@@ -3,4 +3,5 @@ module.exports = {
   MatchRecords: require("./MatchRecords"),
   MatchQueue: require("./MatchQueue"),
   DogUser: require("./DogUser"),
+  Chat: require("./Chat"),
 }
