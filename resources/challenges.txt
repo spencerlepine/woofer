@@ -183,3 +183,55 @@ I was able to thoughtfully plan how the project would access ENV vars throughout
 Without running into this error, I would have still used a `.env` file manually on the EC2 server.
 Now, the GitHub enviroment will store the secrets, and the GitHub Action will set the ENV vars during the deployment.
 
+
+Match Generator algorithm challenge
+https://github.com/spencerlepine/woofer/issues/70
+
+
+Modularizing API Endpoints
+Situation:
+Endpoints are pulling records from several database collections for each user. Currently, the endpoint controller logic is a messy and hard to debug, with many promises entangled.  It is complex to write unit/integration tests with messy code and vague functions. Currently, there is no good way to handle errors and responses, with so many nested promises and callbacks.
+
+Task:
+Redesigning and modularizing the API endpoints. Improving the response time and refactoring code to be more readable. The goal is to have clear separation of concerns.
+
+Action:
+Step 1: Using Promises
+Refactored controllers to use promises ONLY, and removed scattered use of callback functions.
+
+Step 2: Modular Controllers
+Created smaller files with specific modular functionality. This made it much easier to write unit tests for each controller or helper function.
+
+Step 3: Refactor Controllers
+Refactored the API controller functions to handle errors properly. If an error occurs at any point, it will pass it up the Promise chain. Before, I was passing down the res​ object through function arguments, which resulted in res Headers being sent to the client after the endpoint had responded.
+
+Result:
+
+
+Removing CONSTANTS in code
+
+Situation:
+The Express server was referencing the DATA_KEYS file for object key names everywhere. This required an import statement in every file, and usage made the code hard to read.
+
+Task:
+Need to make the backend code easier to read.  Constants are not needed throughout EVERY file, because we have tests to verify everything works.
+
+Action:
+Removed the constants file, and removed all imports throughout the express app. Instead of referencing constants, I hard coded the object keys, since they were common, like "userId"
+
+Result:
+Code was much easier to read, and we simply rely on tests to pass to know that functions are still working.
+
+Messy Endpoint Verification
+
+Situation:
+The express server had a single file defining the endpoint routes and URL strings for each. Every API request would reference the ENDPOINT_ROUTE_CONSTANTS to verify the request object.
+
+Task:
+Need to remove the middle ware to verify each request in the API route controllers. Makes code hard to read. This is not needed with testing. These functions are throwing many errors that are hard to trace and debug during development
+
+Action:
+Deleted the endpointRouteConstants file and imports throughout the code base. Removed all invocations of the verifyEndpointRequest and verifyEndpointResponse functions.
+
+Result:
+The code was much easier to read. Overall, writing unit tests made this use of middleware obsolete, and it was just adding fluff to the code base.
