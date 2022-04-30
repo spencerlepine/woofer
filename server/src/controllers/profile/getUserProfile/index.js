@@ -23,7 +23,7 @@ const getUserProfile = (req, res) => {
       res.status(500).json({
         userProfile: {},
         message: "Unable to find user profile",
-        error: JSON.stringify(err),
+        error: err,
       })
     )
 }

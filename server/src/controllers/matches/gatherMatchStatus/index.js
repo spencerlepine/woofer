@@ -1,21 +1,29 @@
 const { getModelDocumentById } = require("../../../models/modelHelpers")
 
-const calculateMatchStatus = (thisUserId, thatUserId) => {
+const gatherMatchStatus = (thisUserId, thatUserId) => {
   let userAChoice = "none"
   let userBChoice = "none"
+
+  const setUserChoiceA = (newChoice) => {
+    userAChoice = newChoice
+  }
+
+  const setUserChoiceB = (newChoice) => {
+    userBChoice = newChoice
+  }
 
   return getModelDocumentById("MatchRecords", "userId", thisUserId)
     .then((matchRecord) => {
       if (matchRecord && matchRecord["userMatches"]) {
         const matches = matchRecord["userMatches"]
-        userChoiceA = matches[thatUserID]
+        setUserChoiceA(matches[thatUserId] || "none")
       }
     })
     .then(() => getModelDocumentById("MatchRecords", "userId", thatUserId))
     .then((matchRecord) => {
       if (matchRecord && matchRecord["userMatches"]) {
         const matches = matchRecord["userMatches"]
-        userChoiceB = matches[thatUserID]
+        setUserChoiceB(matches[thisUserId] || "none")
       }
     })
     .then(() => {
@@ -28,4 +36,4 @@ const calculateMatchStatus = (thisUserId, thatUserId) => {
     })
 }
 
-module.exports = calculateMatchStatus
+module.exports = gatherMatchStatus

@@ -6,15 +6,15 @@ const addChatIdToUserProfile = require("../../controllerHelpers/chats/addChatIdT
 const generateTwoUserChat = require("../../controllerHelpers/chats/generateTwoUserChat")
 const removeUserFromMatchQueue = require("../../controllerHelpers/matches/removeUserFromMatchQueue")
 
-const handleMutualAccept = (res, thisUserID, thatUserID) => {
-  return removeUserFromMatchQueue(res, thisUserID, thatUserID)
+const handleMutualAccept = (res, thisUserID, thatUserId) => {
+  return removeUserFromMatchQueue(res, thisUserID, thatUserId)
     .then(() => {
-      return generateTwoUserChat(res, thisUserID, thatUserID)
+      return generateTwoUserChat(res, thisUserID, thatUserId)
     })
     .then((chatId) => {
       const thisChatObj = {
         [DATA_KEYS["CHAT_ID"]]: chatId,
-        otherUserId: thatUserID,
+        otherUserId: thatUserId,
       }
 
       const thatChatObj = {
@@ -31,7 +31,7 @@ const handleMutualAccept = (res, thisUserID, thatUserID) => {
         .then(() => {
           return addChatIdToUserProfile(
             res,
-            thatUserID,
+            thatUserId,
             thatChatObj,
             DATA_KEYS["USER_ID"]
           )
@@ -39,7 +39,7 @@ const handleMutualAccept = (res, thisUserID, thatUserID) => {
         .then(() => chatId)
     })
     .then((chatId) => {
-      return fetchUserDocument(res, { [DATA_KEYS["USER_ID"]]: thatUserID }).then(
+      return fetchUserDocument(res, { [DATA_KEYS["USER_ID"]]: thatUserId }).then(
         (userProfile) => {
           return [chatId, userProfile]
         }

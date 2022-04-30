@@ -12,7 +12,7 @@ const fetchUserChats = (req, res) => {
     .catch((err) =>
       res.status(500).json({
         message: "Unable to chat message",
-        error: JSON.stringify(err),
+        error: err,
       })
     )
 }

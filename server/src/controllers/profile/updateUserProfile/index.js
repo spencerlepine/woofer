@@ -13,7 +13,7 @@ const updateUserProfile = (req, res) => {
     .catch((err) =>
       res.status(500).json({
         message: "Unable to update user profile",
-        error: JSON.stringify(err),
+        error: err,
       })
     )
 }

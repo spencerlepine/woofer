@@ -11,9 +11,9 @@ const verifyEndpointResponse = require("../../../utils/verifyEndpointResponse")
 const handleMutualAccept = require("./handleMutualAccept")
 const handleFirstTimeAccept = require("./handleFirstTimeAccept")
 
-const documentUserSwipeAccept = (res, endpointObj, thisUserID, thatUserID) => {
+const documentUserSwipeAccept = (res, endpointObj, thisUserID, thatUserId) => {
   const invalidRes = typeof res !== "object" || Object.keys(res).length === 0
-  if (invalidRes || !endpointObj || !thisUserID || !thatUserID) {
+  if (invalidRes || !endpointObj || !thisUserID || !thatUserId) {
     const err = "documentUserSwipeReject called with invalid arguments"
     const failPromise = new Promise((resolve, reject) => {
       reject(err)
@@ -28,7 +28,7 @@ const documentUserSwipeAccept = (res, endpointObj, thisUserID, thatUserID) => {
       // Get the match record
       const newRecord = Object.assign(matchRecord)
       // Update the key value pair
-      newRecord[thatUserID] = DATA_KEYS["MATCH_ACCEPT"]
+      newRecord[thatUserId] = DATA_KEYS["MATCH_ACCEPT"]
       return newRecord
     })
     .then((updatedRecord) => {
@@ -46,17 +46,17 @@ const documentUserSwipeAccept = (res, endpointObj, thisUserID, thatUserID) => {
     })
     .then(() => {
       // Check the match queue of thisUserID
-      return fetchUserMatchQueue(res, thisUserID, thatUserID)
+      return fetchUserMatchQueue(res, thisUserID, thatUserId)
     })
     .then((matchQueue) => {
-      if (matchQueue.includes(thatUserID)) {
-        // Means thatUserID already swiped YES
+      if (matchQueue.includes(thatUserId)) {
+        // Means thatUserId already swiped YES
 
         // Generate the chat and update user profiles
-        return handleMutualAccept(res, thisUserID, thatUserID)
+        return handleMutualAccept(res, thisUserID, thatUserId)
       } else {
         // Means it is a first time swipe for either user
-        return handleFirstTimeAccept(res, thisUserID, thatUserID, userIdQuery)
+        return handleFirstTimeAccept(res, thisUserID, thatUserId, userIdQuery)
       }
     })
     .then(([chatId, userProfile]) => {

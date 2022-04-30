@@ -1,8 +1,16 @@
-const { mockUser, mockUserB, signupMockUser, mockRes } = global.testHelpers
+const { mockUser, mockUserB, signupMockUser } = global.testHelpers
 
 const saveUserSwipeChoice = require("./index")
+const updateSwipeRecord = require("../updateSwipeRecord")
 
 describe("saveUserSwipeChoice controller", () => {
+  const mockRes = {
+    status: jest.fn(() => mockRes),
+    json: jest.fn(),
+    setHeader: jest.fn(),
+    end: jest.fn((r) => r),
+  }
+
   describe("with invalid arguments", () => {
     const invalidReq = {}
 
@@ -22,7 +30,7 @@ describe("saveUserSwipeChoice controller", () => {
         })
     })
 
-    test("should not resolve with user keys given invalid arguments", (done) => {
+    test("should resolve with empty keys given invalid arguments", (done) => {
       const invalidIdReq = {
         query: {},
       }
@@ -31,8 +39,8 @@ describe("saveUserSwipeChoice controller", () => {
         status: () => ({
           json: (response) => {
             expect(response).toBeDefined()
-            expect(response).not.toHaveProperty(mockUser["userId"])
-            expect(response).not.toHaveProperty(mockUserB["userId"])
+            expect(response).toHaveProperty("chatId", "none")
+            expect(response.userProfile).toEqual({})
             done()
           },
         }),
@@ -43,22 +51,21 @@ describe("saveUserSwipeChoice controller", () => {
   })
 
   describe("with valid arguments", () => {
-    const mockReq = {
-      query: {
-        thisUserId: mockUser["userId"],
-        thatUserId: mockUserB["userId"],
-        matchStatus: "accept",
-      },
-    }
-
     test("should resolve with the user match statuses", (done) => {
+      const mockReq = {
+        query: {
+          thisUserId: mockUser["userId"],
+          thatUserId: mockUserB["userId"],
+          matchStatus: "accept",
+        },
+      }
+
       const mockResolve = {
         status: () => ({
           json: (response) => {
             expect(response).toBeDefined()
-            console.log(response)
-            // expect(response).toHaveProperty("chatId", "none")
-            // expect(response).toHaveProperty("userProfile")
+            expect(response).toHaveProperty("chatId", "none")
+            expect(response).toHaveProperty("userProfile")
             done()
           },
         }),
@@ -68,6 +75,39 @@ describe("saveUserSwipeChoice controller", () => {
         .then(() => signupMockUser(mockUserB))
         .then(() => {
           return saveUserSwipeChoice(mockReq, mockResolve)
+        })
+        .catch(done)
+    })
+
+    test("should resolve a chatId on mutual match", (done) => {
+      const mockReq = {
+        query: {
+          thisUserId: mockUser["userId"],
+          thatUserId: mockUserB["userId"],
+          matchStatus: "accept",
+        },
+      }
+
+      const mockMutualResolve = {
+        status: () => ({
+          json: (response) => {
+            expect(response).toBeDefined()
+            expect(response).toHaveProperty("chatId")
+            const { chatId } = response
+            expect(chatId).not.toBe("none")
+            expect(response).toHaveProperty("userProfile")
+            done()
+          },
+        }),
+      }
+
+      signupMockUser(mockUser)
+        .then(() => signupMockUser(mockUserB))
+        .then(() =>
+          updateSwipeRecord(mockUserB["userId"], mockUser["userId"], "accept")
+        )
+        .then(() => {
+          return saveUserSwipeChoice(mockReq, mockMutualResolve)
         })
         .catch(done)
     })

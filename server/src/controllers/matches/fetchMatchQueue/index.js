@@ -19,8 +19,8 @@ const fetchMatchQueue = (req, res) => {
     .then((responseObj) => res.status(200).json(responseObj))
     .catch((err) =>
       res.status(500).json({
-        message: "Unable to create new chat room",
-        error: JSON.stringify(err),
+        message: "Unable to fetch match queue",
+        error: err,
       })
     )
 }

@@ -4,8 +4,8 @@ const controllerHelpers = require("../../controllerHelpers/helpers")
 
 const addUserToMatchQueue =
   ({ DATA_KEYS, models: { MatchQueue } }) =>
-  (res, thisUserID, thatUserID) => {
-    const userIdQuery = { [DATA_KEYS["USER_ID"]]: thatUserID }
+  (res, thisUserID, thatUserId) => {
+    const userIdQuery = { [DATA_KEYS["USER_ID"]]: thatUserId }
 
     return MatchQueue.findOne(userIdQuery)
       .then((result) => {
@@ -22,7 +22,7 @@ const addUserToMatchQueue =
         // update matchqueue document
         const update = {
           $set: {
-            [DATA_KEYS["USER_ID"]]: thatUserID,
+            [DATA_KEYS["USER_ID"]]: thatUserId,
             [DATA_KEYS["USER_QUEUE"]]: newQueue,
           },
         }
@@ -32,8 +32,8 @@ const addUserToMatchQueue =
       })
   }
 
-const handleFirstTimeAccept = (res, thisUserID, thatUserID, userIdQuery) => {
-  return addUserToMatchQueue(controllerHelpers)(res, thisUserID, thatUserID)
+const handleFirstTimeAccept = (res, thisUserID, thatUserId, userIdQuery) => {
+  return addUserToMatchQueue(controllerHelpers)(res, thisUserID, thatUserId)
     .then(() => fetchUserDocument(res, userIdQuery))
     .then((userProfile) => {
       return ["none", userProfile]

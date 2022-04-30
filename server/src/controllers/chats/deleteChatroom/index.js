@@ -13,7 +13,7 @@ const deleteChatRoom = (req, res) => {
     .catch((err) =>
       res.status(500).json({
         message: "Unable to delete new chat room",
-        error: JSON.stringify(err),
+        error: err,
       })
     )
 }

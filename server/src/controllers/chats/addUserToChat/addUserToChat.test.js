@@ -1,7 +1,5 @@
 const { mockUser, mockUserB, signupMockUser, modelHelpers } = global.testHelpers
 
-const { getModelDocumentById } = modelHelpers
-
 const addUserToChat = require("./index")
 
 describe("addUserToChat controller helper", () => {

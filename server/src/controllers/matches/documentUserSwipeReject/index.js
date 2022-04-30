@@ -10,7 +10,7 @@ const fetchUserMatchQueue = require("../../controllerHelpers/matches/fetchUserMa
 const verifyEndpointResponse = require("../../../utils/verifyEndpointResponse")
 const fetchMatchRecord = require("../../controllerHelpers/matches/fetchMatchRecord")
 
-const documentUserSwipeReject = (res, endpointObj, thisUserID, thatUserID) => {
+const documentUserSwipeReject = (res, endpointObj, thisUserID, thatUserId) => {
   const invalidRes = typeof res !== "object" || Object.keys(res).length === 0
   if (invalidRes || endpointObj === undefined || thisUserID === undefined) {
     const err = "documentUserSwipeReject called with invalid arguments"
@@ -25,7 +25,7 @@ const documentUserSwipeReject = (res, endpointObj, thisUserID, thatUserID) => {
     .then((matchRecord) => {
       // Get the match record
       const newRecord = Object.assign(matchRecord)
-      newRecord[thatUserID] = DATA_KEYS["MATCH_REJECT"]
+      newRecord[thatUserId] = DATA_KEYS["MATCH_REJECT"]
       return newRecord
     })
     .then((updatedRecord) => {
@@ -40,12 +40,12 @@ const documentUserSwipeReject = (res, endpointObj, thisUserID, thatUserID) => {
     })
     .then(() => {
       // Check the match queue of thisUserID
-      return fetchUserMatchQueue(res, thisUserID, thatUserID)
+      return fetchUserMatchQueue(res, thisUserID, thatUserId)
     })
     .then((matchQueue) => {
-      if (matchQueue.includes(thatUserID)) {
-        // Means thatUserID already swiped YES
-        return removeUserFromMatchQueue(res, thisUserID, thatUserID).then(() => {
+      if (matchQueue.includes(thatUserId)) {
+        // Means thatUserId already swiped YES
+        return removeUserFromMatchQueue(res, thisUserID, thatUserId).then(() => {
           return fetchUserDocument(res, userIdQuery).then((userProfile) => {
             return ["none", userProfile]
           })
