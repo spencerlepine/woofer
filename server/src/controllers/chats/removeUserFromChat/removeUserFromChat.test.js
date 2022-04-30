@@ -29,35 +29,35 @@ describe("removeUserFromChat controller helper", () => {
     })
   })
 
-  // describe("with valid arguments", () => {
-  //   const mockChatId = "abc123jkl"
-  //   const user = {
-  //     ...mockUser,
-  //     chats: [
-  //       {
-  //         chatId: mockChatId
-  //       }
-  //     ]
-  //   }
+  describe("with valid arguments", () => {
+    const mockChatId = "abc123jkl"
+    const user = {
+      ...mockUser,
+      userId: mockChatId,
+      chats: [
+        {
+          chatId: mockChatId,
+          otherUserId: mockUserB["userId"],
+        },
+      ],
+    }
 
-  //   const validInvokation = removeUserFromChat(mockChatId, user["id"])
+    const validInvokation = removeUserFromChat(mockChatId, user["userId"])
 
-  //   test("should resolve updated user profile", (done) => {
-  //     const expectedResponse = {
-  //       ...user,
-  //       chats: []
-  //     }
+    test("should resolve updated user profile", (done) => {
+      const expectedResponse = {
+        ...user,
+        chats: [],
+      }
 
-  //     signupMockUser(user)
-  //       .then(() => (
-  //         addUserToChat(mockChatId, user.id, mockUserB.id)
-  //       ))
-  //       .then(validInvokation)
-  //       .then((response) => {
-  //         expect(response).toEqual(expectedResponse)
-  //         done()
-  //       })
-  //       .catch(done)
-  //   })
-  // })
+      signupMockUser(user)
+        .then(() => addUserToChat(mockChatId, user.id, mockUserB.id))
+        .then(() => validInvokation)
+        .then((response) => {
+          expect(response).toHaveProperty("chats", [])
+          done()
+        })
+        .catch(done)
+    })
+  })
 })
