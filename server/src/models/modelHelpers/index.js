@@ -1,4 +1,4 @@
-const MODELS = require("./index")
+const MODELS = require("../index")
 
 const getModelDocumentById = (ModelName, idKey, documentId) => {
   const Model = MODELS[ModelName]

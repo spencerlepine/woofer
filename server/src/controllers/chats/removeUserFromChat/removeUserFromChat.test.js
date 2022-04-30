@@ -54,7 +54,10 @@ describe("removeUserFromChat controller helper", () => {
         .then(() => addUserToChat(mockChatId, user.id, mockUserB.id))
         .then(() => validInvokation)
         .then((response) => {
-          expect(response).toHaveProperty("chats", [])
+          expect(response).toBeDefined()
+          expect(response).toHaveProperty("userProfile")
+          const { userProfile } = response
+          expect(userProfile["chats"]).toEqual([])
           done()
         })
         .catch(done)
