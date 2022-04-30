@@ -27,7 +27,7 @@ const fetchMatchStatus = (req, res) => {
         [thatUserId]: userBChoice,
       }
 
-      res.status(201).json(responseObj)
+      res.status(200).json(responseObj)
     })
     .catch((err) =>
       res.status(500).json({
