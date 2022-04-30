@@ -26,7 +26,9 @@ See the [Whitepaper](./resources/WOOFER_WHITEPAPER.pdf).
 
 ## 🤔 Challenges
 
-See the [Challenges](./resources/challenges.txt) file.
+View [Issue Tickets](https://github.com/spencerlepine/woofer/issues?q=is%3Aopen+is%3Aissue+label%3AChallenge)
+
+> Or read [Challenges](./resources/challenges.txt) text file.
 
 ## 📦 Technologies
 
@@ -42,11 +44,7 @@ See the [Challenges](./resources/challenges.txt) file.
 
 ## ⚙️ Development Setup
 
-> ### Prerequisites
->
-> - [.env](./.env.sample) file (see [`.env.sample`](./.env.sample))
-> - [Firebase](https://firebase.google.com/) Project
-> - [MongoDB Atlas](https://www.mongodb.com/atlas/database) Database
+> See [SETUP Guide](./resources/WOOFER_SETUP_GUIDE.md).
 
 ```sh
 cp .env.sample .env
@@ -54,32 +52,13 @@ npm install
 ```
 
 ```sh
-npm run dev:server
-```
-
-```sh
 # * Open a NEW terminal *
 npm run dev:client
 ```
 
-## 🐳 Running Docker
+## 🌐 API Documentation
 
-> ### Prerequisites
->
-> - [Docker](https://www.docker.com/) (installed locally)
-> - [DockerHub](https://hub.docker.com/) Account
-> - AWS [EC2](https://aws.amazon.com/ec2/) Instance (see [EC2 Setup Walkthrough](./resources/EC2_SETUP_WALKTHROUGH.md))
-> - Updated **GitHub Repository Secrets** (see [EXAMPLE_SECRETS](./resources/REPOSITORY_SECRETS.md))
-
-```sh
-cp .env.sample .env
-docker-compose up --build
-# visit http://localhost:3000
-```
-
-## 🌐API Schema
-
-See [Endpoint Schema](./resources/WOOFER_API.md).
+See [Endpoints](./resources/WOOFER_API.md).
 
 ## 🗄 Database Design
 
