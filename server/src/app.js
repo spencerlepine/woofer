@@ -50,15 +50,15 @@ app.use(cors())
 
 app.use(authLimiter)
 
-const CLIENT_FRONTEND = express.static("client/build")
-app.use(CLIENT_FRONTEND)
-app.use("/static", express.static(path.join(__dirname, "../../client/public")))
+// const CLIENT_FRONTEND = express.static("client/build")
+// app.use(CLIENT_FRONTEND)
+// app.use("/static", express.static(path.join(__dirname, "../../client/public")))
 
 // Return index.html for React Router
 // AVOID triggering for /api GET requests
-app.get(/^(?!\/api*)/, function (req, res) {
-  res.sendFile("index.html", { root: path.join(__dirname, "../../client/build/") })
-})
+// app.get(/^(?!\/api*)/, function (req, res) {
+//   res.sendFile("index.html", { root: path.join(__dirname, "../../client/build/") })
+// })
 
 // v1 api routes
 app.use("/api", routes)

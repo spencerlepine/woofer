@@ -1,4 +1,5 @@
 const constants = require("../../config/constants")
+const config = require("../../config/config")
 
 const { mockUser, mockUserB, signupMockUser, addUserToZip, swipeOnUser } =
   require("./mockUsers")(constants.DATA_KEYS)
@@ -21,3 +22,4 @@ exports.signupMockUser = signupMockUser
 exports.swipeOnUser = swipeOnUser
 exports.mockRes = mockRes
 exports.modelHelpers = modelHelpers
+exports.SERVER_URL = config.SERVER_URL

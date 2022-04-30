@@ -1,5 +1,3 @@
-const { mockUser, mockUserB, signupMockUser } = global.testHelpers
-
 const removeChatFromList = require("./index")
 
 describe("removeChatFromList helper", () => {

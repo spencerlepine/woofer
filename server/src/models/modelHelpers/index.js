@@ -27,12 +27,12 @@ const createModelDocumentById = (ModelName, idKey, documentId, documentData) => 
   const options = { upsert: true, multi: true }
 
   return Model.updateOne(query, update, options).then((result) => {
-    if (result.upsertedId) {
+    if (result) {
       return getModelDocumentById(ModelName, idKey, documentId)
     } else {
       return {
         message: "Unable to update document",
-        error: "Model.updateOne did not return 'upsertedId'",
+        error: "Model.updateOne did not return a document",
       }
     }
   })

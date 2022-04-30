@@ -37,4 +37,6 @@ module.exports = {
       useUnifiedTopology: true,
     },
   },
+  // SERVER_URL: `http://localhost:${envVars.PORT}`,
+  SERVER_URL: "http://localhost",
 }
