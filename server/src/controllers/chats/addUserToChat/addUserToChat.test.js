@@ -1,17 +1,18 @@
-const { mockUser, mockUserB, signupMockUser } = global.testHelpers
+const { mockUser, mockUserB, signupMockUser, modelHelpers } = global.testHelpers
 
-const removeUserFromChat = require("./index")
-const addUserToChat = require("../addUserToChat")
+const { getModelDocumentById } = modelHelpers
 
-describe("removeUserFromChat controller helper", () => {
+const addUserToChat = require("./index")
+
+describe("addUserToChat controller helper", () => {
   describe("with invalid arguments", () => {
     test("should return a promise", () => {
-      const result = removeUserFromChat()
+      const result = addUserToChat()
       expect(result.constructor).toBe(Promise)
     })
 
     test("should throw an error with invalid arguments", (done) => {
-      removeUserFromChat()
+      addUserToChat()
         .catch((err) => {
           expect(err).toBeTruthy()
           done(err)
@@ -24,26 +25,22 @@ describe("removeUserFromChat controller helper", () => {
 
   describe("with valid arguments", () => {
     const mockChatId = "abc123jkl"
-    const user = {
-      ...mockUser,
-      userId: mockChatId,
-      chats: [
-        {
-          chatId: mockChatId,
-          otherUserId: mockUserB["userId"],
-        },
-      ],
-    }
 
     test("should resolve updated user profile", (done) => {
-      signupMockUser(user)
+      signupMockUser(mockUser)
         .then(() => signupMockUser(mockUserB))
-        .then(() => addUserToChat(mockChatId, user["userId"], mockUserB["userId"]))
-        .then(() => removeUserFromChat(mockChatId, user["userId"]))
+        .then(() =>
+          addUserToChat(mockChatId, mockUser["userId"], mockUserB["userId"])
+        )
         .then((userProfile) => {
           expect(userProfile).toBeDefined()
           expect(userProfile).toHaveProperty("chats")
-          expect(userProfile["chats"]).toEqual([])
+          expect(userProfile["chats"]).toEqual([
+            {
+              chatId: mockChatId,
+              otherUserId: mockUserB["userId"],
+            },
+          ])
           done()
         })
         .catch(done)

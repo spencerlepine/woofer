@@ -3,6 +3,8 @@ const constants = require("../../config/constants")
 const { mockUser, mockUserB, signupMockUser, addUserToZip, swipeOnUser } =
   require("./mockUsers")(constants.DATA_KEYS)
 
+const modelHelpers = require("../../src/models/modelHelpers")
+
 const mockRes = {
   status: jest.fn(() => mockRes),
   json: jest.fn(),
@@ -18,3 +20,4 @@ exports.addUserToZip = addUserToZip
 exports.signupMockUser = signupMockUser
 exports.swipeOnUser = swipeOnUser
 exports.mockRes = mockRes
+exports.modelHelpers = modelHelpers

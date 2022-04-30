@@ -10,7 +10,10 @@ const getModelDocumentById = (ModelName, idKey, documentId) => {
       return result
     }
 
-    return {}
+    return {
+      message: `Unable to find ${ModelName} document`,
+      error: `Document with id: ${documentId} not found`,
+    }
   })
 }
 
@@ -48,7 +51,10 @@ const updateModelDocumentById = (ModelName, idKey, documentId, documentData) => 
     if (result) {
       return getModelDocumentById(ModelName, idKey, documentId)
     } else {
-      return {}
+      return {
+        message: `Unable to update ${ModelName} document`,
+        error: "No document found to update",
+      }
     }
   })
 }

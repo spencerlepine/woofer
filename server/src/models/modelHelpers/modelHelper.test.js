@@ -19,6 +19,15 @@ describe("MongoDB Model Helper functions", () => {
       const result = getModelDocumentById("DogUser", "userId", "123", {})
       expect(result.constructor).toBe(Promise)
     })
+
+    test("should return an object", (done) => {
+      getModelDocumentById("DogUser", "userId", "123", {})
+        .then((result) => {
+          expect(typeof result).toBe("object")
+          done()
+        })
+        .catch(done)
+    })
   })
 
   describe("updateModelDocumentById helper function", () => {
@@ -30,6 +39,15 @@ describe("MongoDB Model Helper functions", () => {
     test("should return a promise", () => {
       const result = updateModelDocumentById("DogUser", "userId", "123", {})
       expect(result.constructor).toBe(Promise)
+    })
+
+    test("should return an object", (done) => {
+      updateModelDocumentById("DogUser", "userId", "123", {})
+        .then((result) => {
+          expect(typeof result).toBe("object")
+          done()
+        })
+        .catch(done)
     })
   })
 
