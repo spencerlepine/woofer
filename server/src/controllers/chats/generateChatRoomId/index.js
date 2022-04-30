@@ -14,4 +14,4 @@ const uniqueString = () => {
 
 const generateChatRoomId = uniqueString
 
-module.exports = generateTwoUserChat
+module.exports = generateChatRoomId

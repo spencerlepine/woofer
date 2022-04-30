@@ -1,15 +1,15 @@
 const express = require("express")
 const {
-  fetchUserProfile,
-  fetchFullUserProfile,
+  getUserProfile,
+  getFullUserProfile,
   updateUserProfile,
   deleteUserProfile,
 } = require("../../controllers/profile")
 
 const router = express.Router()
 
-router.get("", fetchUserProfile)
-router.get("/details", fetchFullUserProfile)
+router.get("", getUserProfile)
+router.get("/details", getFullUserProfile)
 router.post("/details", updateUserProfile)
 router.delete("/details", deleteUserProfile)
 

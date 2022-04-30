@@ -27,4 +27,4 @@ const addZipCodeToProfile = (userId, newZipcode) => {
   )
 }
 
-module.exports = addUserZipCode
+module.exports = addZipCodeToProfile

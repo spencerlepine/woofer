@@ -18,4 +18,4 @@ const deleteChatRoom = (req, res) => {
     )
 }
 
-module.exports = createNewChat
+module.exports = deleteChatRoom

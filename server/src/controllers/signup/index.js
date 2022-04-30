@@ -3,7 +3,7 @@ const { createModelDocumentById } = require("../../models/modelHelpers")
 const polyFillUser = require("./polyFillUser")
 
 module.exports = {
-  signUpUser: (req, res) => {
+  signupUser: (req, res) => {
     const userProfile = req.body
     const { userId } = userProfile
 
