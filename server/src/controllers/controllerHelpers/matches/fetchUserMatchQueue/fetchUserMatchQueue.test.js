@@ -1,7 +1,7 @@
 const fetchUserMatchQueue = require("./index")
 
 describe("Fetch match queue document", () => {
-  const userID = "john1234"
+  const userId = "john1234"
 
   test("should resolve with valid arguments", (done) => {
     const res = {
@@ -9,7 +9,7 @@ describe("Fetch match queue document", () => {
       json: jest.fn(),
     }
 
-    const result = fetchUserMatchQueue(res, userID, "bob1234")
+    const result = fetchUserMatchQueue(res, userId, "bob1234")
     expect(result.constructor).toBe(Promise)
 
     result

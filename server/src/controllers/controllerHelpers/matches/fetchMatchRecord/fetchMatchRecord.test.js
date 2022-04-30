@@ -17,7 +17,7 @@ describe("Fetch match record document", () => {
   const thatUserId = mockUserB[idKey]
 
   test("should resolve with valid arguments", (done) => {
-    const query = { id: userId }
+    const query = { userId }
 
     const result = fetchMatchRecord(mockRes, query)
     expect(result.constructor).toBe(Promise)
@@ -60,7 +60,7 @@ describe("Fetch match record document", () => {
       .then(() => signupMockUser(mockUserB))
       .then(() => postUserMatch(swipe))
       .then(() => {
-        const query = { id: userId }
+        const query = { userId }
         return fetchMatchRecord(mockRes, query)
       })
       .then((matchRecordDoc) => {

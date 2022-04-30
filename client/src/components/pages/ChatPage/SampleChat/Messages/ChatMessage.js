@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 
 function ChatMessage({ message }) {
   const {
-    id: message_id,
+    chatId: message_id,
     time,
     user: { name },
     value,

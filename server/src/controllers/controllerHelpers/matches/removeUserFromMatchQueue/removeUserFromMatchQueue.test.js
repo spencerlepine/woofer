@@ -1,7 +1,7 @@
 const removeUserFromMatchQueue = require("./index")
 
 describe("Remove user from match record document", () => {
-  const userID = "john1234"
+  const userId = "john1234"
 
   test("should resolve with valid arguments", (done) => {
     const res = {
@@ -9,7 +9,7 @@ describe("Remove user from match record document", () => {
       json: jest.fn(),
     }
 
-    const result = removeUserFromMatchQueue(res, userID, "bob1234")
+    const result = removeUserFromMatchQueue(res, userId, "bob1234")
     expect(result.constructor).toBe(Promise)
 
     result

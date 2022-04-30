@@ -1,14 +1,14 @@
 const fetchUserDocument = require("./index")
 
 describe("Fetch user profile document", () => {
-  const userID = "john1234"
+  const userId = "john1234"
 
   test("should resolve with valid arguments", (done) => {
     const res = {
       status: jest.fn(() => res),
       json: jest.fn(),
     }
-    const query = { id: userID }
+    const query = { userId }
 
     const result = fetchUserDocument(res, query)
     expect(result.constructor).toBe(Promise)

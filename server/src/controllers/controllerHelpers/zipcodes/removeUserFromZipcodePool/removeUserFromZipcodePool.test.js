@@ -1,7 +1,7 @@
 const removeUserFromZipcodePool = require("./index")
 
 describe("Remove user to zipcode pool helper", () => {
-  const userID = "john1234"
+  const userId = "john1234"
   const zipcodeID = "10001"
 
   test("should resolve with valid arguments", (done) => {
@@ -10,7 +10,7 @@ describe("Remove user to zipcode pool helper", () => {
       json: jest.fn(),
     }
 
-    const result = removeUserFromZipcodePool(res, userID, zipcodeID)
+    const result = removeUserFromZipcodePool(res, userId, zipcodeID)
     expect(result.constructor).toBe(Promise)
 
     result

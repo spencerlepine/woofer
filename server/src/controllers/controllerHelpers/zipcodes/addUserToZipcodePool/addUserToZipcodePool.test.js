@@ -1,7 +1,7 @@
 const addUserToZipcodePool = require("./index")
 
 describe("Add user to zipcode pool helper", () => {
-  const userID = "john1234"
+  const userId = "john1234"
   const zipcodeID = "10001"
 
   test("should resolve with valid arguments", (done) => {
@@ -10,7 +10,7 @@ describe("Add user to zipcode pool helper", () => {
       json: jest.fn(),
     }
 
-    const result = addUserToZipcodePool(res, userID, zipcodeID)
+    const result = addUserToZipcodePool(res, userId, zipcodeID)
     expect(result.constructor).toBe(Promise)
 
     result

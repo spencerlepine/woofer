@@ -1,7 +1,7 @@
 const createUserDocument = require("./index")
 
 describe("Create user profile document", () => {
-  const userID = "john1234"
+  const userId = "john1234"
   const email = "john@gmail.com"
 
   test("should resolve with valid arguments", (done) => {
@@ -9,10 +9,10 @@ describe("Create user profile document", () => {
       status: jest.fn(() => res),
       json: jest.fn(),
     }
-    const query = { id: userID }
+    const query = { userId }
     const update = {
       $set: {
-        id: userID,
+        userId,
         email,
       },
     }

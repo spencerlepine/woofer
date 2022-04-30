@@ -2,8 +2,8 @@ const controllerHelpers = require("../../helpers")
 
 const addUserToZipcodePool =
   ({ DATA_KEYS, models: { ZipcodePool }, handleErrorResponse }) =>
-  (res, userID, zipcodeID) => {
-    if (res === undefined || userID === undefined || zipcodeID === undefined) {
+  (res, userId, zipcodeID) => {
+    if (res === undefined || userId === undefined || zipcodeID === undefined) {
       const err = "addUserToZipcodePool called with invalid arguments"
       const failPromise = new Promise((resolve, reject) => {
         reject(err)
@@ -19,7 +19,7 @@ const addUserToZipcodePool =
           poolUsersObj = result[DATA_KEYS["POOL_USERS"]]
         }
 
-        poolUsersObj[userID] = 1
+        poolUsersObj[userId] = 1
 
         const query = { [DATA_KEYS["ZIPCODE_ID"]]: zipcodeID }
         const update = {

@@ -1,14 +1,14 @@
 const udpateUseMatchRecord = require("./index")
 
 describe("Update user match record document", () => {
-  const userID = "john1234"
+  const userId = "john1234"
 
   test("should resolve with valid arguments", (done) => {
     const res = {
       status: jest.fn(() => res),
       json: jest.fn(),
     }
-    const query = { id: userID }
+    const query = { userId }
     const update = {
       $set: {
         name: "JohnDoe",

@@ -2,8 +2,8 @@ const controllerHelpers = require("../../helpers")
 
 const removeUserFromZipcodePool =
   ({ DATA_KEYS, models: { ZipcodePool }, handleErrorResponse }) =>
-  (res, userID, zipcodeID) => {
-    if (res === undefined || userID === undefined || zipcodeID === undefined) {
+  (res, userId, zipcodeID) => {
+    if (res === undefined || userId === undefined || zipcodeID === undefined) {
       const err = "removeUserFromZipcodePool called with invalid arguments"
       const failPromise = new Promise((resolve, reject) => {
         reject(err)
@@ -19,8 +19,8 @@ const removeUserFromZipcodePool =
           poolUsersObj = result[DATA_KEYS["POOL_USERS"]]
         }
 
-        if (poolUsersObj[userID]) {
-          delete poolUsersObj[userID]
+        if (poolUsersObj[userId]) {
+          delete poolUsersObj[userId]
         }
 
         const query = { [DATA_KEYS["ZIPCODE_ID"]]: zipcodeID }
