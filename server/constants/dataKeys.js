@@ -2,11 +2,11 @@
 // DATA_KEYS_CONSTANTS Object
 const DATA_KEYS = {
   USER_ID: "userId",
-  USER_NAME: "name",
+  USER_NAME: "username",
   USER_FIRST_NAME: "firstName",
   USER_LAST_NAME: "lastName",
-  USER_PROFILE_PIC: "profile_picture",
-  USER_ZODIAC: "zodiac_sign",
+  USER_PROFILE_PIC: "profilePicture",
+  USER_ZODIAC: "zodiac",
   USER_GENDER: "gender",
   USER_PREFERENCE: "preference",
   USER_GROUP: "group",
