@@ -1,7 +1,7 @@
 // Change the document key in ONE place (ex, "_id" or "id")
 // DATA_KEYS_CONSTANTS Object
 const DATA_KEYS = {
-  USER_ID: "id",
+  USER_ID: "userId",
   USER_NAME: "name",
   USER_FIRST_NAME: "firstName",
   USER_LAST_NAME: "lastName",
@@ -32,7 +32,7 @@ const DATA_KEYS = {
   MATCH_REJECT: "reject",
   USER_QUEUE: "user_queue",
   POOL_USERS: "pool_users",
-  ZIPCODE_ID: "zipcode_id",
+  ZIPCODE_ID: "zipcodeId",
 }
 
 export default DATA_KEYS

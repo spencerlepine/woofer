@@ -57,6 +57,7 @@ const deleteModelDocumentById = (ModelName, idKey, documentId) => {
   const Model = MODELS[ModelName]
 
   const query = { [idKey]: documentId }
+  const options = { justOne: true }
 
   return Model.deleteOne(query, options).then((result) => {
     return result

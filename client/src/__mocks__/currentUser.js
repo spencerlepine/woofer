@@ -1,7 +1,7 @@
 jest.mock("currentUser", () => ({
   mockCurrentUser: () => {
     const DATA_KEYS = {
-      USER_ID: "id",
+      USER_ID: "userId",
       USER_NAME: "name",
       USER_FIRST_NAME: "firstName",
       USER_LAST_NAME: "lastName",
@@ -32,7 +32,7 @@ jest.mock("currentUser", () => ({
       MATCH_REJECT: "reject",
       USER_QUEUE: "user_queue",
       POOL_USERS: "pool_users",
-      ZIPCODE_ID: "zipcode_id",
+      ZIPCODE_ID: "zipcodeId",
     }
 
     return {
