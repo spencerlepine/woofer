@@ -24,22 +24,14 @@ describe("removeUserFromChat controller helper", () => {
 
   describe("with valid arguments", () => {
     const mockChatId = "abc123jkl"
-    const user = {
-      ...mockUser,
-      userId: mockChatId,
-      chats: [
-        {
-          chatId: mockChatId,
-          otherUserId: mockUserB["userId"],
-        },
-      ],
-    }
 
     test("should resolve updated user profile", (done) => {
-      signupMockUser(user)
+      signupMockUser(mockUser)
         .then(() => signupMockUser(mockUserB))
-        .then(() => addUserToChat(mockChatId, user["userId"], mockUserB["userId"]))
-        .then(() => removeUserFromChat(mockChatId, user["userId"]))
+        .then(() =>
+          addUserToChat(mockChatId, mockUser["userId"], mockUserB["userId"])
+        )
+        .then(() => removeUserFromChat(mockChatId, mockUser["userId"]))
         .then((userProfile) => {
           expect(userProfile).toBeDefined()
           expect(userProfile).toHaveProperty("chats")

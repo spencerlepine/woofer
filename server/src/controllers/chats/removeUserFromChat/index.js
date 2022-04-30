@@ -4,6 +4,8 @@ const {
   deleteModelDocumentById,
 } = require("../../../models/modelHelpers")
 
+const removeChatFromList = require("./removeChatFromList")
+
 const removeUserFromChat = (chatId, thisUserId) => {
   return deleteModelDocumentById("Chat", "chatId", chatId)
     .then(() => getModelDocumentById("DogUser", "userId", thisUserId))
@@ -11,14 +13,10 @@ const removeUserFromChat = (chatId, thisUserId) => {
       const { chats } = userProfile
 
       const chatsArray = chats || []
-      const filteredChats = chatsArray.filter(
-        ({ chatId: thisChatId }) => thisChatId !== chatId
-      )
+      const filteredChats = removeChatFromList(chatId, chatsArray)
 
-      const updatedProfile = {
-        ...userProfile,
-        chats: filteredChats,
-      }
+      const updatedProfile = new Object(userProfile)
+      updatedProfile["chats"] = filteredChats
 
       return updateModelDocumentById("DogUser", "userId", thisUserId, updatedProfile)
     })
