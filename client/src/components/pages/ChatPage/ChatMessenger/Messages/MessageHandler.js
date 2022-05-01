@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import * as chatsAPI from "api/chats"
 
 const MessageHandler = (props) => {
-  const { chatId, socket, MessageComponent } = props
+  const { chatId, socket, MessageComponent, currentUserId } = props
 
   const [messages, setMessages] = useState({})
 
@@ -42,7 +42,9 @@ const MessageHandler = (props) => {
     }
   }, [socket])
 
-  return <MessageComponent {...props} messages={messages} />
+  return (
+    <MessageComponent {...props} messages={messages} currentUserId={currentUserId} />
+  )
 }
 
 export default MessageHandler

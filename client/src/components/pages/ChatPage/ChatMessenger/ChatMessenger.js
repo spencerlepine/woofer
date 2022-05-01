@@ -55,6 +55,7 @@ const ChatMessenger = () => {
                       socket={socket}
                       chatId={roomId}
                       MessageComponent={Messages}
+                      currentUserId={userDetails["uid"] || userDetails["userId"]}
                     />
                     <MessageInput socket={socket} />
                   </div>
