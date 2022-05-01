@@ -56,6 +56,7 @@ const generateMoreQueueMatches = (userId) => {
       const filteredUsers = []
 
       allZipcodeUsers.forEach((userIdStr) => {
+        // Not previously matched
         if (matchRecord[userIdStr] === undefined) {
           filteredUsers.push(userIdStr)
         }
@@ -67,6 +68,42 @@ const generateMoreQueueMatches = (userId) => {
       const queueSet = new Set(filteredUsers)
       const newMatchQueue = Array.from(queueSet).slice(0, MAX_QUEUE_ADDITION_LENGTH)
       return newMatchQueue
+    })
+    .then((uniqueUserList) => {
+      const filteredGenderUsers = []
+
+      const genderChecks = () =>
+        Promise.all(
+          uniqueUserList.map((userIdStr) =>
+            getModelDocumentById("DogUser", "userId", userId).then((user) => {
+              let validPrefenceStatus = false
+              if (user && user["gender"] && user["preference"]) {
+                if (
+                  userProfile["preference"] === user["gender"] &&
+                  user["preference"] === userProfile["gender"]
+                ) {
+                  validPrefenceStatus = true
+                }
+              }
+              return {
+                validPrefenceStatus,
+                userId: userIdStr,
+              }
+            })
+          )
+        )
+
+      return genderChecks().then((genderCheckObjects) => {
+        const validFiltered = []
+
+        genderCheckObjects.forEach(({ validPrefenceStatus, userId }) => {
+          if (validPrefenceStatus) {
+            validFiltered.push(userId)
+          }
+        })
+
+        return validFiltered
+      })
     })
     .then((finalQueueList) => {
       return getModelDocumentById("MatchQueue", "userId", userId)
