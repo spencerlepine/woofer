@@ -65,15 +65,16 @@ export const fetchChatHistory = (
 }
 
 export const removeUserFromChat = (
-  userId,
+  thisUserId,
+  thatUserId,
   chatId,
   successCallback,
   failCallback = () => {}
 ) => {
-  const params = { userId, chatId }
+  const params = { thisUserId, thatUserId, chatId }
 
   axios
-    .get(SERVER_URL + "/api/chats/remove", { params })
+    .delete(SERVER_URL + "/api/chats/delete", { params })
     .then((response) => {
       successCallback(response.data)
     })

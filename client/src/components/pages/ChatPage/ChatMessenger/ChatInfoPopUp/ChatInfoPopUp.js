@@ -15,13 +15,13 @@ const ChatInfoPopUp = ({
   const history = useHistory()
 
   const handleChatDelete = () => {
-    chatsAPI.removeUserFromChat(userId, chatId, () => {
+    chatsAPI.removeUserFromChat(userId, otherUserId, chatId, () => {
       history.push(ROUTES.HOME)
     })
   }
 
   const handleBlock = () => {
-    chatsAPI.removeUserFromChat(userId, chatId, () => {})
+    chatsAPI.removeUserFromChat(userId, otherUserId, chatId, () => {})
     const body = {
       thisUserId: userId,
       thatUserId: otherUserId,
