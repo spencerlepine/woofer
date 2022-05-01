@@ -160,40 +160,6 @@ export const deleteAccount = (userId, successCallback, failCallback = () => {}) 
   }
 }
 
-// TODO
-// const email = mockUser[DATA_KEYS["USER_EMAIL"]]
-// const displayName = mockUser[DATA_KEYS["USER_NAME"]]
-// const password = "123password$$$"
-// createUserWithEmailAndPassword(displayName, email, password, mockUser, () => {
-//   console.log("signed up this user")
-// })
-
-// createUserWithEmailAndPassword(mockUserB[DATA_KEYS["USER_NAME"]], mockUserB[DATA_KEYS["USER_EMAIL"]], password, mockUserB, () => {
-//   console.log("signed up this userB")
-// })
-
-// export const updateProfilePic = (newFile, successCb) => {
-//   if (!newFile) {
-//     return;
-//   }
-
-//   const user = (auth.currentUser || {});
-//   const storageRef = storage.ref(`${user.uid}/profilePicture/avatar.png`);
-
-//   storageRef
-//     .put(newFile)
-//     .then(() => {
-//       storageRef.getDownloadURL().then(url => {
-//         user.updateProfile({
-//           photoURL: url,
-//         });
-
-//         successCb(url);
-//       });
-//     })
-//     .catch(error => console.log(error));
-// };
-
 export const signOut = () => {
   return auth.signOut().catch((error) => console.log(error))
 }
@@ -206,21 +172,3 @@ export const sendPasswordResetEmail = (email, successCb = () => {}) => {
     })
     .catch((error) => console.log(error))
 }
-
-// export const updateEmail = (email, successCb) => {
-//   auth.currentUser
-//     .updateEmail(email)
-//     .then(() => {
-//       successCb(true);
-//     })
-//     .catch(error => console.log(error));
-// };
-
-// export const updatePassword = (password, successCb) => {
-//   auth.currentUser
-//     .updatePassword(password)
-//     .then(() => {
-//       successCb(true);
-//     })
-//     .catch(error => console.log(error));
-// };
