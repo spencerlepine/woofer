@@ -12,7 +12,9 @@ const fetchPossibleMatch = (req, res) => {
   return gatherUserMatchQueue(userId)
     .then(({ matchQueue: userMatchQueue }) => {
       if (userMatchQueue.length <= QUEUE_COUNT_MIN) {
-        return generateMoreQueueMatches(userId).then(({ matchQueue }) => matchQueue)
+        return generateMoreQueueMatches(userId).then(({ matchQueue }) => {
+          return matchQueue
+        })
       }
 
       return userMatchQueue
@@ -36,13 +38,14 @@ const fetchPossibleMatch = (req, res) => {
         userProfile: resultProfile,
       })
     })
-    .catch((err) =>
+    .catch((err) => {
+      console.error(err)
       res.status(500).json({
         userProfile: {},
         message: "Unable to generate possible match",
         error: err,
       })
-    )
+    })
 }
 
 module.exports = fetchPossibleMatch
