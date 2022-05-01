@@ -8,8 +8,8 @@ const MessageInput = ({ socket }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (value !== "") {
-      const filteredString = value.replace(/[^a-zA-Z]/g, "")
-      const trimmedString = filteredString.substring(0, 255)
+      // const filteredString = value.replace(/[^(a-zA-Z)+(!@#$%^&*\())+]/g, "")
+      const trimmedString = value.substring(0, 255)
       socket.emit("message", trimmedString)
       setValue("")
     }
