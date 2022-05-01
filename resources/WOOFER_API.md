@@ -1,106 +1,370 @@
-`POST signup`
+# Woofer API Documentation
 
-**Body**
+### Matches
 
-| Key   | Type   |
-| ----- | ------ |
-| id    | string |
-| email | string |
+- [`GET /api/matches/generate`](#generate-possible-match-user)
+- [`POST /api/matches/swipe`](#record-user-match-swipe-choice)
+- [`GET /api/matches/status`](#get-current-user-pair-match-status)
+- [`GET /api/matches/queue`](#get-user-match-queue)
 
-`POST zipcodes/add`
+### Zipcodes
 
-**Body**
+- [`POST /api/zipcodes/add`](#add-user-to-zipcode-pool)
+- [`DELETE /api/zipcodes/remove`](#remove-user-from-zipcode-pool)
 
-| Key     | Type   |
-| ------- | ------ |
-| id      | string |
-| zipcode | number |
+### Users
 
-`DELETE zipcodes/remove`
+- [`GET /api/profile`](#get-user-profile)
+- [`GET /api/profile/details`](#get-entire-user-profile-record)
+- [`POST /api/profile/details`](#update-user-profile-record)
+- [`DELETE /api/profile/details`](#delete-user-profile-record)
 
-**Body**
+### Signup
 
-| Key     | Type   |
-| ------- | ------ |
-| id      | string |
-| zipcode | number |
+- [`POST /api/signup`](#sign-up-user)
 
-`GET matches/generate`
+### Chats
 
-**Params**
+- [`GET /api/chats/fetch`](#get-user-chats)
 
-| Key | Type   |
-| --- | ------ |
-| id  | string |
+### Status
 
-**Response**
+- [`GET /api/status`](#verify-server-status)
 
-| Key          | Type   |
-| ------------ | ------ |
-| user_profile | object |
+---
 
-`POST matches/swipe`
+# Error Response
 
-**Body**
+**Status Code:** `Variable`
 
-| Key          | Type  |
-| ------------ | ----- |
-| this_user_id | array |
-| that_user_id | array |
-| status       | any   |
+#### Response Body:
 
-**Response**
+```json
+{
+  "message": "This endpoint threw an error!",
+  "error": "User profile does not have a gender"
+}
+```
 
-| Key          | Type   |
-| ------------ | ------ |
-| chat_id      | string |
-| user_profile | object |
+---
 
-`GET profile`
+# Matches
 
-**Params**
+## Generate Possible Match User
 
-| Key | Type   |
-| --- | ------ |
-| id  | string |
+**URL:** `/api/matches/generate`
 
-**Response**
+**Method:** `GET`
 
-| Key          | Type   |
-| ------------ | ------ |
-| user_profile | object |
+#### Params
 
-`GET profile/details`
+```json
+{
+  "userId": "abc1234"
+}
+```
 
-**Params**
+### Success Response
 
-| Key | Type   |
-| --- | ------ |
-| id  | string |
+**Code:** `200 OK`
 
-**Response**
+```json
+{
+  "userProfile": {
+    "userId": "abc1234",
+    "gender": "Male",
+    "...": "..."
+  }
+}
+```
 
-| Key          | Type   |
-| ------------ | ------ |
-| user_profile | object |
+## Record User Match Swipe Choice
 
-`POST profile/details`
+**URL:** `/api/matches/swipe`
 
-**Body**
+**Method:** `POST`
 
-| Key | Type   |
-| --- | ------ |
-| id  | string |
+#### Body
 
-**Body (optional)**
+```json
+{
+  "thisUserId": "abc1234",
+  "thatUserId": "efg6578",
+  "status": "accept" // "accept", "reject"
+}
+```
 
-| Key | Type |
-| --- | ---- |
+### Success Response
 
-`DELETE profile/details`
+**Code:** `201 Created`
 
-**Body**
+## Get Current User Pair Match Status
 
-| Key | Type   |
-| --- | ------ |
-| id  | string |
+**URL:** `/api/matches/status`
+
+**Method:** `GET`
+
+#### Params
+
+```json
+{
+  "thisUserId": "abc1234",
+  "thatUserId": "efg6578"
+}
+```
+
+### Success Response
+
+**Code:** `200 OK`
+
+```json
+{
+  "abc1234": "accept", // "accept", "reject", "none"
+  "efg6578": "none" // "accept", "reject", "none"
+}
+```
+
+## Get User Match Queue
+
+**URL:** `/api/matches/queue`
+
+**Method:** `GET`
+
+#### Params
+
+```json
+{
+  "userId": "abc1234"
+}
+```
+
+### Success Response
+
+**Code:** `200 OK`
+
+```json
+{
+  "userQueue":  [<userId>, <userId>, <userId>] // (strings)
+}
+```
+
+# Zipcodes
+
+## Add User To ZipCode Pool
+
+**URL:** `/api/zipcodes/add`
+
+**Method:** `POST`
+
+#### Body
+
+```json
+{
+  "userId": "abc1234",
+  "zipcode": "10001"
+}
+```
+
+### Success Response
+
+**Code:** `201 Created`
+
+## Remove User From ZipCode Pool
+
+**URL:** `/api/zipcodes/remove`
+
+**Method:** `DELETE`
+
+#### Body
+
+```json
+{
+  "userId": "abc1234",
+  "zipcode": "10001"
+}
+```
+
+### Success Response
+
+**Code:** `201 Created`
+
+# Users
+
+## Get User Profile
+
+**URL:** `/api/profile`
+
+**Method:** `GET`
+
+#### Params
+
+```json
+{
+  "userId": "abc1234"
+}
+```
+
+### Success Response
+
+**Code:** `200 OK`
+
+```json
+{
+  "userProfile": {
+    "userId": "abc1234",
+    "gender": "Male",
+    "...": "..."
+  }
+}
+```
+
+## Get Entire User Profile Record
+
+**URL:** `/api/profile/details`
+
+**Method:** `GET`
+
+#### Params
+
+```json
+{
+  "userId": "abc1234"
+}
+```
+
+### Success Response
+
+**Code:** `200 OK`
+
+```json
+{
+  "userProfile": {
+    "userId": "abc1234",
+    "gender": "Male",
+    "zipcodes": [],
+    "chats": [],
+    "...": "..."
+  }
+}
+```
+
+## Update User Profile Record
+
+**URL:** `/api/profile/details`
+
+**Method:** `POST`
+
+#### Body
+
+```json
+{
+  "userId": "abc1234",
+  "firstName": "newFirstName",
+  "lastName": "newLastName",
+  "preference": "newGenderPreference",
+  "...": "..."
+}
+```
+
+### Success Response
+
+**Code:** `201 Created`
+
+```json
+{
+  "userProfile": {
+    "userId": "abc1234",
+    "gender": "Male",
+    "...": "..."
+  }
+}
+```
+
+## Delete User Profile Record
+
+**URL:** `/api/profile/details`
+
+**Method:** `DELETE`
+
+#### Params
+
+```json
+{
+  "userId": "abc1234"
+}
+```
+
+### Success Response
+
+**Code:** `200 OK`
+
+# Signup
+
+## Sign Up User
+
+**URL:** `/api/signup`
+
+**Method:** `POST`
+
+#### Body
+
+```json
+{
+  "userId": "abc1234",
+  "email": "example@gmail.com"
+}
+```
+
+### Success Response
+
+**Code:** `201 Created`
+
+# Chats
+
+## Get User Chats
+
+**URL:** `/api/chats/fetch`
+
+**Method:** `GET`
+
+#### Body
+
+```json
+{
+  "userId": "abc1234"
+}
+```
+
+### Success Response
+
+**Code:** `200 OK`
+
+```json
+{
+  "chats": [
+    {
+      "chatId": "ajb9845un",
+      "otherUserId": "efg5678"
+    },
+    {}
+  ]
+}
+```
+
+# Status
+
+## Verify Server Statuss
+
+**URL:** `/api/status`
+
+**Method:** `GET`
+
+### Success Response
+
+**Code:** `200 OK`
+
+```json
+{
+  "status": "running"
+}
+```
