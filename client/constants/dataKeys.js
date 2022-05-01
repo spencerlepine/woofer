@@ -25,7 +25,7 @@ const DATA_KEYS = {
   CHAT_ID: "chat_id",
   CHAT_INFO: "chat_info",
   CHAT_USERS: "chat_users",
-  CHAT_STARTDATE: "creation_date",
+  CHAT_STARTDATE: "creationDate",
   MATCH_STATUS: "status",
   USER_MATCHES: "match_records",
   MATCH_ACCEPT: "accept",

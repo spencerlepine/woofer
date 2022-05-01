@@ -25,7 +25,7 @@ jest.mock("currentUser", () => ({
       CHAT_ID: "chat_id",
       CHAT_INFO: "chat_info",
       CHAT_USERS: "chat_users",
-      CHAT_STARTDATE: "creation_date",
+      CHAT_STARTDATE: "creationDate",
       MATCH_STATUS: "status",
       USER_MATCHES: "match_records",
       MATCH_ACCEPT: "accept",
@@ -37,7 +37,7 @@ jest.mock("currentUser", () => ({
 
     return {
       uid: "k3nQJ2a9fMcDIku6wBZObXMjpYo1",
-      [DATA_KEYS["USER_ID"]]: "1234asdfuasdf",
+      ["userId"]: "1234asdfuasdf",
       [DATA_KEYS["USER_EMAIL"]]: "johndoe@gmail.com",
       [DATA_KEYS["USER_NAME"]]: "john124412",
       [DATA_KEYS["USER_FIRST_NAME"]]: "John",

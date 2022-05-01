@@ -27,7 +27,7 @@ const SampleChat = () => {
     const newSocket = io(`http://${window.location.hostname}:5000`, {
       query: {
         userName: userDetails[DATA_KEYS["USER_FIRST_NAME"]],
-        userId: userDetails["uid"] || userDetails[DATA_KEYS["USER_ID"]],
+        userId: userDetails["uid"] || userDetails["userId"],
       },
     })
     newSocket.emit("create", validRoom)

@@ -28,7 +28,7 @@ export const fetchAllUserChats = (
   successCallback,
   failCallback = () => {}
 ) => {
-  const params = { [DATA_KEYS["USER_ID"]]: userId }
+  const params = { ["userId"]: userId }
 
   axios
     .get(SERVER_URL + "/api/chats/fetch", { params })

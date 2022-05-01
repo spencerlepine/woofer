@@ -48,7 +48,7 @@ export const createUserWithEmailAndPassword = (
 
       const dataWithUid = {
         ...userData,
-        [DATA_KEYS["USER_ID"]]: user.uid,
+        ["userId"]: user.uid,
       }
 
       return axios.post(SERVER_URL + url, dataWithUid)
@@ -67,7 +67,7 @@ export const fetchUserProfileRecord = (successCb, failCallback = () => {}) => {
     const { uid } = auth.currentUser
     const url = endpointURLStr(["PROFILE", "DETAILS"], "GET")
     const params = {
-      [DATA_KEYS["USER_ID"]]: uid,
+      ["userId"]: uid,
     }
 
     axios
@@ -86,7 +86,7 @@ export const fetchUserProfileRecord = (successCb, failCallback = () => {}) => {
 export const fetchProfileRecord = (userId, successCb, failCallback = () => {}) => {
   const url = endpointURLStr(["PROFILE", "DETAILS"], "GET")
   const params = {
-    [DATA_KEYS["USER_ID"]]: userId,
+    ["userId"]: userId,
   }
 
   axios

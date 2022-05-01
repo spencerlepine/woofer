@@ -51,7 +51,7 @@ const ImagesTab = ({
   madeChange,
   setMadeChange,
 }) => {
-  const userId = currentUser[[DATA_KEYS["USER_ID"]]]
+  const userId = currentUser[["userId"]]
   const images = extractUserImages(formEntries)
 
   const min = 0

@@ -19,21 +19,21 @@ const ChatList = () => {
   const validChats = accountDetails[chatsKey] || []
 
   const handleRefresh = () => {
-    if (currentUser && currentUser[DATA_KEYS["USER_ID"]]) {
-      const userId = currentUser[DATA_KEYS["USER_ID"]]
+    if (currentUser && currentUser["userId"]) {
+      const userId = currentUser["userId"]
       fetchUserChats(userId)
     }
   }
 
   useEffect(() => {
-    if (currentUser && currentUser[DATA_KEYS["USER_ID"]]) {
+    if (currentUser && currentUser["userId"]) {
       handleRefresh()
     }
   }, [currentUser])
 
   // const TempCreateBtn = () => {
   //   const handleCreateChat = () => {
-  //     const thisUserId = currentUser["uid"] || currentUser[DATA_KEYS["USER_ID"]]
+  //     const thisUserId = currentUser["uid"] || currentUser["userId"]
   //     const thatUserId = "PuBuHLn9fyVfAnLQNcPgCPG7vBZ2"
   //     chatsAPI.createChat(thisUserId, thatUserId)
   //   }

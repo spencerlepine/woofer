@@ -14,7 +14,7 @@ export const ENDPOINT_ROUTES = {
   //     [OPT_KEYS]: [DATA_KEYS["USER_NAME"]],
   //   },
   //   "GET": {
-  //     [PARAM_KEYS]: [DATA_KEYS["USER_ID"]],
+  //     [PARAM_KEYS]: ["userId"],
   //     [RESPONSE_KEYS]: [
   //         [DATA_KEYS["USER_PROFILE"]],
   //     ]
@@ -55,7 +55,7 @@ export const ENDPOINT_ROUTES = {
     QUEUE: {
       URL: "queue",
       GET: {
-        [PARAM_KEYS]: [DATA_KEYS["USER_ID"]],
+        [PARAM_KEYS]: ["userId"],
       },
     },
     STATUS: {
@@ -67,7 +67,7 @@ export const ENDPOINT_ROUTES = {
     GENERATE: {
       URL: "generate",
       GET: {
-        [PARAM_KEYS]: [DATA_KEYS["USER_ID"]],
+        [PARAM_KEYS]: ["userId"],
         [RESPONSE_KEYS]: [DATA_KEYS["USER_PROFILE"]],
       },
     },
@@ -86,17 +86,17 @@ export const ENDPOINT_ROUTES = {
   PROFILE: {
     URL: "profile",
     GET: {
-      [PARAM_KEYS]: [DATA_KEYS["USER_ID"]],
+      [PARAM_KEYS]: ["userId"],
       [RESPONSE_KEYS]: [DATA_KEYS["USER_PROFILE"]],
     },
     DETAILS: {
       URL: "details",
       GET: {
-        [PARAM_KEYS]: [DATA_KEYS["USER_ID"]],
+        [PARAM_KEYS]: ["userId"],
         [RESPONSE_KEYS]: [DATA_KEYS["USER_PROFILE"]],
       },
       POST: {
-        [BODY_KEYS]: [DATA_KEYS["USER_ID"]],
+        [BODY_KEYS]: ["userId"],
         [OPT_KEYS]: [
           [DATA_KEYS["USER_NAME"]],
           [DATA_KEYS["USER_GENDER"]],
@@ -112,7 +112,7 @@ export const ENDPOINT_ROUTES = {
         [RESPONSE_KEYS]: [DATA_KEYS["USER_PROFILE"]],
       },
       DELETE: {
-        [BODY_KEYS]: [DATA_KEYS["USER_ID"]],
+        [BODY_KEYS]: ["userId"],
       },
     },
   },

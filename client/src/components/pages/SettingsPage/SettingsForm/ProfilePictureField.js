@@ -20,7 +20,7 @@ const ImagesTab = ({
   madeChange,
   setMadeChange,
 }) => {
-  const userId = currentUser[[DATA_KEYS["USER_ID"]]]
+  const userId = currentUser[["userId"]]
   const profileKey = DATA_KEYS["USER_PROFILE_PIC"]
   const profilePic = accountDetails[profileKey]
 

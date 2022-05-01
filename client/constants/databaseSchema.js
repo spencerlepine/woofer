@@ -8,7 +8,7 @@ const dateRegex = new RegExp(
 
 const schema = (Joi) => {
   const outputObj = {
-    [DATA_KEYS["USER_ID"]]: Joi.string()
+    ["userId"]: Joi.string()
       .pattern(new RegExp(/[a-z0-9]/))
       .min(3)
       .max(30),
@@ -63,15 +63,15 @@ const schema = (Joi) => {
       .max(10)
       .pattern(new RegExp(/[0-9-]/)),
     [DATA_KEYS["CHAT_ID"]]: Joi.string().alphanum(),
-    [DATA_KEYS["CHAT_STARTDATE"]]: Joi.string().pattern(dateRegex),
+    creationDate: Joi.string().pattern(dateRegex),
     [DATA_KEYS["PICTURE"]]: Joi.string(), //.uri().max(255),
     [DATA_KEYS["MATCH_STATUS"]]: Joi.string().valid(...["accept", "reject"]),
   }
 
   outputObj[DATA_KEYS["USER_PROFILE_PIC"]] = outputObj[DATA_KEYS["PICTURE"]]
 
-  outputObj[DATA_KEYS["THAT_USER_ID"]] = outputObj[DATA_KEYS["USER_ID"]]
-  outputObj[DATA_KEYS["THIS_USER_ID"]] = outputObj[DATA_KEYS["USER_ID"]]
+  outputObj[DATA_KEYS["THAT_USER_ID"]] = outputObj["userId"]
+  outputObj[DATA_KEYS["THIS_USER_ID"]] = outputObj["userId"]
 
   outputObj[DATA_KEYS["USER_ZIPCODES"]] = Joi.array().items(
     outputObj[DATA_KEYS["ZIPCODE"]]
@@ -80,14 +80,12 @@ const schema = (Joi) => {
     outputObj[DATA_KEYS["PICTURE"]]
   )
 
-  outputObj[DATA_KEYS["CHAT_USERS"]] = Joi.array().items(
-    outputObj[DATA_KEYS["USER_ID"]]
-  )
+  outputObj[DATA_KEYS["CHAT_USERS"]] = Joi.array().items(outputObj["userId"])
 
   const chatInfoObj = {
     [DATA_KEYS["CHAT_ID"]]: outputObj[DATA_KEYS["CHAT_ID"]],
     [DATA_KEYS["CHAT_USERS"]]: outputObj[DATA_KEYS["CHAT_USERS"]],
-    [DATA_KEYS["CHAT_STARTDATE"]]: outputObj[DATA_KEYS["CHAT_STARTDATE"]],
+    creationDate: outputObj["creationDate"],
   }
 
   outputObj[DATA_KEYS["CHAT_INFO"]] = Joi.object().keys(chatInfoObj).unknown()
@@ -97,7 +95,7 @@ const schema = (Joi) => {
   )
 
   const userProfileObj = {
-    [DATA_KEYS["USER_ID"]]: outputObj[DATA_KEYS["USER_ID"]].required(),
+    ["userId"]: outputObj["userId"].required(),
     [DATA_KEYS["USER_NAME"]]: outputObj[DATA_KEYS["USER_NAME"]].required(),
     [DATA_KEYS["USER_FIRST_NAME"]]:
       outputObj[DATA_KEYS["USER_FIRST_NAME"]].required(),
