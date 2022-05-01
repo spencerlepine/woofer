@@ -4,39 +4,26 @@ const generateMoreQueueMatches = require("./index")
 const userToZipPoolDoc = require("../../zipcodes/userToZipPoolDoc")
 
 describe("generateMoreQueueMatches controller helper", () => {
-  // describe("with invalid arguments", () => {
-  //   test("should return a promise", () => {
-  //     const result = generateMoreQueueMatches()
-  //     expect(result.constructor).toBe(Promise)
-  //   })
+  describe("with invalid arguments", () => {
+    test("should return a promise", () => {
+      const result = generateMoreQueueMatches()
+      expect(result.constructor).toBe(Promise)
+    })
 
-  //   test("should throw an error with invalid arguments", (done) => {
-  //     generateMoreQueueMatches()
-  //       .catch((err) => {
-  //         expect(err).toBeTruthy()
-  //         done(err)
-  //       })
-  //       .then(() => {
-  //         done()
-  //       })
-  //   })
-  // })
+    test("should throw an error with invalid arguments", (done) => {
+      generateMoreQueueMatches()
+        .catch((err) => {
+          expect(err).toBeTruthy()
+          done(err)
+        })
+        .then(() => {
+          done()
+        })
+    })
+  })
 
   describe("with valid arguments", () => {
     const userId = mockUser["userId"]
-
-    // test("should resolve with user match record", (done) => {
-    //   signupMockUser(mockUser)
-    //     .then(() => generateMoreQueueMatches(userId))
-    //     .then((result) => {
-    //       expect(result).toBeDefined()
-    //       expect(result).toHaveProperty("matchQueue")
-    //       const { matchQueue } = result
-    //       expect(Array.isArray(matchQueue)).toBeTruthy()
-    //       done()
-    //     })
-    //     .catch(done)
-    // })
 
     test("should produce list of userIds given populated zipcode pool", (done) => {
       const zipcode = "10001"

@@ -3,7 +3,7 @@ import constants from "config/constants"
 import useAuth, { AuthProvider } from "context/AuthContext/AuthContext"
 const { DATA_KEYS } = constants
 
-export const Birthday = ({ setFormEntries, formEntries }) => {
+export const Birthday = ({ setFormEntries, formEntries, madeAChange }) => {
   const name = DATA_KEYS["USER_BIRTHDAY"]
   const placeholder = "Birthday"
   const type = "date"
@@ -12,6 +12,7 @@ export const Birthday = ({ setFormEntries, formEntries }) => {
     const dateVal = e.target.value
     const [year, month, day] = dateVal.split(/-/)
     const formattedDate = [day, month, year].join("/")
+    madeAChange()
 
     setFormEntries((prevEntries) => ({
       ...prevEntries,

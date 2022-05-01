@@ -4,7 +4,7 @@ const gatherUserMatchQueue = (userId) => {
   return getModelDocumentById("MatchQueue", "userId", userId).then((queueRecord) => {
     if (queueRecord && queueRecord["matchQueue"]) {
       return {
-        matchQueue,
+        matchQueue: queueRecord["matchQueue"],
       }
     } else {
       return {

@@ -95,7 +95,6 @@ const generateMoreQueueMatches = (userId) => {
 
       return genderChecks().then((genderCheckObjects) => {
         const validFiltered = []
-
         genderCheckObjects.forEach(({ validPrefenceStatus, userId }) => {
           if (validPrefenceStatus) {
             validFiltered.push(userId)
