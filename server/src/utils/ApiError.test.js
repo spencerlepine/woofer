@@ -7,7 +7,6 @@ describe("ApiError util function", () => {
 
   test("should instantiate a class", () => {
     const newError = new ApiError()
-    console.log(newError)
     expect(newError).toBeTruthy()
 
     const anotherError = new ApiError(500, "", true, {})
