@@ -63,3 +63,45 @@ export const fetchChatHistory = (
       failCallback(error)
     })
 }
+
+export const removeUserFromChat = (
+  thisUserId,
+  thatUserId,
+  chatId,
+  successCallback,
+  failCallback = () => {}
+) => {
+  const params = { thisUserId, thatUserId, chatId }
+
+  axios
+    .delete(SERVER_URL + "/api/chats/delete", { params })
+    .then((response) => {
+      successCallback(response.data)
+    })
+    .catch((error) => {
+      console.error(error)
+      createNotif(error)
+      failCallback(error)
+    })
+}
+
+export const fetchLastChatMessage = (
+  chatId,
+  successCallback,
+  failCallback = () => {}
+) => {
+  const params = { chatId }
+
+  axios
+    .get(SERVER_URL + "/api/chats/last", { params })
+    .then((response) => {
+      const { data } = response
+      const { message } = data
+      successCallback(message || {})
+    })
+    .catch((error) => {
+      console.error(error)
+      createNotif(error)
+      failCallback(error)
+    })
+}

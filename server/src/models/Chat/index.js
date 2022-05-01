@@ -5,6 +5,9 @@ const chatSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  latestMessage: {
+    type: Object,
+  },
   chatMessages: {
     type: Array,
     required: true,

@@ -25,6 +25,10 @@ const signupFields = [
     name: "password",
     placeholder: "Password",
   },
+  {
+    name: "confirmPassword",
+    placeholder: "Confirm Password",
+  },
 ]
 
 const SignupPage = () => {
@@ -37,8 +41,9 @@ const SignupPage = () => {
 
     const nameValid = formEntries["firstName"].length <= 15
     const usernameValid = formEntries["lastName"].length <= 15
+    const passwordsMatch = formEntries["password"] === formEntries["confirmPassword"]
 
-    if (formCompleted) {
+    if (formCompleted && nameValid && usernameValid && passwordsMatch) {
       signupUser(
         formEntries["firstName"],
         formEntries["lastName"],

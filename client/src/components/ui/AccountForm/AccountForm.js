@@ -41,8 +41,8 @@ const AccountForm = (props) => {
   return (
     <div className="hero-body">
       <div className="container">
-        <div className="columns is-centered is-5-tablet is-4-desktop is-3-widescreen">
-          <div className="column is-5-tablet is-4-desktop is-3-widescreen">
+        <div className="columns is-centered is-half">
+          <div className="column is-half">
             <form className="box has-text-centered">
               <div className="field has-text-centered">
                 <img

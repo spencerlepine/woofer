@@ -82,11 +82,9 @@ export const AuthProvider = ({ children }) => {
   }
 
   function updateProfilePic(newFile) {
-    // setLoading(true)
-    // authUser.updateProfilePic(newFile, (newImage) => {
-    //   console.log("TODO -> RETURN THE NEW IMAGE URL", newImage)
-    //   setLoading(false)
-    // })
+    // Updating the firebase profile picture value
+    // Not needed for now
+    // This is handle inside the component, stored in Firebase Storage then as a link in mongoDB
   }
 
   const logoutUser = () => {

@@ -1,4 +1,5 @@
 const { mockUser, mockUserB, signupMockUser } = global.testHelpers
+const { getModelDocumentById } = require("../../../models/modelHelpers")
 
 const removeUserFromChat = require("./index")
 const addUserToChat = require("../addUserToChat")
@@ -25,7 +26,7 @@ describe("removeUserFromChat controller helper", () => {
   describe("with valid arguments", () => {
     const mockChatId = "abc123jkl"
 
-    test("should resolve updated user profile", (done) => {
+    test("should resolve user profile without chat id", (done) => {
       signupMockUser(mockUser)
         .then(() => signupMockUser(mockUserB))
         .then(() =>
@@ -36,6 +37,15 @@ describe("removeUserFromChat controller helper", () => {
           expect(userProfile).toBeDefined()
           expect(userProfile).toHaveProperty("chats")
           expect(userProfile["chats"]).toEqual([])
+        })
+        .then(() => getModelDocumentById("DogUser", "userId", mockUser["userId"]))
+        .then((userProfile) => {
+          expect(userProfile).toBeDefined()
+          expect(userProfile).toHaveProperty("userId", mockUser["userId"])
+          expect(userProfile).toHaveProperty("chats")
+          const { chats } = userProfile
+          expect(Array.isArray(chats)).toBeTruthy()
+          expect(chats.length).toBe(0)
           done()
         })
         .catch(done)

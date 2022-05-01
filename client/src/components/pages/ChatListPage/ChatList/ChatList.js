@@ -13,6 +13,8 @@ const chatsKey = DATA_KEYS["USER_CHATS"]
 import useChats, { ChatsProvider } from "context/ChatsContext/ChatsContext"
 import useAuth from "context/AuthContext/AuthContext"
 
+import OpenChatLink from "./OpenChatLink/OpenChatLink"
+
 const ChatList = () => {
   const { availableChats, fetchUserChats, loading } = useChats()
   const { currentUser, accountDetails } = useAuth()
@@ -40,9 +42,9 @@ const ChatList = () => {
   )
 
   return (
-    <div className="hero-body">
-      <div className="container">
-        <div className="is-centered">
+    <div className="swiper container m-4">
+      <div className="columns is-centered">
+        <div className="column is-half">
           <h2 className="title is-2">Chats</h2>
 
           <header>
@@ -63,14 +65,7 @@ const ChatList = () => {
           </header>
 
           {validChats.map(({ chatId, otherUserId }, i) => (
-            <Link to={`${ROUTES.CHAT}/${chatId}`} key={i}>
-              <div className="card">
-                <header className="card-header">
-                  <p className="card-header-title">#{i}</p>
-                  <p className="card-header-title">Chat w/ userId: {otherUserId}</p>
-                </header>
-              </div>
-            </Link>
+            <OpenChatLink key={i} i={i} chatId={chatId} otherUserId={otherUserId} />
           ))}
         </div>
       </div>

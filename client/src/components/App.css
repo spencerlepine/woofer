@@ -66,3 +66,28 @@
   right: 4em;
   border-radius: 1em;
 }
+
+.profilePic img {
+  max-width: 128px;
+  max-height: 128px;
+  margin: auto;
+}
+
+.messagesWindow {
+  min-height: 200px;
+  max-height: 300px;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.chatProfilePic {
+  max-width: 64px;
+  max-height: 64px;
+  margin: auto;
+}
+
+.chatPic {
+  width: 64px;
+  height: 64px;
+}
