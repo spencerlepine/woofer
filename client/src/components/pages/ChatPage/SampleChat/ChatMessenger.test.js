@@ -1,21 +1,21 @@
 import React from "react"
 import { render, screen } from "utils/test-utils"
-import SampleChat from "./SampleChat"
+import ChatMessenger from "./ChatMessenger"
 
-describe("SampleChat", () => {
+describe("ChatMessenger", () => {
   test("should render without throwing an error", () => {
-    render(<SampleChat />)
+    render(<ChatMessenger />)
     expect(true).toBeTruthy()
   })
 
   test("should render send button", () => {
-    render(<SampleChat />)
+    render(<ChatMessenger />)
     const sendBtn = screen.getByText(/Send/i)
     expect(sendBtn).toBeInTheDocument()
   })
 
   test("should render message input", () => {
-    render(<SampleChat />)
+    render(<ChatMessenger />)
     const messageInput = screen.getByRole("textbox")
     expect(messageInput).toBeInTheDocument()
   })

@@ -12,7 +12,7 @@ const idKey = DATA_KEYS["USER_ID"]
 
 import { BiError } from "react-icons/bi"
 
-const SampleChat = () => {
+const ChatMessenger = () => {
   const { currentUser, accountDetails } = useAuth()
   const userDetails = {
     ...(currentUser || {}),
@@ -75,7 +75,7 @@ const SampleChat = () => {
 
 const WrappedChat = (props) => (
   <AuthProvider>
-    <SampleChat {...props} />
+    <ChatMessenger {...props} />
   </AuthProvider>
 )
 

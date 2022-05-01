@@ -51,7 +51,7 @@ const MissingInfoWarning = () => {
 
                   <button
                     className="delete"
-                    ariaLabel="delete"
+                    aria-label="delete"
                     onClick={hideWarning}
                   ></button>
                 </div>
