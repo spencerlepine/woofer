@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { uploadImageToFirebase, deleteImageFromFirebase } from "api/firebase"
 import FormWrapper from "components/ui/AccountFormWrapper/AccountFormWrapper"
 
+import { MdDelete as DeleteIcon } from "react-icons/md"
 import { BiImageAdd } from "react-icons/bi"
 
 import constants from "config/constants"
@@ -105,12 +106,12 @@ const ImagesTab = ({
 
   return (
     <>
-      <div className="tile is-ancestor">
+      <div className="">
         {images.map((imageSrc, i) => (
-          <div className="tile">
-            <div className="card" key={i}>
+          <div className="tile mx-auto" key={i}>
+            <div className="card">
               <div className="card-image">
-                <figure className="image is-128x128">
+                <figure className="image mx-auto is-128x128">
                   <img src={imageSrc} alt="User Thumbnail" />
                 </figure>
               </div>
@@ -119,20 +120,22 @@ const ImagesTab = ({
                 <button
                   onClick={(e) => scrollImage(e, imageSrc, i, -1)}
                   disabled={i === min}
-                  className="button is-secondary is-pulled-left"
+                  className="button is-info is-pulled-left"
                 >
                   {"<"}
                 </button>
 
                 <button
-                  className="delete is-medium p-2"
+                  className="button is-danger is-medium"
                   onClick={(e) => handleDelete(e, imageSrc)}
-                ></button>
+                >
+                  <DeleteIcon />
+                </button>
 
                 <button
                   onClick={(e) => scrollImage(e, imageSrc, i, 1)}
                   disabled={i === max}
-                  className="button is-secondary  is-pulled-right"
+                  className="button is-info is-pulled-right"
                 >
                   {">"}
                 </button>

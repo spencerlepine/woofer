@@ -10,7 +10,7 @@ import WooferLogo from "assets/WooferLogo.png"
 import useOutsideClick from "hooks/useOutsideClick/useOutsideClick"
 
 const Navbar = () => {
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 1000)
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024)
   const [showMobileNav, setShowMobileNav] = useState(false)
   const { logoutUser, currentUser } = useAuth()
   const popupRef = useRef(null)
@@ -18,7 +18,7 @@ const Navbar = () => {
   useOutsideClick(popupRef, () => setShowMobileNav(false))
 
   const handleResize = () => {
-    if (window.innerWidth < 1000) {
+    if (window.innerWidth < 1024) {
       setIsMobile(true)
     } else {
       setIsMobile(false)

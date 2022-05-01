@@ -102,39 +102,41 @@ export const ZipCodeList = ({ formEntries, setFormEntries, handleSubmit }) => {
       <h3 className="title is-4">Zipcodes</h3>
 
       <table className="table mx-auto">
-        {allUserZipCodes.map((zipcodeStr, i) => (
-          <tr className="list-item" key={i}>
+        <tbody>
+          {allUserZipCodes.map((zipcodeStr, i) => (
+            <tr className="list-item" key={i}>
+              <td>
+                <p className="title is-inline px-5 has-text-info">{zipcodeStr}</p>
+              </td>
+              <td>
+                <button
+                  className="button is-danger is-medium is-right"
+                  onClick={(e) => handleDeleteZipCode(e, zipcodeStr)}
+                >
+                  <DeleteIcon className="icon is-medium" />
+                </button>
+              </td>
+            </tr>
+          ))}
+
+          <tr className="">
             <td>
-              <p className="title is-inline px-5 has-text-info">{zipcodeStr}</p>
+              <input
+                onChange={handleChange}
+                type="name"
+                name="zipcode"
+                className={"input"}
+                value={zipcodeInput}
+                placeholder="Type ZipCode"
+              ></input>
             </td>
             <td>
-              <button
-                className="button is-danger is-medium is-right"
-                onClick={(e) => handleDeleteZipCode(e, zipcodeStr)}
-              >
-                <DeleteIcon className="icon is-medium" />
+              <button onClick={handleAddZipCode} className="button is-success p-2">
+                ADD
               </button>
             </td>
           </tr>
-        ))}
-
-        <tr className="">
-          <td>
-            <input
-              onChange={handleChange}
-              type="name"
-              name="zipcode"
-              className={"input"}
-              value={zipcodeInput}
-              placeholder="Type ZipCode"
-            ></input>
-          </td>
-          <td>
-            <button onClick={handleAddZipCode} className="button is-success p-2">
-              ADD
-            </button>
-          </td>
-        </tr>
+        </tbody>
       </table>
     </div>
   )

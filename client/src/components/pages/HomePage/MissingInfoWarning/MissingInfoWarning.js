@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import useAuth from "context/AuthContext/AuthContext"
 import { Link } from "react-router-dom"
 import * as ROUTES from "config/routeConstants"
@@ -34,6 +34,12 @@ const MissingInfoWarning = () => {
   const hideWarning = () => {
     setRenderWarning(false)
   }
+
+  useEffect(() => {
+    if (!hasNoPictures && !hasNoZipcodes) {
+      setRenderWarning(false)
+    }
+  }, [accountDetails])
 
   return (
     <>
