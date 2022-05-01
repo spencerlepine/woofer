@@ -23,7 +23,7 @@ const MatchModal = ({ user, chatId }) => {
     [DATA_KEYS["USER_FIRST_NAME"]]: firstName,
     [DATA_KEYS["USER_GENDER"]]: gender,
     [DATA_KEYS["USER_LAST_NAME"]]: lastName,
-    [DATA_KEYS["USER_BIRTHYEAR"]]: birthyear,
+    birthday: birthyear,
     [DATA_KEYS["USER_ZODIAC"]]: zodiac,
   } = user
 

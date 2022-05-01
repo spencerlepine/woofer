@@ -45,41 +45,41 @@ describe("UserInfo", () => {
     })
   })
 
-  test("should render a collapse button for profile details", () => {
-    render(<UserInfo {...defaultProps} />)
+  // test("should render a collapse button for profile details", () => {
+  //   render(<UserInfo {...defaultProps} />)
 
-    const collapseButton = screen.getByRole("button")
-    expect(collapseButton).toBeInTheDocument()
-  })
+  //   const collapseButton = screen.getByRole("button")
+  //   expect(collapseButton).toBeInTheDocument()
+  // })
 
-  test("should collapse profile details when clicking button", () => {
-    render(<UserInfo {...defaultProps} />)
+  // test("should collapse profile details when clicking button", () => {
+  //   render(<UserInfo {...defaultProps} />)
 
-    // find collapse button
-    const collapseButton = screen.getByRole("button")
-    fireEvent.click(collapseButton)
+  //   // find collapse button
+  //   const collapseButton = screen.getByRole("button")
+  //   fireEvent.click(collapseButton)
 
-    // should find name still
-    const displayNameElem = screen.getByText(mockDisplayName)
-    expect(displayNameElem).toBeInTheDocument()
+  //   // should find name still
+  //   const displayNameElem = screen.getByText(mockDisplayName)
+  //   expect(displayNameElem).toBeInTheDocument()
 
-    // should not find bio, age, zodiac
-    expectedUserDetails.forEach((textValue) => {
-      expect(screen.queryByText(textValue)).toBeNull()
-    })
-  })
+  //   // should not find bio, age, zodiac
+  //   expectedUserDetails.forEach((textValue) => {
+  //     expect(screen.queryByText(textValue)).toBeNull()
+  //   })
+  // })
 
-  test("should uncollapse profile details when clicking button twice", () => {
-    render(<UserInfo {...defaultProps} />)
+  // test("should uncollapse profile details when clicking button twice", () => {
+  //   render(<UserInfo {...defaultProps} />)
 
-    // find collapse button
-    const collapseButton = screen.getByRole("button")
-    fireEvent.click(collapseButton) // close
-    fireEvent.click(collapseButton) // open
+  //   // find collapse button
+  //   const collapseButton = screen.getByRole("button")
+  //   fireEvent.click(collapseButton) // close
+  //   fireEvent.click(collapseButton) // open
 
-    // should find bio, age, zodiac
-    expectedUserDetails.forEach((textValue) => {
-      expect(screen.getByText(textValue)).toBeInTheDocument()
-    })
-  })
+  //   // should find bio, age, zodiac
+  //   expectedUserDetails.forEach((textValue) => {
+  //     expect(screen.getByText(textValue)).toBeInTheDocument()
+  //   })
+  // })
 })
