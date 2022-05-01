@@ -1,7 +1,9 @@
+const { gatherChatHistory } = require("../gatherChatHistory")
 const { getModelDocumentById } = require("../../../models/modelHelpers")
 
-const fetchUserChats = (req, res) => {
-  const { chatId } = req.query
+const fetchChatHistory = (req, res) => {
+  const reqQuery = typeof req.query === "object" ? req.query : {}
+  const { chatId } = reqQuery
 
   return getModelDocumentById("Chat", "chatId", chatId)
     .then(({ chatMessages }) => {
@@ -11,10 +13,10 @@ const fetchUserChats = (req, res) => {
     })
     .catch((err) =>
       res.status(500).json({
-        message: "Unable to fetch user chats",
+        message: "Unable to find chat history",
         error: err,
       })
     )
 }
 
-module.exports = fetchUserChats
+module.exports = fetchChatHistory
