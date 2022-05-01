@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-// import { MdRefresh as RefreshIcon } from "react-icons/md"
+import { IoIosArrowForward as OpenIcon } from "react-icons/io"
 
 import * as ROUTES from "config/routeConstants"
 import * as userAPI from "api/account"
@@ -26,6 +26,14 @@ const extractDisplayName = (userObj) => {
   }
 }
 
+const formatValue = (str) => {
+  if (str.length > 25) {
+    return `${str.substring(0, 25)}...`
+  } else {
+    return str
+  }
+}
+
 const extractLastMessage = (message) => {
   const defaultMessage = {
     value: "Say Hi!",
@@ -33,6 +41,7 @@ const extractLastMessage = (message) => {
 
   if (message && message.value) {
     defaultMessage.value = message.value
+    defaultMessage.time = message.time
   }
 
   return defaultMessage
@@ -66,7 +75,7 @@ const OpenChatLink = ({ chatId, otherUserId, i }) => {
   const name = extractDisplayName(user)
   const profilePic = extractProfileImage(user)
 
-  const { value } = extractLastMessage(lastMessage)
+  const { value, time } = extractLastMessage(lastMessage)
 
   return (
     <>
@@ -75,8 +84,8 @@ const OpenChatLink = ({ chatId, otherUserId, i }) => {
       ) : (
         <Link to={`${ROUTES.CHAT}/${chatId}/${otherUserId}`}>
           <div className="card">
-            <header className="card-header">
-              <figure class="image is-32x32 my-auto pl-3">
+            <header className="card-header mx-auto pl-6 my-2">
+              <figure class="image chatPic my-auto pl-3">
                 <img
                   className="is-rounded chatProfilePic m-auto"
                   src={profilePic}
@@ -84,8 +93,24 @@ const OpenChatLink = ({ chatId, otherUserId, i }) => {
                 ></img>
               </figure>
 
-              <p className="card-header-title">{name}</p>
-              <p className="subtitle is-6 has-text-gray my-auto px-3">{value}</p>
+              <div className="">
+                <p className="card-header-title pb-0">{name}</p>
+                <p className="ml-3 subtitle is-6 has-text-gray-lighter my-auto px-3">
+                  {formatValue(value)}
+                </p>
+              </div>
+
+              <span className="is-pulled-right is-inline-block pt-2">
+                {time && (
+                  <p className="subtitle is-6 has-text-gray-lighter my-auto px-3 is-inline-block">{`${new Date(
+                    time
+                  ).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}`}</p>
+                )}
+                <OpenIcon className="is-inline-block" />
+              </span>
             </header>
           </div>
         </Link>

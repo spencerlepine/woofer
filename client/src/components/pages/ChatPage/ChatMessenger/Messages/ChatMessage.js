@@ -38,7 +38,10 @@ const ChatMessage = ({ message, currentUserId }) => {
         </span>
 
         <span className="block date is-size-7 has-text-grey">
-          {new Date(time).toLocaleTimeString()}
+          {new Date(time).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
         </span>
       </div>
     </div>
