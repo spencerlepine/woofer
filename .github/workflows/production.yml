@@ -34,7 +34,7 @@ jobs:
       - name: "🔧 Set up Node"
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 14
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
@@ -137,7 +137,7 @@ jobs:
       - name: "🔧 Set up Node"
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 14
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
