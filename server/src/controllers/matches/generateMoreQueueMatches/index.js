@@ -65,7 +65,7 @@ const generateMoreQueueMatches = (userId) => {
     })
     .then((filteredUsers) => {
       const queueSet = new Set(filteredUsers)
-      const newMatchQueue = Array.from(queueSet).slice(MAX_QUEUE_ADDITION_LENGTH)
+      const newMatchQueue = Array.from(queueSet).slice(0, MAX_QUEUE_ADDITION_LENGTH)
       return newMatchQueue
     })
     .then((finalQueueList) => {

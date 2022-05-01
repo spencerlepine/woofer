@@ -2,7 +2,7 @@ const { getModelDocumentById } = require("../../../models/modelHelpers")
 
 const accumulateZipPoolUsers = (zipcodesList) => {
   const getAllPoolUsers = Promise.all(
-    zipcodesList.map((zipcodeId) => {
+    zipcodesList.map((zipcodeId) =>
       getModelDocumentById("ZipcodePool", "zipcodeId", zipcodeId).then(
         (zipcodePoolDoc) => {
           if (zipcodePoolDoc && zipcodePoolDoc["zipcodeUsers"]) {
@@ -18,7 +18,7 @@ const accumulateZipPoolUsers = (zipcodesList) => {
           return []
         }
       )
-    })
+    )
   )
 
   return getAllPoolUsers.then((listOrArrays) => {

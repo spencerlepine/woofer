@@ -50,9 +50,28 @@ describe("fetchPossibleMatch controller", () => {
   })
 
   describe("with valid arguments", () => {
-    test("should resolve with a user profile", (done) => {
-      const mockZipcode = "10001"
+    const zipcode = "10001"
+    const mockUserC = new Object(mockUser)
+    mockUserC["preference"] = mockUser["gender"]
+    const mockUserD = new Object(mockUser)
+    mockUserD["preference"] = mockUser["gender"]
+    const mockUserE = new Object(mockUser)
+    mockUserE["preference"] = mockUser["gender"]
+    const mockUserF = new Object(mockUser)
+    mockUserF["preference"] = mockUser["gender"]
+    const mockUserG = new Object(mockUser)
+    mockUserG["preference"] = mockUser["gender"]
 
+    const mockUserIds = [
+      mockUserB,
+      mockUserC,
+      mockUserD,
+      mockUserE,
+      mockUserF,
+      mockUserG,
+    ].map((userObj) => userObj["userId"])
+
+    test("should resolve with a user profile", (done) => {
       const mockReq = {
         query: {
           userId: mockUser["userId"],
@@ -66,17 +85,29 @@ describe("fetchPossibleMatch controller", () => {
             expect(response).toHaveProperty("userProfile")
             const { userProfile } = response
             expect(userProfile).toBeTruthy()
-            expect(userProfile).toHaveProperty("userId", mockUserB["userId"])
-            expect(userProfile).toHaveProperty("gender", mockUserB["gender"])
+            expect(userProfile).toHaveProperty("userId")
+            const resultUserId = userProfile["userId"]
+            expect(mockUserIds.includes(resultUserId)).toBeTruthy()
+            expect(userProfile).toHaveProperty("gender")
             done()
           },
         }),
       }
 
       signupMockUser(mockUser)
+        .then(() => userToZipPoolDoc(mockUser["userId"], zipcode))
         .then(() => signupMockUser(mockUserB))
-        .then(() => userToZipPoolDoc(mockUser["userId"], mockZipcode))
-        .then(() => userToZipPoolDoc(mockUserB["userId"], mockZipcode))
+        .then(() => userToZipPoolDoc(mockUserB["userId"], zipcode))
+        .then(() => signupMockUser(mockUserC))
+        .then(() => userToZipPoolDoc(mockUserC["userId"], zipcode))
+        .then(() => signupMockUser(mockUserD))
+        .then(() => userToZipPoolDoc(mockUserD["userId"], zipcode))
+        .then(() => signupMockUser(mockUserF))
+        .then(() => userToZipPoolDoc(mockUserF["userId"], zipcode))
+        .then(() => signupMockUser(mockUserG))
+        .then(() => userToZipPoolDoc(mockUserG["userId"], zipcode))
+        .then(() => userToZipPoolDoc(mockUser["userId"], zipcode))
+        .then(() => userToZipPoolDoc(mockUserB["userId"], zipcode))
         .then(() => {
           return fetchPossibleMatch(mockReq, mockResolve)
         })

@@ -19,7 +19,7 @@ const fetchPossibleMatch = (req, res) => {
     })
     .then((updatedMatchQueue) => {
       if (updatedMatchQueue && updatedMatchQueue[0]) {
-        const possibleMatchUserId = updatedMatchQueue[0]["userId"]
+        const possibleMatchUserId = updatedMatchQueue[0]
 
         return getModelDocumentById("DogUser", "userId", possibleMatchUserId)
       } else {
