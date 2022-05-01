@@ -9,7 +9,7 @@ on:
 jobs:
 
   node_ci:
-    name: Node CI
+    name: 🧪 Node CI
     uses: ./.github/workflows/node_ci.yml
     with:
       ENVIRONMENT: CI
@@ -17,5 +17,5 @@ jobs:
       CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
   docker_ci:
-    name: Docker CI
+    name: 🧪 Docker CI
     uses: ./.github/workflows/docker_ci.yml
