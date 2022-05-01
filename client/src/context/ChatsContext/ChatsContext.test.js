@@ -11,6 +11,14 @@ describe("ChatsContext", () => {
       key: "fetchUserChats",
       targetInstance: Function,
     },
+    {
+      key: "otherUserDetails",
+      targetInstance: Object,
+    },
+    {
+      key: "fetchOtherUserDetails",
+      targetInstance: Function,
+    },
   ]
 
   testContextExports(ChatsProvider, useChats, expectedExports)

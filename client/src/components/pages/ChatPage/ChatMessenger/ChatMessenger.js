@@ -5,6 +5,8 @@ import MessageHandler from "./Messages/MessageHandler"
 import Messages from "./Messages/Messages"
 import MessageInput from "./MessageInput/MessageInput"
 
+import useChats, { ChatsProvider } from "context/ChatsContext/ChatsContext"
+
 import useAuth, { AuthProvider } from "context/AuthContext/AuthContext"
 import constants from "config/constants"
 const { DATA_KEYS } = constants
@@ -14,26 +16,45 @@ import { BiError } from "react-icons/bi"
 
 const ChatMessenger = () => {
   const { currentUser, accountDetails } = useAuth()
+  const { otherUserDetails, fetchOtherUserDetails } = useChats()
+
   const userDetails = {
     ...(currentUser || {}),
     ...(accountDetails || {}),
   }
 
   const [socket, setSocket] = useState(null)
-  const { roomId } = useParams()
+  const { roomId, otherUserId } = useParams()
 
   const validRoom = roomId || "developmentChat"
+  const userId = userDetails["uid"] || userDetails["userId"]
+
+  const otherUserName = `${otherUserDetails["firstName"]} ${otherUserDetails["lastName"]}`
+
+  const extractProfileImage = (userObj) => {
+    const missingImg =
+      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+    try {
+      const { profilePicture } = userObj
+      return profilePicture || missingImg
+    } catch (err) {
+      return missingImg
+    }
+  }
 
   useEffect(() => {
     const newSocket = io(`http://${window.location.hostname}:5000`, {
       query: {
-        name: `${userDetails["firstName"]} ${userDetails["lastName"]}`,
-        userId: userDetails["uid"] || userDetails["userId"],
+        name: userDetails["username"],
+        userId: userId,
       },
     })
     newSocket.emit("create", validRoom)
 
     setSocket(newSocket)
+
+    fetchOtherUserDetails(otherUserId)
+
     return () => newSocket.close()
   }, [setSocket, currentUser, accountDetails])
 
@@ -46,7 +67,17 @@ const ChatMessenger = () => {
               <>
                 <div className="columns">
                   <div className="column">
-                    <h1 className="title">Chatroom</h1>
+                    <span style={{ display: "inline-flex" }}>
+                      <figure class="image is-64x64">
+                        <img
+                          className="is-rounded chatProfilePic"
+                          src={extractProfileImage(otherUserDetails)}
+                          alt="Profile Picture"
+                        ></img>
+                      </figure>
+
+                      <h1 className="title my-auto px-2">{otherUserName}</h1>
+                    </span>
                   </div>
                 </div>
                 <div className="tile is-ancestor">
@@ -76,7 +107,9 @@ const ChatMessenger = () => {
 
 const WrappedChat = (props) => (
   <AuthProvider>
-    <ChatMessenger {...props} />
+    <ChatsProvider>
+      <ChatMessenger {...props} />
+    </ChatsProvider>
   </AuthProvider>
 )
 

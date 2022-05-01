@@ -11,7 +11,11 @@ const Routes = () => (
     <Route exact path={ROUTES.WELCOME} component={PAGES.WelcomePage} />
     <Route exact path={ROUTES.SETTINGS} component={PAGES.SettingsPage} />
     <Route exact path={ROUTES.CHAT_LIST} component={PAGES.ChatListPage} />
-    <Route exact path={`${ROUTES.CHAT}/:roomId`} component={PAGES.ChatPage} />
+    <Route
+      exact
+      path={`${ROUTES.CHAT}/:roomId/:otherUserId`}
+      component={PAGES.ChatPage}
+    />
     <Route exact path={ROUTES.PROFILE} component={PAGES.ProfilePage} />
     <Route
       exact

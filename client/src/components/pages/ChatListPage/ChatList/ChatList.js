@@ -63,7 +63,7 @@ const ChatList = () => {
           </header>
 
           {validChats.map(({ chatId, otherUserId }, i) => (
-            <Link to={`${ROUTES.CHAT}/${chatId}`} key={i}>
+            <Link to={`${ROUTES.CHAT}/${chatId}/${otherUserId}`} key={i}>
               <div className="card">
                 <header className="card-header">
                   <p className="card-header-title">#{i}</p>
