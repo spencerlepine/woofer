@@ -1,9 +1,10 @@
 const removeUserFromChat = require("../removeUserFromChat")
 
 const deleteChatRoom = (req, res) => {
-  const { thisUserId, thatUserId } = req.body
+  const reqQuery = typeof req.query === "object" ? req.query : {}
+  const { thisUserId, thatUserId, chatId } = reqQuery
 
-  removeUserFromChat(chatId, thisUserId)
+  return removeUserFromChat(chatId, thisUserId)
     .then(() => removeUserFromChat(chatId, thatUserId))
     .then(() => {
       res.status(200).json({
