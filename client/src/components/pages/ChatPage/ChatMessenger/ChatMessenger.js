@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import io from "socket.io-client"
+import { IoSettingsSharp as SettingsIcon } from "react-icons/io5"
 import MessageHandler from "./Messages/MessageHandler"
 import Messages from "./Messages/Messages"
 import MessageInput from "./MessageInput/MessageInput"
+import ChatInfoPopUp from "./ChatInfoPopUp/ChatInfoPopUp"
 
 import useChats, { ChatsProvider } from "context/ChatsContext/ChatsContext"
 
@@ -15,6 +17,7 @@ const idKey = DATA_KEYS["USER_ID"]
 import { BiError } from "react-icons/bi"
 
 const ChatMessenger = () => {
+  const [renderInfo, setRenderInfo] = useState(false)
   const { currentUser, accountDetails } = useAuth()
   const { otherUserDetails, fetchOtherUserDetails } = useChats()
 
@@ -77,6 +80,13 @@ const ChatMessenger = () => {
                       </figure>
 
                       <h1 className="title my-auto px-2">{otherUserName}</h1>
+
+                      <button
+                        className="button is-info my-auto"
+                        onClick={() => setRenderInfo(!renderInfo)}
+                      >
+                        <SettingsIcon />
+                      </button>
                     </span>
                   </div>
                 </div>
@@ -91,6 +101,14 @@ const ChatMessenger = () => {
                     <MessageInput socket={socket} />
                   </div>
                 </div>
+                {renderInfo && (
+                  <ChatInfoPopUp
+                    closePopup={() => setRenderInfo(false)}
+                    chatId={roomId}
+                    otherUserId={otherUserId}
+                    otherUserDetails={otherUserDetails}
+                  />
+                )}
               </>
             ) : (
               <div>
