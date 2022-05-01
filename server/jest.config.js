@@ -16,7 +16,7 @@ module.exports = {
         "<rootDir>/tests/utils/test-setup.js",
         "<rootDir>/config/jest.setup.js",
       ],
-      transformIgnorePatterns: ["node_modules/(?!.*?/es/.*\\.js)"],
+      transformIgnorePatterns: ["node_modules/(?!.*?/es/.*\\.js)", "tests/"],
     },
   ],
   preset: "@shelf/jest-mongodb",
