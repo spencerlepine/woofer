@@ -1,12 +1,12 @@
 // Change the document key in ONE place (ex, "_id" or "id")
 // DATA_KEYS_CONSTANTS Object
 const DATA_KEYS = {
-  USER_ID: "id",
-  USER_NAME: "name",
+  USER_ID: "userId",
+  USER_NAME: "username",
   USER_FIRST_NAME: "firstName",
   USER_LAST_NAME: "lastName",
-  USER_PROFILE_PIC: "profile_picture",
-  USER_ZODIAC: "zodiac_sign",
+  USER_PROFILE_PIC: "profilePicture",
+  USER_ZODIAC: "zodiac",
   USER_GENDER: "gender",
   USER_PREFERENCE: "preference",
   USER_GROUP: "group",
@@ -18,21 +18,21 @@ const DATA_KEYS = {
   USER_BIRTHDAY: "birthday",
   USER_CHATS: "chats",
   ZIPCODE: "zipcode",
-  USER_PROFILE: "user_profile",
+  USER_PROFILE: "userProfile",
   PICTURE: "picture",
   THIS_USER_ID: "this_user_id",
   THAT_USER_ID: "that_user_id",
   CHAT_ID: "chat_id",
   CHAT_INFO: "chat_info",
   CHAT_USERS: "chat_users",
-  CHAT_STARTDATE: "creation_date",
+  CHAT_STARTDATE: "creationDate",
   MATCH_STATUS: "status",
   USER_MATCHES: "match_records",
   MATCH_ACCEPT: "accept",
   MATCH_REJECT: "reject",
   USER_QUEUE: "user_queue",
   POOL_USERS: "pool_users",
-  ZIPCODE_ID: "zipcode_id",
+  ZIPCODE_ID: "zipcodeId",
 }
 
 export default DATA_KEYS

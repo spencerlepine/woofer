@@ -6,7 +6,7 @@ on:
 jobs:
 
   build_docker_client:
-    name: "🐳 Build Docker (CLIENT) Image"
+    name: "🐳 🏗️ Build Docker (CLIENT) Image"
     runs-on: ubuntu-latest
     env:
      working-directory: client
@@ -18,7 +18,7 @@ jobs:
       - name: "🔧 Set up Node"
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 14
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
@@ -76,9 +76,8 @@ jobs:
         if: steps.docker-cache.outputs.cache-hit != 'true'
         run: docker tag ${{ env.working-directory }} localhost:5000/${{ env.working-directory }} && docker push localhost:5000/${{ env.working-directory }} || true
 
-
   build_docker_server:
-    name: "🐳 Build Docker (SERVER) Image"
+    name: "🐳 🏗️ Build Docker (SERVER) Image"
     runs-on: ubuntu-latest
     env:
      working-directory: server
@@ -90,7 +89,7 @@ jobs:
       - name: "🔧 Set up Node"
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 14
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
@@ -143,7 +142,7 @@ jobs:
       - name: "🔧 Set up Node"
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 14
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 

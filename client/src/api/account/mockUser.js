@@ -2,7 +2,7 @@ import constants from "config/constants"
 const { DATA_KEYS } = constants
 
 export const mockUser = {
-  [DATA_KEYS["USER_ID"]]: "1234asdfuasdf",
+  userId: "1234asdfuasdf",
   [DATA_KEYS["USER_EMAIL"]]: "johndoe@gmail.com",
   [DATA_KEYS["USER_NAME"]]: "john124412",
   [DATA_KEYS["USER_FIRST_NAME"]]: "John",
@@ -21,7 +21,7 @@ export const mockUser = {
 }
 
 export const mockUserB = {
-  [DATA_KEYS["USER_ID"]]: "jd82ndkv14",
+  userId: "jd82ndkv14",
   [DATA_KEYS["USER_EMAIL"]]: "pippapaw@gmail.com",
   [DATA_KEYS["USER_NAME"]]: "pippa124412",
   [DATA_KEYS["USER_FIRST_NAME"]]: "Pippa",

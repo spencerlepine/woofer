@@ -1,36 +1,21 @@
-const verifyEndpointRequest = require("../../../utils/verifyEndpointRequest")
-const verifyEndpointResponse = require("../../../utils/verifyEndpointResponse")
+const { updateModelDocumentById } = require("../../../models/modelHelpers")
 
-module.exports =
-  (endpointObj, DATA_KEYS, verifyReq, verifyRes, updateUserRecord) => (req, res) => {
-    const idKey = [DATA_KEYS["USER_ID"]]
-    const query = { [idKey]: req.body[idKey] }
+const updateUserProfile = (req, res) => {
+  const updatedProfile = req.body
+  const { userId } = updatedProfile
 
-    verifyEndpointRequest(req, res, endpointObj, () => {
-      // DON'T change the user's ID
-      const tempId = req.body[idKey]
-      if (req.body[DATA_KEYS["USER_ID"]]) {
-        delete req.body[DATA_KEYS["USER_ID"]]
-      }
-
-      const update = {
-        $set: req.body,
-      }
-      const options = {}
-
-      updateUserRecord(res, query, update, options).then((updatedRecord) => {
-        const profile = Object.assign(updatedRecord._doc)
-
-        const responseObj = {
-          [DATA_KEYS["USER_PROFILE"]]: {
-            [DATA_KEYS["USER_ID"]]: tempId,
-            ...profile,
-          },
-        }
-
-        verifyEndpointResponse(responseObj, res, endpointObj, () => {
-          res.status(201).json(responseObj)
-        })
+  return updateModelDocumentById("DogUser", "userId", userId, updatedProfile)
+    .then((userProfile) => {
+      res.status(201).json({
+        userProfile: userProfile,
       })
     })
-  }
+    .catch((err) =>
+      res.status(500).json({
+        message: "Unable to update user profile",
+        error: err,
+      })
+    )
+}
+
+module.exports = updateUserProfile

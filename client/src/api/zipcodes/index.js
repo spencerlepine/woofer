@@ -15,7 +15,7 @@ export const removeUserFromZipcode = (
     const { uid } = auth.currentUser
     const url = endpointURLStr(["ZIPCODES", "REMOVE"], "DELETE")
     const params = {
-      [DATA_KEYS["USER_ID"]]: uid,
+      ["userId"]: uid,
       [DATA_KEYS["ZIPCODE"]]: oldZipCode,
     }
 
@@ -40,7 +40,7 @@ export const addUserToZipcode = (
     const { uid } = auth.currentUser
     const url = endpointURLStr(["ZIPCODES", "ADD"], "POST")
     const body = {
-      [DATA_KEYS["USER_ID"]]: uid,
+      ["userId"]: uid,
       [DATA_KEYS["ZIPCODE"]]: newZipCode,
     }
 

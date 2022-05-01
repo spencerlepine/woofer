@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react"
 import PropTypes from "prop-types"
+import * as chatsAPI from "api/chats"
 
 import constants from "config/constants"
 const { DATA_KEYS } = constants
@@ -10,8 +11,15 @@ export const ChatsContext = React.createContext()
 export const ChatsProvider = ({ children }) => {
   const [availableChats, setAvailableChats] = useState([])
 
+  const fetchUserChats = (userId) => {
+    chatsAPI.fetchAllUserChats(userId, (chats) => {
+      setAvailableChats(chats)
+    })
+  }
+
   const value = {
     availableChats,
+    fetchUserChats,
   }
 
   return <ChatsContext.Provider value={value}>{children}</ChatsContext.Provider>

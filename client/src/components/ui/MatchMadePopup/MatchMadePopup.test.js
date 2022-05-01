@@ -52,7 +52,7 @@ describe("MatchMadePopup", () => {
     const ageElement = screen.getByText(/y\/o/i)
     expect(ageElement).toBeInTheDocument()
 
-    const mockZodiac = mockUser["zodiac_sign"]
+    const mockZodiac = mockUser["zodiac"]
     const zodiacElement = screen.getByText(new RegExp(`${mockZodiac}`, "i"))
     expect(zodiacElement).toBeInTheDocument()
 

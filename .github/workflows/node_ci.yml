@@ -22,7 +22,7 @@ jobs:
         node: ['12', '14', '16']
         os: [ubuntu-latest]
 
-    name: Client CI
+    name: 🧑🏻‍💻 Client CI
     steps:
       - name: "🎯 Print OS and Node version"
         run: echo "Running on ${{ matrix.os }} with Node v${{ matrix.node }}"
@@ -82,7 +82,7 @@ jobs:
         node: ['12', '14', '16']
         os: [ubuntu-latest]
 
-    name: Client Build
+    name: 🏗️ Client Build
     steps:
       - name: "☁️ Check out Git Repository"
         uses: actions/checkout@v2
@@ -121,10 +121,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ['12', '14', '16']
+        node: ['12', '14']
         os: [ubuntu-latest]
 
-    name: Server CI
+    name: 🗄️ Server CI
     steps:
       - name: "🎯 Print OS and Node version"
         run: echo "Running on ${{ matrix.os }} with Node v${{ matrix.node }}"
@@ -151,6 +151,7 @@ jobs:
 
       - name: "📦 Install dependencies"
         # if: steps.modules-cache.outputs.cache-hit != 'true'
+        working-directory: ${{ env.working-directory }}
         run: npm install
 
       - name: "✅  Run tests"

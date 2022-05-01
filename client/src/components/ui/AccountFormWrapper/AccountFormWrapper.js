@@ -38,7 +38,7 @@ const FormWrapper = ({ FieldsComponent, LargeWidth }) => {
       const newDetails = {
         ...accountDetails,
         ...formEntries,
-        [DATA_KEYS["USER_ID"]]: currentUser.uid,
+        ["userId"]: currentUser.uid,
       }
 
       updateAccountDetails(newDetails, (updatedDetails) => {
@@ -55,7 +55,7 @@ const FormWrapper = ({ FieldsComponent, LargeWidth }) => {
     const finalDetails = {
       ...accountDetails,
       ...newDetails,
-      [DATA_KEYS["USER_ID"]]: currentUser.uid,
+      ["userId"]: currentUser.uid,
     }
 
     updateAccountDetails(finalDetails, (updatedDetails) => {

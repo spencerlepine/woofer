@@ -1,16 +1,15 @@
 const request = require("supertest")
 
-const addUserToZipcodePool = require("../../src/controllers/controllerHelpers/zipcodes/addUserToZipcodePool")
-
 const {
   app,
-  constants: { endpointURLStr, DATA_KEYS },
   mockUser,
   mockUserB,
   verifyEndpointResponse,
   signupMockUser,
-  addUserToZip,
+  // addUserToZip,
 } = require("../utils/test-helpers")
+
+const userToZipPoolDoc = require("../../src/controllers/zipcodes/userToZipPoolDoc")
 
 const res = {
   status: jest.fn(() => res),
@@ -19,56 +18,72 @@ const res = {
   end: jest.fn((r) => r),
 }
 const zipcode = "10001"
-const idKey = DATA_KEYS["USER_ID"]
+const idKey = "userId"
 const thisUserId = mockUser[idKey]
 const thatUserId = mockUserB[idKey]
 
 const method = "GET"
-const endpointPaths = ["MATCHES", "GENERATE"]
-const endpointObj = { endpointPathKeys: endpointPaths, method }
-const url = endpointURLStr(endpointPaths, method)
+const url = "/api/matches/generate"
 
 describe("MATCHES endpoint match generation", () => {
   describe("should find a possible match user", () => {
-    const UserArrangeSteps = Promise.all([
-      signupMockUser({
-        ...mockUserB,
-        [DATA_KEYS["USER_ZIPCODES"]]: [zipcode],
-      }),
-      signupMockUser({
-        ...mockUser,
-        [DATA_KEYS["USER_ZIPCODES"]]: [zipcode],
-      }),
-      addUserToZip(mockUser[DATA_KEYS["USER_ID"]], zipcode),
-      addUserToZip(mockUserB[DATA_KEYS["USER_ID"]], zipcode),
-    ])
+    const zipcode = "10001"
+    const mockUserC = new Object(mockUser)
+    mockUserC["preference"] = mockUser["gender"]
+    const mockUserD = new Object(mockUser)
+    mockUserD["preference"] = mockUser["gender"]
+    const mockUserE = new Object(mockUser)
+    mockUserE["preference"] = mockUser["gender"]
+    const mockUserF = new Object(mockUser)
+    mockUserF["preference"] = mockUser["gender"]
+    const mockUserG = new Object(mockUser)
+    mockUserG["preference"] = mockUser["gender"]
+
+    const mockUserIds = [
+      mockUserB,
+      mockUserC,
+      mockUserD,
+      mockUserE,
+      mockUserF,
+      mockUserG,
+    ].map((userObj) => userObj["userId"])
 
     test(`${method} ${url}`, (done) => {
-      UserArrangeSteps.then(() => {
-        request(app)
-          .get(url)
-          .query({ [DATA_KEYS["USER_ID"]]: thisUserId })
-          .expect("Content-Type", /json/)
-          .expect(200)
-          .expect((res) => {
-            expect(res.body).toBeDefined()
-            const { [DATA_KEYS["USER_PROFILE"]]: userProfile, matchIsValid } =
-              res.body
+      signupMockUser(mockUser)
+        .then(() => userToZipPoolDoc(mockUser["userId"], zipcode))
+        .then(() => signupMockUser(mockUserB))
+        .then(() => userToZipPoolDoc(mockUserB["userId"], zipcode))
+        .then(() => signupMockUser(mockUserC))
+        .then(() => userToZipPoolDoc(mockUserC["userId"], zipcode))
+        .then(() => signupMockUser(mockUserD))
+        .then(() => userToZipPoolDoc(mockUserD["userId"], zipcode))
+        .then(() => signupMockUser(mockUserF))
+        .then(() => userToZipPoolDoc(mockUserF["userId"], zipcode))
+        .then(() => signupMockUser(mockUserG))
+        .then(() => userToZipPoolDoc(mockUserG["userId"], zipcode))
+        .then(() => userToZipPoolDoc(mockUser["userId"], zipcode))
+        .then(() => userToZipPoolDoc(mockUserB["userId"], zipcode))
+        .then(() => {
+          request(app)
+            .get(url)
+            .query({ ["userId"]: thisUserId })
+            .expect("Content-Type", /json/)
+            .expect(200)
+            .expect((res) => {
+              expect(res.body).toBeDefined()
+              const { userProfile: userProfile, matchIsValid } = res.body
 
-            expect(userProfile).toBeDefined()
-            expect(userProfile).toHaveProperty(
-              DATA_KEYS["USER_PROFILE"],
-              mockUserB[DATA_KEYS["USER_PROFILE"]]
-            )
+              expect(userProfile).toBeDefined()
+              expect(userProfile).toHaveProperty(
+                "userProfile",
+                mockUserB["userProfile"]
+              )
 
-            expect(userProfile).toHaveProperty(
-              DATA_KEYS["USER_ID"],
-              mockUserB[DATA_KEYS["USER_ID"]]
-            )
+              expect(userProfile).toHaveProperty("userId", mockUserB["userId"])
 
-            expect(matchIsValid).toBeTruthy()
-          })
-      })
+              expect(matchIsValid).toBeTruthy()
+            })
+        })
         .then(done)
         .catch((err) => done(err))
     })

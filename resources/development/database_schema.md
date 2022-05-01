@@ -26,7 +26,7 @@ ZipcodePoolDB: [
 
 dogAccountDB: [
     <dogDocId>: {
-        "id": "dog12345",
+        "userId": "dog12345",
         "name": "Shilo",
         "zodiacSign": "Virgo",
         "gender": "Male",

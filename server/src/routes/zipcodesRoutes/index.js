@@ -1,16 +1,9 @@
 const express = require("express")
-const {
-  addUserZipCode,
-  removeUserZipCode,
-  fetchZipCodePool,
-} = require("../../controllers/zipcodes")
-const { ENDPOINT_ROUTES } = require("../../../config/constants")
-const PATH_CONSTANT = ENDPOINT_ROUTES["ZIPCODES"]
+const { addUserZipCode, removeUserZipCode } = require("../../controllers/zipcodes")
 
 const router = express.Router()
 
-router.get(`/${PATH_CONSTANT["ALL"]["URL"]}`, fetchZipCodePool)
-router.post(`/${PATH_CONSTANT["ADD"]["URL"]}`, addUserZipCode)
-router.delete(`/${PATH_CONSTANT["REMOVE"]["URL"]}`, removeUserZipCode)
+router.post("/add", addUserZipCode)
+router.delete("/remove", removeUserZipCode)
 
 module.exports = router

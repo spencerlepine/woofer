@@ -1,52 +1,55 @@
 const request = require("supertest")
 
-const {
-  app,
-  constants: { endpointURLStr, DATA_KEYS },
-  mockUser,
-  mockUserB,
-  signupMockUser,
-  swipeOnUser,
-} = require("../utils/test-helpers")
+const { app, mockUser, mockUserB, signupMockUser } = require("../utils/test-helpers")
+
+const swipeOnUser = (thisUserId, thatUserId, matchStatus) => {
+  const url = "/api/matches/swipe"
+
+  const body = {
+    thisUserId,
+    thatUserId,
+    matchStatus,
+  }
+
+  return request(app).post(url).send(body)
+}
+
+// const swipeOnUser = require("../../src/controllers/matches/updateSwipeRecord")
 
 const fetchMatchStatus = (thisUser, thatUser) => {
-  const thisUserId = thisUser[DATA_KEYS["USER_ID"]]
-  const thatUserId = thatUser[DATA_KEYS["USER_ID"]]
-  const url = endpointURLStr(["MATCHES", "STATUS"], "GET")
+  const thisUserId = thisUser["userId"]
+  const thatUserId = thatUser["userId"]
+  const url = "api/matches/status"
 
   const query = {
-    [DATA_KEYS["THIS_USER_ID"]]: thisUserId,
-    [DATA_KEYS["THAT_USER_ID"]]: thatUserId,
+    thisUserId: thisUserId,
+    thatUserId: thatUserId,
   }
 
   return request(app).get(url).query(query)
 }
 
 describe("MATCHES Swipe Choice endpoint", () => {
-  const idKey = DATA_KEYS["USER_ID"]
+  const idKey = "userId"
   const thisUserId = mockUser[idKey]
   const thatUserId = mockUserB[idKey]
 
-  const ACCEPT = DATA_KEYS["MATCH_ACCEPT"]
-  const REJECT = DATA_KEYS["MATCH_REJECT"]
+  const ACCEPT = "accept"
+  const REJECT = "reject"
 
   describe("should save first time user swipe accept", () => {
     test("POST a ACCEPT Swipe", (done) => {
       signupMockUser(mockUser)
         .then(() => signupMockUser(mockUserB))
         .then(() => {
-          swipeOnUser(mockUser, mockUserB, ACCEPT)
+          swipeOnUser(mockUser["userId"], mockUserB["userId"], ACCEPT)
             .expect("Content-Type", /json/)
             .expect(201)
             .expect((result) => {
               expect(result).toBeDefined()
               const resBody = result.body
-              expect([DATA_KEYS["USER_PROFILE"]] in resBody).toBeTruthy()
-              expect(resBody[DATA_KEYS["CHAT_ID"]]).toBe("none")
-            })
-            .end((err, res) => {
-              if (err) return done(err.stack)
-              return done()
+              expect("userProfile" in resBody).toBeTruthy()
+              expect(resBody["chatId"]).toBe("none")
             })
         })
         .then(() => {
@@ -79,8 +82,8 @@ describe("MATCHES Swipe Choice endpoint", () => {
             .expect((result) => {
               expect(result).toBeDefined()
               const resBody = result.body
-              expect([DATA_KEYS["USER_PROFILE"]] in resBody).toBeTruthy()
-              expect(resBody[DATA_KEYS["CHAT_ID"]]).toBe("none")
+              expect("userProfile" in resBody).toBeTruthy()
+              expect(resBody["chatId"]).toBe("none")
             })
         })
         .then(() => {
@@ -116,14 +119,9 @@ describe("MATCHES Swipe Choice endpoint", () => {
             .expect((result) => {
               expect(result).toBeDefined()
               const resBody = result.body
-              expect([DATA_KEYS["USER_PROFILE"]] in resBody).toBeTruthy()
-              expect(resBody[DATA_KEYS["CHAT_ID"]]).not.toBe("none")
-
-              expect([DATA_KEYS["USER_PROFILE"]]).toHaveProperty(thisUserID)
-            })
-            .end((err, res) => {
-              if (err) return done(err.stack)
-              return done()
+              expect("userProfile" in resBody).toBeTruthy()
+              expect(resBody["chatId"]).not.toBe("none")
+              expect("userProfile").toHaveProperty(thisUserID)
             })
         })
         .then(() => {

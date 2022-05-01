@@ -8,7 +8,7 @@ on:
 jobs:
 
   node_ci:
-    name: Node CI
+    name: 🧪 Node CI
     uses: ./.github/workflows/node_ci.yml
     with:
       ENVIRONMENT: CI
@@ -16,7 +16,7 @@ jobs:
       CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
   docker_ci:
-    name: Docker CI
+    name: 🧪 Docker CI
     uses: ./.github/workflows/docker_ci.yml
 
   build_docker_client:
@@ -34,7 +34,7 @@ jobs:
       - name: "🔧 Set up Node"
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 14
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
@@ -137,7 +137,7 @@ jobs:
       - name: "🔧 Set up Node"
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 14
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 

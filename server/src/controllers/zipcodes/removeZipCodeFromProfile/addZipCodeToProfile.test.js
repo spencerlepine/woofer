@@ -1,0 +1,45 @@
+const { mockUser, mockUserB, signupMockUser, modelHelpers } = global.testHelpers
+
+const { getModelDocumentById } = require("../../../models/modelHelpers")
+
+const removeZipCodeFromProfile = require("./index")
+
+describe("removeZipCodeFromProfile controller helper", () => {
+  describe("with invalid arguments", () => {
+    test("should return a promise", () => {
+      const result = removeZipCodeFromProfile()
+      expect(result.constructor).toBe(Promise)
+    })
+
+    test("should throw an error with invalid arguments", (done) => {
+      removeZipCodeFromProfile()
+        .catch((err) => {
+          expect(err).toBeTruthy()
+          done(err)
+        })
+        .then(() => {
+          done()
+        })
+    })
+  })
+
+  describe("with valid arguments", () => {
+    const user = new Object(mockUser)
+    user["zipcodes"] = ["10001"]
+    const userId = user["userId"]
+    const zipcode = "10001"
+
+    test("should resolve with updated user profile", (done) => {
+      signupMockUser(user)
+        .then(() => removeZipCodeFromProfile(userId, zipcode))
+        .then((userProfile) => {
+          expect(userProfile).toBeDefined()
+          expect(userProfile).toHaveProperty("zipcodes")
+          const { zipcodes } = userProfile
+          expect(zipcodes).toEqual([])
+          done()
+        })
+        .catch(done)
+    })
+  })
+})
