@@ -14,7 +14,6 @@ const EmailReset = () => {
 
   return (
     <div className="EmailReset section">
-      <h2 className="title is-2">Settings</h2>
       <button className="button is-danger" onClick={handleReset}>
         Send Password Reset Email
       </button>

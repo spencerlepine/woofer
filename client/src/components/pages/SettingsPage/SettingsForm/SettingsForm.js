@@ -43,8 +43,6 @@ const SettingsForm = ({
         handleChange={handleChange}
         setFormEntries={setFormEntries}
       />
-
-      <Fields.DeleteAccount />
     </>
   )
 }

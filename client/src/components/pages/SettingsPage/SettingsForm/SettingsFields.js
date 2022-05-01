@@ -41,7 +41,6 @@ export const Birthday = ({ setFormEntries, formEntries }) => {
 
 export const Username = ({ handleChange, formEntries }) => {
   const name = DATA_KEYS["USER_NAME"]
-  console.log(formEntries[name])
   const placeholder = "Username"
   const type = "name"
 
@@ -103,17 +102,5 @@ export const Email = ({ handleChange, formEntries }) => {
         placeholder={placeholder}
       ></input>
     </div>
-  )
-}
-
-export const DeleteAccount = () => {
-  const handleDelete = () => {
-    console.log("TODO")
-  }
-
-  return (
-    <button className="button is-danger" onClick={handleDelete}>
-      DELETE ACCOUNT
-    </button>
   )
 }
