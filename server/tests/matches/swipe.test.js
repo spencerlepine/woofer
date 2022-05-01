@@ -51,10 +51,6 @@ describe("MATCHES Swipe Choice endpoint", () => {
               expect("userProfile" in resBody).toBeTruthy()
               expect(resBody["chatId"]).toBe("none")
             })
-            .end((err, res) => {
-              if (err) return done(err.stack)
-              return done()
-            })
         })
         .then(() => {
           // Verify the match status is in the database
@@ -125,12 +121,7 @@ describe("MATCHES Swipe Choice endpoint", () => {
               const resBody = result.body
               expect("userProfile" in resBody).toBeTruthy()
               expect(resBody["chatId"]).not.toBe("none")
-
               expect("userProfile").toHaveProperty(thisUserID)
-            })
-            .end((err, res) => {
-              if (err) return done(err.stack)
-              return done()
             })
         })
         .then(() => {
