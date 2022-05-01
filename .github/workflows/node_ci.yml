@@ -82,7 +82,7 @@ jobs:
         node: ['12', '14', '16']
         os: [ubuntu-latest]
 
-    name: Client Build
+    name: 🏗️ Client Build
     steps:
       - name: "☁️ Check out Git Repository"
         uses: actions/checkout@v2
