@@ -10,8 +10,8 @@ const router = express.Router()
 
 router.use("/signup", signupRoutes)
 router.use("/zipcodes", zipcodesRoutes)
-router.use("profile", profileRoutes)
-router.use("matches", matchesRoutes)
+router.use("/profile", profileRoutes)
+router.use("/matches", matchesRoutes)
 router.use("/chats", chatsRoutes)
 router.use("/status", statusRoutes)
 

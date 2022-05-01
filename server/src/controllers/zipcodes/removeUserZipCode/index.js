@@ -25,9 +25,20 @@ const removeUserZipCode = (req, res) => {
       return updateModelDocumentById(
         "ZipcodePool",
         "zipcodeId",
-        newZipcode,
+        oldZipcode,
         updatedPool
       )
+    })
+    .then(() => {
+      res.status(200).json({
+        message: "Removed user to zipcode pool",
+      })
+    })
+    .catch((err) => {
+      res.status(500).json({
+        message: "Unable to remove user from zipcode",
+        error: err,
+      })
     })
 }
 

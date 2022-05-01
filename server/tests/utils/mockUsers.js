@@ -1,9 +1,8 @@
 const request = require("supertest")
 
 const app = require("../../src/app")
-const { endpointURLStr } = require("../../config/constants")
 
-module.exports = (DATA_KEYS) => ({
+module.exports = {
   mockUser: {
     userId: "1234asdfuasdf",
     email: "johndoe@gmail.com",
@@ -41,24 +40,22 @@ module.exports = (DATA_KEYS) => ({
     chats: [],
   },
   swipeOnUser: (thisUser, thatUser, swipeChoice) => {
-    const idKey = DATA_KEYS["USER_ID"]
+    const idKey = "userId"
     const thisUserId = thisUser[idKey]
     const thatUserId = thatUser[idKey]
-    const url = endpointURLStr(["MATCHES", "SWIPE"], "POST")
+    const url = "/api/matches/status"
 
     const body = {
-      [DATA_KEYS["THIS_USER_ID"]]: thisUserId,
-      [DATA_KEYS["THAT_USER_ID"]]: thatUserId,
-      [DATA_KEYS["MATCH_STATUS"]]: swipeChoice,
+      thisUserId: thisUserId,
+      thatUserId: thatUserId,
+      matchStatus: swipeChoice,
     }
 
     return request(app).post(url).send(body)
   },
   signupMockUser: (user, done) => {
     const method = "POST"
-    const endpointPaths = ["SIGNUP"]
-    const endpointObj = { endpointPathKeys: endpointPaths, method }
-    const url = endpointURLStr(endpointPaths, method)
+    const url = "/api/signup"
 
     return new Promise((resolve, reject) => {
       request(app)
@@ -72,13 +69,11 @@ module.exports = (DATA_KEYS) => ({
   },
   addUserToZip: (userId, zipcode, done) => {
     const method = "POST"
-    const endpointPaths = ["ZIPCODES", "ADD"]
-    const endpointObj = { endpointPathKeys: endpointPaths, method }
-    const url = endpointURLStr(endpointPaths, method)
+    const url = "/api/zipcodes/add"
 
     const body = {
-      [DATA_KEYS["USER_ID"]]: userId,
-      [DATA_KEYS["ZIPCODE"]]: zipcode,
+      userId: userId,
+      zipcode: zipcode,
     }
 
     return new Promise((resolve, reject) => {
@@ -91,4 +86,4 @@ module.exports = (DATA_KEYS) => ({
         })
     })
   },
-})
+}

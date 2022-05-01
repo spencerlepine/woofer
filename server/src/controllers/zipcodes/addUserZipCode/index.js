@@ -29,6 +29,17 @@ const addUserZipCode = (req, res) => {
         updatedPool
       )
     })
+    .then(() => {
+      res.status(201).json({
+        message: "Added user to zipcode pool",
+      })
+    })
+    .catch((err) =>
+      res.status(500).json({
+        message: "Unable to add user to zipcode",
+        error: err,
+      })
+    )
 }
 
 module.exports = addUserZipCode

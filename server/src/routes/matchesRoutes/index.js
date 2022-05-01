@@ -9,8 +9,8 @@ const {
 const router = express.Router()
 
 router.get("/queue", fetchMatchQueue)
-router.get("/queue", fetchMatchStatus)
-router.get("/queue", fetchPossibleMatch)
+router.get("/status", fetchMatchStatus)
+router.get("/generate", fetchPossibleMatch)
 router.post("/swipe", saveUserSwipeChoice)
 
 module.exports = router

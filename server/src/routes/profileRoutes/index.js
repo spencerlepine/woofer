@@ -8,7 +8,7 @@ const {
 
 const router = express.Router()
 
-router.get("", getUserProfile)
+router.get("/", getUserProfile)
 router.get("/details", getFullUserProfile)
 router.post("/details", updateUserProfile)
 router.delete("/details", deleteUserProfile)
