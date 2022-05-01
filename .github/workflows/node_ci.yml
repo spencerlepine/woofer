@@ -22,7 +22,7 @@ jobs:
         node: ['12', '14', '16']
         os: [ubuntu-latest]
 
-    name: Client CI
+    name: 🗄️ Client CI
     steps:
       - name: "🎯 Print OS and Node version"
         run: echo "Running on ${{ matrix.os }} with Node v${{ matrix.node }}"
@@ -124,7 +124,7 @@ jobs:
         node: ['12', '14', '16']
         os: [ubuntu-latest]
 
-    name: Server CI
+    name: 🧑🏻‍💻 Server CI
     steps:
       - name: "🎯 Print OS and Node version"
         run: echo "Running on ${{ matrix.os }} with Node v${{ matrix.node }}"
