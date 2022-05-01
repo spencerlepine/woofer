@@ -25,8 +25,21 @@ const extractDisplayName = (userObj) => {
   }
 }
 
+const extractLastMessage = (message) => {
+  const defaultMessage = {
+    value: "Say Hi!",
+  }
+
+  if (message && message.value) {
+    defaultMessage.value = message.value
+  }
+
+  return defaultMessage
+}
+
 const OpenChatLink = ({ chatId, otherUserId, i }) => {
   const [user, setUser] = useState({})
+  const [lastMessage, setLastMessage] = useState({})
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -39,13 +52,20 @@ const OpenChatLink = ({ chatId, otherUserId, i }) => {
     }
   }, [otherUserId])
 
+  useEffect(() => {
+    if (lastMessage["value"] === undefined) {
+      setLoading(true)
+      chatsAPI.fetchLastChatMessage(chatId, (message) => {
+        setLastMessage(message)
+        setLoading(false)
+      })
+    }
+  }, [otherUserId])
+
   const name = extractDisplayName(user)
   const profilePic = extractProfileImage(user)
-  const lastMessage = {
-    value: "Hey, how are you?",
-  }
 
-  const { value } = lastMessage
+  const { value } = extractLastMessage(lastMessage)
 
   return (
     <>

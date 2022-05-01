@@ -84,3 +84,24 @@ export const removeUserFromChat = (
       failCallback(error)
     })
 }
+
+export const fetchLastChatMessage = (
+  chatId,
+  successCallback,
+  failCallback = () => {}
+) => {
+  const params = { chatId }
+
+  axios
+    .get(SERVER_URL + "/api/chats/last", { params })
+    .then((response) => {
+      const { data } = response
+      const { message } = data
+      successCallback(message || {})
+    })
+    .catch((error) => {
+      console.error(error)
+      createNotif(error)
+      failCallback(error)
+    })
+}
