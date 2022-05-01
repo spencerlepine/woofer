@@ -66,3 +66,14 @@
   right: 4em;
   border-radius: 1em;
 }
+
+.profilePic img {
+  max-width: 128px;
+  max-height: 128px;
+  margin: auto;
+}
+
+.messagesWindow {
+  max-height: 300px;
+  overflow-y: scroll;
+}

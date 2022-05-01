@@ -10,6 +10,8 @@ const ChatMessage = ({ message, currentUserId }) => {
 
   const isOriginMessage = userId === currentUserId
   const pullDirection = `is-pulled-${isOriginMessage ? "right" : "left"}`
+  const thisUserMessageColor = "is-info"
+  const thatUserMessageColor = "has-background-grey-lighter"
 
   return (
     <div
@@ -28,7 +30,9 @@ const ChatMessage = ({ message, currentUserId }) => {
         }}
       >
         <span
-          className={`tag is-medium ${isOriginMessage ? "is-success" : "is-info"}`}
+          className={`tag is-medium ${
+            isOriginMessage ? thisUserMessageColor : thatUserMessageColor
+          }`}
         >
           {value}
         </span>
