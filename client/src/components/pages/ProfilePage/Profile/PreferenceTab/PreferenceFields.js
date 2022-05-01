@@ -3,6 +3,8 @@ import constants from "config/constants"
 import useAuth, { AuthProvider } from "context/AuthContext/AuthContext"
 const { DATA_KEYS } = constants
 
+import { MdOutlineRemoveCircleOutline as DeleteIcon } from "react-icons/md"
+
 export const GenderButton = ({ formEntries, setFormEntries, madeAChange }) => {
   const isMale = formEntries[DATA_KEYS["USER_PREFERENCE"]] === "Male"
   const isFemale = formEntries[DATA_KEYS["USER_PREFERENCE"]] === "Female"
@@ -97,37 +99,43 @@ export const ZipCodeList = ({ formEntries, setFormEntries, handleSubmit }) => {
 
   return (
     <div className="control">
-      <h3 className="label level-left">Zipcodes</h3>
+      <h3 className="title is-4">Zipcodes</h3>
 
-      <div className="list">
-        <ul>
-          {allUserZipCodes.map((zipcodeStr, i) => (
-            <div className="list-item" key={i}>
-              <li className="is-left is-inline">{zipcodeStr}</li>
+      <table className="table mx-auto">
+        {allUserZipCodes.map((zipcodeStr, i) => (
+          <tr className="list-item" key={i}>
+            <td>
+              <p className="title is-inline px-5 has-text-info">{zipcodeStr}</p>
+            </td>
+            <td>
               <button
-                className="delete is-medium is-right"
+                className="button is-danger is-medium is-right"
                 onClick={(e) => handleDeleteZipCode(e, zipcodeStr)}
-              ></button>
-            </div>
-          ))}
-        </ul>
-      </div>
+              >
+                <DeleteIcon className="icon is-medium" />
+              </button>
+            </td>
+          </tr>
+        ))}
 
-      <div>
-        <div className="field">
-          <input
-            onChange={handleChange}
-            type="name"
-            name="zipcode"
-            className={"input"}
-            value={zipcodeInput}
-            placeholder="Type ZipCode"
-          ></input>
-        </div>
-        <button onClick={handleAddZipCode} className="button is-primary p-2">
-          ADD
-        </button>
-      </div>
+        <tr className="">
+          <td>
+            <input
+              onChange={handleChange}
+              type="name"
+              name="zipcode"
+              className={"input"}
+              value={zipcodeInput}
+              placeholder="Type ZipCode"
+            ></input>
+          </td>
+          <td>
+            <button onClick={handleAddZipCode} className="button is-success p-2">
+              ADD
+            </button>
+          </td>
+        </tr>
+      </table>
     </div>
   )
 }

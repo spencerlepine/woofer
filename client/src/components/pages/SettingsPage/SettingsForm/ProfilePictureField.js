@@ -104,6 +104,7 @@ const ImagesTab = ({
 
   return (
     <>
+      <h2 className="title is-4">Profile Picture</h2>
       <div className="columns">
         <div className="column is-half">
           <figure className="image is-128x128 profilePic">
