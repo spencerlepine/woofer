@@ -44,6 +44,7 @@ class Connection {
     }
 
     console.log(message)
+    // TODO, mongo goes here
 
     messages.add(message)
     this.sendMessage(message)
