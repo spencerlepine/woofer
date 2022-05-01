@@ -37,41 +37,43 @@ const MissingInfoWarning = () => {
 
   return (
     <>
-      <div className="columns my-2">
-        <div className="column is-half mx-auto">
-          {renderWarning && (
-            <article className="message is-warning">
-              <div className="message-header">
-                <span className="is-inline">
-                  <h2>
-                    <WarningIcon className="icon my-auto" /> Missing Account Info!
-                  </h2>
-                </span>
+      {(hasNoZipcodes || hasNoPictures) && (
+        <div className="columns my-2">
+          <div className="column is-half mx-auto">
+            {renderWarning && (
+              <article className="message is-warning">
+                <div className="message-header">
+                  <span className="is-inline">
+                    <h2>
+                      <WarningIcon className="icon my-auto" /> Missing Account Info!
+                    </h2>
+                  </span>
 
-                <button
-                  className="delete"
-                  ariaLabel="delete"
-                  onClick={hideWarning}
-                ></button>
-              </div>
-              <div className="message-body">
-                {hasNoZipcodes && (
-                  <Link to={ROUTES.PROFILE} className="button is-warning">
-                    <ZipcodeIcon />
-                    <p className="px-1">Add Zipcodes</p>
-                  </Link>
-                )}
-                {hasNoPictures && (
-                  <Link to={ROUTES.PROFILE} className="button is-warning">
-                    <ImageIcon />
-                    <p className="px-1">Add Pictures</p>
-                  </Link>
-                )}
-              </div>
-            </article>
-          )}
+                  <button
+                    className="delete"
+                    ariaLabel="delete"
+                    onClick={hideWarning}
+                  ></button>
+                </div>
+                <div className="message-body">
+                  {hasNoZipcodes && (
+                    <Link to={ROUTES.PROFILE} className="button is-warning">
+                      <ZipcodeIcon />
+                      <p className="px-1">Add Zipcodes</p>
+                    </Link>
+                  )}
+                  {hasNoPictures && (
+                    <Link to={ROUTES.PROFILE} className="button is-warning">
+                      <ImageIcon />
+                      <p className="px-1">Add Pictures</p>
+                    </Link>
+                  )}
+                </div>
+              </article>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </>
   )
 }
