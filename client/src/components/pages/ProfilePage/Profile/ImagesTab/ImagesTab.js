@@ -178,7 +178,12 @@ const ImagesTab = ({
 }
 
 const WrappedTab = (props) => (
-  <FormWrapper FieldsComponent={ImagesTab} LargeWidth={true} {...props} />
+  <FormWrapper
+    FieldsComponent={ImagesTab}
+    LargeWidth={true}
+    {...props}
+    hideButtons
+  />
 )
 
 export default WrappedTab

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import io from "socket.io-client"
+import MessageHandler from "./Messages/MessageHandler"
 import Messages from "./Messages/Messages"
 import MessageInput from "./MessageInput/MessageInput"
 
@@ -21,12 +22,12 @@ const SampleChat = () => {
   const [socket, setSocket] = useState(null)
   const { roomId } = useParams()
 
-  const validRoom = roomId || "testRoom"
+  const validRoom = roomId || "developmentChat"
 
   useEffect(() => {
     const newSocket = io(`http://${window.location.hostname}:5000`, {
       query: {
-        userName: userDetails[DATA_KEYS["USER_FIRST_NAME"]],
+        name: `${userDetails["firstName"]} ${userDetails["lastName"]}`,
         userId: userDetails["uid"] || userDetails["userId"],
       },
     })
@@ -50,7 +51,11 @@ const SampleChat = () => {
                 </div>
                 <div className="tile is-ancestor">
                   <div className="tile is-vertical is-parent">
-                    <Messages socket={socket} />
+                    <MessageHandler
+                      socket={socket}
+                      chatId={roomId}
+                      MessageComponent={Messages}
+                    />
                     <MessageInput socket={socket} />
                   </div>
                 </div>

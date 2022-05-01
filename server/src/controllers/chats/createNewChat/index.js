@@ -1,12 +1,15 @@
 const addUserToChat = require("../addUserToChat")
 
+const generateChatRoomId = require("../generateChatRoomId")
+
 const createNewChat = (req, res) => {
-  const { thisUserId, thatUserId } = req.body
+  const reqBody = typeof req.body === "object" ? req.body : {}
+  const { thisUserId, thatUserId } = reqBody
 
   const newChatId = generateChatRoomId()
 
-  addUserToChat(thisUserId, thatUserId, chatId)
-    .then(() => addUserToChat(thatUserId, thisUserId, chatId))
+  return addUserToChat(thisUserId, thatUserId, newChatId)
+    .then(() => addUserToChat(thatUserId, thisUserId, newChatId))
     .then(() => {
       res.status(201).json({
         chatId: newChatId,

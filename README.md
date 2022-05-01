@@ -12,21 +12,13 @@ Dating app for dogs. Customize a dating profile, update preferences, and match/c
 - Integrated CI/CD pipeline with Git, Jest, GitHub Actions, Docker, and AWS EC2.
 - Developed with a ticket system and feature branches, while following schemas and UI designs.
 
-## 🏗️ Application Architecture
-
-![Deployment Architecture](./resources/assets/Project_Deployment.png)
-
-## 🤖 CI/CD Pipeline
-
-![CI/CD Pipeline Diagram](./resources/assets/CI_CD_PIPELINE.png)
-
 ## 🌟 Features
 
 See the [Whitepaper](./resources/WOOFER_WHITEPAPER.pdf).
 
 ## 🤔 Challenges
 
-View [Issue Tickets](https://github.com/spencerlepine/woofer/issues?q=is%3Aopen+is%3Aissue+label%3AChallenge)
+View [Issue Tickets](https://github.com/spencerlepine/woofer/issues?q=label%3AChallenge+is%3Aclosed+)
 
 > Or read [Challenges](./resources/challenges.txt) text file.
 
@@ -56,13 +48,21 @@ npm install
 npm run dev:client
 ```
 
-## 🌐 API Documentation
+## 🏗️ Application Architecture
 
-See [Endpoints](./resources/WOOFER_API.md).
+![Deployment Architecture](./resources/assets/Project_Deployment.png)
+
+## 🤖 CI/CD Pipeline
+
+![CI/CD Pipeline Diagram](./resources/assets/CI_CD_PIPELINE.png)
 
 ## 🗄 Database Design
 
 ![Database Design](./resources/assets/Database_Design.png)
+
+## 🌐 API Documentation
+
+See [Endpoints](./resources/WOOFER_API.md).
 
 ## 🗃️ Ticket System
 

@@ -2,15 +2,28 @@ import React, { useState, useEffect } from "react"
 import useAuth, { AuthProvider } from "context/AuthContext/AuthContext"
 import constants from "config/constants"
 const { DATA_KEYS } = constants
+import { MdRefresh as RefreshIcon } from "react-icons/md"
 
 import { Link } from "react-router-dom"
 import * as ROUTES from "config/routeConstants"
 
-const FormWrapper = ({ FieldsComponent, LargeWidth }) => {
-  const { currentUser, accountDetails, updateAccountDetails } = useAuth()
+const FormWrapper = ({ FieldsComponent, LargeWidth, hideButtons }) => {
+  const { currentUser, accountDetails, updateAccountDetails, refreshDetails } =
+    useAuth()
   const [formEntries, setFormEntries] = useState({})
   // const [loading, setLoading] = useState(false)
   const [madeChange, setMadeChange] = useState(false)
+
+  const RefreshBtn = () => (
+    <button
+      className="button is-info is-pulled-left px-3"
+      onClick={refreshDetails}
+      disabled={!madeChange}
+    >
+      Refresh
+      <RefreshIcon />
+    </button>
+  )
 
   useEffect(() => {
     setFormEntries((prevEntries) => ({
@@ -84,19 +97,25 @@ const FormWrapper = ({ FieldsComponent, LargeWidth }) => {
   return (
     <section className="hero is-medium">
       <div className="columns is-centered">
-        <div className={`column is-fluid ${LargeWidth ? "" : "is-half"}`}>
+        <div className={"column is-half"}>
           {/* <LoadingSpinner> */}
           {currentUser ? (
             <form className="box has-text-centered">
-              <button
-                disabled={!madeChange}
-                onClick={handleSubmit}
-                className="button is-primary p-2 is-pulled-right"
-              >
-                Update
-              </button>
-              <br></br>
-              <hr></hr>
+              {!hideButtons && (
+                <>
+                  <RefreshBtn />
+
+                  <button
+                    disabled={!madeChange}
+                    onClick={handleSubmit}
+                    className="button is-warning p-2 is-pulled-right"
+                  >
+                    Update
+                  </button>
+                  <br></br>
+                  <hr></hr>
+                </>
+              )}
 
               <FieldsComponent {...FieldProps} />
             </form>

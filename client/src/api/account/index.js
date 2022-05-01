@@ -123,6 +123,25 @@ export const updateUserProfileRecord = (
   }
 }
 
+export const deleteAccount = (userId, successCallback, failCallback = () => {}) => {
+  if (auth && auth.currentUser) {
+    const url = "/api/profile/delete"
+    const params = { userId }
+
+    auth.deleteUser(userId).then(() =>
+      axios
+        .delete(SERVER_URL + url, { params })
+        .then((response) => {
+          successCallback()
+        })
+        .catch((error) => {
+          createNotif(error)
+          failCallback(error)
+        })
+    )
+  }
+}
+
 // TODO
 // const email = mockUser[DATA_KEYS["USER_EMAIL"]]
 // const displayName = mockUser[DATA_KEYS["USER_NAME"]]

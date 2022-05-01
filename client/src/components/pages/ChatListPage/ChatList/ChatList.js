@@ -1,6 +1,7 @@
 import React, { useEffect } from "react"
 import { Link } from "react-router-dom"
 import { BiError } from "react-icons/bi"
+import { MdRefresh as RefreshIcon } from "react-icons/md"
 
 import * as ROUTES from "config/routeConstants"
 import * as chatsAPI from "api/chats"
@@ -13,10 +14,10 @@ import useChats, { ChatsProvider } from "context/ChatsContext/ChatsContext"
 import useAuth from "context/AuthContext/AuthContext"
 
 const ChatList = () => {
-  const { availableChats, fetchUserChats } = useChats()
+  const { availableChats, fetchUserChats, loading } = useChats()
   const { currentUser, accountDetails } = useAuth()
 
-  const validChats = accountDetails[chatsKey] || []
+  const validChats = availableChats
 
   const handleRefresh = () => {
     if (currentUser && currentUser["userId"]) {
@@ -31,23 +32,10 @@ const ChatList = () => {
     }
   }, [currentUser])
 
-  // const TempCreateBtn = () => {
-  //   const handleCreateChat = () => {
-  //     const thisUserId = currentUser["uid"] || currentUser["userId"]
-  //     const thatUserId = "PuBuHLn9fyVfAnLQNcPgCPG7vBZ2"
-  //     chatsAPI.createChat(thisUserId, thatUserId)
-  //   }
-
-  //   return (
-  //     <button className="button is-primary" onClick={handleCreateChat}>
-  //       Create New Chat
-  //     </button>
-  //   )
-  // }
-
   const RefreshBtn = () => (
-    <button className="button is-info" onClick={handleRefresh}>
+    <button className="button is-info" onClick={handleRefresh} disabled={loading}>
       Refresh
+      <RefreshIcon />
     </button>
   )
 
@@ -58,8 +46,6 @@ const ChatList = () => {
           <h2 className="title is-2">Chats</h2>
 
           <header>
-            {/* <TempCreateBtn /> */}
-
             <RefreshBtn />
 
             {validChats.length === 0 && (
@@ -76,18 +62,15 @@ const ChatList = () => {
             )}
           </header>
 
-          {validChats.map(({ [DATA_KEYS["CHAT_ID"]]: chatId, otherUserId }, i) => (
-            <div className="card" key={i}>
-              <header className="card-header">
-                <p className="card-header-title">Chat #{i}</p>
-                <Link
-                  to={`${ROUTES.CHAT}?roomId=${chatId}`}
-                  className="card-header-icon"
-                >
-                  Open
-                </Link>
-              </header>
-            </div>
+          {validChats.map(({ chatId, otherUserId }, i) => (
+            <Link to={`${ROUTES.CHAT}/${chatId}`} key={i}>
+              <div className="card">
+                <header className="card-header">
+                  <p className="card-header-title">#{i}</p>
+                  <p className="card-header-title">Chat w/ userId: {otherUserId}</p>
+                </header>
+              </div>
+            </Link>
           ))}
         </div>
       </div>
