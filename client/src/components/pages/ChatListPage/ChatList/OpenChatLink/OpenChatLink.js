@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 
 import * as ROUTES from "config/routeConstants"
 import * as userAPI from "api/account"
+import * as chatsAPI from "api/chats"
 
 const extractProfileImage = (userObj) => {
   const missingImg =

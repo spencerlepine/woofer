@@ -12,6 +12,7 @@ const saveMessageToChatHistory = (chatId, message) => {
 
       const updatedChat = {
         chatId,
+        latestMessage: message,
         chatMessages: extendedMessages,
       }
 
@@ -19,6 +20,7 @@ const saveMessageToChatHistory = (chatId, message) => {
     } else {
       const newChatRecord = {
         chatId,
+        latestMessage: message,
         chatMessages: [message],
       }
 

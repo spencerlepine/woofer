@@ -57,13 +57,13 @@ const MissingInfoWarning = () => {
                 </div>
                 <div className="message-body">
                   {hasNoZipcodes && (
-                    <Link to={ROUTES.PROFILE} className="button is-warning">
+                    <Link to={ROUTES.PROFILE} className="button is-warning px-3">
                       <ZipcodeIcon />
                       <p className="px-1">Add Zipcodes</p>
                     </Link>
                   )}
                   {hasNoPictures && (
-                    <Link to={ROUTES.PROFILE} className="button is-warning">
+                    <Link to={ROUTES.PROFILE} className="button is-warning px-3">
                       <ImageIcon />
                       <p className="px-1">Add Pictures</p>
                     </Link>
