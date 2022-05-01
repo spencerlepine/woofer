@@ -9,16 +9,20 @@ const idKey = DATA_KEYS["USER_ID"]
 export const ChatsContext = React.createContext()
 
 export const ChatsProvider = ({ children }) => {
+  const [loading, setLoading] = useState(false)
   const [availableChats, setAvailableChats] = useState([])
 
   const fetchUserChats = (userId) => {
-    chatsAPI.fetchAllUserChats(userId, (chats) => {
+    setLoading(true)
+    chatsAPI.fetchAllUserChats(userId, ({ chats }) => {
       setAvailableChats(chats)
+      setLoading(false)
     })
   }
 
   const value = {
     availableChats,
+    loading,
     fetchUserChats,
   }
 

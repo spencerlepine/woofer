@@ -3,4 +3,5 @@ module.exports = {
   addUserToChat: require("./addUserToChat"),
   fetchChatHistory: require("./fetchChatHistory"),
   deleteChatRoom: require("./deleteChatRoom"),
+  createNewChat: require("./createNewChat"),
 }

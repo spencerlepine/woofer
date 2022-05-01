@@ -1,16 +1,17 @@
 const { getModelDocumentById } = require("../../../models/modelHelpers")
 
 const fetchUserChats = (req, res) => {
-  const { chatId } = req.query
+  const { userId } = req.query
 
-  return getModelDocumentById("Chat", "chatId", chatId)
-    .then(({ chatMessages }) => {
+  return getModelDocumentById("DogUser", "userId", userId)
+    .then((userRecord) => {
       res.status(200).json({
-        chatMessages: chatMessages,
+        chats: userRecord["chats"],
       })
     })
     .catch((err) =>
       res.status(500).json({
+        chats: [],
         message: "Unable to fetch user chats",
         error: err,
       })

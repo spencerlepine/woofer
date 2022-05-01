@@ -18,6 +18,7 @@ export const createChat = (
       successCallback()
     })
     .catch((error) => {
+      console.error(error)
       createNotif(error)
       failCallback(error)
     })
@@ -34,6 +35,27 @@ export const fetchAllUserChats = (
     .get(SERVER_URL + "/api/chats/fetch", { params })
     .then((response) => {
       successCallback(response.data)
+    })
+    .catch((error) => {
+      console.error(error)
+      createNotif(error)
+      failCallback(error)
+    })
+}
+
+export const fetchChatHistory = (
+  chatId,
+  successCallback,
+  failCallback = () => {}
+) => {
+  const params = { chatId: chatId }
+
+  axios
+    .get(SERVER_URL + "/api/chats/history", { params })
+    .then((response) => {
+      const { data } = response
+      const { chatMessages } = data
+      successCallback(chatMessages || [])
     })
     .catch((error) => {
       console.error(error)

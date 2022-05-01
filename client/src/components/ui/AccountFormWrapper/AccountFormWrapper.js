@@ -91,7 +91,7 @@ const FormWrapper = ({ FieldsComponent, LargeWidth }) => {
               <button
                 disabled={!madeChange}
                 onClick={handleSubmit}
-                className="button is-primary p-2 is-pulled-right"
+                className="button is-warning p-2 is-pulled-right"
               >
                 Update
               </button>
