@@ -1,13 +1,36 @@
 import React from "react"
 import UserInfo from "components/UserInfo/UserInfo"
+import * as ROUTES from "config/routeConstants"
+import * as chatsAPI from "api/chats"
+import * as matchesAPI from "api/matches"
+import { useHistory } from "react-router-dom"
 
-const ChatInfoPopUp = ({ chatId, otherUserId, otherUserDetails, closePopup }) => {
+const ChatInfoPopUp = ({
+  chatId,
+  userId,
+  otherUserId,
+  otherUserDetails,
+  closePopup,
+}) => {
+  const history = useHistory()
+
   const handleChatDelete = () => {
-    // TODO chatId
+    chatsAPI.removeUserFromChat(userId, chatId, () => {
+      history.push(ROUTES.HOME)
+    })
   }
 
   const handleBlock = () => {
-    // todo post reject
+    chatsAPI.removeUserFromChat(userId, chatId, () => {})
+    const body = {
+      thisUserId: userId,
+      thatUserId: otherUserId,
+      matchStatus: "reject",
+    }
+
+    matchesAPI.postUserSwipe(body, () => {
+      history.push(ROUTES.HOME)
+    })
   }
 
   return (

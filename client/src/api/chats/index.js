@@ -63,3 +63,23 @@ export const fetchChatHistory = (
       failCallback(error)
     })
 }
+
+export const removeUserFromChat = (
+  userId,
+  chatId,
+  successCallback,
+  failCallback = () => {}
+) => {
+  const params = { userId, chatId }
+
+  axios
+    .get(SERVER_URL + "/api/chats/remove", { params })
+    .then((response) => {
+      successCallback(response.data)
+    })
+    .catch((error) => {
+      console.error(error)
+      createNotif(error)
+      failCallback(error)
+    })
+}

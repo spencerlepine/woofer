@@ -104,6 +104,7 @@ const ChatMessenger = () => {
                 {renderInfo && (
                   <ChatInfoPopUp
                     closePopup={() => setRenderInfo(false)}
+                    userId={userId}
                     chatId={roomId}
                     otherUserId={otherUserId}
                     otherUserDetails={otherUserDetails}
