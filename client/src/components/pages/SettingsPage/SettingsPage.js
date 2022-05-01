@@ -12,6 +12,8 @@ const SettingsPage = () => {
 
       <ProfilePictureField />
 
+      <br />
+
       <SettingsForm />
 
       <EmailReset />
