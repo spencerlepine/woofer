@@ -1,4 +1,4 @@
-name: Test Containers
+name: Test Docker
 
 on:
   workflow_call:
