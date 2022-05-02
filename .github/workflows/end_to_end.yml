@@ -2,6 +2,10 @@ name: Test Docker
 
 on:
   workflow_call:
+    inputs:
+      ENVIRONMENT:
+        required: true
+        type: string
     secrets:
       NODE_ENV:
         required: true
@@ -31,23 +35,24 @@ on:
 jobs:
 
   test_docker_containers:
+    name: "✅ E2E Testing"
+    environment: ${{ inputs.ENVIRONMENT }}
     runs-on: ubuntu-latest
     services:
-          mongodb:
-              image: mongo
-              env:
-                MONGO_INITDB_ROOT_USERNAME: test
-                MONGO_INITDB_ROOT_PASSWORD: password
-                MONGO_INITDB_DATABASE: test
-              options: >-
-                --health-cmd mongo
-                --health-interval 10s
-                --health-timeout 5s
-                --health-retries 5
-              ports:
-                - 27017:27017
+      mongodb:
+          image: mongo
+          env:
+            MONGO_INITDB_ROOT_USERNAME: test
+            MONGO_INITDB_ROOT_PASSWORD: password
+            MONGO_INITDB_DATABASE: test
+          options: >-
+            --health-cmd mongo
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+          ports:
+            - 27017:27017
 
-    name: "✅ E2E Testing"
     steps:
       - name: "☁️ Check out Git Repository"
         uses: actions/checkout@v2
