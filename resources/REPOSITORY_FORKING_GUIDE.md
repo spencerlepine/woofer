@@ -36,4 +36,4 @@ Fork the repository to your own GitHub Account.
 ## Step 5: Update the Repository Secrets 🤫
 
 1. Navigate to your GitHub Repository
-2. Follow the [Repository Secrets Overview](REPOSITORY_SECRETS.md)
+2. Follow the [Repository Secrets Overview](./REPOSITORY_SECRETS.md)
