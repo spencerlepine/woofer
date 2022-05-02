@@ -18,6 +18,7 @@ describe("Woofer Homepage", () => {
     await page.waitForSelector(".App")
     // const text = await page.$eval(".App", (e) => e.textContent);
     const AppComponent = await page.$eval(".App", (e) => e.innerHTML)
+    console.log(AppComponent)
     expect(AppComponent).toBeTruthy()
   })
 

@@ -1,0 +1,157 @@
+name: Test Containers
+
+on:
+  workflow_call:
+    secrets:
+      NODE_ENV:
+        required: true
+      SERVER_URL:
+        required: true
+      PORT:
+        required: true
+      MONGODB_URL:
+        required: true
+      SKIP_PREFLIGHT_CHECK:
+        required: true
+      REACT_APP_FIREBASE_API_KEY:
+        required: true
+      REACT_APP_FIREBASE_AUTH_DOMAIN:
+        required: true
+      REACT_APP_FIREBASE_PROJECT_ID:
+        required: true
+      REACT_APP_FIREBASE_STORAGE_BUCKET:
+        required: true
+      REACT_APP_FIREBASE_MESSAGING_SENDER_ID:
+        required: true
+      REACT_APP_FIREBASE_APP_ID:
+        required: true
+      REACT_APP_FIREBASE_MEASUREMENT_ID:
+        required: true
+
+jobs:
+
+  test_docker_containers:
+    name: "✅ E2E Testing"
+    runs-on: ubuntu-latest
+    services:
+      mongodb:
+          image: mongo
+          env:
+            MONGO_INITDB_ROOT_USERNAME: test
+            MONGO_INITDB_ROOT_PASSWORD: password
+            MONGO_INITDB_DATABASE: test
+          options: >-
+            --health-cmd mongo
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+          ports:
+            - 27017:27017
+
+    steps:
+      - name: "☁️ Check out Git Repository"
+        uses: actions/checkout@v2
+
+      - name: "🔧 Set up Node"
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
+      - name: "⚡ Cache dependencies"
+        uses: actions/cache@v3
+        id: modules-cache
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+
+      - name: "📦 Install dependencies"
+        # if: steps.modules-cache.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: "🔧 Create .env file"
+        run: |
+          rm -f .env
+          touch .env
+          printf "NODE_ENV=\"${{ secrets.NODE_ENV }}\"
+          SERVER_URL=\"${{ secrets.SERVER_URL }}\"
+          PORT=\"${{ secrets.PORT }}
+          MONGODB_URL="mongodb://127.0.0.1:27017/test"
+          SKIP_PREFLIGHT_CHECK=\"${{ secrets.SKIP_PREFLIGHT_CHECK }}\"
+          REACT_APP_FIREBASE_API_KEY=\"${{ secrets.REACT_APP_FIREBASE_API_KEY }}\"
+          REACT_APP_FIREBASE_AUTH_DOMAIN=\"${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}\"
+          REACT_APP_FIREBASE_PROJECT_ID=\"${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}\"
+          REACT_APP_FIREBASE_STORAGE_BUCKET=\"${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}\"
+          REACT_APP_FIREBASE_MESSAGING_SENDER_ID=\"${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}\"
+          REACT_APP_FIREBASE_APP_ID=\"${{ secrets.REACT_APP_FIREBASE_APP_ID }}\"
+          REACT_APP_FIREBASE_MEASUREMENT_ID=\"${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}\"" >> .env
+
+          NODE_ENV=${{ secrets.NODE_ENV }}
+          SERVER_URL=${{ secrets.SERVER_URL }}
+          PORT=${{ secrets.PORT }}
+          MONGODB_URL=mongodb://127.0.0.1:27017/test
+          SKIP_PREFLIGHT_CHECK=${{ secrets.SKIP_PREFLIGHT_CHECK }}
+          REACT_APP_FIREBASE_API_KEY=${{ secrets.REACT_APP_FIREBASE_API_KEY }}
+          REACT_APP_FIREBASE_AUTH_DOMAIN=${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}
+          REACT_APP_FIREBASE_PROJECT_ID=${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}
+          REACT_APP_FIREBASE_STORAGE_BUCKET=${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}
+          REACT_APP_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}
+          REACT_APP_FIREBASE_APP_ID=${{ secrets.REACT_APP_FIREBASE_APP_ID }}
+          REACT_APP_FIREBASE_MEASUREMENT_ID=${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}
+
+      # - name: "⚡ Cache/Build Docker Client layers"
+      #   id: docker-cache-client
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: /tmp/docker-registry-client
+      #     key: client-${{ runner.os }}-buildx-${{ github.sha }}
+      #     restore-keys: |
+      #       docker-registry-no-buildkit-client-${{ github.sha }}
+
+      # - name: "🧪 Run local Docker registry"
+      #   run: docker run -d -p 5000:5000 --restart=always --name registry -v /tmp/docker-registry:/var/lib/registry registry:2 && npx wait-on tcp:5000
+
+      # - name: "🏗 Build Docker Client image"
+      #   # if: steps.docker-cache-client.outputs.cache-hit != 'true'
+      #   working-directory: ./client
+      #   # run: docker build . -t client --cache-from=localhost:5000/client --build-arg BUILDKIT_INLINE_CACHE=1
+      #   run: docker build . -t client
+
+      # - name: "🏷️ Tag Docker Client image"
+      #   run: docker tag client localhost:5000/client
+
+      # - name: "📦 Cache/Build Docker Server layers"
+      #   id: docker-cache-server
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: /tmp/docker-registry-server
+      #     key: server-${{ runner.os }}-buildx-${{ github.sha }}
+      #     restore-keys: |
+      #       docker-registry-no-buildkit-server-${{ github.sha }}
+
+      # - name: "🏗 Build Docker Server image"
+      #   # if: steps.docker-cache-server.outputs.cache-hit != 'true'
+      #   working-directory: ./server
+      #   run: docker build . -t server --cache-from=localhost:5000/server --build-arg BUILDKIT_INLINE_CACHE=1
+
+      # - name: "🏷️ Tag Docker Server image"
+      #   run: docker tag localhost:5000/server && docker push localhost:5000/server || true
+
+      # - name: "🚀 Run Server Docker Container"
+      #   run: docker run --env-file ./.env -d -p 5000:5000 docker-server:latest
+
+      # - name: "🚀 Run Client Docker Container"
+      #   run: docker run --env-file ./.env -d -p 3000:3000  docker-client/client:latest
+
+      - name: "🏗 Build w/ Docker Compose"
+        run: |
+          docker-compose build
+
+      - name: "🧱 Start Docker Containers"
+        run: |
+          docker-compose --env-file .env up -d
+
+      - name: "✅ Run End-to-end tests"
+        working-directory: ./__tests__
+        run: npm test --if-present
