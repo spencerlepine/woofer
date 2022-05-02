@@ -5,6 +5,9 @@ import WooferLogo from "assets/WooferLogo.png"
 import Socials from "config/socialConstants"
 import Footer from "components/ui/Footer/Footer"
 
+import { auth, storage } from "config/firebase"
+import * as statusAPI from "api/status"
+
 const StatusCheck = (props) => {
   const [loading, setLoading] = useState(true)
   const [firebaseCheckDone, setFirebaseCheckDone] = useState(false)
@@ -13,15 +16,13 @@ const StatusCheck = (props) => {
   const [serverConnectionIsValid, setServerConnectionIsValid] = useState(false)
 
   const checkFirebaseConfig = (resultCallback) => {
-    // TODO
-    // Firebase config is not valid!
-    resultCallback(false)
+    resultCallback(!!auth)
   }
 
   const checkServerStatus = (resultCallback) => {
-    // TODO
-    // Server is not connected!
-    resultCallback(false)
+    statusAPI.fetchServerStatus((isRunning) => {
+      resultCallback(isRunning)
+    })
   }
 
   useEffect(() => {
@@ -32,23 +33,23 @@ const StatusCheck = (props) => {
     }
   }, [firebaseCheckDone, serverCheckDone])
 
-  // useEffect(() => {
-  //   if (serverCheckDone === false) {
-  //     checkServerStatus((statusCheckPassed) => {
-  //       setServerConnectionIsValid(statusCheckPassed)
-  //       setServerCheckDone(true)
-  //     })
-  //   }
-  // }, [serverCheckDone])
+  useEffect(() => {
+    if (serverCheckDone === false) {
+      checkServerStatus((statusCheckPassed) => {
+        setServerConnectionIsValid(statusCheckPassed)
+        setServerCheckDone(true)
+      })
+    }
+  }, [serverCheckDone])
 
-  // useEffect(() => {
-  //   if (firebaseCheckDone === false) {
-  //     checkFirebaseConfig((statusCheckPassed) => {
-  //       setFirebaseConfigIsValid(statusCheckPassed)
-  //       setFirebaseCheckDone(true)
-  //     })
-  //   }
-  // }, [firebaseCheckDone])
+  useEffect(() => {
+    if (firebaseCheckDone === false) {
+      checkFirebaseConfig((statusCheckPassed) => {
+        setFirebaseConfigIsValid(statusCheckPassed)
+        setFirebaseCheckDone(true)
+      })
+    }
+  }, [firebaseCheckDone])
 
   const InfoOrAlert = () => (
     <>
