@@ -71,7 +71,7 @@ const ChatMessenger = () => {
                 <div className="columns">
                   <div className="column">
                     <span style={{ display: "inline-flex" }}>
-                      <figure class="image is-64x64">
+                      <figure className="image is-64x64">
                         <img
                           className="is-rounded chatProfilePic"
                           src={extractProfileImage(otherUserDetails)}

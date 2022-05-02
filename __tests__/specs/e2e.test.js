@@ -4,14 +4,28 @@ describe("Woofer Homepage", () => {
   let browser
   let page
 
+  const homeURL = "http://localhost:3000"
+
   beforeAll(async () => {
     browser = await puppeteer.launch()
     page = await browser.newPage()
   })
 
   it("Connects to localhost on PORT 3000", async () => {
-    await page.goto("http://localhost:3000")
+    await page.goto(homeURL, {
+      timeout: 8000,
+      waitUntil: ["load", "domcontentloaded", "networkidle0", "networkidle2"],
+    })
+
     expect(true).toBeTruthy()
+  })
+
+  it("should render root div", async () => {
+    await page.waitForSelector("#root")
+    // const text = await page.$eval(".App", (e) => e.textContent);
+    const root = await page.$eval("#root", (e) => e.innerHTML)
+    console.log(root)
+    expect(root).toBeTruthy()
   })
 
   it("should render React App component", async () => {
