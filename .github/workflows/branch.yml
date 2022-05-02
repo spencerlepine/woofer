@@ -22,6 +22,7 @@ jobs:
 
   end_to_end_tests:
     name: 🧪 E2E Testing
+    uses: ./.github/workflows/end_to_end.yml
     with:
       ENVIRONMENT: development
     secrets:
