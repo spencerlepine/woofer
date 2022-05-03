@@ -90,7 +90,7 @@ jobs:
         run: |
           npm install
           # su root
-          3npm install --unsafe-perm=true --allow-root
+          # npm install --unsafe-perm=true --allow-root
 
       # - name: "🔧 Install docker"
         # run: |
