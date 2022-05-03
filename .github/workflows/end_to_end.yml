@@ -213,7 +213,8 @@ jobs:
         working-directory: ./__tests__
         run: |
           su root
-          npm install
+          npm install --unsafe-perm=true --allow-root
+
 
       - name: "✅ Run End-to-end tests"
         working-directory: ./__tests__
