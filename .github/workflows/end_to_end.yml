@@ -211,12 +211,13 @@ jobs:
       - name: "📦 Install dependencies"
         # if: steps.modules-cache.outputs.cache-hit != 'true'
         working-directory: ./__tests__
-        run: npm install
-
-      - name: "✅ Run End-to-end tests"
-        working-directory: ./__tests__
         env:
           PUPPETEER_SKIP_DOWNLOAD: true
         run: |
           export PUPPETEER_SKIP_DOWNLOAD='true'
-          npm test --if-present
+          npm install
+
+      - name: "✅ Run End-to-end tests"
+        working-directory: ./__tests__
+        run: npm test --if-present
+
