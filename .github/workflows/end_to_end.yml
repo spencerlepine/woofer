@@ -85,11 +85,11 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
-      - name: "📦 Install dependencies"
-        # if: steps.modules-cache.outputs.cache-hit != 'true'
-        run: |
-          su root
-          npm install --unsafe-perm=true --allow-root
+      # - name: "📦 Install dependencies"
+      #   # if: steps.modules-cache.outputs.cache-hit != 'true'
+      #   run: |
+      #     su root
+      #     npm install --unsafe-perm=true --allow-root
 
       # - name: "🔧 Install docker"
       #   run: |
