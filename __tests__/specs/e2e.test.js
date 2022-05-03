@@ -5,7 +5,6 @@ describe("Woofer Homepage", () => {
   let page
 
   const homeURL = "http://localhost:3000"
-  // const homeURL = "http://localhost:8080"
 
   beforeAll(async () => {
     browser = await puppeteer.launch()
