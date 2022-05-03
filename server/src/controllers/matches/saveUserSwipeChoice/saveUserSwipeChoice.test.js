@@ -53,7 +53,7 @@ describe("saveUserSwipeChoice controller", () => {
   describe("with valid arguments", () => {
     test("should resolve with the user match statuses", (done) => {
       const mockReq = {
-        query: {
+        body: {
           thisUserId: mockUser["userId"],
           thatUserId: mockUserB["userId"],
           matchStatus: "accept",
@@ -81,7 +81,7 @@ describe("saveUserSwipeChoice controller", () => {
 
     test("should resolve a chatId on mutual match", (done) => {
       const mockReq = {
-        query: {
+        body: {
           thisUserId: mockUser["userId"],
           thatUserId: mockUserB["userId"],
           matchStatus: "accept",

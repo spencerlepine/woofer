@@ -161,7 +161,7 @@ const generateMoreQueueMatches = (userId) => {
         return getModelDocumentById("MatchQueue", "userId", userId)
           .then((matchQueueDoc) => {
             if (matchQueueDoc) {
-              const updateDoc = new Object(matchQueueDoc)
+              const updateDoc = Object.create(matchQueueDoc)
               updateDoc["matchQueue"] = finalQueueList
               return updateModelDocumentById(
                 "MatchQueue",

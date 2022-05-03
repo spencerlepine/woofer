@@ -3,6 +3,7 @@ const { mockUser, mockUserB, signupMockUser, modelHelpers } = global.testHelpers
 const { getModelDocumentById } = require("../../../models/modelHelpers")
 
 const removeZipCodeFromProfile = require("./index")
+const userToZipPoolDoc = require("../userToZipPoolDoc")
 
 describe("removeZipCodeFromProfile controller helper", () => {
   describe("with invalid arguments", () => {
@@ -24,15 +25,16 @@ describe("removeZipCodeFromProfile controller helper", () => {
   })
 
   describe("with valid arguments", () => {
-    const user = new Object(mockUser)
+    const user = Object.create(mockUser)
     user["zipcodes"] = ["10001"]
-    const userId = user["userId"]
     const zipcode = "10001"
 
     test("should resolve with updated user profile", (done) => {
       signupMockUser(user)
-        .then(() => removeZipCodeFromProfile(userId, zipcode))
+        .then(() => userToZipPoolDoc(user["userId"], zipcode))
+        .then(() => removeZipCodeFromProfile(user["userId"], zipcode))
         .then((userProfile) => {
+          console.log(userProfile)
           expect(userProfile).toBeDefined()
           expect(userProfile).toHaveProperty("zipcodes")
           const { zipcodes } = userProfile

@@ -53,14 +53,19 @@ module.exports = {
 
     return request(app).post(url).send(body)
   },
-  signupMockUser: (user, done) => {
+  signupMockUser: (user, userId = "1234asdfuasdf") => {
     const method = "POST"
     const url = "/api/signup"
+
+    const body = {
+      userId: userId,
+      ...user,
+    }
 
     return new Promise((resolve, reject) => {
       request(app)
         .post(url)
-        .send(user)
+        .send(body)
         .end((err, res) => {
           resolve()
           if (err) reject(err)

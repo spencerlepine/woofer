@@ -1,4 +1,7 @@
-const { mockUser, mockUserB, signupMockUser } = global.testHelpers
+const { mockUser: placeholderUser, mockUserB, signupMockUser } = global.testHelpers
+
+const mockUser = Object.create(placeholderUser)
+mockUser["userId"] = "120981480"
 
 const fetchPossibleMatch = require("./index")
 const userToZipPoolDoc = require("../../zipcodes/userToZipPoolDoc")
@@ -51,15 +54,15 @@ describe("fetchPossibleMatch controller", () => {
 
   describe("with valid arguments", () => {
     const zipcode = "10001"
-    const mockUserC = new Object(mockUser)
+    const mockUserC = Object.create(mockUser)
     mockUserC["preference"] = mockUser["gender"]
-    const mockUserD = new Object(mockUser)
+    const mockUserD = Object.create(mockUser)
     mockUserD["preference"] = mockUser["gender"]
-    const mockUserE = new Object(mockUser)
+    const mockUserE = Object.create(mockUser)
     mockUserE["preference"] = mockUser["gender"]
-    const mockUserF = new Object(mockUser)
+    const mockUserF = Object.create(mockUser)
     mockUserF["preference"] = mockUser["gender"]
-    const mockUserG = new Object(mockUser)
+    const mockUserG = Object.create(mockUser)
     mockUserG["preference"] = mockUser["gender"]
 
     const mockUserIds = [

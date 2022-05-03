@@ -24,12 +24,11 @@ describe("addZipCodeToProfile controller helper", () => {
   })
 
   describe("with valid arguments", () => {
-    const userId = mockUser["userId"]
     const zipcode = "10001"
 
     test("should resolve with updated user profile", (done) => {
       signupMockUser(mockUser)
-        .then(() => addZipCodeToProfile(userId, zipcode))
+        .then(() => addZipCodeToProfile(mockUser["userId"], zipcode))
         .then((userProfile) => {
           expect(userProfile).toBeDefined()
           expect(userProfile).toHaveProperty("zipcodes")

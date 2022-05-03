@@ -57,7 +57,7 @@ const saveUserSwipeChoice = (req, res) => {
           .then(() => addUserToChat(thatUserId, thisUserId, newChatId))
           .then(() => newChatId)
 
-        return result
+        return newChatId
       } else {
         await addUserToMatchQueue(thatUserId, thisUserId)
       }

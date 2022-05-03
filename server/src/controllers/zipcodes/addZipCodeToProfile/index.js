@@ -13,7 +13,7 @@ const filterZips = (userZipcodes, newZipcode) => {
 
 const addZipCodeToProfile = (userId, newZipcode) => {
   return getModelDocumentById("DogUser", "userId", userId).then((userProfile) => {
-    const newProfile = new Object(userProfile)
+    const newProfile = Object.create(userProfile)
 
     let validZips = []
     const { zipcodes } = newProfile
