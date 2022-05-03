@@ -21,7 +21,7 @@ export const uploadImageToFirebase = (newFile, userId, successCallback) => {
   const storageRef = storage.ref(`/images/${userId}/${imageName}`)
 
   if (storageRef.put) {
-    storageRef
+    return storageRef
       .put(newFile)
       .then(() => {
         storageRef.getDownloadURL().then((url) => {

@@ -29,7 +29,6 @@ const UserInfo = ({ user }) => {
     [DATA_KEYS["USER_BREED"]]: breedUnformatted,
     [DATA_KEYS["USER_BIO"]]: bio,
   } = user
-  console.log(gender)
 
   const breed = capitalizeStr(breedUnformatted)
   const formattedName = titleCaseDisplayName(firstName, lastName)

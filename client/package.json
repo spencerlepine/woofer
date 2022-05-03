@@ -15,7 +15,8 @@
   "scripts": {
     "start": "npm run dev:client",
     "build": "dotenv -e ../.env -- webpack --config ./webpack.prod.config.js --mode production",
-    "dev:client": "webpack serve --config ./webpack.dev.config.js --env development --mode development  --host 0.0.0.0 --port 3000",
+    "ci:build": "dotenv -e ../.env -- webpack --config ./webpack.ci.config.js --mode production",
+    "dev:client": "webpack serve --config ./webpack.dev.config.js --env development --mode development --host 0.0.0.0 --port 3000",
     "test": "jest --detectOpenHandles --runInBand --forceExit",
     "test:watch": "jest --onlyChanged --watch"
   },

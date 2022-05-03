@@ -35,11 +35,16 @@ const MissingInfoWarning = () => {
     setRenderWarning(false)
   }
 
+  // useEffect(() => {
+  //   if (!hasNoPictures && !hasNoZipcodes) {
+  //     setRenderWarning(false)
+  //   }
+  // }, [accountDetails])
+
   useEffect(() => {
-    if (!hasNoPictures && !hasNoZipcodes) {
-      setRenderWarning(false)
-    }
-  }, [accountDetails])
+    const hasWarning = !(hasNoPictures && hasNoZipcodes)
+    setRenderWarning(!hasWarning)
+  }, [])
 
   return (
     <>
@@ -50,7 +55,7 @@ const MissingInfoWarning = () => {
               <article className="message is-warning">
                 <div className="message-header">
                   <span className="is-inline">
-                    <h2>
+                    <h2 className="title is-5">
                       <WarningIcon className="icon my-auto" /> Missing Account Info!
                     </h2>
                   </span>

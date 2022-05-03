@@ -39,13 +39,18 @@ app.use(mongoSanitize())
 app.use(compression())
 
 const corsOptions = {
-  origin: "*",
+  origin: [
+    "*",
+    // "http://ec2-34-203-190-56.compute-1.amazonaws.com",
+    // "http://34.203.190.56",
+    // "http://localhost:3000",
+  ],
   optionsSuccessStatus: 200,
 }
 app.use(cors(corsOptions))
 
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*")
+  res.header("Access-Control-Allow-Origin", corsOptions.origin)
   res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")
   res.header(
     "Access-Control-Allow-Headers",
