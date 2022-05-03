@@ -215,7 +215,7 @@ jobs:
   #         # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
   verify_ec2:
-    needs: [publish_docker_server, publish_docker_client]
+    needs: [ publish_docker_client]
     name: ✅ EC2 Verification
     environment: staging
     runs-on: ubuntu-latest
