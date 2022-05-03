@@ -14,14 +14,15 @@ const StatusCheck = (props) => {
   const [firebaseConfigIsValid, setFirebaseConfigIsValid] = useState(false)
   const [serverCheckDone, setServerCheckDone] = useState(false)
   const [serverConnectionIsValid, setServerConnectionIsValid] = useState(false)
+  const [apiErorr, setApiError] = useState("")
 
   const checkFirebaseConfig = (resultCallback) => {
     resultCallback(!!auth)
   }
 
   const checkServerStatus = (resultCallback) => {
-    statusAPI.fetchServerStatus((isRunning) => {
-      resultCallback(isRunning)
+    statusAPI.fetchServerStatus((isRunning, error) => {
+      resultCallback(isRunning, error)
     })
   }
 
@@ -35,8 +36,9 @@ const StatusCheck = (props) => {
 
   useEffect(() => {
     if (serverCheckDone === false) {
-      checkServerStatus((statusCheckPassed) => {
+      checkServerStatus((statusCheckPassed, error) => {
         setServerConnectionIsValid(statusCheckPassed)
+        setApiError(error)
         setServerCheckDone(true)
       })
     }
@@ -96,8 +98,10 @@ const StatusCheck = (props) => {
                         <p>Error</p>
                         <WarningIcon />
                       </div>
-                      <div className="message-body" id="firebase-error">
-                        Unable to connect to Firebase
+                      <div className="message-body">
+                        <span className="firebaseError">
+                          Unable to connect to Firebase
+                        </span>
                       </div>
                     </article>
                   )}
@@ -107,8 +111,13 @@ const StatusCheck = (props) => {
                         <p>Server Failure</p>
                         <WarningIcon />
                       </div>
-                      <div className="message-body" id="api-error">
-                        Backend API is not currently running
+                      <div className="message-body ">
+                        <span className="apiError">
+                          Backend API is not currently running
+                        </span>
+                      </div>
+                      <div className="column is-half message-footer">
+                        <p>{apiErorr}</p>
                       </div>
                     </article>
                   )}

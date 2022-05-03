@@ -11,11 +11,11 @@ export const fetchServerStatus = (callback) => {
         const isRunning = status === "running"
         callback(isRunning)
       } else {
-        callback(true)
+        callback(true, "")
       }
     })
     .catch((error) => {
-      callback(false)
+      callback(false, JSON.stringify(error))
       console.error(error)
       createNotif(error)
     })

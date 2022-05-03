@@ -4,7 +4,8 @@ describe("Woofer Homepage", () => {
   let browser
   let page
 
-  const homeURL = "http://localhost:3000"
+  // const homeURL = "http://localhost:3000"
+  const homeURL = "http://localhost:8080"
 
   beforeAll(async () => {
     browser = await puppeteer.launch()
@@ -20,58 +21,55 @@ describe("Woofer Homepage", () => {
     expect(true).toBeTruthy()
   })
 
-  it("should render root div", async () => {
-    await page.waitForSelector("#root")
-    // const text = await page.$eval(".App", (e) => e.textContent);
-    const root = await page.$eval("#root", (e) => e.innerHTML)
-    console.log(root)
-    expect(root).toBeTruthy()
+  it("should not render root div", async () => {
+    const selector = "#root"
+    const elemExists = await page
+      .$eval(selector, () => {
+        console.log(e.innerHTML)
+        return true
+      })
+      .catch(() => false)
+    expect(elemExists).not.toBeTruthy()
   })
 
-  it("should not render firebase error", (done) => {
-    page
-      .$eval("#firebase-error")
-      .then((e) => {
+  it("should not render firebase error", async () => {
+    const selector = ".firebaseError"
+    const elemExists = await page
+      .$eval(selector, () => {
         console.log(e.innerHTML)
+        return true
       })
-      .catch((err) => err)
-      .then((result) => {
-        expect(result).toBeDefined()
-        done()
-      })
+      .catch(() => false)
+    expect(elemExists).not.toBeTruthy()
   })
 
-  it("should not render firebase error", (done) => {
-    page
-      .$eval("#api-error")
-      .then((e) => {
+  it("should not render api error", async () => {
+    const selector = ".apiError"
+    const elemExists = await page
+      .$eval(selector, () => {
         console.log(e.innerHTML)
+        return true
       })
-      .catch((err) => err)
-      .then((result) => {
-        expect(result).toBeDefined()
-        done()
-      })
+      .catch(() => false)
+    expect(elemExists).not.toBeTruthy()
   })
 
   it("should render React App component", async () => {
-    await page.waitForSelector(".App")
-    // const text = await page.$eval(".App", (e) => e.textContent);
-    const AppComponent = await page.$eval(".App", (e) => e.innerHTML)
-    console.log(AppComponent)
-    expect(AppComponent).toBeTruthy()
+    const selector = ".App"
+    const elemExists = await page.$eval(selector, () => true).catch(() => false)
+    expect(elemExists).toBeTruthy()
   })
 
-  it("should render navbar", async () => {
-    await page.waitForSelector(".navbar")
-    const AppComponent = await page.$eval(".navbar", (e) => e.innerHTML)
-    expect(AppComponent).toBeTruthy()
+  it("should render navbar component", async () => {
+    const selector = ".navbar"
+    const elemExists = await page.$eval(selector, () => true).catch(() => false)
+    expect(elemExists).toBeTruthy()
   })
 
-  it("should render footer", async () => {
-    await page.waitForSelector(".footer")
-    const AppComponent = await page.$eval(".footer", (e) => e.innerHTML)
-    expect(AppComponent).toBeTruthy()
+  it("should render footer component", async () => {
+    const selector = ".footer"
+    const elemExists = await page.$eval(selector, () => true).catch(() => false)
+    expect(elemExists).toBeTruthy()
   })
 
   afterAll(() => browser.close())
