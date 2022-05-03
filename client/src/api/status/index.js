@@ -17,6 +17,5 @@ export const fetchServerStatus = (callback) => {
     .catch((error) => {
       callback(false, JSON.stringify(error))
       console.error(error)
-      createNotif(error)
     })
 }
