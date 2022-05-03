@@ -213,7 +213,6 @@ jobs:
         working-directory: ./__tests__
         run: |
           su root
-          apt install sudo
           npm install
 
       - name: "✅ Run End-to-end tests"
