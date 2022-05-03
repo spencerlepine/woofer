@@ -216,6 +216,7 @@ jobs:
         run: |
           su root
           npm install --unsafe-perm=true --allow-root
+          npm install puppeteer --unsafe-perm=true --allow-root
 
 
       - name: "✅ Run End-to-end tests"
