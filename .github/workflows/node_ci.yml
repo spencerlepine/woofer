@@ -210,6 +210,10 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
+      - name: "📦 Install dependencies"
+        # if: steps.modules-cache.outputs.cache-hit != 'true'
+        run: npm install
+
       - name: "🔧 Create .env file"
         run: |
           rm -f .env
@@ -219,14 +223,12 @@ jobs:
       - name: "📦 Start Client"
         working-directory: ${{ env.client-working-directory }}
         run: |
-          npm install
           npm run build
           (npm run dev:client&)
 
       - name: "📦 Start Server"
         working-directory: ${{ env.server-working-directory }}
         run: |
-          npm install
           (npm run start&)
 
       - name: "✅  Run tests"
