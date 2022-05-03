@@ -210,17 +210,24 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
+      - name: "🔧 Create .env file"
+        run: |
+          rm -f .env
+          cp .env.sample .env
+          export $(grep -v '^#' .env | xargs)
+
       - name: "📦 Start Client"
         working-directory: ${{ env.client-working-directory }}
         run: |
           npm install
-          npm run dev:client
+          npm run build
+          (npm run dev:client&)
 
       - name: "📦 Start Server"
         working-directory: ${{ env.server-working-directory }}
         run: |
           npm install
-          npm run start
+          (npm run start&)
 
       - name: "✅  Run tests"
         working-directory: ${{ env.test-working-directory }}
