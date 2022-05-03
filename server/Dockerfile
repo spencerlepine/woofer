@@ -1,6 +1,6 @@
 # install latest node
 # https://hub.docker.com/_/node/
-FROM node:14.15.3-alpine3.12
+FROM node:16-alpine
 
 # create and set app directory
 RUN mkdir -p /usr/src/nodejs/
