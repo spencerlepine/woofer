@@ -70,24 +70,24 @@ const generateMoreQueueMatches = (userId) => {
       return newMatchQueue
     })
     .then((uniqueUserList) => {
-      const filteredGenderUsers = []
-
       const genderChecks = () =>
         Promise.all(
           uniqueUserList.map((userIdStr) =>
-            getModelDocumentById("DogUser", "userId", userId).then((user) => {
+            getModelDocumentById("DogUser", "userId", userIdStr).then((user) => {
               let validPrefenceStatus = false
               if (user && user["gender"] && user["preference"]) {
-                if (
+                const gendersPass =
                   userProfile["preference"] === user["gender"] &&
                   user["preference"] === userProfile["gender"]
-                ) {
+
+                if (gendersPass && userIdStr !== userId) {
                   validPrefenceStatus = true
                 }
               }
               return {
                 validPrefenceStatus,
                 userId: userIdStr,
+                userName: user["username"],
               }
             })
           )
@@ -103,6 +103,54 @@ const generateMoreQueueMatches = (userId) => {
 
         return validFiltered
       })
+    })
+    .then((matchingGenderList) => {
+      return getModelDocumentById("MatchRecords", "userId", userId)
+        .then((matchRecord) => {
+          if (matchRecord && matchRecord["userMatches"]) {
+            return matchRecord["userMatches"]
+          } else {
+            return {}
+          }
+        })
+        .then((thisUserMatchRecord) => {
+          const matchChecks = () =>
+            Promise.all(
+              matchingGenderList.map((userIdStr) =>
+                getModelDocumentById("MatchRecords", "userId", userIdStr).then(
+                  (user) => {
+                    let validMatchStatus = !(
+                      thisUserMatchRecord[userIdStr] === undefined
+                    )
+
+                    if (user && user["userMatches"]) {
+                      if (user["userMatches"][userId]) {
+                        if (user["userMatches"][userId] === "reject") {
+                          let validMatchStatus = false
+                        }
+                      }
+                    }
+                    return {
+                      validMatchStatus,
+                      userId: userIdStr,
+                    }
+                  }
+                )
+              )
+            )
+
+          return matchChecks().then((matchCheckObjects) => {
+            console.log(matchCheckObjects)
+            const validFiltered = []
+            matchCheckObjects.forEach(({ validMatchStatus, userId }) => {
+              if (validMatchStatus) {
+                validFiltered.push(userId)
+              }
+            })
+
+            return validFiltered
+          })
+        })
     })
     .then((finalQueueList) => {
       return getModelDocumentById("MatchQueue", "userId", userId)
