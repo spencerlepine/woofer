@@ -13,7 +13,7 @@ describe("Woofer Homepage", () => {
 
   it("Connects to localhost on PORT 3000", async () => {
     await page.goto(homeURL, {
-      timeout: 8000,
+      timeout: 10000,
       waitUntil: ["load", "domcontentloaded", "networkidle0", "networkidle2"],
     })
 
@@ -28,18 +28,37 @@ describe("Woofer Homepage", () => {
     expect(root).toBeTruthy()
   })
 
-  it("should render React App component", async () => {
-    await page.waitForSelector(".App")
-    // const text = await page.$eval(".App", (e) => e.textContent);
-    const AppComponent = await page.$eval(".App", (e) => e.innerHTML)
-    console.log(AppComponent)
-    expect(AppComponent).toBeTruthy()
+  it("should not render firebase error", (done) => {
+    page
+      .$eval("#firebase-error")
+      .then((e) => {
+        console.log(e.innerHTML)
+      })
+      .catch((err) => err)
+      .then((result) => {
+        expect(result).toBeDefined()
+        done()
+      })
+  })
+
+  it("should not render firebase error", (done) => {
+    page
+      .$eval("#api-error")
+      .then((e) => {
+        console.log(e.innerHTML)
+      })
+      .catch((err) => err)
+      .then((result) => {
+        expect(result).toBeDefined()
+        done()
+      })
   })
 
   it("should render React App component", async () => {
     await page.waitForSelector(".App")
     // const text = await page.$eval(".App", (e) => e.textContent);
     const AppComponent = await page.$eval(".App", (e) => e.innerHTML)
+    console.log(AppComponent)
     expect(AppComponent).toBeTruthy()
   })
 

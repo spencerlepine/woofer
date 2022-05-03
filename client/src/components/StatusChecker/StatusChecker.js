@@ -96,7 +96,7 @@ const StatusCheck = (props) => {
                         <p>Error</p>
                         <WarningIcon />
                       </div>
-                      <div className="message-body">
+                      <div className="message-body" id="firebase-error">
                         Unable to connect to Firebase
                       </div>
                     </article>
@@ -107,7 +107,7 @@ const StatusCheck = (props) => {
                         <p>Server Failure</p>
                         <WarningIcon />
                       </div>
-                      <div className="message-body">
+                      <div className="message-body" id="api-error">
                         Backend API is not currently running
                       </div>
                     </article>
