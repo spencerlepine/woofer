@@ -223,7 +223,7 @@ jobs:
       - name: "📦 Start Client"
         working-directory: ${{ env.client-working-directory }}
         run: |
-          npm run build
+          npm run ci:build
           (npm run dev:client&)
 
       - name: "📦 Start Server"

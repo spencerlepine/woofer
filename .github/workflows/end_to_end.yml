@@ -148,7 +148,7 @@ jobs:
         working-directory: ./client
         # run: docker build . -t client --cache-from=localhost:5000/client --build-arg BUILDKIT_INLINE_CACHE=1
         run: |
-          docker build . \
+          docker build . -f Dockerfile.dev \
             -t client \
             --build-arg BUILDKIT_INLINE_CACHE=1 \
             --build-arg NODE_ENV=$NODE_ENV \
