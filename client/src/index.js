@@ -2,6 +2,7 @@ import React from "react"
 import ReactDOM from "react-dom"
 import { BrowserRouter as Router } from "react-router-dom"
 import { createBrowserHistory } from "history"
+import StatusChecker from "./components/StatusChecker/StatusChecker"
 import "./index.css"
 import "react-toastify/dist/ReactToastify.css"
 import "bulma/css/bulma.css"
@@ -18,7 +19,9 @@ window.toTitleCase = (key) => {
 ReactDOM.render(
   <Router history={history}>
     <React.StrictMode>
-      <App />
+      <StatusChecker>
+        <App />
+      </StatusChecker>
     </React.StrictMode>
     ,
   </Router>,

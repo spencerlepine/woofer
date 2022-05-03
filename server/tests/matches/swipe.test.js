@@ -19,7 +19,7 @@ const swipeOnUser = (thisUserId, thatUserId, matchStatus) => {
 const fetchMatchStatus = (thisUser, thatUser) => {
   const thisUserId = thisUser["userId"]
   const thatUserId = thatUser["userId"]
-  const url = "api/matches/status"
+  const url = "/api/matches/status"
 
   const query = {
     thisUserId: thisUserId,
@@ -41,17 +41,7 @@ describe("MATCHES Swipe Choice endpoint", () => {
     test("POST a ACCEPT Swipe", (done) => {
       signupMockUser(mockUser)
         .then(() => signupMockUser(mockUserB))
-        .then(() => {
-          swipeOnUser(mockUser["userId"], mockUserB["userId"], ACCEPT)
-            .expect("Content-Type", /json/)
-            .expect(201)
-            .expect((result) => {
-              expect(result).toBeDefined()
-              const resBody = result.body
-              expect("userProfile" in resBody).toBeTruthy()
-              expect(resBody["chatId"]).toBe("none")
-            })
-        })
+        .then(() => swipeOnUser(mockUser["userId"], mockUserB["userId"], ACCEPT))
         .then(() => {
           // Verify the match status is in the database
           fetchMatchStatus(mockUser, mockUserB)
@@ -64,9 +54,12 @@ describe("MATCHES Swipe Choice endpoint", () => {
               expect(matchStatusObj).toHaveProperty(thisUserId, ACCEPT)
               expect(matchStatusObj).toHaveProperty(thatUserId, "none")
             })
+            .end((err, res) => {
+              if (err) return done(err)
+              return done()
+            })
         })
         .catch(done)
-        .then(done)
     })
   })
 
@@ -74,18 +67,7 @@ describe("MATCHES Swipe Choice endpoint", () => {
     test("POST a REJECTION Swipe", (done) => {
       signupMockUser(mockUser)
         .then(() => signupMockUser(mockUserB))
-        .then(() => {
-          // ACT => Swipe NO on the User
-          swipeOnUser(mockUser, mockUserB, REJECT)
-            .expect("Content-Type", /json/)
-            .expect(201)
-            .expect((result) => {
-              expect(result).toBeDefined()
-              const resBody = result.body
-              expect("userProfile" in resBody).toBeTruthy()
-              expect(resBody["chatId"]).toBe("none")
-            })
-        })
+        .then(() => swipeOnUser(mockUser["userId"], mockUserB["userId"], REJECT))
         .then(() => {
           // Verify the match status is in the database
           fetchMatchStatus(mockUser, mockUserB)
@@ -98,9 +80,12 @@ describe("MATCHES Swipe Choice endpoint", () => {
               expect(matchStatusObj).toHaveProperty(thisUserId, REJECT)
               expect(matchStatusObj).toHaveProperty(thatUserId, "none")
             })
+            .end((err, res) => {
+              if (err) return done(err)
+              return done()
+            })
         })
         .catch(done)
-        .then(done)
     })
   })
 
@@ -111,19 +96,8 @@ describe("MATCHES Swipe Choice endpoint", () => {
     test("POST a mutual ACCEPT Swipe", (done) => {
       signupMockUser(mockUser)
         .then(() => signupMockUser(mockUserB))
-        .then(() => swipeYesA())
-        .then(() => {
-          swipeYesB()
-            .expect("Content-Type", /json/)
-            .expect(201)
-            .expect((result) => {
-              expect(result).toBeDefined()
-              const resBody = result.body
-              expect("userProfile" in resBody).toBeTruthy()
-              expect(resBody["chatId"]).not.toBe("none")
-              expect("userProfile").toHaveProperty(thisUserID)
-            })
-        })
+        .then(() => swipeOnUser(mockUser["userId"], mockUserB["userId"], ACCEPT))
+        .then(() => swipeOnUser(mockUserB["userId"], mockUser["userId"], ACCEPT))
         .then(() => {
           // Verify the match status is in the database
           fetchMatchStatus(mockUser, mockUserB)
@@ -136,9 +110,12 @@ describe("MATCHES Swipe Choice endpoint", () => {
               expect(matchStatusObj).toHaveProperty(thisUserId, ACCEPT)
               expect(matchStatusObj).toHaveProperty(thatUserId, ACCEPT)
             })
+            .end((err, res) => {
+              if (err) return done(err)
+              return done()
+            })
         })
         .catch(done)
-        .then(done)
     })
   })
 })

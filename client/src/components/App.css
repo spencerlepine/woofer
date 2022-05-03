@@ -91,3 +91,13 @@
   width: 64px;
   height: 64px;
 }
+
+.loader-wrapper:active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.loader-wrapper .loader {
+  height: 100px;
+  width: 100px;
+}

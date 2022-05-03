@@ -29,7 +29,7 @@ const addUserZipCode = (req, res) => {
     .then((zipcodePool) => {
       const { zipcodeUsers } = zipcodePool
 
-      const newUsers = new Object(zipcodeUsers)
+      const newUsers = Object.create(zipcodeUsers)
       newUsers[userId] = 1
 
       const updatedPool = {

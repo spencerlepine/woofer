@@ -25,7 +25,6 @@ export const ChatsProvider = ({ children }) => {
   const fetchOtherUserDetails = (userId) => {
     setLoading(true)
     userAPI.fetchUserProfile(userId, (userProfile) => {
-      console.log(userProfile)
       setOtherUserDetails(userProfile)
       setLoading(false)
     })

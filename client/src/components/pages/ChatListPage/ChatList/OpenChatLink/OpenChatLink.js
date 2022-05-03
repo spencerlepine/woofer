@@ -85,7 +85,7 @@ const OpenChatLink = ({ chatId, otherUserId, i }) => {
         <Link to={`${ROUTES.CHAT}/${chatId}/${otherUserId}`}>
           <div className="card">
             <header className="card-header mx-auto pl-6 my-2">
-              <figure class="image chatPic my-auto pl-3">
+              <figure className="image chatPic my-auto pl-3">
                 <img
                   className="is-rounded chatProfilePic m-auto"
                   src={profilePic}

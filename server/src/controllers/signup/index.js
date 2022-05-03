@@ -8,8 +8,12 @@ module.exports = {
     const { userId } = userProfile
 
     const filteredProfile = polyFillUser(userProfile)
+    const newProfile = {
+      ...filteredProfile,
+      userId: userId,
+    }
 
-    return createModelDocumentById("DogUser", "userId", userId, filteredProfile)
+    return createModelDocumentById("DogUser", "userId", userId, newProfile)
       .then((userProfile) => {
         res.status(201).json({
           userProfile: userProfile,

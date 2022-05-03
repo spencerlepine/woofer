@@ -2,12 +2,13 @@ const request = require("supertest")
 
 const {
   app,
-  mockUser,
+  mockUser: placeholderUser,
   mockUserB,
-  verifyEndpointResponse,
   signupMockUser,
-  // addUserToZip,
-} = require("../utils/test-helpers")
+} = global.testHelpers
+
+const mockUser = Object.create(placeholderUser)
+mockUser["userId"] = "120981480"
 
 const userToZipPoolDoc = require("../../src/controllers/zipcodes/userToZipPoolDoc")
 
@@ -28,16 +29,21 @@ const url = "/api/matches/generate"
 describe("MATCHES endpoint match generation", () => {
   describe("should find a possible match user", () => {
     const zipcode = "10001"
-    const mockUserC = new Object(mockUser)
+    const mockUserC = Object.create(mockUser)
+    mockUserC["zipcodes"] = []
     mockUserC["preference"] = mockUser["gender"]
-    const mockUserD = new Object(mockUser)
+    const mockUserD = Object.create(mockUser)
     mockUserD["preference"] = mockUser["gender"]
-    const mockUserE = new Object(mockUser)
+    mockUserD["zipcodes"] = []
+    const mockUserE = Object.create(mockUser)
     mockUserE["preference"] = mockUser["gender"]
-    const mockUserF = new Object(mockUser)
+    mockUserE["zipcodes"] = []
+    const mockUserF = Object.create(mockUser)
     mockUserF["preference"] = mockUser["gender"]
-    const mockUserG = new Object(mockUser)
+    mockUserF["zipcodes"] = []
+    const mockUserG = Object.create(mockUser)
     mockUserG["preference"] = mockUser["gender"]
+    mockUserG["zipcodes"] = []
 
     const mockUserIds = [
       mockUserB,
@@ -71,20 +77,17 @@ describe("MATCHES endpoint match generation", () => {
             .expect(200)
             .expect((res) => {
               expect(res.body).toBeDefined()
-              const { userProfile: userProfile, matchIsValid } = res.body
+              const { userProfile: user, matchIsValid } = res.body
+              console.log(res.body)
 
-              expect(userProfile).toBeDefined()
-              expect(userProfile).toHaveProperty(
-                "userProfile",
-                mockUserB["userProfile"]
-              )
-
-              expect(userProfile).toHaveProperty("userId", mockUserB["userId"])
-
-              expect(matchIsValid).toBeTruthy()
+              expect(user).toBeDefined()
+              expect(user).toHaveProperty("userId")
+            })
+            .end((err, res) => {
+              if (err) return done(err)
+              return done()
             })
         })
-        .then(done)
         .catch((err) => done(err))
     })
   })

@@ -58,7 +58,7 @@ describe("MongoDB Model Helper functions", () => {
         value: "test",
       }
 
-      const updatedMessage = new Object(newMessage)
+      const updatedMessage = Object.create(newMessage)
       const newValue = "YEET"
       updatedMessage["value"] = newValue
 
@@ -76,7 +76,7 @@ describe("MongoDB Model Helper functions", () => {
 
     test("should return the updated user object", (done) => {
       const userId = mockUser["userId"]
-      const updatedUser = new Object(mockUser)
+      const updatedUser = Object.create(mockUser)
       updatedUser["zipcodes"] = ["10001"]
 
       createModelDocumentById("DogUser", "userId", userId, mockUser)

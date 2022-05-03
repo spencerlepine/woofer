@@ -39,9 +39,9 @@ const MatchModal = ({ user, chatId }) => {
         </Link>
       </div>
 
-      <div class="container">
-        <div class="columns is-centered">
-          <div class="column is-half">
+      <div className="container">
+        <div className="columns is-centered">
+          <div className="column is-half">
             <figure>
               <img src={profilePic} alt="Profile Picture" className="image"></img>
             </figure>

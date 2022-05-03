@@ -19,8 +19,27 @@ jobs:
     name: 🧪 Docker CI
     uses: ./.github/workflows/docker_ci.yml
 
-  build_docker_client:
-    needs: [node_ci, docker_ci]
+  # end_to_end_tests:
+  #   name: 🧪 Docker E2E
+  #   uses: ./.github/workflows/end_to_end.yml
+  #   with:
+  #     ENVIRONMENT: production
+  #   secrets:
+  #     NODE_ENV: ${{ secrets.NODE_ENV }}
+  #     SERVER_URL: ${{ secrets.SERVER_URL }}
+  #     PORT: ${{ secrets.PORT }}
+  #     MONGODB_URL: ${{ secrets.MONGODB_URL }}
+  #     SKIP_PREFLIGHT_CHECK: ${{ secrets.SKIP_PREFLIGHT_CHECK }}
+  #     REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
+  #     REACT_APP_FIREBASE_AUTH_DOMAIN: ${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}
+  #     REACT_APP_FIREBASE_PROJECT_ID: ${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}
+  #     REACT_APP_FIREBASE_STORAGE_BUCKET: ${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}
+  #     REACT_APP_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}
+  #     REACT_APP_FIREBASE_APP_ID: ${{ secrets.REACT_APP_FIREBASE_APP_ID }}
+  #     REACT_APP_FIREBASE_MEASUREMENT_ID: ${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}
+
+  publish_docker_client:
+    needs: [node_ci, docker_ci, end_to_end_tests]
     name: "🐳 Build/Publish Docker (CLIENT) Image"
     environment: production
     runs-on: ubuntu-latest
@@ -122,8 +141,8 @@ jobs:
           # cache-from: type=local,src=/tmp/.buildx-cache-${{ env.working-directory }}
           # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
-  build_docker_server:
-    needs: [node_ci, docker_ci]
+  publish_docker_server:
+    needs: [node_ci, docker_ci, end_to_end_tests]
     name: "🐳 Build/Publish Docker (SERVER) Image"
     environment: production
     runs-on: ubuntu-latest
@@ -228,7 +247,7 @@ jobs:
           # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
   verify_ec2:
-    needs: [build_docker_server, build_docker_client]
+    needs: [publish_docker_server, publish_docker_client]
     name: ✅ EC2 Verification
     environment: staging
     runs-on: ubuntu-latest
@@ -344,10 +363,10 @@ jobs:
             sudo service docker start
             echo -e "$BLUE Authenticating Docker $NC"
             docker login -u="${{ secrets.DOCKERHUB_USERNAME }}" -p="${{ secrets.DOCKERHUB_PASSWORD }}"
-            docker run --env-file ./.env -d -p 5000:5000 ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }}:latest
+            docker run --add-host host.docker.internal:host-gateway --env-file ./.env -d -p 5000:5000 ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }}:latest
             echo -e "$BLUE Started up latest Server image $NC"
 
-            docker run -id -p 3000:3000 --env NODE_ENV=$NODE_ENV \
+            docker run --add-host host.docker.internal:host-gateway -id -p 3000:3000 --env NODE_ENV=$NODE_ENV \
             --env SERVER_URL=$SERVER_URL \
             --env PORT=$PORT \
             --env MONGODB_URL=$MONGODB_URL \

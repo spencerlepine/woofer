@@ -27,21 +27,29 @@ describe("generateMoreQueueMatches controller helper", () => {
 
     test("should produce list of userIds given populated zipcode pool", (done) => {
       const zipcode = "10001"
-      const mockUserC = new Object(mockUser)
+      const mockUserC = Object.create(mockUser)
+      mockUserC["userId"] = "C"
+      mockUserC["gender"] = mockUser["preference"]
       mockUserC["preference"] = mockUser["gender"]
-      const mockUserD = new Object(mockUser)
+      const mockUserD = Object.create(mockUser)
+      mockUserD["userId"] = "D"
+      mockUserD["gender"] = mockUser["preference"]
       mockUserD["preference"] = mockUser["gender"]
-      const mockUserE = new Object(mockUser)
+      const mockUserE = Object.create(mockUser)
+      mockUserE["userId"] = "E"
+      mockUserE["gender"] = mockUser["preference"]
       mockUserE["preference"] = mockUser["gender"]
-      const mockUserF = new Object(mockUser)
+      const mockUserF = Object.create(mockUser)
+      mockUserF["userId"] = "F"
+      mockUserF["gender"] = mockUser["preference"]
       mockUserF["preference"] = mockUser["gender"]
-      const mockUserG = new Object(mockUser)
+      const mockUserG = Object.create(mockUser)
+      mockUserG["userId"] = "G"
+      mockUserG["gender"] = mockUser["preference"]
       mockUserG["preference"] = mockUser["gender"]
 
       signupMockUser(mockUser)
         .then(() => userToZipPoolDoc(mockUser["userId"], zipcode))
-        .then(() => signupMockUser(mockUserB))
-        .then(() => userToZipPoolDoc(mockUserB["userId"], zipcode))
         .then(() => signupMockUser(mockUserC))
         .then(() => userToZipPoolDoc(mockUserC["userId"], zipcode))
         .then(() => signupMockUser(mockUserD))
@@ -50,7 +58,7 @@ describe("generateMoreQueueMatches controller helper", () => {
         .then(() => userToZipPoolDoc(mockUserF["userId"], zipcode))
         .then(() => signupMockUser(mockUserG))
         .then(() => userToZipPoolDoc(mockUserG["userId"], zipcode))
-        .then(() => generateMoreQueueMatches(userId))
+        .then(() => generateMoreQueueMatches(mockUser["userId"]))
         .then((result) => {
           expect(result).toBeDefined()
           expect(result).toHaveProperty("matchQueue")

@@ -12,21 +12,47 @@ const filterZips = (userZipcodes, oldZipcode) => {
 }
 
 const removeZipCodeFromProfile = (userId, oldZipcode) => {
-  return getModelDocumentById("DogUser", "userId", userId).then((userProfile) => {
-    const newProfile = new Object(userProfile)
+  return getModelDocumentById("DogUser", "userId", userId)
+    .then((userProfile) => {
+      if (userProfile && userProfile["userId"]) {
+        const newProfile = Object.create(userProfile)
 
-    let validZips = []
-    const { zipcodes } = newProfile
-    if (zipcodes) {
-      validZips = zipcodes
-    }
+        let validZips = []
+        const { zipcodes } = newProfile
+        if (zipcodes) {
+          validZips = zipcodes
+        }
 
-    const updatedZipcodes = filterZips(validZips, oldZipcode)
+        const updatedZipcodes = filterZips(validZips, oldZipcode)
 
-    newProfile["zipcodes"] = updatedZipcodes
+        newProfile["zipcodes"] = updatedZipcodes
+        return updateModelDocumentById("DogUser", "userId", userId, newProfile)
+      } else {
+        return {}
+      }
+    })
+    .then(() => getModelDocumentById("ZipcodePool", "zipcodeId", oldZipcode))
+    .then((zipcodePoolDoc) => {
+      if (zipcodePoolDoc && zipcodePoolDoc["zipcodeUsers"]) {
+        const { zipcodeUsers } = zipcodePoolDoc
 
-    return updateModelDocumentById("DogUser", "userId", userId, newProfile)
-  })
+        const newUsers = Object.create(zipcodeUsers)
+        delete newUsers[userId]
+
+        const updatedPool = {
+          zipcodeId: oldZipcode,
+          zipcodeUsers: newUsers,
+        }
+
+        return updateModelDocumentById(
+          "ZipcodePool",
+          "zipcodeId",
+          oldZipcode,
+          updatedPool
+        )
+      }
+    })
+    .then(() => getModelDocumentById("DogUser", "userId", userId))
 }
 
 module.exports = removeZipCodeFromProfile
