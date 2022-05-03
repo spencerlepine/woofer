@@ -3,31 +3,63 @@ const { getModelDocumentById } = require("../../../models/modelHelpers")
 const isMutualMatch = require("./isMutualMatch")
 const gatherMatchStatus = require("../gatherMatchStatus")
 const updateSwipeRecord = require("../updateSwipeRecord")
+const addUserToMatchQueue = require("../addUserToMatchQueue")
+const removeUserFromMatchQueue = require("../removeUserFromMatchQueue")
 
 const addUserToChat = require("../../chats/addUserToChat")
 const generateChatRoomId = require("../../chats/generateChatRoomId")
 
+const isFirstTimeMatch = (matchObj) => {
+  try {
+    if (typeof matchObj === "object" && Object.keys(matchObj).length === 2) {
+      const userChoices = Object.values(matchObj)
+      return (
+        userChoices.some((choice) => choice === "accept") &&
+        userChoices.some((choice) => choice === "none")
+      )
+    }
+    return false
+  } catch (err) {
+    return false
+  }
+}
+
 const saveUserSwipeChoice = (req, res) => {
-  const reqQuery = typeof req.query === "object" ? req.query : {}
-  const { thisUserId, thatUserId, matchStatus } = reqQuery
+  const reqBody = typeof req.body === "object" ? req.body : {}
+  const { thisUserId, thatUserId, matchStatus } = reqBody
 
   let chatIdResult = "none"
 
   return updateSwipeRecord(thisUserId, thatUserId, matchStatus)
+    .then(() => {
+      if (matchStatus === "reject") {
+        return removeUserFromMatchQueue(thatUserId, thisUserId).then(() =>
+          removeUserFromMatchQueue(thisUserId, thatUserId)
+        )
+      }
+    })
     .then(() => gatherMatchStatus(thisUserId, thatUserId))
     .then((matchStatusObj) => {
       const isMutual = isMutualMatch(matchStatusObj)
 
-      return isMutual
+      const isFirstMatch = isFirstTimeMatch(matchStatusObj)
+
+      return [isFirstMatch, isMutual]
     })
-    .then((isMutual) => {
+    .then(async ([isFirstMatch, isMutual]) => {
       if (isMutual) {
         const newChatId = generateChatRoomId()
         chatIdResult = newChatId
 
-        return addUserToChat(thisUserId, thatUserId, newChatId)
+        const result = await removeUserFromMatchQueue(thisUserId, thatUserId)
+          .then(() => removeUserFromMatchQueue(thatUserId, thisUserId))
+          .then(() => addUserToChat(thisUserId, thatUserId, newChatId))
           .then(() => addUserToChat(thatUserId, thisUserId, newChatId))
           .then(() => newChatId)
+
+        return result
+      } else {
+        await addUserToMatchQueue(thatUserId, thisUserId)
       }
     })
     .then((chatId) => {
