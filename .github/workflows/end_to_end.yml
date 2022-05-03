@@ -38,7 +38,7 @@ jobs:
     name: "✅ E2E Testing"
     environment: ${{ inputs.ENVIRONMENT }}
     runs-on: ubuntu-latest
-    container: ubuntu
+    # container: ubuntu
     env:
       NODE_ENV: ${{ secrets.NODE_ENV }}
       SERVER_URL: ${{ secrets.SERVER_URL }}
