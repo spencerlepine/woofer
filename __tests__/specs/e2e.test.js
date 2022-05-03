@@ -12,10 +12,11 @@ describe("Woofer Homepage", () => {
   })
 
   it("Connects to localhost on PORT 3000", async () => {
-    await page.goto(homeURL, {
-      timeout: 10000,
-      waitUntil: ["load", "domcontentloaded", "networkidle0", "networkidle2"],
-    })
+    // await page.goto(homeURL, {
+    //   timeout: 10000,
+    //   waitUntil: ["load", "domcontentloaded", "networkidle0", "networkidle2"],
+    // })
+    await page.goto(homeURL)
 
     expect(true).toBeTruthy()
   })
