@@ -216,6 +216,6 @@ jobs:
       - name: "✅ Run End-to-end tests"
         working-directory: ./__tests__
         env:
-          PUPPETEER_SKIP_DOWNLOAD
+          PUPPETEER_SKIP_DOWNLOAD: true
         run: |
           npm test --if-present
