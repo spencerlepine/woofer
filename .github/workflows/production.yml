@@ -142,7 +142,7 @@ jobs:
           # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
   publish_docker_server:
-    needs: [node_ci, docker_ci, end_to_end_tests]
+    needs: [node_ci, docker_ci] # end_to_end_tests
     name: "🐳 Build/Publish Docker (SERVER) Image"
     environment: production
     runs-on: ubuntu-latest
