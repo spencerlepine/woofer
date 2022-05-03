@@ -22,6 +22,8 @@ describe("Woofer Homepage", () => {
   })
 
   it("should not render root div", async () => {
+    await page.waitForSelector("#root")
+
     const selector = "#root"
     const elemExists = await page
       .$eval(selector, () => {
