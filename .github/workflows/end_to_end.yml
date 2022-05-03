@@ -208,6 +208,11 @@ jobs:
       #   run: |
       #     docker-compose --env-file .env up -d
 
+      - name: "📦 Install dependencies"
+        # if: steps.modules-cache.outputs.cache-hit != 'true'
+        working-directory: ./__tests__
+        run: npm install
+
       - name: "✅ Run End-to-end tests"
         working-directory: ./__tests__
         run: |

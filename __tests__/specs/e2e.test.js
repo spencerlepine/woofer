@@ -57,18 +57,24 @@ describe("Woofer Homepage", () => {
   })
 
   it("should render React App component", async () => {
+    await page.waitForSelector(".App")
+
     const selector = ".App"
     const elemExists = await page.$eval(selector, () => true).catch(() => false)
     expect(elemExists).toBeTruthy()
   })
 
   it("should render navbar component", async () => {
+    await page.waitForSelector(".navbar")
+
     const selector = ".navbar"
     const elemExists = await page.$eval(selector, () => true).catch(() => false)
     expect(elemExists).toBeTruthy()
   })
 
   it("should render footer component", async () => {
+    await page.waitForSelector(".footer")
+
     const selector = ".footer"
     const elemExists = await page.$eval(selector, () => true).catch(() => false)
     expect(elemExists).toBeTruthy()
