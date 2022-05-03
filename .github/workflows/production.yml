@@ -383,4 +383,5 @@ jobs:
 
             echo -e "$BLUE Started up latest Server image $NC"
             sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
+            sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 5000 -j REDIRECT --to-port 5000
             echo -e "$GREEN EC2 deployment complete! $NC"
