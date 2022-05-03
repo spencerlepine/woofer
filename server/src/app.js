@@ -41,9 +41,9 @@ app.use(compression())
 const corsOptions = {
   origin: [
     "*",
-    "http://ec2-34-203-190-56.compute-1.amazonaws.com",
-    "http://34.203.190.56",
-    "http://localhost:3000",
+    // "http://ec2-34-203-190-56.compute-1.amazonaws.com",
+    // "http://34.203.190.56",
+    // "http://localhost:3000",
   ],
   optionsSuccessStatus: 200,
 }

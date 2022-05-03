@@ -28,6 +28,8 @@ const ImagesTab = ({
   const placeholderProfilePic = currentProfilePic || missingImage
 
   const updateImage = (newImage) => {
+    console.log(newImage)
+
     setMadeChange(true)
     const newEntries = {
       ...formEntries,
@@ -86,6 +88,8 @@ const ImagesTab = ({
             if (imageFile.size < 2097152) {
               setMadeChange(true)
               uploadImageToFirebase(imageFile, userId, updateImage)
+            } else {
+              alert("Image file too large!")
             }
           }}
           onClick={(event) => {
