@@ -21,7 +21,7 @@ jobs:
     uses: ./.github/workflows/docker_ci.yml
 
   end_to_end_tests:
-    name: 🧪 E2E Testing
+    name: 🧪 Docker E2E
     uses: ./.github/workflows/end_to_end.yml
     with:
       ENVIRONMENT: development
