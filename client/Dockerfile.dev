@@ -40,7 +40,7 @@ COPY . .
 #Expose port and start application
 # EXPOSE 3000
 # CMD ["npm", "start"]
-RUN npm run build
+RUN npm run ci:build
 
 # production environment
 # FROM ngnix
