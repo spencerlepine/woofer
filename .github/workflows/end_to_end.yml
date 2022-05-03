@@ -157,7 +157,7 @@ jobs:
 
       - name: "🚀 Run Client Docker Container"
         run: |
-          docker run -id -p 3000:3000 --env NODE_ENV=$NODE_ENV \
+          docker run --add-host host.docker.internal:host-gateway -id -p 3000:3000 --env NODE_ENV=$NODE_ENV \
             --env SERVER_URL=$SERVER_URL \
             --env PORT=$PORT \
             --env MONGODB_URL=$MONGODB_URL \
@@ -189,7 +189,7 @@ jobs:
         run: docker tag server woofer-server
 
       - name: "🚀 Run Server Docker Container"
-        run: docker run --env-file ./.env -d -p 5000:5000 woofer-server:latest
+        run: docker run --env-file ./.env --add-host host.docker.internal:host-gateway -d -p 5000:5000 woofer-server:latest
 
       # - name: "🏗 Build w/ Docker Compose"
       #   run: |
@@ -201,4 +201,5 @@ jobs:
 
       - name: "✅ Run End-to-end tests"
         working-directory: ./__tests__
-        run: npm test --if-present
+        run: |
+          npm test --if-present

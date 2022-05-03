@@ -363,10 +363,10 @@ jobs:
             sudo service docker start
             echo -e "$BLUE Authenticating Docker $NC"
             docker login -u="${{ secrets.DOCKERHUB_USERNAME }}" -p="${{ secrets.DOCKERHUB_PASSWORD }}"
-            docker run --env-file ./.env -d -p 5000:5000 ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }}:latest
+            docker run --add-host host.docker.internal:host-gateway --env-file ./.env -d -p 5000:5000 ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVER_REPO }}:latest
             echo -e "$BLUE Started up latest Server image $NC"
 
-            docker run -id -p 3000:3000 --env NODE_ENV=$NODE_ENV \
+            docker run --add-host host.docker.internal:host-gateway -id -p 3000:3000 --env NODE_ENV=$NODE_ENV \
             --env SERVER_URL=$SERVER_URL \
             --env PORT=$PORT \
             --env MONGODB_URL=$MONGODB_URL \
