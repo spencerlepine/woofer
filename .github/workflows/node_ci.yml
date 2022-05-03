@@ -129,8 +129,8 @@ jobs:
       - name: "🎯 Print OS and Node version"
         run: echo "Running on ${{ matrix.os }} with Node v${{ matrix.node }}"
 
-      - name: "🍃 Create mongoDB Docker container"
-        run: sudo docker run -d -p 27017:27017 mongo:latest
+      # - name: "🍃 Create mongoDB Docker container"
+      #   run: sudo docker run -d -p 27017:27017 mongo:latest
 
       - name: "☁️ Check out Git Repository"
         uses: actions/checkout@v2
@@ -185,7 +185,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: ['16']
+        node: ['12', '14', '16']
         os: [ubuntu-latest]
 
     name: End-to-end Testing
