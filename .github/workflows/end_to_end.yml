@@ -42,7 +42,7 @@ jobs:
       NODE_ENV: {{ secrets.NODE_ENV }}
       SERVER_URL: {{ secrets.SERVER_URL }}
       PORT: {{ secrets.PORT }}
-      MONGODB_URL=mongodb://127.0.0.1:27017/test
+      MONGODB_URL: mongodb://127.0.0.1:27017/test
       SKIP_PREFLIGHT_CHECK: {{ secrets.SKIP_PREFLIGHT_CHECK }}
       REACT_APP_FIREBASE_API_KEY: {{ secrets.REACT_APP_FIREBASE_API_KEY }}
       REACT_APP_FIREBASE_AUTH_DOMAIN: {{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}
