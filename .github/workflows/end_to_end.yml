@@ -215,7 +215,7 @@ jobs:
           PUPPETEER_SKIP_DOWNLOAD: true
         run: |
           export PUPPETEER_SKIP_DOWNLOAD='true'
-          sudo chown -R $(whoami) /usr/local/bin
+          chown -R $(whoami) /usr/local/bin
           npm install
 
       - name: "✅ Run End-to-end tests"
