@@ -87,7 +87,9 @@ jobs:
 
       - name: "📦 Install dependencies"
         # if: steps.modules-cache.outputs.cache-hit != 'true'
-        run: npm install
+        run: |
+          su root
+          npm install --unsafe-perm=true --allow-root
 
       # - name: "🔧 Install docker"
       #   run: |
