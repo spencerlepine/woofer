@@ -12,6 +12,7 @@
     "bulma"
   ],
   "license": "MIT",
+  "proxy": "http://http://34.203.190.56",
   "scripts": {
     "start": "npm run dev:client",
     "build": "dotenv -e ../.env -- webpack --config ./webpack.prod.config.js --mode production",
