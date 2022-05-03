@@ -151,7 +151,7 @@ jobs:
 
       - name: "📦 Install dependencies"
         # if: steps.modules-cache.outputs.cache-hit != 'true'
-        working-directory: ${{ env.working-directory }}
+        # working-directory: ${{ env.working-directory }}
         run: npm install
 
       - name: "✅  Run tests"
