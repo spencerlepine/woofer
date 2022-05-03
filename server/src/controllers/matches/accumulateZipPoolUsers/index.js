@@ -8,7 +8,6 @@ const accumulateZipPoolUsers = (zipcodesList) => {
           if (zipcodePoolDoc && zipcodePoolDoc["zipcodeUsers"]) {
             try {
               const users = Object.keys(zipcodePoolDoc["zipcodeUsers"])
-              console.log(users)
 
               return users
             } catch (err) {
