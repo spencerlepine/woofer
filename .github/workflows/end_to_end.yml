@@ -218,4 +218,5 @@ jobs:
         env:
           PUPPETEER_SKIP_DOWNLOAD: true
         run: |
+          export PUPPETEER_SKIP_DOWNLOAD='true'
           npm test --if-present
