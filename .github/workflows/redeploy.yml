@@ -371,5 +371,4 @@ jobs:
           procfile: "web: node src/index.js"
         env:
           NODE_ENV: production
-          PORT: ${{ secrets.PORT }}
           MONGODB_URL: ${{ secrets.MONGODB_URL }}
