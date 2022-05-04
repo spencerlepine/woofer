@@ -15,31 +15,12 @@ jobs:
     secrets:
       CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
-  docker_ci:
-    name: 🧪 Docker CI
-    uses: ./.github/workflows/docker_ci.yml
-
-  # end_to_end_tests:
-  #   name: 🧪 Docker E2E
-  #   uses: ./.github/workflows/end_to_end.yml
-  #   with:
-  #     ENVIRONMENT: production
-  #   secrets:
-  #     NODE_ENV: ${{ secrets.NODE_ENV }}
-  #     SERVER_URL: ${{ secrets.SERVER_URL }}
-  #     PORT: ${{ secrets.PORT }}
-  #     MONGODB_URL: ${{ secrets.MONGODB_URL }}
-  #     SKIP_PREFLIGHT_CHECK: ${{ secrets.SKIP_PREFLIGHT_CHECK }}
-  #     REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
-  #     REACT_APP_FIREBASE_AUTH_DOMAIN: ${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}
-  #     REACT_APP_FIREBASE_PROJECT_ID: ${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}
-  #     REACT_APP_FIREBASE_STORAGE_BUCKET: ${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}
-  #     REACT_APP_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}
-  #     REACT_APP_FIREBASE_APP_ID: ${{ secrets.REACT_APP_FIREBASE_APP_ID }}
-  #     REACT_APP_FIREBASE_MEASUREMENT_ID: ${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}
+  # docker_ci:
+  #   name: 🧪 Docker CI
+  #   uses: ./.github/workflows/docker_ci.yml
 
   publish_docker_client:
-    needs: [node_ci, docker_ci] #end_to_end_tests
+    needs: [node_ci]
     name: "🐳 Build/Publish Docker (CLIENT) Image"
     environment: production
     runs-on: ubuntu-latest
@@ -142,7 +123,7 @@ jobs:
           # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
   publish_docker_server:
-    needs: [node_ci, docker_ci] # end_to_end_tests
+    needs: [node_ci]
     name: "🐳 Build/Publish Docker (SERVER) Image"
     environment: production
     runs-on: ubuntu-latest
@@ -247,7 +228,7 @@ jobs:
           # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
   verify_ec2:
-    needs: [publish_docker_server, publish_docker_client]
+    needs: [publish_docker_client]
     name: ✅ EC2 Verification
     environment: staging
     runs-on: ubuntu-latest
@@ -385,3 +366,24 @@ jobs:
             sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
             sudo iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 5000 -j REDIRECT --to-port 5000
             echo -e "$GREEN EC2 deployment complete! $NC"
+
+  heroku_deploy:
+    needs: [node_ci]
+    # https://github.com/marketplace/actions/deploy-to-heroku
+    name: ⚛️ Heroku Deploy (BACKEND)
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "woofer-demo" #Must be unique in Heroku
+          heroku_email: "spencerlepine26@gmail.com"
+          appdir: "server"
+          procfile: "web: npm start"
+        env:
+          NODE_ENV: production
+          PORT: ${{ secrets.PORT }}
+          MONGODB_URL: ${{ secrets.MONGODB_URL }}

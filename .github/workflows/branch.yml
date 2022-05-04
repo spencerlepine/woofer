@@ -38,3 +38,24 @@ jobs:
   #     REACT_APP_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}
   #     REACT_APP_FIREBASE_APP_ID: ${{ secrets.REACT_APP_FIREBASE_APP_ID }}
   #     REACT_APP_FIREBASE_MEASUREMENT_ID: ${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}
+
+  heroku_deploy:
+    needs: [node_ci]
+    # https://github.com/marketplace/actions/deploy-to-heroku
+    name: ⚛️ Heroku Deploy (BACKEND)
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "woofer-demo" #Must be unique in Heroku
+          heroku_email: "spencerlepine26@gmail.com"
+          appdir: "server"
+          procfile: "web: npm start"
+        env:
+          NODE_ENV: production
+          PORT: ${{ secrets.PORT }}
+          MONGODB_URL: ${{ secrets.MONGODB_URL }}

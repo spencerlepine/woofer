@@ -1,4 +1,4 @@
-name: Deploy Docker
+name: 🚀 Redeploy
 
 on:
   workflow_dispatch:
