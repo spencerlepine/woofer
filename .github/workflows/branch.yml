@@ -54,6 +54,7 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "woofer-demo" #Must be unique in Heroku
           heroku_email: "spencerlepine26@gmail.com"
+          appdir: "server"
         env:
           NODE_ENV: production
           MONGODB_URL: ${{ secrets.MONGODB_URL }}
