@@ -20,6 +20,9 @@
     "test": "jest --detectOpenHandles --runInBand --forceExit",
     "test:watch": "jest --onlyChanged --watch"
   },
+  "engines": {
+    "node": "16.9.1"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
