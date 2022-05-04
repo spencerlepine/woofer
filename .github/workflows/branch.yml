@@ -48,12 +48,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+
         with:
+          args: deploy --dir=build --prod
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "woofer-demo" #Must be unique in Heroku
           heroku_email: "spencerlepine26@gmail.com"
           appdir: "server"
-          procfile: "web: node src/index.js"
         env:
           NODE_ENV: production
           MONGODB_URL: ${{ secrets.MONGODB_URL }}

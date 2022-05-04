@@ -4,6 +4,7 @@
   "description": "Dating app for dogs. Customize a dating profile, update preferences, and match/chat with nearby users.",
   "main": "index.js",
   "scripts": {
+    "start": "cd server && npm start",
     "dev:client": "cd client && npm start",
     "dev:server": "cd server && npm run dev:server",
     "build": "cd client && npm run build",
