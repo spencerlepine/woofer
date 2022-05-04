@@ -4,7 +4,7 @@ const app = require("./app")
 const config = require("../config/config")
 const logger = require("../config/logger")
 const { connectDB, disconnectDB } = require("./database")
-const PORT = config.PORT
+const PORT = process.env.PORT || config.PORT
 
 connectDB()
 
