@@ -40,7 +40,6 @@ jobs:
   #     REACT_APP_FIREBASE_MEASUREMENT_ID: ${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}
 
   heroku_deploy:
-    needs: [node_ci]
     # https://github.com/marketplace/actions/deploy-to-heroku
     name: ⚛️ Heroku Deploy (BACKEND)
     runs-on: ubuntu-latest
