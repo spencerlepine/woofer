@@ -54,7 +54,7 @@ jobs:
           heroku_app_name: "woofer-demo" #Must be unique in Heroku
           heroku_email: "spencerlepine26@gmail.com"
           appdir: "server"
-          procfile: "web: npm start"
+          procfile: "web: node src/index.js"
         env:
           NODE_ENV: production
           PORT: ${{ secrets.PORT }}

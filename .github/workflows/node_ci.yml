@@ -12,7 +12,7 @@ on:
 
 jobs:
 
-  client_test:
+  client_build:
     runs-on: ${{ matrix.os }}
     env:
       working-directory: ./client
@@ -22,7 +22,48 @@ jobs:
         node: ['12', '14', '16']
         os: [ubuntu-latest]
 
-    name: 🧑🏻‍💻 Client CI
+    name: 🏗️ Build Client
+    steps:
+      - name: "☁️ Check out Git Repository"
+        uses: actions/checkout@v2
+
+      - name: "⚙️ Generate .env file"
+        run: |
+          cp .env.sample .env
+
+      - name: "🔧 Set up Node"
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+      - name: "⚡ Cache dependencies"
+        uses: actions/cache@v3
+        id: modules-cache
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+
+      - name: "📦 Install dependencies"
+        # if: steps.modules-cache.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: "🏗 Build client"
+        working-directory: ${{ env.working-directory }}
+        run: npm run build --if-present
+
+  client_test:
+    needs: [client_build]
+    runs-on: ${{ matrix.os }}
+    env:
+      working-directory: ./client
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['12', '14', '16']
+        os: [ubuntu-latest]
+
+    name: 🧑🏻‍💻 Test Client
     steps:
       - name: "🎯 Print OS and Node version"
         run: echo "Running on ${{ matrix.os }} with Node v${{ matrix.node }}"
@@ -72,46 +113,6 @@ jobs:
       #     working-directory: ${{ env.working-directory }}
       #     test-command: "npm run test"
 
-  client_build:
-    runs-on: ${{ matrix.os }}
-    env:
-      working-directory: ./client
-    strategy:
-      fail-fast: false
-      matrix:
-        node: ['12', '14', '16']
-        os: [ubuntu-latest]
-
-    name: 🏗️ Client Build
-    steps:
-      - name: "☁️ Check out Git Repository"
-        uses: actions/checkout@v2
-
-      - name: "⚙️ Generate .env file"
-        run: |
-          cp .env.sample .env
-
-      - name: "🔧 Set up Node"
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node }}
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
-      - name: "⚡ Cache dependencies"
-        uses: actions/cache@v3
-        id: modules-cache
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
-
-      - name: "📦 Install dependencies"
-        # if: steps.modules-cache.outputs.cache-hit != 'true'
-        run: npm install
-
-      - name: "🏗 Build client"
-        working-directory: ${{ env.working-directory }}
-        run: npm run build --if-present
-
   server_test:
     runs-on: ${{ matrix.os }}
     env:
@@ -124,7 +125,7 @@ jobs:
         node: ['12'] #, '14', '16']
         os: [ubuntu-latest]
 
-    name: 🗄️ Server CI
+    name: 🗄️ Test Server
     steps:
       - name: "🎯 Print OS and Node version"
         run: echo "Running on ${{ matrix.os }} with Node v${{ matrix.node }}"
@@ -175,6 +176,7 @@ jobs:
       #     test-command: "npm run test"
 
   end_to_end:
+    needs: [client_test, server_test]
     runs-on: ${{ matrix.os }}
     env:
       client-working-directory: ./client
@@ -188,7 +190,7 @@ jobs:
         node: ['12', '14', '16']
         os: [ubuntu-latest]
 
-    name: End-to-end Testing
+    name: ⚡ E2E Testing
     steps:
       - name: "🍃 Create mongoDB Docker container"
         run: sudo docker run -d -p 27017:27017 mongo:latest
@@ -239,7 +241,7 @@ jobs:
     needs: [server_test, client_test]
     runs-on: ubuntu-latest
     environment: ${{ inputs.ENVIRONMENT }}
-    name: Codacy Upload
+    name: 📈 Test Coverage Report
 
     steps:
       - name: "⬇️ Download the client test coverage lcov report"
