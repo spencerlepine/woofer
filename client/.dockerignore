@@ -1,9 +1,0 @@
-.git
-.env*
-resources*
-*.test*
-node_modules*
-.dockerignore
-Dockerfile
-Dockerfile.prod
-tests*
