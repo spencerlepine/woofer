@@ -44,6 +44,7 @@ npm install
 ```
 
 ```sh
+npm run dev:server
 # * Open a NEW terminal *
 npm run dev:client
 ```
