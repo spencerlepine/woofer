@@ -7,15 +7,16 @@ export const fetchServerStatus = (callback) => {
     .get(SERVER_URL + "/api/status")
     .then((response) => {
       if (response && response.data && response.data.status) {
-        const { status } = response.data
+        const { status, mongo } = response.data
         const isRunning = status === "running"
-        callback(isRunning)
+        const mongoIsRunning = mongo === "running"
+        callback(isRunning, mongoIsRunning)
       } else {
-        callback(true, "")
+        callback(false, false, "")
       }
     })
     .catch((error) => {
-      callback(false, JSON.stringify(error))
+      callback(false, false, JSON.stringify(error))
       console.error(error)
     })
 }

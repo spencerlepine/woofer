@@ -5,6 +5,7 @@ const logger = require("../config/logger")
 const MONGO_CONFIG = config.MONGOOSE
 
 let mongod = null
+let isConnected = false
 
 const connectDB = async () => {
   try {
@@ -15,10 +16,19 @@ const connectDB = async () => {
       dbUrl = mongod.getUri()
     }
 
-    const conn = await mongoose.connect(dbUrl, MONGO_CONFIG.options)
+    let conn = {
+      close: () => {},
+      connection: {},
+    }
+    if (dbUrl) {
+      conn = await mongoose.connect(dbUrl, MONGO_CONFIG.options)
 
-    if (process.env.NODE_ENV !== "test") {
-      logger.info(`MongoDB connected: ${conn.connection.host}`)
+      isConnected = true
+      console.log(isConnected)
+
+      if (process.env.NODE_ENV !== "test") {
+        logger.info(`MongoDB connected: ${conn.connection.host}`)
+      }
     }
   } catch (err) {
     console.log(err)
@@ -38,4 +48,9 @@ const disconnectDB = async () => {
   }
 }
 
-module.exports = { connectDB, disconnectDB, connection: mongoose.connection }
+module.exports = {
+  isConnected: () => isConnected,
+  connectDB,
+  disconnectDB,
+  connection: mongoose.connection,
+}
