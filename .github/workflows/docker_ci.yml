@@ -35,8 +35,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
 
       - name: "📦 Install dependencies"
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm install --prefer-offline --no-audit --progress=false
 
       - name: "🔧 Create .env file"
         run: |
@@ -111,8 +110,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
 
       - name: "📦 Install dependencies"
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm install --prefer-offline --no-audit --progress=false
 
       - name: "🔧 Create .env file"
         run: |
