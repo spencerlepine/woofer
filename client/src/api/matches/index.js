@@ -11,11 +11,9 @@ export const postUserSwipe = (body, successCallback, failCallback = () => {}) =>
   axios
     .post(SERVER_URL + url, body)
     .then((response) => {
-      const {
-        [DATA_KEYS["CHAT_ID"]]: chatId,
-        [DATA_KEYS["USER_PROFILE"]]: userProfile,
-      } = response.data
+      const { chatId: chatId, userProfile: userProfile } = response.data
 
+      console.log(response.data)
       successCallback({ chatId, userProfile })
     })
     .catch((error) => {
