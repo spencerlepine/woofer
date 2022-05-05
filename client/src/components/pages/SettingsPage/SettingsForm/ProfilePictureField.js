@@ -36,15 +36,6 @@ const ImagesTab = ({
       profilePicture: newImage,
     }
     manualSubmit(newEntries)
-    // setFormEntries((prevEntries) => {
-    //   const newEntries = {
-    //     ...prevEntries,
-    //     profilePicture: newImage,
-    //   }
-    //   manualSubmit(newEntries)
-
-    //   return newEntries
-    // })
   }
 
   const handleDelete = (e, imageSrc) => {
@@ -64,7 +55,7 @@ const ImagesTab = ({
 
   const RemoveBtn = () => (
     <>
-      {currentProfilePic && (
+      {currentProfilePic && currentProfilePic !== missingImage && (
         <button
           className="button is-danger is-medium p-2"
           onClick={(e) => handleDelete(e, currentProfilePic)}
@@ -87,7 +78,7 @@ const ImagesTab = ({
             const imageFile = event.target.files[0]
             if (imageFile.size < 2097152) {
               setMadeChange(true)
-              uploadImageToFirebase(imageFile, userId, updateImage)
+              uploadImageToFirebase(imageFile, userId, updateImage, "profilePicture")
             } else {
               alert("Image file too large!")
             }

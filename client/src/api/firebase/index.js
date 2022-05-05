@@ -14,8 +14,13 @@ const uniqueString = () => {
   return makeId(25)
 }
 
-export const uploadImageToFirebase = (newFile, userId, successCallback) => {
-  const randomFileName = uniqueString()
+export const uploadImageToFirebase = (
+  newFile,
+  userId,
+  successCallback,
+  fileName = ""
+) => {
+  const randomFileName = fileName || uniqueString()
 
   const imageName = `${randomFileName}.png`
   const storageRef = storage.ref(`/images/${userId}/${imageName}`)

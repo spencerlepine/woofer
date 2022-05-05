@@ -17,7 +17,8 @@ const FormWrapper = ({ FieldsComponent, LargeWidth, hideButtons }) => {
   const RefreshBtn = () => (
     <button
       className="button is-info is-pulled-left px-3"
-      onClick={() => {
+      onClick={(e) => {
+        e.preventDefault()
         setMadeChange(false)
         refreshDetails()
       }}

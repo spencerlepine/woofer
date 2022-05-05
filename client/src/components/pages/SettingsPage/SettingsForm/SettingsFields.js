@@ -95,6 +95,7 @@ export const Email = ({ handleChange, formEntries }) => {
         {placeholder}
       </label>
       <input
+        disabled
         onChange={handleChange}
         type={type}
         name={name}
