@@ -45,6 +45,7 @@
     "firebase": "^8.10.1",
     "helmet": "^5.0.2",
     "http-status": "^1.5.0",
+    "joi": "^17.6.0",
     "mongodb-memory-server-core": "^8.5.2",
     "mongoose": "^6.2.10",
     "morgan": "^1.10.0",
@@ -66,7 +67,6 @@
     "dotenv": "^10.0.0",
     "jest": "^26.6.3",
     "jest-watch-typeahead": "^0.6.5",
-    "joi": "^17.6.0",
     "supertest": "^6.2.2"
   }
 }
