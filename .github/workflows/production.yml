@@ -383,6 +383,7 @@ jobs:
           heroku_email: "spencerlepine26@gmail.com"
           appdir: "server"
           procfile: "web: node src/index.js"
+          env_file: ".env"
         env:
           NODE_ENV: production
           HD_NODE_ENV: production

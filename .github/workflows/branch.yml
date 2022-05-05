@@ -55,6 +55,8 @@ jobs:
           heroku_app_name: "woofer-demo" #Must be unique in Heroku
           heroku_email: "spencerlepine26@gmail.com"
           appdir: "server"
+          env_file: ".env"
         env:
           NODE_ENV: production
-          MONGODB_URL: ${{ secrets.MONGODB_URL }}
+          HD_NODE_ENV: production
+          HD_MONGODB_URL: ${{ secrets.MONGODB_URL }}
