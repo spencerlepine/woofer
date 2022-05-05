@@ -6,7 +6,7 @@ import { formatAgeStr, titleCaseDisplayName } from "utils"
 import { FaGenderless, FaMars, FaVenus } from "react-icons/fa"
 const { DATA_KEYS } = constants
 
-import UserInfo from "components/UserInfo/UserInfo"
+import UserInfo from "components/ui/UserInfo/UserInfo"
 
 const GenerateGenderIcon = ({ gender }) => {
   if (gender.toLowerCase === "male") {

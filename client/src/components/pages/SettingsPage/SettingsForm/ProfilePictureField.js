@@ -6,7 +6,7 @@ import { BiImageAdd } from "react-icons/bi"
 import { MdOutlineRemoveCircleOutline as DeleteIcon } from "react-icons/md"
 
 const missingImage =
-  "https://www.britax-roemer.com/on/demandware.static/Sites-Britax-EU-Site/-/default/dw1be0148e/images/britax/PlaceholderProductImage.jpg"
+  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
 
 const ImagesTab = ({
   updateAccountDetails,

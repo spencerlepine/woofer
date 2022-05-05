@@ -1,7 +1,8 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
-import WooferLogo from "assets/WooferLogo.png"
+// import WooferLogo from "assets/WooferLogo.png"
+import WooferLogo from "assets/FilledWooferLogo.png"
 
 const AccountForm = (props) => {
   const {
@@ -55,7 +56,7 @@ const AccountForm = (props) => {
 
               <h2 className="title">{FormTitle}</h2>
 
-              {FormFields.map(({ name, placeholder }, i) => (
+              {FormFields.map(({ type, name, placeholder }, i) => (
                 <div className="field" key={i}>
                   <label htmlFor="" className="label">
                     {placeholder}
@@ -63,7 +64,7 @@ const AccountForm = (props) => {
                   <input
                     key={i}
                     onChange={handleChange}
-                    type={name}
+                    type={type || name}
                     name={name}
                     className="input"
                     value={formEntries[name] || ""}

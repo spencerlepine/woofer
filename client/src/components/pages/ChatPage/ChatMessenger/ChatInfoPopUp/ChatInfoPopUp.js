@@ -1,5 +1,5 @@
 import React from "react"
-import UserInfo from "components/UserInfo/UserInfo"
+import UserInfo from "components/ui/UserInfo/UserInfo"
 import * as ROUTES from "config/routeConstants"
 import * as chatsAPI from "api/chats"
 import * as matchesAPI from "api/matches"

@@ -17,8 +17,10 @@ const FormWrapper = ({ FieldsComponent, LargeWidth, hideButtons }) => {
   const RefreshBtn = () => (
     <button
       className="button is-info is-pulled-left px-3"
-      onClick={refreshDetails}
-      disabled={!madeChange}
+      onClick={() => {
+        setMadeChange(false)
+        refreshDetails()
+      }}
     >
       Refresh
       <RefreshIcon />
