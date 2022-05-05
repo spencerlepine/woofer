@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import constants from "config/constants"
 const { DATA_KEYS } = constants
 
@@ -122,9 +122,11 @@ const options = [
   "Pisces",
 ]
 export const ZodiacDropDown = ({ formEntries, setFormEntries, setMadeChange }) => {
-  const [selectedVal, setSelectedVal] = useState(
-    formEntries[DATA_KEYS["USER_ZODIAC"]] || "Choose One"
-  )
+  const [selectedVal, setSelectedVal] = useState()
+
+  useEffect(() => {
+    setSelectedVal(formEntries[DATA_KEYS["USER_ZODIAC"]] || "Choose One")
+  }, [formEntries])
 
   return (
     <div className="field">
@@ -135,6 +137,7 @@ export const ZodiacDropDown = ({ formEntries, setFormEntries, setMadeChange }) =
             value={selectedVal}
             onChange={(e) => {
               setMadeChange(true)
+              console.log(e.target.value)
               setFormEntries((prevEntries) => ({
                 ...prevEntries,
                 [DATA_KEYS["USER_ZODIAC"]]: e.target.value,
@@ -167,6 +170,10 @@ export const GroupDropDown = ({ formEntries, setFormEntries, setMadeChange }) =>
   const [selectedVal, setSelectedVal] = useState(
     formEntries[DATA_KEYS["USER_GROUP"]] || "Choose One"
   )
+
+  useEffect(() => {
+    setSelectedVal(formEntries[DATA_KEYS["USER_GROUP"]] || "Choose One")
+  }, [formEntries])
 
   return (
     <div className="field">

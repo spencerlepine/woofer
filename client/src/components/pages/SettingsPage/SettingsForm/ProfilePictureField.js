@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { uploadImageToFirebase, deleteImageFromFirebase } from "api/firebase"
 import FormWrapper from "components/ui/AccountFormWrapper/AccountFormWrapper"
 
@@ -20,16 +20,20 @@ const ImagesTab = ({
   madeChange,
   setMadeChange,
 }) => {
-  const userId = currentUser[["userId"]]
   const profileKey = "profilePicture"
-  const profilePic = accountDetails[profileKey]
+  const userId = currentUser[["userId"]]
 
-  const currentProfilePic = profilePic
-  const placeholderProfilePic = currentProfilePic || missingImage
+  const [profilePic, setProfilePic] = useState()
+  const [currentProfilePic, setCurrentProfilePic] = useState(
+    accountDetails[profileKey]
+  )
+
+  useEffect(() => {
+    setCurrentProfilePic(accountDetails[profileKey])
+  }, [accountDetails])
 
   const updateImage = (newImage) => {
-    console.log(newImage)
-
+    setCurrentProfilePic(newImage)
     setMadeChange(true)
     const newEntries = {
       ...formEntries,
@@ -41,6 +45,7 @@ const ImagesTab = ({
   const handleDelete = (e, imageSrc) => {
     e.preventDefault()
     const missing = ""
+    setCurrentProfilePic("")
     const fireRe = new RegExp(/firebase/i)
 
     // If it is from firebase, try to delete it
@@ -103,7 +108,7 @@ const ImagesTab = ({
       <div className="columns">
         <div className="column is-half">
           <figure className="image is-128x128 profilePic">
-            <img src={placeholderProfilePic} alt="User Thumbnail" />
+            <img src={currentProfilePic || missingImage} alt="User Thumbnail" />
           </figure>
         </div>
 
