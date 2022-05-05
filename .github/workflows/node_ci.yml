@@ -38,7 +38,7 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
-       - name: "⚡ Cache node modules"
+      - name: "⚡ Cache node modules"
         uses: actions/cache@v3
         id: cache
         env:
