@@ -15,14 +15,16 @@ const StatusCheck = (props) => {
   const [serverCheckDone, setServerCheckDone] = useState(false)
   const [serverConnectionIsValid, setServerConnectionIsValid] = useState(false)
   const [apiErorr, setApiError] = useState("")
+  const [mongoCheckDone, setMongoCheckDone] = useState(false)
+  const [mongoConnectionIsValid, setMongoConnectionIsValid] = useState(false)
 
   const checkFirebaseConfig = (resultCallback) => {
     resultCallback(!!auth)
   }
 
   const checkServerStatus = (resultCallback) => {
-    statusAPI.fetchServerStatus((isRunning, error) => {
-      resultCallback(isRunning, error)
+    statusAPI.fetchServerStatus((isRunning, mongoIsRunning, error) => {
+      resultCallback(isRunning, mongoIsRunning, error)
     })
   }
 
@@ -36,10 +38,12 @@ const StatusCheck = (props) => {
 
   useEffect(() => {
     if (serverCheckDone === false) {
-      checkServerStatus((statusCheckPassed, error) => {
+      checkServerStatus((statusCheckPassed, mongoCheckPassed, error) => {
         setServerConnectionIsValid(statusCheckPassed)
+        setMongoConnectionIsValid(mongoCheckPassed)
         setApiError(error)
         setServerCheckDone(true)
+        setMongoCheckDone(true)
       })
     }
   }, [serverCheckDone])
@@ -55,7 +59,7 @@ const StatusCheck = (props) => {
 
   const InfoOrAlert = () => (
     <>
-      {serverConnectionIsValid && firebaseConfigIsValid ? (
+      {serverConnectionIsValid && firebaseConfigIsValid && mongoConnectionIsValid ? (
         <>{props.children}</>
       ) : (
         <>
@@ -105,6 +109,19 @@ const StatusCheck = (props) => {
                       </div>
                     </article>
                   )}
+                  {!mongoConnectionIsValid && (
+                    <article className="message is-danger">
+                      <div className="message-header">
+                        <p>Database Error</p>
+                        <WarningIcon />
+                      </div>
+                      <div className="message-body">
+                        <span className="firebaseError">
+                          Unable to connect to MongoDB Atlas
+                        </span>
+                      </div>
+                    </article>
+                  )}
                   {!serverConnectionIsValid && (
                     <article className="message is-danger">
                       <div className="message-header">
@@ -116,9 +133,10 @@ const StatusCheck = (props) => {
                           Backend API is not currently running
                         </span>
                       </div>
-                      <div className="column is-half message-footer">
+                      {console.log(apiErorr)}
+                      {/* <div className="column is-half message-footer">
                         <p>{apiErorr}</p>
-                      </div>
+                      </div> */}
                     </article>
                   )}
                 </div>

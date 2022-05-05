@@ -12,11 +12,13 @@ if (process.env.NODE_ENV !== "production") {
   dotenv.config({ path: path.join(__dirname, "../../.env") })
 }
 
+const mongoURL = process.env.MONGODB_URL
+
 module.exports = {
   NODE_ENV: process.env.NODE_ENV,
   PORT: process.env.PORT || 5000,
   MONGOOSE: {
-    url: process.env.MONGODB_URL,
+    url: mongoURL,
     options: {
       useNewUrlParser: true,
       useUnifiedTopology: true,
