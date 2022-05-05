@@ -39,7 +39,7 @@ jobs:
   #     REACT_APP_FIREBASE_MEASUREMENT_ID: ${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}
 
   publish_docker_client:
-    needs: [node_ci, docker_ci] #end_to_end_tests
+    needs: [node_ci, docker_ci]
     name: "🐳 Build/Publish Docker (CLIENT) Image"
     environment: production
     runs-on: ubuntu-latest
@@ -142,7 +142,7 @@ jobs:
           # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
   publish_docker_server:
-    needs: [node_ci, docker_ci] # end_to_end_tests
+    needs: [node_ci, docker_ci]
     name: "🐳 Build/Publish Docker (SERVER) Image"
     environment: production
     runs-on: ubuntu-latest
@@ -247,7 +247,7 @@ jobs:
           # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
   verify_ec2:
-    needs: [publish_docker_server, publish_docker_client]
+    needs: [publish_docker_client] # publish_docker_server,
     name: ✅ EC2 Verification
     environment: staging
     runs-on: ubuntu-latest
@@ -396,13 +396,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "woofer-demo" #Must be unique in Heroku
           heroku_email: "spencerlepine26@gmail.com"
           appdir: "server"
-          procfile: "web: node src/index.js"
-          env_file: ".env"
         env:
           NODE_ENV: production
           HD_NODE_ENV: production

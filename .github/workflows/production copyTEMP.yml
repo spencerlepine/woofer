@@ -1,12 +1,46 @@
-name: Deploy Docker
+name: CI/CD
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - '*'
+      - '!main'
 
 jobs:
 
+  node_ci:
+    name: 🧪 Node CI
+    uses: ./.github/workflows/node_ci.yml
+    with:
+      ENVIRONMENT: CI
+    secrets:
+      CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+
+  docker_ci:
+    name: 🧪 Docker CI
+    uses: ./.github/workflows/docker_ci.yml
+
+  # end_to_end_tests:
+  #   name: 🧪 Docker E2E
+  #   uses: ./.github/workflows/end_to_end.yml
+  #   with:
+  #     ENVIRONMENT: production
+  #   secrets:
+  #     NODE_ENV: ${{ secrets.NODE_ENV }}
+  #     SERVER_URL: ${{ secrets.SERVER_URL }}
+  #     PORT: ${{ secrets.PORT }}
+  #     MONGODB_URL: ${{ secrets.MONGODB_URL }}
+  #     SKIP_PREFLIGHT_CHECK: ${{ secrets.SKIP_PREFLIGHT_CHECK }}
+  #     REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
+  #     REACT_APP_FIREBASE_AUTH_DOMAIN: ${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}
+  #     REACT_APP_FIREBASE_PROJECT_ID: ${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}
+  #     REACT_APP_FIREBASE_STORAGE_BUCKET: ${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}
+  #     REACT_APP_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}
+  #     REACT_APP_FIREBASE_APP_ID: ${{ secrets.REACT_APP_FIREBASE_APP_ID }}
+  #     REACT_APP_FIREBASE_MEASUREMENT_ID: ${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}
+
   publish_docker_client:
-    needs: [node_ci]
+    needs: [node_ci, docker_ci]
     name: "🐳 Build/Publish Docker (CLIENT) Image"
     environment: production
     runs-on: ubuntu-latest
@@ -109,7 +143,7 @@ jobs:
           # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
   publish_docker_server:
-    needs: [node_ci]
+    needs: [node_ci, docker_ci]
     name: "🐳 Build/Publish Docker (SERVER) Image"
     environment: production
     runs-on: ubuntu-latest
@@ -214,7 +248,7 @@ jobs:
           # cache-to: type=local,dest=/tmp/.buildx-cache-${{ env.working-directory }}
 
   verify_ec2:
-    needs: [publish_docker_client]
+    needs: [publish_docker_client] # publish_docker_server,
     name: ✅ EC2 Verification
     environment: staging
     runs-on: ubuntu-latest
@@ -354,6 +388,7 @@ jobs:
             echo -e "$GREEN EC2 deployment complete! $NC"
 
   heroku_deploy:
+    needs: [node_ci]
     # https://github.com/marketplace/actions/deploy-to-heroku
     name: ⚛️ Heroku Deploy (BACKEND)
     runs-on: ubuntu-latest
