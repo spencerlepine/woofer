@@ -52,7 +52,7 @@ jobs:
 
       - name: "📦 Install dependencies"
         #if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm install --prefer-offline --no-audit --progress=false
 
       - name: "🏗 Build client"
         working-directory: ${{ env.working-directory }}
@@ -102,7 +102,7 @@ jobs:
 
       - name: "📦 Install dependencies"
         #if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm install --prefer-offline --no-audit --progress=false
 
       - name: "✅  Run tests"
         working-directory: ${{ env.working-directory }}
@@ -168,7 +168,7 @@ jobs:
 
       - name: "📦 Install dependencies"
         #if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm install --prefer-offline --no-audit --progress=false
 
       - name: "✅  Run tests"
         working-directory: ${{ env.working-directory }}
@@ -234,7 +234,7 @@ jobs:
 
       - name: "📦 Install dependencies"
         #if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm install --prefer-offline --no-audit --progress=false
 
       - name: "🔧 Create .env file"
         run: |

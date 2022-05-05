@@ -1,0 +1,26 @@
+name: 🔁 Redeploy API
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  heroku_deploy:
+    # https://github.com/marketplace/actions/deploy-to-heroku
+    name: ⚛️ Heroku Deploy (BACKEND)
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "woofer-demo" #Must be unique in Heroku
+          heroku_email: "spencerlepine26@gmail.com"
+          appdir: "server"
+        env:
+          NODE_ENV: production
+          HD_NODE_ENV: production
+          HD_MONGODB_URL: ${{ secrets.MONGODB_URL }}
