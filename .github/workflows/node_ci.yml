@@ -51,7 +51,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
 
       - name: "📦 Install dependencies"
-        if: steps.cache.outputs.cache-hit != 'true'
+        #if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
 
       - name: "🏗 Build client"
@@ -101,7 +101,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
 
       - name: "📦 Install dependencies"
-        if: steps.cache.outputs.cache-hit != 'true'
+        #if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
 
       - name: "✅  Run tests"
@@ -167,7 +167,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
 
       - name: "📦 Install dependencies"
-        if: steps.cache.outputs.cache-hit != 'true'
+        #if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
 
       - name: "✅  Run tests"
@@ -233,7 +233,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
 
       - name: "📦 Install dependencies"
-        if: steps.cache.outputs.cache-hit != 'true'
+        #if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
 
       - name: "🔧 Create .env file"

@@ -70,7 +70,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
 
       - name: "📦 Install dependencies"
-        if: steps.cache.outputs.cache-hit != 'true'
+        #if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
 
       - name: Set up Docker Buildx
@@ -178,7 +178,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
 
       - name: "📦 Install dependencies"
-        if: steps.cache.outputs.cache-hit != 'true'
+        #if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
 
       - name: Set up Docker Buildx
