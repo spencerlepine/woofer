@@ -4,7 +4,7 @@ import createNotif from "components/ui/NotificationsPopup"
 import config from "config/config"
 const { SERVER_URL } = config
 import constants from "config/constants"
-const { endpointURLStr, DATA_KEYS } = constants
+const { DATA_KEYS } = constants
 
 export const removeUserFromZipcode = (
   oldZipCode,
@@ -13,7 +13,7 @@ export const removeUserFromZipcode = (
 ) => {
   if (auth && auth.currentUser) {
     const { uid } = auth.currentUser
-    const url = endpointURLStr(["ZIPCODES", "REMOVE"], "DELETE")
+    const url = "/api/zipcodes/remove"
     const params = {
       ["userId"]: uid,
       [DATA_KEYS["ZIPCODE"]]: oldZipCode,
@@ -38,7 +38,8 @@ export const addUserToZipcode = (
 ) => {
   if (auth && auth.currentUser) {
     const { uid } = auth.currentUser
-    const url = endpointURLStr(["ZIPCODES", "ADD"], "POST")
+
+    const url = "/api/zipcodes/add"
     const body = {
       ["userId"]: uid,
       [DATA_KEYS["ZIPCODE"]]: newZipCode,
