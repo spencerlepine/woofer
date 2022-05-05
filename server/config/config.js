@@ -4,11 +4,11 @@
  * and match expected value/type
  */
 
-const dotenv = require("dotenv")
 const path = require("path")
 const Joi = require("joi")
 
 if (process.env.NODE_ENV !== "production") {
+  const dotenv = require("dotenv")
   dotenv.config({ path: path.join(__dirname, "../../.env") })
 }
 
