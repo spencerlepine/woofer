@@ -39,8 +39,8 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
 
        - name: "⚡ Cache node modules"
-        id: cache
         uses: actions/cache@v3
+        id: cache
         env:
           cache-name: cache-node-modules
         with:
@@ -89,8 +89,8 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
 
       - name: "⚡ Cache node modules"
-        id: cache
         uses: actions/cache@v3
+        id: cache
         env:
           cache-name: cache-node-modules
         with:
@@ -155,8 +155,8 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
 
       - name: "⚡ Cache node modules"
-        id: cache
         uses: actions/cache@v3
+        id: cache
         env:
           cache-name: cache-node-modules
         with:
@@ -221,8 +221,8 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
 
       - name: "⚡ Cache node modules"
-        id: cache
         uses: actions/cache@v3
+        id: cache
         env:
           cache-name: cache-node-modules
         with:
