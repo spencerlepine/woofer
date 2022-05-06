@@ -53,12 +53,9 @@ describe("MATCHES endpoint Match Queue", () => {
         .then(() => swipeOnUser(mockUser["userId"], mockUserB["userId"], ACCEPT))
         .then(() => fetchMatchQueue(mockUserB))
         .then((result) => {
-          console.log(result)
-
           expect(result).toBeDefined()
           expect(result).toHaveProperty("matchQueue")
           const { matchQueue: queueArr } = result
-          console.log(queueArr)
           expect(Array.isArray(queueArr)).toBeTruthy()
           expect(queueArr.includes(thisUserId)).toBeTruthy()
           done()

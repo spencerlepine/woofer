@@ -119,7 +119,6 @@ describe("Validate Woofer Matching system", () => {
           expect(userProfile).toHaveProperty("chats")
           const { chats } = userProfile
           expect(chats).toBeTruthy()
-          console.log(chats)
           expect(Array.isArray(chats)).toBeTruthy()
           expect(chats.length).toBe(1)
         })

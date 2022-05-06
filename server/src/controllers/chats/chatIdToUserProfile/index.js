@@ -11,8 +11,6 @@ const chatIdToUserProfile = (chatId, thisUserId, thatUserId) => {
 
   return getModelDocumentById("DogUser", "userId", thisUserId).then(
     (userProfile) => {
-      console.log(userProfile)
-
       const { chats } = userProfile
 
       const updatedChats = chats || []

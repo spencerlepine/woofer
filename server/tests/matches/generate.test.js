@@ -78,8 +78,6 @@ describe("MATCHES endpoint match generation", () => {
             .expect((res) => {
               expect(res.body).toBeDefined()
               const { userProfile: user, matchIsValid } = res.body
-              console.log(res.body)
-
               expect(user).toBeDefined()
               expect(user).toHaveProperty("userId")
             })

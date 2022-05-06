@@ -10,8 +10,6 @@ const accumulateZipPoolUsers = require("../accumulateZipPoolUsers")
 const MAX_QUEUE_ADDITION_LENGTH = 15
 
 const generateMoreQueueMatches = (userId) => {
-  console.log("generateMoreQueueMatches for", userId)
-
   let matchQueue = []
   const setMatchQueue = (newQueue) => (matchQueue = newQueue)
 
@@ -21,7 +19,6 @@ const generateMoreQueueMatches = (userId) => {
   return gatherUserMatchQueue(userId)
     .then(({ matchQueue }) => {
       // Track the user match queue
-      console.log("matchQueue", matchQueue, userId)
       setMatchQueue(matchQueue)
     })
     .then(() => getModelDocumentById("DogUser", "userId", userId))
@@ -32,8 +29,6 @@ const generateMoreQueueMatches = (userId) => {
       if (thisUser && thisUser["zipcodes"]) {
         zipcodesList = thisUser.zipcodes
       }
-
-      console.log("zipcodesList", thisUser.zipcodes, userId)
 
       return accumulateZipPoolUsers(zipcodesList).then((zipCodeUsers) => {
         // Get all users from the match record
@@ -50,11 +45,7 @@ const generateMoreQueueMatches = (userId) => {
       })
     })
     .then(([zipcodeUsers, matchRecord]) => {
-      console.log("zipcodeUsers", zipcodeUsers, userId)
-
       const filteredUsers = []
-
-      // console.log(matchRecord, zipcodeUsers)
 
       zipcodeUsers.forEach((userIdStr) => {
         // Not previously matched

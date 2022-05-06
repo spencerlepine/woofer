@@ -7,12 +7,11 @@ const QUEUE_COUNT_MIN = 5
 
 const fetchPossibleMatch = (req, res) => {
   const reqQuery = typeof req.query === "object" ? req.query : {}
-  const { userId } = reqQuery
+  const { userId: providedId } = reqQuery
+  const userId = providedId + ""
 
   return gatherUserMatchQueue(userId)
     .then(async ({ matchQueue: userMatchQueue }) => {
-      console.log(userId, "userMatchQueue:", userMatchQueue)
-
       if (userMatchQueue.length <= QUEUE_COUNT_MIN) {
         const updatedMatchQueue = await generateMoreQueueMatches(userId).then(
           ({ matchQueue }) => {
@@ -26,8 +25,6 @@ const fetchPossibleMatch = (req, res) => {
     })
     .then(async (updatedMatchQueue) => {
       if (updatedMatchQueue) {
-        console.log(userId, "updatedMatchQueue:", updatedMatchQueue)
-
         const possibleMatchUserId =
           updatedMatchQueue[Math.floor(Math.random() * updatedMatchQueue.length)]
 
