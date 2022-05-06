@@ -13,7 +13,6 @@ export const postUserSwipe = (body, successCallback, failCallback = () => {}) =>
     .then((response) => {
       const { chatId: chatId, userProfile: userProfile } = response.data
 
-      console.log(response.data)
       successCallback({ chatId, userProfile })
     })
     .catch((error) => {

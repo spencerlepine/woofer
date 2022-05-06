@@ -10,6 +10,7 @@ const addUserToChat = require("../../chats/addUserToChat")
 const generateChatRoomId = require("../../chats/generateChatRoomId")
 
 const isFirstTimeMatch = (matchObj) => {
+  console.log(matchObj)
   try {
     if (typeof matchObj === "object" && Object.keys(matchObj).length === 2) {
       const userChoices = Object.values(matchObj)
