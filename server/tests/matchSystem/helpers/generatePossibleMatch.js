@@ -7,7 +7,12 @@ const generatePossibleMatch = (userId) => {
     userId: userId,
   }
 
-  return request(app).get(url).query(query)
+  return request(app)
+    .get(url)
+    .query(query)
+    .then((res) => {
+      return res.body
+    })
 }
 
 module.exports = generatePossibleMatch

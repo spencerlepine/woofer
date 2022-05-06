@@ -10,7 +10,12 @@ const swipeOnUser = (thisUserId, thatUserId, matchStatus) => {
     matchStatus,
   }
 
-  return request(app).post(url).send(body)
+  return request(app)
+    .post(url)
+    .send(body)
+    .then((res) => {
+      return res.body
+    })
 }
 
 module.exports = swipeOnUser

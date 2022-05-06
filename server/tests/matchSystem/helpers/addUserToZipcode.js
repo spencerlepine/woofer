@@ -8,7 +8,12 @@ const addUserToZipCode = (userId, zipcode) => {
     zipcode: zipcode,
   }
 
-  return request(app).post(url).send(body)
+  return request(app)
+    .post(url)
+    .send(body)
+    .then((res) => {
+      return res.body
+    })
 }
 
 module.exports = addUserToZipCode
