@@ -60,158 +60,131 @@ describe("Validate Woofer Matching system", () => {
   //   })
   // })
 
-  describe("When Users swipe on eachother", () => {
-    test("should record choice when DogMale swipes YES on FemaleDog", (done) => {
-      testArrangement()
-        .then(() => swipeOnUser(maleDogId, femaleDogId, ACCEPT))
-        .then(() => getMatchStatus(maleDogId, femaleDogId))
-        .then((userMatches) => {
-          const { [maleDogId]: maleSwipeChoice, [femaleDogId]: femaleSwipeChoice } =
-            userMatches
+  // describe("When Users swipe on eachother", () => {
+  //   test("should record choice when DogMale swipes YES on FemaleDog", (done) => {
+  //     testArrangement()
+  //       .then(() => swipeOnUser(maleDogId, femaleDogId, ACCEPT))
+  //       .then(() => getMatchStatus(maleDogId, femaleDogId))
+  //       .then((userMatches) => {
+  //         const { [maleDogId]: maleSwipeChoice, [femaleDogId]: femaleSwipeChoice } =
+  //           userMatches
 
-          expect(maleSwipeChoice).toBe(ACCEPT)
-          expect(femaleSwipeChoice).toBe(NO_CHOICE)
-          done()
-        })
-        .catch((err) => done(err))
-    })
+  //         expect(maleSwipeChoice).toBe(ACCEPT)
+  //         expect(femaleSwipeChoice).toBe(NO_CHOICE)
+  //         done()
+  //       })
+  //       .catch((err) => done(err))
+  //   })
 
-    test("should record choice when DogMale swipes NO on FemaleDog", (done) => {
-      testArrangement()
-        .then(() => swipeOnUser(maleDogId, femaleDogId, REJECT))
-        .then(() => getMatchStatus(maleDogId, femaleDogId))
-        .then((userMatches) => {
-          const { [maleDogId]: maleSwipeChoice, [femaleDogId]: femaleSwipeChoice } =
-            userMatches
+  //   test("should record choice when DogMale swipes NO on FemaleDog", (done) => {
+  //     testArrangement()
+  //       .then(() => swipeOnUser(maleDogId, femaleDogId, REJECT))
+  //       .then(() => getMatchStatus(maleDogId, femaleDogId))
+  //       .then((userMatches) => {
+  //         const { [maleDogId]: maleSwipeChoice, [femaleDogId]: femaleSwipeChoice } =
+  //           userMatches
 
-          expect(maleSwipeChoice).toBe(REJECT)
-          expect(femaleSwipeChoice).toBe(NO_CHOICE)
-          done()
-        })
-        .catch((err) => done(err))
-    })
+  //         expect(maleSwipeChoice).toBe(REJECT)
+  //         expect(femaleSwipeChoice).toBe(NO_CHOICE)
+  //         done()
+  //       })
+  //       .catch((err) => done(err))
+  //   })
 
-    test("should record choice mutual YES swipe for each user", (done) => {
-      testArrangement()
-        .then(() => swipeOnUser(maleDogId, femaleDogId, ACCEPT))
-        .then(() => swipeOnUser(femaleDogId, maleDogId, ACCEPT))
-        .then(() => getMatchStatus(maleDogId, femaleDogId))
-        .then((userMatches) => {
-          const { [maleDogId]: maleSwipeChoice, [femaleDogId]: femaleSwipeChoice } =
-            userMatches
+  //   test("should record choice mutual YES swipe for each user", (done) => {
+  //     testArrangement()
+  //       .then(() => swipeOnUser(maleDogId, femaleDogId, ACCEPT))
+  //       .then(() => swipeOnUser(femaleDogId, maleDogId, ACCEPT))
+  //       .then(() => getMatchStatus(maleDogId, femaleDogId))
+  //       .then((userMatches) => {
+  //         const { [maleDogId]: maleSwipeChoice, [femaleDogId]: femaleSwipeChoice } =
+  //           userMatches
 
-          expect(maleSwipeChoice).toBe(ACCEPT)
-          expect(femaleSwipeChoice).toBe(ACCEPT)
-          done()
-        })
-        .catch((err) => done(err))
-    })
+  //         expect(maleSwipeChoice).toBe(ACCEPT)
+  //         expect(femaleSwipeChoice).toBe(ACCEPT)
+  //         done()
+  //       })
+  //       .catch((err) => done(err))
+  //   })
 
-    test("should record choice mutual YES and NO swipe for each user", (done) => {
-      testArrangement()
-        .then(() => swipeOnUser(maleDogId, femaleDogId, ACCEPT))
-        .then(() => swipeOnUser(femaleDogId, maleDogId, REJECT))
-        .then(() => getMatchStatus(maleDogId, femaleDogId))
-        .then((userMatches) => {
-          const { [maleDogId]: maleSwipeChoice, [femaleDogId]: femaleSwipeChoice } =
-            userMatches
+  //   test("should record choice mutual YES and NO swipe for each user", (done) => {
+  //     testArrangement()
+  //       .then(() => swipeOnUser(maleDogId, femaleDogId, ACCEPT))
+  //       .then(() => swipeOnUser(femaleDogId, maleDogId, REJECT))
+  //       .then(() => getMatchStatus(maleDogId, femaleDogId))
+  //       .then((userMatches) => {
+  //         const { [maleDogId]: maleSwipeChoice, [femaleDogId]: femaleSwipeChoice } =
+  //           userMatches
 
-          expect(maleSwipeChoice).toBe(ACCEPT)
-          expect(femaleSwipeChoice).toBe(REJECT)
-          done()
-        })
-        .catch((err) => done(err))
-    })
+  //         expect(maleSwipeChoice).toBe(ACCEPT)
+  //         expect(femaleSwipeChoice).toBe(REJECT)
+  //         done()
+  //       })
+  //       .catch((err) => done(err))
+  //   })
 
-    test("should record choice mutual NO and YES swipe for each user", (done) => {
-      testArrangement()
-        .then(() => swipeOnUser(maleDogId, femaleDogId, REJECT))
-        .then(() => swipeOnUser(femaleDogId, maleDogId, ACCEPT))
-        .then(() => getMatchStatus(maleDogId, femaleDogId))
-        .then((userMatches) => {
-          const { [maleDogId]: maleSwipeChoice, [femaleDogId]: femaleSwipeChoice } =
-            userMatches
+  //   test("should record choice mutual NO and YES swipe for each user", (done) => {
+  //     testArrangement()
+  //       .then(() => swipeOnUser(maleDogId, femaleDogId, REJECT))
+  //       .then(() => swipeOnUser(femaleDogId, maleDogId, ACCEPT))
+  //       .then(() => getMatchStatus(maleDogId, femaleDogId))
+  //       .then((userMatches) => {
+  //         const { [maleDogId]: maleSwipeChoice, [femaleDogId]: femaleSwipeChoice } =
+  //           userMatches
 
-          expect(maleSwipeChoice).toBe(REJECT)
-          expect(femaleSwipeChoice).toBe(ACCEPT)
-          done()
-        })
-        .catch((err) => done(err))
-    })
-  })
+  //         expect(maleSwipeChoice).toBe(REJECT)
+  //         expect(femaleSwipeChoice).toBe(ACCEPT)
+  //         done()
+  //       })
+  //       .catch((err) => done(err))
+  //   })
+  // })
 
-  /*
-  describe("Handling User Match Queues", () => {
-    test("should add MaleDog to FemaleDog (after MaleDog YES Swipe)", (done) => {
-      testArrangement()
-        .then(() => swipeOnUser(maleDogId, femaleDogId, ACCEPT))
-        .then(() => getUserMatchQueue(femaleDogId))
-        .then((matchQueueRecord) => {
-          const { matchQueue } = matchQueueRecord
-          expect(matchQueue).toBeTruthy()
-          expect(Array.isArray(matchQueue)).toBeTruthy()
-          expect(matchQueue).not.toContain(femaleDogId)
-          expect(matchQueue).toContain(maleDogId)
-          done()
-        })
-        .catch((err) => done(err))
-    })
+  // describe("Handling User Match Queues", () => {
+  //   test("should add MaleDog to FemaleDog (after MaleDog YES Swipe)", (done) => {
+  //     testArrangement()
+  //       .then(() => swipeOnUser(maleDogId, femaleDogId, ACCEPT))
+  //       .then(() => getUserMatchQueue(femaleDogId))
+  //       .then((matchQueueRecord) => {
+  //         const { matchQueue } = matchQueueRecord
+  //         expect(matchQueue).toBeTruthy()
+  //         expect(Array.isArray(matchQueue)).toBeTruthy()
+  //         expect(matchQueue).not.toContain(femaleDogId)
+  //         expect(matchQueue).toContain(maleDogId)
+  //         done()
+  //       })
+  //       .catch((err) => done(err))
+  //   })
 
-    test("should remove both users from match queue with mutual YES swipe", (done) => {
-      testArrangement()
-        .then(() => swipeOnUser(maleDogId, femaleDogId, ACCEPT))
-        .then(() => swipeOnUser(femaleDogId, maleDogId, ACCEPT))
-        .then(() => getUserMatchQueue(femaleDogId))
-        .then((matchQueueRecord) => {
-          const { matchQueue } = matchQueueRecord
-          expect(matchQueue).toBeTruthy()
-          expect(Array.isArray(matchQueue)).toBeTruthy()
-          expect(matchQueue).not.toContain(femaleDogId)
-          expect(matchQueue).not.toContain(maleDogId)
-        })
-        .then(() => getUserMatchQueue(maleDogId))
-        .then((matchQueueRecord) => {
-          // Did not need to create MatchRecord yet
-          if (matchQueueRecord && matchQueueRecord["matchQueue"]) {
-            const { matchQueue } = matchQueueRecord
-            expect(matchQueue).toBeTruthy()
-            expect(Array.isArray(matchQueue)).toBeTruthy()
-            expect(matchQueue).not.toContain(femaleDogId)
-            expect(matchQueue).not.toContain(maleDogId)
-          } else {
-            expect(matchQueueRecord && matchQueueRecord["matchQueue"]).toBeFalsy()
-          }
-          done()
-        })
-        .catch((err) => done(err))
-    })
-  })
-
-  describe("When Users have same ZipCode/Preferences", () => {
-    test("should generate FemaleDog as possible match for MaleDog", (done) => {
-      testArrangement()
-        .then(() => generatePossibleMatch(maleDogId))
-        .then((possibleMatch) => {
-          const { userProfile } = possibleMatch
-          expect(userProfile).toBeTruthy()
-          expect(userProfile).toHaveProperty("userId", femaleDogId)
-          done()
-        })
-        .catch((err) => done(err))
-    })
-
-    test("should generate MaleDog as possible match for FemaleDog", (done) => {
-      testArrangement()
-        .then(() => generatePossibleMatch(femaleDogId))
-        .then((possibleMatch) => {
-          const { userProfile } = possibleMatch
-          expect(userProfile).toBeTruthy()
-          expect(userProfile).toHaveProperty("userId", maleDogId)
-          done()
-        })
-        .catch((err) => done(err))
-    })
-  })
+  //   test("should remove both users from match queue with mutual YES swipe", (done) => {
+  //     testArrangement()
+  //       .then(() => swipeOnUser(maleDogId, femaleDogId, ACCEPT))
+  //       .then(() => swipeOnUser(femaleDogId, maleDogId, ACCEPT))
+  //       .then(() => getUserMatchQueue(femaleDogId))
+  //       .then((matchQueueRecord) => {
+  //         const { matchQueue } = matchQueueRecord
+  //         expect(matchQueue).toBeTruthy()
+  //         expect(Array.isArray(matchQueue)).toBeTruthy()
+  //         expect(matchQueue).not.toContain(femaleDogId)
+  //         expect(matchQueue).not.toContain(maleDogId)
+  //       })
+  //       .then(() => getUserMatchQueue(maleDogId))
+  //       .then((matchQueueRecord) => {
+  //         // Did not need to create MatchRecord yet
+  //         if (matchQueueRecord && matchQueueRecord["matchQueue"]) {
+  //           const { matchQueue } = matchQueueRecord
+  //           expect(matchQueue).toBeTruthy()
+  //           expect(Array.isArray(matchQueue)).toBeTruthy()
+  //           expect(matchQueue).not.toContain(femaleDogId)
+  //           expect(matchQueue).not.toContain(maleDogId)
+  //         } else {
+  //           expect(matchQueueRecord && matchQueueRecord["matchQueue"]).toBeFalsy()
+  //         }
+  //         done()
+  //       })
+  //       .catch((err) => done(err))
+  //   })
+  // })
 
   describe("Handling Mutual User YES swipes", () => {
     test("should generate a chatId on mutual swipe", (done) => {
@@ -249,7 +222,7 @@ describe("Validate Woofer Matching system", () => {
     test("should find chatId in user profiles after mutual swipe", (done) => {
       testArrangement()
         .then(() => swipeOnUser(maleDogId, femaleDogId, ACCEPT))
-        .then(() => swipeOnUser(maleDogId, femaleDogId, ACCEPT))
+        .then(() => swipeOnUser(femaleDogId, maleDogId, ACCEPT))
         .then(() => getUserProfile(maleDogId))
         .then((userProfile) => {
           expect(userProfile).toBeDefined()
@@ -257,6 +230,7 @@ describe("Validate Woofer Matching system", () => {
           expect(userProfile).toHaveProperty("chats")
           const { chats } = userProfile
           expect(chats).toBeTruthy()
+          console.log(chats)
           expect(Array.isArray(chats)).toBeTruthy()
           expect(chats.length).toBe(1)
         })
@@ -276,8 +250,8 @@ describe("Validate Woofer Matching system", () => {
 
     test("should NOT find chatId in user profiles without mutual swipe", (done) => {
       testArrangement()
-        .then(() => swipeOnUser(maleDogId, femaleDogId, ACCEPT))
-        .then(() => swipeOnUser(maleDogId, femaleDogId, REJECT))
+        .then(() => swipeOnUser(femaleDogId, femaleDogId, ACCEPT))
+        .then(() => swipeOnUser(maleDogId, maleDogId, REJECT))
         .then(() => getUserProfile(maleDogId))
         .then((userProfile) => {
           expect(userProfile).toBeDefined()
@@ -302,5 +276,32 @@ describe("Validate Woofer Matching system", () => {
         .catch((err) => done(err))
     })
   })
-    */
+
+  /*
+  describe("When Users have same ZipCode/Preferences", () => {
+    test("should generate FemaleDog as possible match for MaleDog", (done) => {
+      testArrangement()
+        .then(() => generatePossibleMatch(maleDogId))
+        .then((possibleMatch) => {
+          const { userProfile } = possibleMatch
+          expect(userProfile).toBeTruthy()
+          expect(userProfile).toHaveProperty("userId", femaleDogId)
+          done()
+        })
+        .catch((err) => done(err))
+    })
+
+    test("should generate MaleDog as possible match for FemaleDog", (done) => {
+      testArrangement()
+        .then(() => generatePossibleMatch(femaleDogId))
+        .then((possibleMatch) => {
+          const { userProfile } = possibleMatch
+          expect(userProfile).toBeTruthy()
+          expect(userProfile).toHaveProperty("userId", maleDogId)
+          done()
+        })
+        .catch((err) => done(err))
+    })
+  })
+  */
 })
