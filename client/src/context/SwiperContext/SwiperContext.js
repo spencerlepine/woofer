@@ -49,7 +49,7 @@ export const SwiperProvider = ({ children }) => {
     const body = {
       [DATA_KEYS["THIS_USER_ID"]]: thisUser[idKey],
       [DATA_KEYS["THAT_USER_ID"]]: thatUser[idKey],
-      [DATA_KEYS["MATCH_STATUS"]]: swipeChoice,
+      matchStatus: swipeChoice,
     }
 
     postUserSwipe(

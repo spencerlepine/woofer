@@ -137,7 +137,6 @@ export const ZodiacDropDown = ({ formEntries, setFormEntries, setMadeChange }) =
             value={selectedVal}
             onChange={(e) => {
               setMadeChange(true)
-              console.log(e.target.value)
               setFormEntries((prevEntries) => ({
                 ...prevEntries,
                 [DATA_KEYS["USER_ZODIAC"]]: e.target.value,
