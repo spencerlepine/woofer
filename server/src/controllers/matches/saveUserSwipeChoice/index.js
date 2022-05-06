@@ -66,7 +66,7 @@ const saveUserSwipeChoice = (req, res) => {
     .then((chatId) => {
       if (chatId) {
         chatIdResult = chatId
-        // return getModelDocumentById("DogUser", "userId", thatUserId)
+        return getModelDocumentById("DogUser", "userId", thatUserId)
       }
     })
     .then((result) => {
