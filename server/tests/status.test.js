@@ -1,6 +1,6 @@
 const request = require("supertest")
 
-const { app } = require("./utils/test-helpers")
+const { app } = global.testHelpers
 
 describe("STATUS endpoint", () => {
   const url = "/api/status"

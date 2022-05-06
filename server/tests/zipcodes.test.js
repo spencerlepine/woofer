@@ -1,6 +1,6 @@
 const request = require("supertest")
 
-const { app, mockUser, signupMockUser } = require("./utils/test-helpers")
+const { app, mockUser, signupMockUser } = global.testHelpers
 
 const addUserToZipCode = (userId, zipcode) => {
   const method = "POST"
