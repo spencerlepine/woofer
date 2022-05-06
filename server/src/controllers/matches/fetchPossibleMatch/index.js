@@ -20,13 +20,14 @@ const fetchPossibleMatch = (req, res) => {
       return userMatchQueue
     })
     .then((updatedMatchQueue) => {
-      if (updatedMatchQueue && updatedMatchQueue[0]) {
-        const possibleMatchUserId = updatedMatchQueue[0]
+      if (updatedMatchQueue) {
+        const possibleMatchUserId =
+          updatedMatchQueue[Math.floor(Math.random() * updatedMatchQueue.length)]
 
         return getModelDocumentById("DogUser", "userId", possibleMatchUserId)
-      } else {
-        return null
       }
+
+      return null
     })
     .then((userProfile) => {
       let resultProfile = null
