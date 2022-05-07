@@ -40,7 +40,7 @@ const fetchPossibleMatch = (req, res) => {
     })
     .then((userProfile) => {
       let resultProfile = null
-      if (userProfile && userProfile["userId"]) {
+      if (userProfile && userProfile["userId"] && userProfile["userId"] !== userId) {
         resultProfile = userProfile
       }
 
