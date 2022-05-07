@@ -15,7 +15,7 @@ const updateSwipeRecord = (thisUserId, thatUserId, matchStatus) => {
 
       let updatedRecords = {}
       if (typeof matchRecordDoc.userMatches === "object") {
-        updatedRecords = Object.assign(matchRecordDoc.userMatches)
+        updatedRecords = Object.create(matchRecordDoc.userMatches)
       }
 
       updatedRecords[thatUserId] = matchStatus

@@ -2,7 +2,6 @@ import React from "react"
 import { render, screen, fireEvent } from "utils/test-utils"
 import MatchMadePopup from "./MatchMadePopup"
 import mockUser from "mockUser"
-
 describe("MatchMadePopup", () => {
   const defaultProps = {
     user: mockUser,

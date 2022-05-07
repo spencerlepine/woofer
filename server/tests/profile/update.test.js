@@ -7,7 +7,10 @@ const {
   signupMockUser,
 } = global.testHelpers
 
-const mockUser = Object.create(placeholderUser)
+const mockUser = {
+  ...placeholderUser,
+}
+
 mockUser["userId"] = "120981480"
 
 describe("PROFILE endpoint", () => {
@@ -17,7 +20,9 @@ describe("PROFILE endpoint", () => {
     const url = "/api/profile/details"
     const query = { userId: mockUser["userId"] }
 
-    const updatedProfile = Object.assign(mockUser)
+    const updatedProfile = {
+      ...mockUser,
+    }
     updatedProfile["username"] = newUsername
 
     test("POST /profile/details", (done) => {

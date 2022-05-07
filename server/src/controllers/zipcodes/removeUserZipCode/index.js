@@ -19,6 +19,7 @@ const removeUserZipCode = (req, res) => {
       delete newUsers[userId]
 
       const updatedPool = {
+        zipcodeId: oldZipcode,
         zipcodeUsers: newUsers,
       }
 

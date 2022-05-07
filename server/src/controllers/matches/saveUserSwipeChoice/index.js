@@ -38,6 +38,9 @@ const saveUserSwipeChoice = (req, res) => {
           removeUserFromMatchQueue(thisUserId, thatUserId)
         )
       }
+      if (matchStatus === "accept") {
+        return removeUserFromMatchQueue(thisUserId, thatUserId)
+      }
     })
     .then(() => gatherMatchStatus(thisUserId, thatUserId))
     .then((matchStatusObj) => {
@@ -47,20 +50,17 @@ const saveUserSwipeChoice = (req, res) => {
 
       return [isFirstMatch, isMutual]
     })
-    .then(async ([isFirstMatch, isMutual]) => {
+    .then(([isFirstMatch, isMutual]) => {
       if (isMutual) {
         const newChatId = generateChatRoomId()
         chatIdResult = newChatId
-
-        const result = await removeUserFromMatchQueue(thisUserId, thatUserId)
+        return removeUserFromMatchQueue(thisUserId, thatUserId)
           .then(() => removeUserFromMatchQueue(thatUserId, thisUserId))
           .then(() => addUserToChat(newChatId, thisUserId, thatUserId))
           .then(() => addUserToChat(newChatId, thatUserId, thisUserId))
           .then(() => newChatId)
-
-        return newChatId
-      } else {
-        await addUserToMatchQueue(thatUserId, thisUserId)
+      } else if (matchStatus === "accept") {
+        return addUserToMatchQueue(thatUserId, thisUserId).then(() => {})
       }
     })
     .then((chatId) => {

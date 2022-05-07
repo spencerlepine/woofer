@@ -1,7 +1,7 @@
 const { mockUserB } = global.testHelpers
 
 const generateFemaleDog = () => {
-  const newDog = Object.assign(mockUserB)
+  const newDog = Object.create(mockUserB)
   newDog["gender"] = "Female"
   newDog["preference"] = "Male"
   newDog["userId"] = "femaleDogUser123"
