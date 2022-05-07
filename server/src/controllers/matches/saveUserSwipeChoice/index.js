@@ -54,7 +54,7 @@ const saveUserSwipeChoice = (req, res) => {
       if (isMutual) {
         const newChatId = generateChatRoomId()
         chatIdResult = newChatId
-        removeUserFromMatchQueue(thisUserId, thatUserId)
+        return removeUserFromMatchQueue(thisUserId, thatUserId)
           .then(() => removeUserFromMatchQueue(thatUserId, thisUserId))
           .then(() => addUserToChat(newChatId, thisUserId, thatUserId))
           .then(() => addUserToChat(newChatId, thatUserId, thisUserId))
