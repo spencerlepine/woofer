@@ -80,7 +80,17 @@ const OpenChatLink = ({ chatId, otherUserId, i }) => {
   return (
     <>
       {loading ? (
-        <p>Loading...</p>
+        <div className="section is-vcentered">
+          <div className="columns  is-flex is-vcentered">
+            <div className="column is-6 mx-auto">
+              <h2 className="title is-2">
+                <div className="loader-wrapper mx-auto">
+                  <div className="loader is-loading mx-auto"></div>
+                </div>
+              </h2>
+            </div>
+          </div>
+        </div>
       ) : (
         <Link to={`${ROUTES.CHAT}/${chatId}/${otherUserId}`}>
           <div className="card">

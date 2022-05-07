@@ -27,7 +27,7 @@ const MatchModal = ({ user, chatId }) => {
 
   const formattedAge = formatAgeStr(birthyear)
   const formattedName = titleCaseDisplayName(firstName, lastName)
-  const chatPageURL = ROUTES.CHAT + `?roomId=${chatId}`
+  const chatPageURL = `${ROUTES.CHAT}/${userId}/${chatId}`
 
   return (
     <>

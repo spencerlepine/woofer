@@ -17,7 +17,7 @@ const WelcomePage = () => (
         <p className="subtitle has-text-info">Start matching today</p>
 
         <>
-          <Link to={ROUTES.LOGIN} className="button is-link">
+          <Link to={ROUTES.LOGIN} className="button is-primary">
             SIGN IN
           </Link>
         </>
