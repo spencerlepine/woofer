@@ -14,7 +14,7 @@ const userToZipPoolDoc = (userId, newZipcode) => {
       if (zipcodePoolDoc && zipcodePoolDoc["zipcodeUsers"]) {
         const { zipcodeUsers } = zipcodePoolDoc
 
-        const newUsers = Object.assign(zipcodeUsers)
+        const newUsers = Object.create(zipcodeUsers)
         newUsers[userId] = 1
 
         const updatedPool = {

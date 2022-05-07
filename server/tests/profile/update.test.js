@@ -17,7 +17,7 @@ describe("PROFILE endpoint", () => {
     const url = "/api/profile/details"
     const query = { userId: mockUser["userId"] }
 
-    const updatedProfile = Object.assign(mockUser)
+    const updatedProfile = Object.create(mockUser)
     updatedProfile["username"] = newUsername
 
     test("POST /profile/details", (done) => {

@@ -1,6 +1,6 @@
 const { mockUser: placeholderUser, mockUserB, signupMockUser } = global.testHelpers
 
-const mockUser = Object.assign(placeholderUser)
+const mockUser = Object.create(placeholderUser)
 mockUser["userId"] = "120981480"
 
 const fetchPossibleMatch = require("./index")

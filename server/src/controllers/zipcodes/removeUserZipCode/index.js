@@ -15,7 +15,7 @@ const removeUserZipCode = (req, res) => {
     .then((zipcodePool) => {
       const { zipcodeUsers } = zipcodePool
 
-      const newUsers = Object.assign(zipcodeUsers)
+      const newUsers = Object.create(zipcodeUsers)
       delete newUsers[userId]
 
       const updatedPool = {

@@ -15,7 +15,7 @@ const removeZipCodeFromProfile = (userId, oldZipcode) => {
   return getModelDocumentById("DogUser", "userId", userId)
     .then((userProfile) => {
       if (userProfile && userProfile["userId"]) {
-        const newProfile = Object.assign(userProfile)
+        const newProfile = Object.create(userProfile)
 
         let validZips = []
         const { zipcodes } = newProfile
@@ -36,7 +36,7 @@ const removeZipCodeFromProfile = (userId, oldZipcode) => {
       if (zipcodePoolDoc && zipcodePoolDoc["zipcodeUsers"]) {
         const { zipcodeUsers } = zipcodePoolDoc
 
-        const newUsers = Object.assign(zipcodeUsers)
+        const newUsers = Object.create(zipcodeUsers)
         delete newUsers[userId]
 
         const updatedPool = {

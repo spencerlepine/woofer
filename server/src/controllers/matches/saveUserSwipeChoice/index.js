@@ -59,7 +59,7 @@ const saveUserSwipeChoice = (req, res) => {
           .then(() => addUserToChat(newChatId, thisUserId, thatUserId))
           .then(() => addUserToChat(newChatId, thatUserId, thisUserId))
           .then(() => newChatId)
-      } else {
+      } else if (matchStatus === "accept") {
         return addUserToMatchQueue(thatUserId, thisUserId).then(() => {})
       }
     })
