@@ -2,7 +2,6 @@ import React from "react"
 import { render, screen, fireEvent } from "utils/test-utils"
 import MatchMadePopup from "./MatchMadePopup"
 import mockUser from "mockUser"
-
 describe("MatchMadePopup", () => {
   const defaultProps = {
     user: mockUser,
@@ -17,7 +16,7 @@ describe("MatchMadePopup", () => {
   })
 
   test("should not render given false renderMe prop", () => {
-    const testProps = Object.create(defaultProps)
+    const testProps = Object.assign(defaultProps)
     testProps["renderMe"] = false
 
     const checkForPopup = () => {
@@ -27,7 +26,7 @@ describe("MatchMadePopup", () => {
   })
 
   test("should render given true renderMe prop", () => {
-    const testProps = Object.create(defaultProps)
+    const testProps = Object.assign(defaultProps)
     testProps["renderMe"] = true
 
     const { container } = render(<MatchMadePopup {...testProps} />)
@@ -41,7 +40,7 @@ describe("MatchMadePopup", () => {
   })
 
   test("should render user profile info", () => {
-    const testProps = Object.create(defaultProps)
+    const testProps = Object.assign(defaultProps)
     testProps["renderMe"] = true
 
     const { getByAltText } = render(<MatchMadePopup {...testProps} />)
@@ -60,7 +59,7 @@ describe("MatchMadePopup", () => {
   })
 
   test("should render View Later button", () => {
-    const testProps = Object.create(defaultProps)
+    const testProps = Object.assign(defaultProps)
     testProps["renderMe"] = true
 
     render(<MatchMadePopup {...testProps} />)
@@ -71,7 +70,7 @@ describe("MatchMadePopup", () => {
   })
 
   test("should close popup after clicking View Later button", () => {
-    const testProps = Object.create(defaultProps)
+    const testProps = Object.assign(defaultProps)
     testProps["renderMe"] = true
     testProps["closePopup"] = jest.fn()
 
@@ -85,7 +84,7 @@ describe("MatchMadePopup", () => {
   })
 
   test("should render Open Chat Link", () => {
-    const testProps = Object.create(defaultProps)
+    const testProps = Object.assign(defaultProps)
     testProps["renderMe"] = true
 
     render(<MatchMadePopup {...testProps} />)
