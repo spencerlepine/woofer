@@ -30,7 +30,6 @@ export const uploadImageToFirebase = (
       .put(newFile)
       .then(() => {
         storageRef.getDownloadURL().then((url) => {
-          console.log(url)
           successCallback(url)
         })
       })

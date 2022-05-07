@@ -10,9 +10,7 @@ import ChatInfoPopUp from "./ChatInfoPopUp/ChatInfoPopUp"
 import useChats, { ChatsProvider } from "context/ChatsContext/ChatsContext"
 
 import useAuth, { AuthProvider } from "context/AuthContext/AuthContext"
-import constants from "config/constants"
-const { DATA_KEYS } = constants
-const idKey = DATA_KEYS["USER_ID"]
+const idKey = "userId"
 
 import { BiError } from "react-icons/bi"
 

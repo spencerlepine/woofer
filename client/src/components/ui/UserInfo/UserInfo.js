@@ -2,10 +2,7 @@ import React, { useState } from "react"
 import PropTypes from "prop-types"
 import { VscCollapseAll, VscExpandAll } from "react-icons/vsc"
 import { formatAgeStr, titleCaseDisplayName, capitalizeStr } from "utils"
-import constants from "config/constants"
 import { FaGenderless, FaMars, FaVenus } from "react-icons/fa"
-
-const { DATA_KEYS } = constants
 
 const GenerateGenderIcon = ({ gender }) => {
   if (gender.toLowerCase() === "male") {
@@ -20,14 +17,13 @@ const UserInfo = ({ user }) => {
   const [showDetails, setShowDetails] = useState(true)
 
   const {
-    [DATA_KEYS["USER_FIRST_NAME"]]: firstName,
-    [DATA_KEYS["USER_LAST_NAME"]]: lastName,
-    [DATA_KEYS["USER_ZODIAC"]]: zodiac,
+    firstName,
+    lastName,
+    zodiac,
     gender,
     birthday: birthyear,
-    // [DATA_KEYS["USER_GENDER"]]: gender,
-    [DATA_KEYS["USER_BREED"]]: breedUnformatted,
-    [DATA_KEYS["USER_BIO"]]: bio,
+    breed: breedUnformatted,
+    bio,
   } = user
 
   const breed = capitalizeStr(breedUnformatted)

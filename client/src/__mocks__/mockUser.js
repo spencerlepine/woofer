@@ -1,6 +1,3 @@
-import constants from "config/constants"
-const { DATA_KEYS } = constants
-
 const mockUser = {
   uid: "asdf123456",
   emailVerified: true,

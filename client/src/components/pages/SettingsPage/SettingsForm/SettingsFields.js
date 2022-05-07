@@ -1,10 +1,8 @@
 import React, { useState } from "react"
-import constants from "config/constants"
 import useAuth, { AuthProvider } from "context/AuthContext/AuthContext"
-const { DATA_KEYS } = constants
 
 export const Birthday = ({ setFormEntries, formEntries, madeAChange }) => {
-  const name = DATA_KEYS["USER_BIRTHDAY"]
+  const name = "birthday"
   const placeholder = "Birthday"
   const type = "date"
 
@@ -16,7 +14,7 @@ export const Birthday = ({ setFormEntries, formEntries, madeAChange }) => {
 
     setFormEntries((prevEntries) => ({
       ...prevEntries,
-      [DATA_KEYS["USER_BIRTHDAY"]]: formattedDate,
+      birthday: formattedDate,
     }))
   }
   const dateToCalender = (databaseDate) => {
@@ -41,7 +39,7 @@ export const Birthday = ({ setFormEntries, formEntries, madeAChange }) => {
 }
 
 export const Username = ({ handleChange, formEntries }) => {
-  const name = DATA_KEYS["USER_NAME"]
+  const name = "username"
   const placeholder = "Username"
   const type = "name"
 
@@ -63,7 +61,7 @@ export const Username = ({ handleChange, formEntries }) => {
 }
 
 export const ProfilePic = ({ handleChange, formEntries }) => {
-  const name = DATA_KEYS["USER_PROFILE_PIC"]
+  const name = "profilePicture"
   const placeholder = "Profile Picture URL"
   const type = "url"
 
@@ -85,7 +83,7 @@ export const ProfilePic = ({ handleChange, formEntries }) => {
 }
 
 export const Email = ({ handleChange, formEntries }) => {
-  const name = DATA_KEYS["USER_EMAIL"]
+  const name = "email"
   const placeholder = "Email"
   const type = "email"
 

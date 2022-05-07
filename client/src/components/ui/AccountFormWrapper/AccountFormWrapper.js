@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react"
 import useAuth, { AuthProvider } from "context/AuthContext/AuthContext"
-import constants from "config/constants"
-const { DATA_KEYS } = constants
 import { MdRefresh as RefreshIcon } from "react-icons/md"
 
 import { Link } from "react-router-dom"

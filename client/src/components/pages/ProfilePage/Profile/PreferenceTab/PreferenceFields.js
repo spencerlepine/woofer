@@ -1,13 +1,11 @@
 import React, { useState } from "react"
-import constants from "config/constants"
 import useAuth, { AuthProvider } from "context/AuthContext/AuthContext"
-const { DATA_KEYS } = constants
 
 import { MdOutlineRemoveCircleOutline as DeleteIcon } from "react-icons/md"
 
 export const GenderButton = ({ formEntries, setFormEntries, madeAChange }) => {
-  const isMale = formEntries[DATA_KEYS["USER_PREFERENCE"]] === "Male"
-  const isFemale = formEntries[DATA_KEYS["USER_PREFERENCE"]] === "Female"
+  const isMale = formEntries["preference"] === "Male"
+  const isFemale = formEntries["preference"] === "Female"
 
   return (
     <div className="control">
@@ -16,7 +14,7 @@ export const GenderButton = ({ formEntries, setFormEntries, madeAChange }) => {
         onClick={() => {
           setFormEntries((prevEntries) => ({
             ...prevEntries,
-            [DATA_KEYS["USER_PREFERENCE"]]: "Male",
+            ["preference"]: "Male",
           }))
           madeAChange()
         }}
@@ -31,7 +29,7 @@ export const GenderButton = ({ formEntries, setFormEntries, madeAChange }) => {
         onClick={() => {
           setFormEntries((prevEntries) => ({
             ...prevEntries,
-            [DATA_KEYS["USER_PREFERENCE"]]: "Female",
+            ["preference"]: "Female",
           }))
           madeAChange()
         }}
@@ -47,7 +45,7 @@ export const GenderButton = ({ formEntries, setFormEntries, madeAChange }) => {
 }
 
 export const ZipCodeList = ({ formEntries, setFormEntries, handleSubmit }) => {
-  const allUserZipCodes = formEntries[DATA_KEYS["USER_ZIPCODES"]] || []
+  const allUserZipCodes = formEntries["zipcodes"] || []
   const [zipcodeInput, setZipcodeInput] = useState("")
 
   const { addUserToZipPool, removeUserFromZipPool } = useAuth()
@@ -72,7 +70,7 @@ export const ZipCodeList = ({ formEntries, setFormEntries, handleSubmit }) => {
 
         setFormEntries((prevEntries) => ({
           ...prevEntries,
-          [DATA_KEYS["USER_ZIPCODES"]]: filteredZips,
+          zipcodes: filteredZips,
         }))
         handleSubmit()
       })
@@ -91,7 +89,7 @@ export const ZipCodeList = ({ formEntries, setFormEntries, handleSubmit }) => {
 
       setFormEntries((prevEntries) => ({
         ...prevEntries,
-        [DATA_KEYS["USER_ZIPCODES"]]: filteredZips,
+        zipcodes: filteredZips,
       }))
       handleSubmit()
     })
