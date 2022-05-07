@@ -51,20 +51,17 @@ const saveUserSwipeChoice = (req, res) => {
       return [isFirstMatch, isMutual]
     })
     .then(([isFirstMatch, isMutual]) => {
-      const newChatId = generateChatRoomId()
-      chatIdResult = newChatId
-
-      const createChatPromise = removeUserFromMatchQueue(thisUserId, thatUserId)
-        .then(() => removeUserFromMatchQueue(thatUserId, thisUserId))
-        .then(() => addUserToChat(newChatId, thisUserId, thatUserId))
-        .then(() => addUserToChat(newChatId, thatUserId, thisUserId))
-        .then(() => newChatId)
-
-      const addToQueuePromise = addUserToMatchQueue(thatUserId, thisUserId).then(
-        () => {}
-      )
-
-      return isMutual ? createChatPromise : addToQueuePromise
+      if (isMutual) {
+        const newChatId = generateChatRoomId()
+        chatIdResult = newChatId
+        removeUserFromMatchQueue(thisUserId, thatUserId)
+          .then(() => removeUserFromMatchQueue(thatUserId, thisUserId))
+          .then(() => addUserToChat(newChatId, thisUserId, thatUserId))
+          .then(() => addUserToChat(newChatId, thatUserId, thisUserId))
+          .then(() => newChatId)
+      } else {
+        return addUserToMatchQueue(thatUserId, thisUserId).then(() => {})
+      }
     })
     .then((chatId) => {
       if (chatId) {

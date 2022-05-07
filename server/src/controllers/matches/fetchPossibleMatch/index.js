@@ -25,8 +25,12 @@ const fetchPossibleMatch = (req, res) => {
     })
     .then(async (updatedMatchQueue) => {
       if (updatedMatchQueue) {
-        const possibleMatchUserId =
-          updatedMatchQueue[Math.floor(Math.random() * updatedMatchQueue.length)]
+        let possibleMatchUserId = "123"
+        updatedMatchQueue.forEach((thisId) => {
+          if (possibleMatchUserId === "123" && thisId !== userId) {
+            possibleMatchUserId = thisId
+          }
+        })
 
         const userProfile = await getModelDocumentById(
           "DogUser",

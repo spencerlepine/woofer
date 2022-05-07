@@ -15,7 +15,7 @@ const removeUserFromChat = (chatId, thisUserId) => {
       const chatsArray = chats || []
       const filteredChats = removeChatFromList(chatId, chatsArray)
 
-      const updatedProfile = Object.create(userProfile)
+      const updatedProfile = Object.assign(userProfile)
       updatedProfile["chats"] = filteredChats
 
       return updateModelDocumentById("DogUser", "userId", thisUserId, updatedProfile)
