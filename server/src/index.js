@@ -19,7 +19,10 @@ if (config.NODE_ENV !== "test") {
     cors: {
       origin: "*",
       methods: ["GET", "POST", "PUT", "DELETE"],
+      transports: ["websocket", "polling"],
+      credentials: true,
     },
+    allowEIO3: true,
   })
 
   const chat = require("./chat")
