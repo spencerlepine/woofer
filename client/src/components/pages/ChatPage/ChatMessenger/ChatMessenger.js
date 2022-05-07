@@ -6,6 +6,8 @@ import MessageHandler from "./Messages/MessageHandler"
 import Messages from "./Messages/Messages"
 import MessageInput from "./MessageInput/MessageInput"
 import ChatInfoPopUp from "./ChatInfoPopUp/ChatInfoPopUp"
+import config from "config/config"
+const { SERVER_URL } = config
 
 import useChats, { ChatsProvider } from "context/ChatsContext/ChatsContext"
 
@@ -44,7 +46,14 @@ const ChatMessenger = () => {
   }
 
   useEffect(() => {
-    const newSocket = io(`http://${window.location.hostname}:5000`, {
+    const newSocket = io(`${SERVER_URL}`, {
+      cors: {
+        origin: "*",
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        transports: ["websocket", "polling"],
+        credentials: true,
+      },
+      allowEIO3: true,
       query: {
         name: userDetails["username"],
         userId: userId,
@@ -113,6 +122,17 @@ const ChatMessenger = () => {
               <div>
                 <BiError />
                 <p className="title is-3">Not Connected</p>
+                <div className="section is-vcentered">
+                  <div className="columns  is-flex is-vcentered">
+                    <div className="column is-6 mx-auto">
+                      <h2 className="title is-2">
+                        <div className="loader-wrapper mx-auto">
+                          <div className="loader is-loading mx-auto"></div>
+                        </div>
+                      </h2>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
           </div>
