@@ -24,7 +24,6 @@ const connectDB = async () => {
       conn = await mongoose.connect(dbUrl, MONGO_CONFIG.options)
 
       isConnected = true
-      console.log(isConnected)
 
       if (process.env.NODE_ENV !== "test") {
         logger.info(`MongoDB connected: ${conn.connection.host}`)

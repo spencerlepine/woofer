@@ -6,17 +6,15 @@ import useAuth, { AuthProvider } from "context/AuthContext/AuthContext"
 
 import SwipeButtons from "./SwipeButtons/SwipeButtons"
 import ImageCarousel from "./ImageCarousel/ImageCarousel"
-import UserInfo from "components/UserInfo/UserInfo"
+import UserInfo from "components/ui/UserInfo/UserInfo"
 
 import * as ROUTES from "config/routeConstants"
-import constants from "config/constants"
-const { DATA_KEYS } = constants
-const idKey = DATA_KEYS["USER_ID"]
+const idKey = "userId"
 
 const extractUserImages = (userObj) => {
-  const imageKey = DATA_KEYS["USER_PICTURES"]
+  const imageKey = "pictures"
   try {
-    const images = userObj[DATA_KEYS["USER_PICTURES"]]
+    const images = userObj[imageKey]
     return images
   } catch (e) {
     return []

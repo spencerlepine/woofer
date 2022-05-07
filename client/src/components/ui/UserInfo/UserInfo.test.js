@@ -1,22 +1,16 @@
 import React from "react"
 import { render, screen, fireEvent } from "utils/test-utils"
 import { titleCaseDisplayName, formatAgeStr } from "utils"
-import constants from "config/constants"
-const { DATA_KEYS } = constants
 
 import UserInfo from "./UserInfo"
 import mockUser from "mockUser"
 
-const {
-  [DATA_KEYS["USER_FIRST_NAME"]]: firstName,
-  [DATA_KEYS["USER_LAST_NAME"]]: lastName,
-} = mockUser
+const { firstName, lastName } = mockUser
 const mockDisplayName = titleCaseDisplayName(firstName, lastName)
 
 const expectedUserDetails = [
-  // mockUser[DATA_KEYS["USER_BIO"]],
-  mockUser[DATA_KEYS["USER_BREED"]],
-  mockUser[DATA_KEYS["USER_ZODIAC"]],
+  mockUser["breed"],
+  mockUser["zodiac"],
   formatAgeStr(mockUser["birthday"]),
 ]
 

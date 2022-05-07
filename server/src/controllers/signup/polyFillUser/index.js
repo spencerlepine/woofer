@@ -4,7 +4,7 @@ const polyFillUser = (userObj) => {
     lastName: "John",
     firstName: "Doe",
     profilePicture:
-      "https://www.bing.com/th?id=OIP.EQq_JNDqxUVzS4aszkfoDAHaHa&w=150&h=160&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2",
+      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png",
     zodiac: "Virgo",
     gender: "Male",
     breed: "Unknown",

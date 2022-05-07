@@ -34,7 +34,6 @@ describe("removeZipCodeFromProfile controller helper", () => {
         .then(() => userToZipPoolDoc(user["userId"], zipcode))
         .then(() => removeZipCodeFromProfile(user["userId"], zipcode))
         .then((userProfile) => {
-          console.log(userProfile)
           expect(userProfile).toBeDefined()
           expect(userProfile).toHaveProperty("zipcodes")
           const { zipcodes } = userProfile

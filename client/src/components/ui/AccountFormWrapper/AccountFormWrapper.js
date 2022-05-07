@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react"
 import useAuth, { AuthProvider } from "context/AuthContext/AuthContext"
-import constants from "config/constants"
-const { DATA_KEYS } = constants
 import { MdRefresh as RefreshIcon } from "react-icons/md"
 
 import { Link } from "react-router-dom"
@@ -17,8 +15,11 @@ const FormWrapper = ({ FieldsComponent, LargeWidth, hideButtons }) => {
   const RefreshBtn = () => (
     <button
       className="button is-info is-pulled-left px-3"
-      onClick={refreshDetails}
-      disabled={!madeChange}
+      onClick={(e) => {
+        e.preventDefault()
+        setMadeChange(false)
+        refreshDetails()
+      }}
     >
       Refresh
       <RefreshIcon />

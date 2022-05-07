@@ -5,12 +5,10 @@ import FormWrapper from "components/ui/AccountFormWrapper/AccountFormWrapper"
 import { MdDelete as DeleteIcon } from "react-icons/md"
 import { BiImageAdd } from "react-icons/bi"
 
-import constants from "config/constants"
-const { DATA_KEYS } = constants
-const idKey = DATA_KEYS["USER_ID"]
+const idKey = "userId"
 
 const extractUserImages = (userObj) => {
-  const imageKey = DATA_KEYS["USER_PICTURES"]
+  const imageKey = "pictures"
   if (userObj && typeof userObj === "object" && userObj[imageKey]) {
     return userObj[imageKey]
   }
@@ -64,7 +62,7 @@ const ImagesTab = ({
     setFormEntries((prevEntries) => {
       const newEntries = {
         ...prevEntries,
-        [DATA_KEYS["USER_PICTURES"]]: newArray,
+        pictures: newArray,
       }
       manualSubmit(newEntries)
 

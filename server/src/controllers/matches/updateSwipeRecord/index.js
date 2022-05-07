@@ -7,19 +7,21 @@ const {
 const updateSwipeRecord = (thisUserId, thatUserId, matchStatus) => {
   return getModelDocumentById("MatchRecords", "userId", thisUserId).then(
     (matchRecordDoc) => {
+      const existingDoc = matchRecordDoc && matchRecordDoc.userMatches !== undefined
+
       const matchRecord = {
         userId: thisUserId,
       }
 
       let updatedRecords = {}
-      if (matchRecordDoc.userMatches) {
-        updatedRecords = matchRecordDoc.userMatches
+      if (typeof matchRecordDoc.userMatches === "object") {
+        updatedRecords = Object.assign(matchRecordDoc.userMatches)
       }
 
       updatedRecords[thatUserId] = matchStatus
       matchRecord["userMatches"] = updatedRecords
 
-      if (matchRecordDoc.userMatches) {
+      if (existingDoc) {
         return updateModelDocumentById(
           "MatchRecords",
           "userId",

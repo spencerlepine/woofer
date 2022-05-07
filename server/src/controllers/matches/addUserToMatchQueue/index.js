@@ -5,12 +5,17 @@ const {
 } = require("../../../models/modelHelpers")
 
 const addUserToMatchQueue = (thisUserId, otherUserId) => {
+  let newId = undefined
+  if (thisUserId !== otherUserId) {
+    newId = otherUserId
+  }
+
   return getModelDocumentById("MatchQueue", "userId", thisUserId).then(
     (matchRecord) => {
       if (matchRecord && matchRecord["matchQueue"]) {
         const updatedQueue = {
           ...matchRecord,
-          matchQueue: [...matchRecord["matchQueue"], otherUserId],
+          matchQueue: [...matchRecord["matchQueue"], newId],
         }
         return updateModelDocumentById(
           "MatchQueue",
@@ -21,7 +26,7 @@ const addUserToMatchQueue = (thisUserId, otherUserId) => {
       } else {
         const newQueue = {
           userId: thisUserId,
-          matchQueue: [otherUserId],
+          matchQueue: [newId],
         }
         return createModelDocumentById("MatchQueue", "userId", thisUserId, newQueue)
       }

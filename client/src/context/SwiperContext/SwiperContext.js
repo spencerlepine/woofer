@@ -1,13 +1,11 @@
 import React, { useState, useContext } from "react"
 import PropTypes from "prop-types"
-import constants from "config/constants"
-const { DATA_KEYS } = constants
 import * as ROUTES from "config/routeConstants"
 import { postUserSwipe, generateUserSwipe } from "api/matches"
 import MatchMadePopup from "components/ui/MatchMadePopup/MatchMadePopup"
 import { useHistory } from "react-router-dom"
 
-const idKey = DATA_KEYS["USER_ID"]
+const idKey = "userId"
 
 export const SwiperContext = React.createContext()
 
@@ -40,16 +38,15 @@ export const SwiperProvider = ({ children }) => {
   }
 
   const handleSwipe = (thisUser, thatUser, swipe) => {
-    let swipeChoice =
-      swipe === "yes" ? DATA_KEYS["MATCH_ACCEPT"] : DATA_KEYS["MATCH_REJECT"]
+    let swipeChoice = swipe === "yes" ? "accept" : "reject"
 
     setSwiperButtonLoading(true)
     setPossibleMatchUser(() => null)
 
     const body = {
-      [DATA_KEYS["THIS_USER_ID"]]: thisUser[idKey],
-      [DATA_KEYS["THAT_USER_ID"]]: thatUser[idKey],
-      [DATA_KEYS["MATCH_STATUS"]]: swipeChoice,
+      thisUserId: thisUser[idKey],
+      thatUserId: thatUser[idKey],
+      matchStatus: swipeChoice,
     }
 
     postUserSwipe(

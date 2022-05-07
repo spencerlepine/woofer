@@ -6,9 +6,7 @@ import { MdRefresh as RefreshIcon } from "react-icons/md"
 import * as ROUTES from "config/routeConstants"
 import * as chatsAPI from "api/chats"
 
-import constants from "config/constants"
-const { DATA_KEYS } = constants
-const chatsKey = DATA_KEYS["USER_CHATS"]
+const chatsKey = "chats"
 
 import useChats, { ChatsProvider } from "context/ChatsContext/ChatsContext"
 import useAuth from "context/AuthContext/AuthContext"

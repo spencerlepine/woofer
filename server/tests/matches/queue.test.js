@@ -1,6 +1,6 @@
 const request = require("supertest")
 
-const { app, mockUser, mockUserB, signupMockUser } = require("../utils/test-helpers")
+const { app, mockUser, mockUserB, signupMockUser } = global.testHelpers
 
 // const swipeOnUser = require("../../src/controllers/matches/updateSwipeRecord")
 const swipeOnUser = (thisUserId, thatUserId, matchStatus) => {
@@ -53,12 +53,9 @@ describe("MATCHES endpoint Match Queue", () => {
         .then(() => swipeOnUser(mockUser["userId"], mockUserB["userId"], ACCEPT))
         .then(() => fetchMatchQueue(mockUserB))
         .then((result) => {
-          console.log(result)
-
           expect(result).toBeDefined()
           expect(result).toHaveProperty("matchQueue")
           const { matchQueue: queueArr } = result
-          console.log(queueArr)
           expect(Array.isArray(queueArr)).toBeTruthy()
           expect(queueArr.includes(thisUserId)).toBeTruthy()
           done()

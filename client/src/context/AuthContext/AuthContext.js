@@ -148,6 +148,7 @@ export const AuthProvider = ({ children }) => {
     getAccountDetails,
     updateAccountDetails,
     updateProfilePic,
+    refreshDetails: getAccountDetails,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

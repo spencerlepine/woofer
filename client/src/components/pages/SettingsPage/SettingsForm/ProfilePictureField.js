@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { uploadImageToFirebase, deleteImageFromFirebase } from "api/firebase"
 import FormWrapper from "components/ui/AccountFormWrapper/AccountFormWrapper"
 
@@ -6,7 +6,7 @@ import { BiImageAdd } from "react-icons/bi"
 import { MdOutlineRemoveCircleOutline as DeleteIcon } from "react-icons/md"
 
 const missingImage =
-  "https://www.britax-roemer.com/on/demandware.static/Sites-Britax-EU-Site/-/default/dw1be0148e/images/britax/PlaceholderProductImage.jpg"
+  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
 
 const ImagesTab = ({
   updateAccountDetails,
@@ -20,36 +20,32 @@ const ImagesTab = ({
   madeChange,
   setMadeChange,
 }) => {
-  const userId = currentUser[["userId"]]
   const profileKey = "profilePicture"
-  const profilePic = accountDetails[profileKey]
+  const userId = currentUser[["userId"]]
 
-  const currentProfilePic = profilePic
-  const placeholderProfilePic = currentProfilePic || missingImage
+  const [profilePic, setProfilePic] = useState()
+  const [currentProfilePic, setCurrentProfilePic] = useState(
+    accountDetails[profileKey]
+  )
+
+  useEffect(() => {
+    setCurrentProfilePic(accountDetails[profileKey])
+  }, [accountDetails])
 
   const updateImage = (newImage) => {
-    console.log(newImage)
-
+    setCurrentProfilePic(newImage)
     setMadeChange(true)
     const newEntries = {
       ...formEntries,
       profilePicture: newImage,
     }
     manualSubmit(newEntries)
-    // setFormEntries((prevEntries) => {
-    //   const newEntries = {
-    //     ...prevEntries,
-    //     profilePicture: newImage,
-    //   }
-    //   manualSubmit(newEntries)
-
-    //   return newEntries
-    // })
   }
 
   const handleDelete = (e, imageSrc) => {
     e.preventDefault()
     const missing = ""
+    setCurrentProfilePic("")
     const fireRe = new RegExp(/firebase/i)
 
     // If it is from firebase, try to delete it
@@ -64,7 +60,7 @@ const ImagesTab = ({
 
   const RemoveBtn = () => (
     <>
-      {currentProfilePic && (
+      {currentProfilePic && currentProfilePic !== missingImage && (
         <button
           className="button is-danger is-medium p-2"
           onClick={(e) => handleDelete(e, currentProfilePic)}
@@ -87,7 +83,7 @@ const ImagesTab = ({
             const imageFile = event.target.files[0]
             if (imageFile.size < 2097152) {
               setMadeChange(true)
-              uploadImageToFirebase(imageFile, userId, updateImage)
+              uploadImageToFirebase(imageFile, userId, updateImage, "profilePicture")
             } else {
               alert("Image file too large!")
             }
@@ -112,7 +108,7 @@ const ImagesTab = ({
       <div className="columns">
         <div className="column is-half">
           <figure className="image is-128x128 profilePic">
-            <img src={placeholderProfilePic} alt="User Thumbnail" />
+            <img src={currentProfilePic || missingImage} alt="User Thumbnail" />
           </figure>
         </div>
 

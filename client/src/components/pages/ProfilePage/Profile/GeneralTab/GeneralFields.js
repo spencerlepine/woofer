@@ -1,15 +1,13 @@
-import React, { useState } from "react"
-import constants from "config/constants"
-const { DATA_KEYS } = constants
+import React, { useState, useEffect } from "react"
 
 const formFields = [
   {
-    name: DATA_KEYS["USER_FIRST_NAME"],
+    name: "firstName",
     placeholder: "First Name",
     type: "name",
   },
   {
-    name: DATA_KEYS["USER_LAST_NAME"],
+    name: "lastName",
     placeholder: "Last Name",
     type: "name",
   },
@@ -42,17 +40,17 @@ export const BioField = ({ handleChange, formEntries }) => (
       onChange={handleChange}
       type={"textarea"}
       row={10}
-      name={DATA_KEYS["USER_BIO"]}
+      name={"bio"}
       className={"textarea"}
-      value={formEntries[DATA_KEYS["USER_BIO"]] || ""}
+      value={formEntries["bio"] || ""}
       placeholder={"Bio"}
     ></textarea>
   </div>
 )
 
 export const GenderButton = ({ formEntries, setFormEntries, madeAChange }) => {
-  const isMale = formEntries[DATA_KEYS["USER_GENDER"]] === "Male"
-  const isFemale = formEntries[DATA_KEYS["USER_GENDER"]] === "Female"
+  const isMale = formEntries["gender"] === "Male"
+  const isFemale = formEntries["gender"] === "Female"
 
   return (
     <div className="control">
@@ -61,7 +59,7 @@ export const GenderButton = ({ formEntries, setFormEntries, madeAChange }) => {
         onClick={() => {
           setFormEntries((prevEntries) => ({
             ...prevEntries,
-            [DATA_KEYS["USER_GENDER"]]: "Male",
+            ["gender"]: "Male",
           }))
           madeAChange()
         }}
@@ -76,7 +74,7 @@ export const GenderButton = ({ formEntries, setFormEntries, madeAChange }) => {
         onClick={() => {
           setFormEntries((prevEntries) => ({
             ...prevEntries,
-            [DATA_KEYS["USER_GENDER"]]: "Female",
+            ["gender"]: "Female",
           }))
           madeAChange()
         }}
@@ -99,9 +97,9 @@ export const BreedField = ({ handleChange, formEntries }) => (
     <input
       onChange={handleChange}
       type={"input"}
-      name={DATA_KEYS["USER_BREED"]}
+      name={"breed"}
       className={"input"}
-      value={formEntries[DATA_KEYS["USER_BREED"]] || ""}
+      value={formEntries["breed"] || ""}
       placeholder={"Breed"}
     ></input>
   </div>
@@ -122,9 +120,11 @@ const options = [
   "Pisces",
 ]
 export const ZodiacDropDown = ({ formEntries, setFormEntries, setMadeChange }) => {
-  const [selectedVal, setSelectedVal] = useState(
-    formEntries[DATA_KEYS["USER_ZODIAC"]] || "Choose One"
-  )
+  const [selectedVal, setSelectedVal] = useState()
+
+  useEffect(() => {
+    setSelectedVal(formEntries["zodiac"] || "Choose One")
+  }, [formEntries])
 
   return (
     <div className="field">
@@ -137,7 +137,7 @@ export const ZodiacDropDown = ({ formEntries, setFormEntries, setMadeChange }) =
               setMadeChange(true)
               setFormEntries((prevEntries) => ({
                 ...prevEntries,
-                [DATA_KEYS["USER_ZODIAC"]]: e.target.value,
+                ["zodiac"]: e.target.value,
               }))
             }}
           >
@@ -165,8 +165,12 @@ const groupOptions = [
 
 export const GroupDropDown = ({ formEntries, setFormEntries, setMadeChange }) => {
   const [selectedVal, setSelectedVal] = useState(
-    formEntries[DATA_KEYS["USER_GROUP"]] || "Choose One"
+    formEntries["group"] || "Choose One"
   )
+
+  useEffect(() => {
+    setSelectedVal(formEntries["group"] || "Choose One")
+  }, [formEntries])
 
   return (
     <div className="field">
@@ -179,7 +183,7 @@ export const GroupDropDown = ({ formEntries, setFormEntries, setMadeChange }) =>
               setMadeChange(true)
               setFormEntries((prevEntries) => ({
                 ...prevEntries,
-                [DATA_KEYS["USER_GROUP"]]: e.target.value,
+                ["group"]: e.target.value,
               }))
             }}
           >

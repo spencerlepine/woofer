@@ -1,6 +1,6 @@
 const request = require("supertest")
 
-const { app, mockUser, mockUserB, signupMockUser } = require("../utils/test-helpers")
+const { app, mockUser, mockUserB, signupMockUser } = global.testHelpers
 
 const swipeOnUser = (thisUserId, thatUserId, matchStatus) => {
   const url = "/api/matches/swipe"

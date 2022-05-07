@@ -3,8 +3,6 @@ import { auth } from "config/firebase"
 import createNotif from "components/ui/NotificationsPopup"
 import config from "config/config"
 const { SERVER_URL } = config
-import constants from "config/constants"
-const { DATA_KEYS } = constants
 
 export const removeUserFromZipcode = (
   oldZipCode,
@@ -15,8 +13,8 @@ export const removeUserFromZipcode = (
     const { uid } = auth.currentUser
     const url = "/api/zipcodes/remove"
     const params = {
-      ["userId"]: uid,
-      [DATA_KEYS["ZIPCODE"]]: oldZipCode,
+      userId: uid,
+      zipcode: oldZipCode,
     }
 
     axios
@@ -42,7 +40,7 @@ export const addUserToZipcode = (
     const url = "/api/zipcodes/add"
     const body = {
       ["userId"]: uid,
-      [DATA_KEYS["ZIPCODE"]]: newZipCode,
+      zipcode: newZipCode,
     }
 
     axios

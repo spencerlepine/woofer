@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import PropTypes from "prop-types"
 
 const missingImage =
-  "https://th.bing.com/th/id/R.0b363157de10661900e1a9da3a1ebebd?rik=%2bdIbDv%2b8OBO%2fiA&pid=ImgRaw&r=0"
+  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
 
 const ImageCarousel = ({ images: imagesProp }) => {
   const images = imagesProp.map((imageSrc) => {

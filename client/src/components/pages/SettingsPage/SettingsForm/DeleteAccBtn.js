@@ -14,7 +14,7 @@ const DeleteAccBtn = () => {
   }
 
   return (
-    <button className="button is-danger" onClick={handleDelete}>
+    <button disabled className="button is-danger" onClick={handleDelete}>
       DELETE ACCOUNT
     </button>
   )

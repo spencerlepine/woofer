@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom"
 import * as ROUTES from "config/routeConstants"
-import constants from "config/constants"
 import Popup from "components/ui/Popup/Popup"
 import { formatAgeStr, titleCaseDisplayName } from "utils"
 import { FaGenderless, FaMars, FaVenus } from "react-icons/fa"
-const { DATA_KEYS } = constants
 
-import UserInfo from "components/UserInfo/UserInfo"
+import UserInfo from "components/ui/UserInfo/UserInfo"
 
 const GenerateGenderIcon = ({ gender }) => {
   if (gender.toLowerCase === "male") {
@@ -19,12 +17,12 @@ const GenerateGenderIcon = ({ gender }) => {
 
 const MatchModal = ({ user, chatId }) => {
   const {
-    [DATA_KEYS["USER_PROFILE_PIC"]]: profilePic,
-    [DATA_KEYS["USER_FIRST_NAME"]]: firstName,
-    [DATA_KEYS["USER_GENDER"]]: gender,
-    [DATA_KEYS["USER_LAST_NAME"]]: lastName,
+    profilePicture: profilePic,
+    firstName: firstName,
+    gender: gender,
+    lastName: lastName,
     birthday: birthyear,
-    [DATA_KEYS["USER_ZODIAC"]]: zodiac,
+    zodiac: zodiac,
   } = user
 
   const formattedAge = formatAgeStr(birthyear)

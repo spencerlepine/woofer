@@ -7,26 +7,36 @@ const QUEUE_COUNT_MIN = 5
 
 const fetchPossibleMatch = (req, res) => {
   const reqQuery = typeof req.query === "object" ? req.query : {}
-  const { userId } = reqQuery
+  const { userId: providedId } = reqQuery
+  const userId = providedId + ""
 
   return gatherUserMatchQueue(userId)
-    .then(({ matchQueue: userMatchQueue }) => {
+    .then(async ({ matchQueue: userMatchQueue }) => {
       if (userMatchQueue.length <= QUEUE_COUNT_MIN) {
-        return generateMoreQueueMatches(userId).then(({ matchQueue }) => {
-          return matchQueue
-        })
+        const updatedMatchQueue = await generateMoreQueueMatches(userId).then(
+          ({ matchQueue }) => {
+            return matchQueue
+          }
+        )
+        return updatedMatchQueue
       }
 
       return userMatchQueue
     })
-    .then((updatedMatchQueue) => {
-      if (updatedMatchQueue && updatedMatchQueue[0]) {
-        const possibleMatchUserId = updatedMatchQueue[0]
+    .then(async (updatedMatchQueue) => {
+      if (updatedMatchQueue) {
+        const possibleMatchUserId =
+          updatedMatchQueue[Math.floor(Math.random() * updatedMatchQueue.length)]
 
-        return getModelDocumentById("DogUser", "userId", possibleMatchUserId)
-      } else {
-        return null
+        const userProfile = await getModelDocumentById(
+          "DogUser",
+          "userId",
+          possibleMatchUserId
+        )
+        return userProfile
       }
+
+      return null
     })
     .then((userProfile) => {
       let resultProfile = null

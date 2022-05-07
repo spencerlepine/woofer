@@ -1,6 +1,6 @@
 const request = require("supertest")
 
-const { app, mockUser } = require("./utils/test-helpers")
+const { app, mockUser } = global.testHelpers
 
 describe("SIGNUP endpoint", () => {
   const method = "POST"

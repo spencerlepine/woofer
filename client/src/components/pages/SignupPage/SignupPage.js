@@ -27,6 +27,7 @@ const signupFields = [
   },
   {
     name: "confirmPassword",
+    type: "password",
     placeholder: "Confirm Password",
   },
 ]

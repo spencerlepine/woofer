@@ -3,8 +3,6 @@ import { auth, storage } from "config/firebase"
 import createNotif from "components/ui/NotificationsPopup"
 import config from "config/config"
 const { SERVER_URL } = config
-import constants from "config/constants"
-const { endpointURLStr, DATA_KEYS } = constants
 import { mockUser, mockUserB } from "./mockUser"
 
 export const checkLoginStatus = (successCb) => {
@@ -44,7 +42,7 @@ export const createUserWithEmailAndPassword = (
       return userCredential.user
     })
     .then((user) => {
-      const url = endpointURLStr(["SIGNUP"], "POST")
+      const url = "/api/signup"
 
       const dataWithUid = {
         ...userData,
@@ -65,7 +63,7 @@ export const createUserWithEmailAndPassword = (
 export const fetchUserProfileRecord = (successCb, failCallback = () => {}) => {
   if (auth && auth.currentUser) {
     const { uid } = auth.currentUser
-    const url = endpointURLStr(["PROFILE", "DETAILS"], "GET")
+    const url = "/api/profile/details"
     const params = {
       ["userId"]: uid,
     }
@@ -73,7 +71,7 @@ export const fetchUserProfileRecord = (successCb, failCallback = () => {}) => {
     axios
       .get(SERVER_URL + url, { params })
       .then((response) => {
-        const { [DATA_KEYS["USER_PROFILE"]]: userProfile } = response.data
+        const { userProfile } = response.data
         successCb(userProfile)
       })
       .catch((error) => {
@@ -84,7 +82,7 @@ export const fetchUserProfileRecord = (successCb, failCallback = () => {}) => {
 }
 
 export const fetchUserProfile = (userId, successCb, failCallback = () => {}) => {
-  const url = endpointURLStr(["PROFILE", "DETAILS"], "GET")
+  const url = "/api/profile/details"
   const params = {
     ["userId"]: userId,
   }
@@ -102,7 +100,7 @@ export const fetchUserProfile = (userId, successCb, failCallback = () => {}) => 
 }
 
 export const fetchProfileRecord = (userId, successCb, failCallback = () => {}) => {
-  const url = endpointURLStr(["PROFILE", "DETAILS"], "GET")
+  const url = "/api/profile/details"
   const params = {
     ["userId"]: userId,
   }
@@ -110,7 +108,7 @@ export const fetchProfileRecord = (userId, successCb, failCallback = () => {}) =
   axios
     .get(SERVER_URL + url, { params })
     .then((response) => {
-      const { [DATA_KEYS["USER_PROFILE"]]: userProfile } = response.data
+      const { userProfile } = response.data
       successCb(userProfile)
     })
     .catch((error) => {
@@ -125,12 +123,12 @@ export const updateUserProfileRecord = (
   failCallback = () => {}
 ) => {
   if (auth && auth.currentUser) {
-    const url = endpointURLStr(["PROFILE", "DETAILS"], "POST")
+    const url = "/api/profile/details"
 
     axios
       .post(SERVER_URL + url, newDetails)
       .then((response) => {
-        const { [DATA_KEYS["USER_PROFILE"]]: userProfile } = response.data
+        const { userProfile } = response.data
 
         successCallback({ userProfile })
       })

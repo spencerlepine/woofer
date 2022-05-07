@@ -7,6 +7,7 @@ const addUserToMatchQueue = require("../addUserToMatchQueue")
 const removeUserFromMatchQueue = require("../removeUserFromMatchQueue")
 
 const addUserToChat = require("../../chats/addUserToChat")
+const chatIdToUserProfile = require("../../chats/chatIdToUserProfile")
 const generateChatRoomId = require("../../chats/generateChatRoomId")
 
 const isFirstTimeMatch = (matchObj) => {
@@ -53,8 +54,8 @@ const saveUserSwipeChoice = (req, res) => {
 
         const result = await removeUserFromMatchQueue(thisUserId, thatUserId)
           .then(() => removeUserFromMatchQueue(thatUserId, thisUserId))
-          .then(() => addUserToChat(thisUserId, thatUserId, newChatId))
-          .then(() => addUserToChat(thatUserId, thisUserId, newChatId))
+          .then(() => addUserToChat(newChatId, thisUserId, thatUserId))
+          .then(() => addUserToChat(newChatId, thatUserId, thisUserId))
           .then(() => newChatId)
 
         return newChatId

@@ -18,10 +18,10 @@ const TempAdminSignup = () => {
     const { email, firstName, lastName } = thisUser
 
     if (userIdsDone[email]) {
-      console.log("User already signed up!!!")
+      // cDonsole.log("User already signed up!!!")
     } else {
       console.clear()
-      console.log("Ready to sign up user!")
+      // cSonsole.log("Ready to sign up user!")
 
       createUserWithEmailAndPassword(
         `${firstName} ${lastName}`,
@@ -29,12 +29,12 @@ const TempAdminSignup = () => {
         PASSWORD,
         thisUser,
         (user) => {
-          console.log(`Signed up the user: ${firstName} - ${email}`)
-          console.log(`Putting ${firstName} in ZipCode Pool: 10001`)
+          // conSsole.log(`Signed up the user: ${firstName} - ${email}`)
+          // consSole.log(`Putting ${firstName} in ZipCode Pool: 10001`)
 
           setTimeout(() => {
             addUserToZipcode("10001", () => {
-              console.log(`=> Added ${firstName} to ZipCode Pool: 10001`)
+              // cSonsole.log(`=> Added ${firstName} to ZipCode Pool: 10001`)
             })
           }, 3000)
         }

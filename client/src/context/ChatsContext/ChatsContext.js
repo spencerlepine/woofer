@@ -3,9 +3,7 @@ import PropTypes from "prop-types"
 import * as chatsAPI from "api/chats"
 import * as userAPI from "api/account"
 
-import constants from "config/constants"
-const { DATA_KEYS } = constants
-const idKey = DATA_KEYS["USER_ID"]
+const idKey = "userId"
 
 export const ChatsContext = React.createContext()
 

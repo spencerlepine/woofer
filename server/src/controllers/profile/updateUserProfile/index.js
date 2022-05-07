@@ -2,7 +2,6 @@ const { updateModelDocumentById } = require("../../../models/modelHelpers")
 
 const updateUserProfile = (req, res) => {
   const updatedProfile = req.body
-  console.log(updatedProfile)
   const { userId } = updatedProfile
 
   return updateModelDocumentById("DogUser", "userId", userId, updatedProfile)
