@@ -68,6 +68,24 @@ Upload images and customize your profile details
 
 <img width="600px" alt="Profile Feature Screenshot" src="./resources/assets/profile-feature.png" />
 
+## 🤖 CI/CD Pipeline
+
+![CI/CD Pipeline Diagram](./resources/assets/CI_CD_PIPELINE.png)
+
+## 🗄 Database Design
+
+![Database Design](./resources/assets/Database_Design.png)
+
+## 🌐 API Documentation
+
+See [WOOFER_API.md](./resources/WOOFER_API.md) to view the endpoint schema
+
+## 🗃️ Ticket System
+
+Check out the [Trello Scrum Board](https://trello.com/b/tYtdHAT5/woofer-project) used to plan user stories and create tasks during development.
+
+![Trello Tickets Screenshot](./resources/assets/Trello_Board_Tickets.png)
+
 ## 🤔 Challenges
 
 Read about learning/challenges of this project in the [Challenges.txt](./resources/challenges.txt) file, or browse [Issue Tickets](https://github.com/spencerlepine/woofer/issues?q=label%3AChallenge+is%3Aclosed+).
@@ -86,23 +104,6 @@ npm run dev:server
 # * Open 2nd terminal *
 npm run dev:client
 ```
-## 🤖 CI/CD Pipeline
-
-![CI/CD Pipeline Diagram](./resources/assets/CI_CD_PIPELINE.png)
-
-## 🗄 Database Design
-
-![Database Design](./resources/assets/Database_Design.png)
-
-## 🌐 API Documentation
-
-See [WOOFER_API.md](./resources/WOOFER_API.md) to view the endpoint schema
-
-## 🗃️ Ticket System
-
-Check out the [Trello Scrum Board](https://trello.com/b/tYtdHAT5/woofer-project) used to plan user stories and create tasks during development.
-
-![Trello Tickets Screenshot](./resources/assets/Trello_Board_Tickets.png)
 
 ## 🌐 Links
 
